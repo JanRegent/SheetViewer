@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '/BL/sheet/any_sheet.dart';
+import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-List<GridColumn> colsHeader(AnySheet anySheet) {
+List<GridColumn> colsHeader(DataSheet anySheet) {
   List<GridColumn> gridCols = [];
   gridCols.add(GridColumn(
       columnName: 'S',

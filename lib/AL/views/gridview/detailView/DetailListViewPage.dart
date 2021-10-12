@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import '/BL/sheet/any_sheet.dart';
+import '../../../../BL/sheet/datasheet.dart';
 
 import './../views_common.dart';
 
@@ -14,7 +14,7 @@ import './../views_common.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class DetailListViewPage extends StatefulWidget {
-  final AnySheet anySheet;
+  final DataSheet anySheet;
   // ignore: prefer_const_constructors_in_immutables
   DetailListViewPage(this.anySheet, {Key? key}) : super(key: key);
 
@@ -131,7 +131,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     );
   }
 
-  Widget detailBody(AnySheet anySheet) {
+  Widget detailBody(DataSheet anySheet) {
     return Container(
         height: double.infinity,
         width: double.infinity,

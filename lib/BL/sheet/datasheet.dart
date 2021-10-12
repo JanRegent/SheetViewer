@@ -2,17 +2,17 @@
 
 import 'dart:convert';
 
-class AnySheet {
+class DataSheet {
   List<String> cols = [];
   List<dynamic> rows = [];
   List<String> columnsSelected = [];
   List<String> columnsDetailView = [];
 
-  AnySheet();
+  DataSheet();
 
-  factory AnySheet.fromJson(String jsonString) {
+  factory DataSheet.fromJson(String jsonString) {
     var jsonData = json.decode(jsonString);
-    AnySheet anySheet = AnySheet()
+    DataSheet anySheet = DataSheet()
       ..cols = List<String>.from(jsonData["cols"])
       ..columnsSelected = List<String>.from(jsonData["columnsSelected"])
       ..columnsDetailView = List<String>.from(jsonData["columnsDetailView"])

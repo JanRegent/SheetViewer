@@ -5,7 +5,7 @@
 $Dir="./"    
  
 #ftp server 
-$ftp = "ftp://192.168.86.226/public/sheets2mob/" 
+$ftp = "ftp://192.168.86.20/public/sheets2mob/" 
 $user = "admin" 
 $pass = "kamdom"  
  

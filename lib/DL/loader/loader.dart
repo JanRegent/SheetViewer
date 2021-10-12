@@ -39,7 +39,6 @@ Future<String> getFilelist() async {
   try {
     var response = await Dio()
         .get(contentServiceUrl + '?filelistid=$fileId&sheetname=$sheetName');
-    print(response.data);
     return response.data;
   } catch (e) {
     return '';

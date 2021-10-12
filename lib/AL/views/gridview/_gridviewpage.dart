@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/AL/views/grid_view/rows.dart';
-import '/BL/sheet/any_sheet.dart';
+import '/AL/views/gridview/rows.dart';
+import '../../../BL/sheet/datasheet.dart';
 import '/DL/loader/loader.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -36,10 +36,10 @@ class _GridViewPageState extends State<GridViewPage> {
     super.initState();
   }
 
-  AnySheet anySheet = AnySheet();
+  DataSheet anySheet = DataSheet();
 
   Future<String> getData() async {
-    anySheet = AnySheet.fromJson(await getSheet());
+    anySheet = DataSheet.fromJson(await getSheet());
     rowsDataSource = RowsDataSource(anySheet);
     return rowsDataSource.anySheet.rows.length.toString();
   }

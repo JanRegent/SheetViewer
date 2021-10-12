@@ -1,17 +1,17 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import '/BL/sheet/any_sheet.dart';
+import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class RowsDataSource extends DataGridSource {
-  final AnySheet anySheet;
+  final DataSheet anySheet;
 
   RowsDataSource(this.anySheet) {
     _stringRowsData = gridRows(anySheet);
   }
 
-  List<DataGridRow> gridRows(AnySheet anySheet) {
+  List<DataGridRow> gridRows(DataSheet anySheet) {
     List<DataGridRow> gridrows = [];
     for (var rowIx = 0; rowIx < anySheet.rows.length; rowIx++) {
       gridrows.add(gridRow(anySheet, rowIx));
@@ -19,7 +19,7 @@ class RowsDataSource extends DataGridSource {
     return gridrows;
   }
 
-  DataGridRow gridRow(AnySheet anySheet, int rowIx) {
+  DataGridRow gridRow(DataSheet anySheet, int rowIx) {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(columnName: 'S', value: rowIx.toString()));
     for (var colIx = 0; colIx < anySheet.columnsSelected.length; colIx++) {
