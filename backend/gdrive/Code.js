@@ -1,4 +1,3 @@
-//?fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=dailyNotes  
 
 function doGet(e) {
 
@@ -10,7 +9,6 @@ function doGet(e) {
   } catch (err) {
     filelistId = '';
   }
-
 
   if ( filelistId != '') {
 

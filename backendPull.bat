@@ -4,5 +4,3 @@ rem once! clasp clone https://script.google.com/home/projects/1pYOMB1Ze9EJbeI5Fy
 call clasp pull
 cd  ..\..
 
-pause
-pause
