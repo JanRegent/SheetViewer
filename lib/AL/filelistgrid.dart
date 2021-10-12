@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
+
+import 'views/gridview/_gridviewpage.dart';
 
 class FilelistGridApp extends StatelessWidget {
   const FilelistGridApp({Key? key}) : super(key: key);
@@ -39,8 +42,24 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     for (var i = 0; i < fileListSheet.rows.length; i++) {
       tiles.add(Container(
         padding: const EdgeInsets.all(8),
-        child: Text(fileListSheet.rows[i]['fileTitle'],
-            style: const TextStyle(fontSize: 20)),
+        child: InkWell(
+          onTap: () async {
+            String fileId =
+                bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
+
+            //runApp(GridViewApp(fileId, fileListSheet.rows[i]['sheetName']));
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GridViewPage(
+                      fileId,
+                      fileListSheet.rows[i]['sheetName'],
+                      fileListSheet.rows[i]['fileTitle']),
+                ));
+          },
+          child: Text(fileListSheet.rows[i]['fileTitle'],
+              style: const TextStyle(fontSize: 20)),
+        ),
         color: i.isEven ? Colors.yellow : Colors.blue,
       ));
     }

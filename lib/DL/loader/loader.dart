@@ -7,13 +7,11 @@ Future getContentServiceUrl() async {
   contentServiceUrl = await loadAssetString('contentServiceUrl');
 }
 
-Future<String> getSheet() async {
-  String fileId = await loadAssetString('fileId');
-  String sheetName = await loadAssetString('sheetName');
-
+Future<String> getSheet(String fileId, String sheetName) async {
   try {
     var response = await Dio()
         .get(contentServiceUrl + '?fileid=$fileId&sheetname=$sheetName');
+
     return response.data;
   } catch (e) {
     return '';

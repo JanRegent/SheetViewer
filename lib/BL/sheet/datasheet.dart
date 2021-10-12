@@ -12,11 +12,17 @@ class DataSheet {
 
   factory DataSheet.fromJson(String jsonString) {
     var jsonData = json.decode(jsonString);
+    List<String> cols = List<String>.from(jsonData["cols"]);
     DataSheet anySheet = DataSheet()
-      ..cols = List<String>.from(jsonData["cols"])
-      ..columnsSelected = List<String>.from(jsonData["columnsSelected"])
-      ..columnsDetailView = List<String>.from(jsonData["columnsDetailView"])
+      ..cols = cols
+      ..columnsSelected = jsonData["columnsSelected"] != null
+          ? List<String>.from(jsonData["columnsSelected"])
+          : cols
+      ..columnsDetailView = jsonData["columnsDetailView"] != null
+          ? List<String>.from(jsonData["columnsDetailView"])
+          : cols
       ..rows = jsonData["rows"];
+
     return anySheet;
   }
 }

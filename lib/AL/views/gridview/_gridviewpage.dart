@@ -6,23 +6,13 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'cols.dart';
 
-/// The application that contains datagrid on it.
-class GridViewApp extends StatelessWidget {
-  const GridViewApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Syncfusion DataGrid Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const GridViewPage(),
-    );
-  }
-}
-
 /// The home page of the application which hosts the datagrid.
 class GridViewPage extends StatefulWidget {
-  const GridViewPage({Key? key}) : super(key: key);
+  final String fileId;
+  final String sheetName;
+  final String sheetTitle;
+  const GridViewPage(this.fileId, this.sheetName, this.sheetTitle, {Key? key})
+      : super(key: key);
 
   @override
   _GridViewPageState createState() => _GridViewPageState();
@@ -39,7 +29,8 @@ class _GridViewPageState extends State<GridViewPage> {
   DataSheet anySheet = DataSheet();
 
   Future<String> getData() async {
-    anySheet = DataSheet.fromJson(await getSheet());
+    anySheet =
+        DataSheet.fromJson(await getSheet(widget.fileId, widget.sheetName));
     rowsDataSource = RowsDataSource(anySheet);
     return rowsDataSource.anySheet.rows.length.toString();
   }
@@ -64,7 +55,7 @@ class _GridViewPageState extends State<GridViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Syncfusion Flutter DataGrid'),
+          title: Text(widget.sheetTitle),
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

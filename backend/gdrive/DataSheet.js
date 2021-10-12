@@ -34,8 +34,14 @@ function getDataSheet(sheet, sheetConfig ){
 
 function getDataSheetConfig(sheetConfig ){
   
-  var values = sheetConfig.getDataRange().getValues();
+  try {
+    var values = sheetConfig.getDataRange().getValues();
+  }catch(_) {
+    //no__sheet__config__
+    return {configState: 'no__sheet__config__'}  
+  }
 
+  var values = sheetConfig.getDataRange().getValues();
   var params = {} 
   for (var i = 0; i < values.length; i++) {
     
