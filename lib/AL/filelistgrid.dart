@@ -9,21 +9,21 @@ class FilelistGridApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeGridScreen(),
+      home: FilelistGridPage(),
     );
   }
 }
 
-class HomeGridScreen extends StatefulWidget {
-  const HomeGridScreen({Key? key}) : super(key: key);
+class FilelistGridPage extends StatefulWidget {
+  const FilelistGridPage({Key? key}) : super(key: key);
 
   @override
-  _HomeGridScreenState createState() => _HomeGridScreenState();
+  _FilelistGridPageState createState() => _FilelistGridPageState();
 }
 
 late FileListSheet fileListSheet;
 
-class _HomeGridScreenState extends State<HomeGridScreen> {
+class _FilelistGridPageState extends State<FilelistGridPage> {
   Future<String> getData() async {
     String response = await getFilelist();
 
