@@ -21,13 +21,15 @@ class FilelistGridPage extends StatefulWidget {
   _FilelistGridPageState createState() => _FilelistGridPageState();
 }
 
-late FileListSheet fileListSheet;
+late FileListSheet fileListSheet = FileListSheet()
+  ..filelistTitle = 'Pro hledace xxx';
 
 class _FilelistGridPageState extends State<FilelistGridPage> {
   Future<String> getData() async {
     String response = await getFilelist();
 
     fileListSheet = FileListSheet.fromJson(response);
+
     return 'ok';
   }
 
@@ -56,7 +58,7 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("File List"),
+          title: Text(fileListSheet.filelistTitle),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder<String>(
