@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alib/alib.dart';
 import '/AL/views/gridview/rows.dart';
 import '../../../BL/sheet/datasheet.dart';
 import '/DL/loader/loader.dart';
@@ -56,6 +57,7 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.sheetTitle),
+          actions: [al.linkIconSheetOnGCloud(widget.fileId)],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work
