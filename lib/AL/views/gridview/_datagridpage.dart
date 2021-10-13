@@ -7,18 +7,18 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'cols.dart';
 
 /// The home page of the application which hosts the datagrid.
-class GridViewPage extends StatefulWidget {
+class DatagridPage extends StatefulWidget {
   final String fileId;
   final String sheetName;
   final String sheetTitle;
-  const GridViewPage(this.fileId, this.sheetName, this.sheetTitle, {Key? key})
+  const DatagridPage(this.fileId, this.sheetName, this.sheetTitle, {Key? key})
       : super(key: key);
 
   @override
-  _GridViewPageState createState() => _GridViewPageState();
+  _DatagridPageState createState() => _DatagridPageState();
 }
 
-class _GridViewPageState extends State<GridViewPage> {
+class _DatagridPageState extends State<DatagridPage> {
   late RowsDataSource rowsDataSource;
 
   @override
@@ -26,12 +26,12 @@ class _GridViewPageState extends State<GridViewPage> {
     super.initState();
   }
 
-  DataSheet anySheet = DataSheet();
+  DataSheet dataSheet = DataSheet();
 
   Future<String> getData() async {
-    anySheet =
+    dataSheet =
         DataSheet.fromJson(await getSheet(widget.fileId, widget.sheetName));
-    rowsDataSource = RowsDataSource(anySheet);
+    rowsDataSource = RowsDataSource(dataSheet);
     return rowsDataSource.anySheet.rows.length.toString();
   }
 
@@ -41,7 +41,7 @@ class _GridViewPageState extends State<GridViewPage> {
     return SfDataGrid(
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns: colsHeader(anySheet),
+      columns: colsHeader(dataSheet),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },

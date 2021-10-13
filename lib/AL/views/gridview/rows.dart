@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -41,6 +42,18 @@ class RowsDataSource extends DataGridSource {
   @override
   List<DataGridRow> get rows => _stringRowsData;
 
+  ReadMoreText readmoreText(String value) {
+    return ReadMoreText(
+      value,
+      trimLines: 2,
+      colorClickableText: Colors.pink,
+      trimMode: TrimMode.Line,
+      trimCollapsedText: 'Show more',
+      trimExpandedText: 'Show less',
+      moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    );
+  }
+
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
@@ -55,7 +68,7 @@ class RowsDataSource extends DataGridSource {
             print(e.value);
           },
           onLongPress: () {},
-          child: Text(e.value.toString()),
+          child: readmoreText(e.value.toString()),
         ),
       );
     }).toList());

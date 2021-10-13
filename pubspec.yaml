@@ -31,9 +31,14 @@ dependencies:
     sdk: flutter
 
 
-      
+  #========================================================AL    
   syncfusion_flutter_datagrid: ^19.3.44 
 
+  #text
+  readmore: ^2.1.0  #https://pub.dev/packages/readmore
+
+
+  #========================================================DL  
   dio: ^4.0.0           #https://pub.dev/packages/dio 
 
 

@@ -3,7 +3,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
-import '../views/gridview/_gridviewpage.dart';
+import '../views/gridview/_datagridpage.dart';
 
 class FilelistGridApp extends StatelessWidget {
   const FilelistGridApp({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GridViewPage(
+                      builder: (context) => DatagridPage(
                           fileId,
                           fileListSheet.rows[i]['sheetName'],
                           fileListSheet.rows[i]['fileTitle']),
