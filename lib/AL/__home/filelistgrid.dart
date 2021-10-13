@@ -3,7 +3,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
-import 'views/gridview/_gridviewpage.dart';
+import '../views/gridview/_gridviewpage.dart';
 
 class FilelistGridApp extends StatelessWidget {
   const FilelistGridApp({Key? key}) : super(key: key);
@@ -36,29 +36,56 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     return 'ok';
   }
 
+  PopupMenuButton popup() {
+    return PopupMenuButton(
+      initialValue: 2,
+      child: const Center(child: Icon(Icons.menu)),
+      itemBuilder: (context) {
+        return List.generate(5, (index) {
+          return PopupMenuItem(
+            value: index,
+            child: InkWell(
+              onTap: () {
+                //print(index);
+                Navigator.pop(context);
+              },
+              child: Text('button no $index'),
+            ),
+          );
+        });
+      },
+    );
+  }
+
   GridView filelistGrid() {
     List<Widget> tiles = [];
 
     for (var i = 0; i < fileListSheet.rows.length; i++) {
       tiles.add(Container(
         padding: const EdgeInsets.all(8),
-        child: InkWell(
-          onTap: () async {
-            String fileId =
-                bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
+        child: Column(
+          children: [
+            popup(),
+            const Text(' '),
+            InkWell(
+              onTap: () async {
+                String fileId =
+                    bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
 
-            //runApp(GridViewApp(fileId, fileListSheet.rows[i]['sheetName']));
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GridViewPage(
-                      fileId,
-                      fileListSheet.rows[i]['sheetName'],
-                      fileListSheet.rows[i]['fileTitle']),
-                ));
-          },
-          child: Text(fileListSheet.rows[i]['fileTitle'],
-              style: const TextStyle(fontSize: 20)),
+                //runApp(GridViewApp(fileId, fileListSheet.rows[i]['sheetName']));
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GridViewPage(
+                          fileId,
+                          fileListSheet.rows[i]['sheetName'],
+                          fileListSheet.rows[i]['fileTitle']),
+                    ));
+              },
+              child: Text(fileListSheet.rows[i]['fileTitle'],
+                  style: const TextStyle(fontSize: 20)),
+            )
+          ],
         ),
         color: i.isEven ? Colors.yellow : Colors.blue,
       ));
