@@ -32,8 +32,8 @@ class _DatagridPageState extends State<DatagridPage> {
   Future<String> getData() async {
     dataSheet =
         DataSheet.fromJson(await getSheet(widget.fileId, widget.sheetName));
-    rowsDataSource = RowsDataSource(dataSheet);
-    return rowsDataSource.anySheet.rows.length.toString();
+    rowsDataSource = RowsDataSource(dataSheet, context);
+    return rowsDataSource.dataSheet.rows.length.toString();
   }
 
   final DataGridController _controller = DataGridController();
@@ -57,7 +57,9 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.sheetTitle),
-          actions: [al.linkIconSheetOnGCloud(widget.fileId)],
+          actions: [
+            al.linkIconSheetOnGCloud(widget.fileId),
+          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

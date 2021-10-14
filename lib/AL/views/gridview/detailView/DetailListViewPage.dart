@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../../../BL/sheet/datasheet.dart';
 
-import './../views_common.dart';
+//import './../views_common.dart';
 
 //import 'gridSettings.dart';
 
@@ -14,9 +14,11 @@ import './../views_common.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class DetailListViewPage extends StatefulWidget {
-  final DataSheet anySheet;
+  final DataSheet dataSheet;
+  late final int startRowIx;
   // ignore: prefer_const_constructors_in_immutables
-  DetailListViewPage(this.anySheet, {Key? key}) : super(key: key);
+  DetailListViewPage(this.dataSheet, this.startRowIx, {Key? key})
+      : super(key: key);
 
   @override
   _DetailListViewPageState createState() => _DetailListViewPageState();
@@ -25,10 +27,12 @@ class DetailListViewPage extends StatefulWidget {
 class _DetailListViewPageState extends State<DetailListViewPage> {
   TextEditingController highlighControler = TextEditingController();
 
+  int rowIx = 0;
   late String cellValue;
   List<String> columnsSelected = [];
   late int colIx;
-  late double fontSize;
+  late double fontSize = 20;
+
   //Map<String, HighlightedWord> words = {};
   List<String> wordsStr = [];
 
@@ -38,36 +42,29 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   void initState() {
     _controller = ScrollController();
 
-    columnsSelected = widget.anySheet.cols;
+    columnsSelected = widget.dataSheet.cols;
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
+    rowIx = widget.startRowIx;
   }
 
   void refreshCorrectIndex() {
-    if (currentStartRowIndex < 0) currentStartRowIndex = 0;
-    if (currentStartRowIndex >= widget.anySheet.rows.length) {
-      currentStartRowIndex = widget.anySheet.rows.length - 1;
+    if (rowIx < 0) rowIx = 0;
+    if (rowIx >= widget.dataSheet.rows.length) {
+      rowIx = widget.dataSheet.rows.length - 1;
     }
     setState(() {});
   }
 
   void arrowLeft() {
-    currentStartRowIndex -= 1;
+    rowIx -= 1;
     refreshCorrectIndex();
   }
 
   void arrowRight() {
-    currentStartRowIndex += 1;
+    rowIx += 1;
     refreshCorrectIndex();
-  }
-
-  Text rowNo() {
-    try {
-      return Text(widget.anySheet.rows[currentStartRowIndex].first.toString());
-    } catch (_) {
-      return const Text(' ');
-    }
   }
 
   Row arrowsButtons(BuildContext context) {
@@ -77,7 +74,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             child: const Icon(Icons.first_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              currentStartRowIndex = 0;
+              rowIx = 0;
               refreshCorrectIndex();
             }),
         ElevatedButton(
@@ -96,7 +93,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             child: const Icon(Icons.last_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              currentStartRowIndex = widget.anySheet.rows.length - 1;
+              rowIx = widget.dataSheet.rows.length - 1;
               refreshCorrectIndex();
             }),
       ],
@@ -104,9 +101,10 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   }
 
   String cellvalueGet(String columnSelected) {
-    colIx = widget.anySheet.cols.indexOf(columnSelected);
+    String currentCol =
+        widget.dataSheet.cols[widget.dataSheet.cols.indexOf(columnSelected)];
 
-    cellValue = widget.anySheet.rows[currentStartRowIndex][colIx].toString();
+    cellValue = widget.dataSheet.rows[rowIx][currentCol].toString();
     return cellValue;
   }
 
@@ -160,7 +158,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
       appBar: AppBar(
         title: arrowsButtons(context),
       ),
-      body: detailBody(widget.anySheet),
+      body: detailBody(widget.dataSheet),
     );
   }
 }
