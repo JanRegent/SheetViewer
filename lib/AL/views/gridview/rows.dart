@@ -63,6 +63,37 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
+  PopupMenuButton popup(DataGridCell<dynamic> e) {
+    List<PopupMenuItem> menus = [];
+    menus.add(PopupMenuItem(
+      value: 'rowDetail',
+      child: InkWell(
+        onTap: () {
+          int? rowIx = int.tryParse(e.value);
+          Navigator.pop(context);
+          detailShow(rowIx!);
+        },
+        child: const Text('Row detail'),
+      ),
+    ));
+    menus.add(PopupMenuItem(
+      value: 'xx',
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Text('button no XX'),
+      ),
+    ));
+    return PopupMenuButton(
+      initialValue: 2,
+      child: const Center(child: Icon(Icons.menu)),
+      itemBuilder: (context) {
+        return menus;
+      },
+    );
+  }
+
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
@@ -70,18 +101,8 @@ class RowsDataSource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          onTap: () async {
-            int? rowIx = int.tryParse(e.value);
-            await detailShow(rowIx!);
-          },
-          onDoubleTap: () {
-            print(e.columnName);
-            print(e.value);
-          },
-          onLongPress: () {},
-          child: readmoreText(e.value.toString()),
-        ),
+        child:
+            e.columnName != 'S' ? readmoreText(e.value.toString()) : popup(e),
       );
     }).toList());
   }

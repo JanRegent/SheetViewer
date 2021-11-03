@@ -1,8 +1,16 @@
 {
   "timeZone": "Europe/Prague",
-  "dependencies": {},
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "SheetQuery",
+        "libraryId": "1pbpOJxDDHVeVr6WQmR5TZKSqTsW4qwdIlcVKIM6UKYvswkivwHpPnHaO",
+        "version": "5"
+      }
+    ]
+  },
   "webapp": {
     "executeAs": "USER_DEPLOYING",
     "access": "ANYONE_ANONYMOUS"
