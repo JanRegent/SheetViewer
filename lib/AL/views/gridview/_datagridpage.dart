@@ -32,7 +32,9 @@ class _DatagridPageState extends State<DatagridPage> {
   Future<String> getData() async {
     dataSheet =
         DataSheet.fromJson(await getSheet(widget.fileId, widget.sheetName));
+    dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context);
+
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 

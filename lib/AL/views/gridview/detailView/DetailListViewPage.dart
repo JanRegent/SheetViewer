@@ -67,7 +67,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     refreshCorrectIndex();
   }
 
-  Row arrowsButtons(BuildContext context) {
+  Row arrowsRow(BuildContext context) {
     return Row(
       children: [
         ElevatedButton(
@@ -79,15 +79,15 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             }),
         ElevatedButton(
             child: const Icon(Icons.arrow_back, color: Colors.black),
-            style: ElevatedButton.styleFrom(primary: Colors.lightBlue[50]),
+            style: ElevatedButton.styleFrom(
+                fixedSize: const Size(200, 40), primary: Colors.lightBlue[50]),
             onPressed: () => arrowLeft()),
-        // Text(' '),
-        // //rowNo(),
-        // Text(' '),
+        const Text(' '),
         ElevatedButton(
             child:
                 const Icon(Icons.arrow_forward_outlined, color: Colors.black),
-            style: ElevatedButton.styleFrom(primary: Colors.lightBlue[50]),
+            style: ElevatedButton.styleFrom(
+                fixedSize: const Size(200, 40), primary: Colors.lightBlue[50]),
             onPressed: () => arrowRight()),
         ElevatedButton(
             child: const Icon(Icons.last_page),
@@ -156,7 +156,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: arrowsButtons(context),
+        title: arrowsRow(context),
       ),
       body: detailBody(widget.dataSheet),
     );

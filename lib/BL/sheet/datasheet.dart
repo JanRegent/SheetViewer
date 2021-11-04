@@ -8,6 +8,9 @@ class DataSheet {
   List<String> columnsSelected = [];
   List<String> columnsDetailView = [];
 
+  //temp
+  String sheetTitle = '';
+
   DataSheet();
 
   factory DataSheet.fromJson(String jsonString) {
