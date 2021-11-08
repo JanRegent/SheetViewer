@@ -80,14 +80,14 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
         ElevatedButton(
             child: const Icon(Icons.arrow_back, color: Colors.black),
             style: ElevatedButton.styleFrom(
-                fixedSize: const Size(200, 40), primary: Colors.lightBlue[50]),
+                fixedSize: const Size(100, 40), primary: Colors.lightBlue[50]),
             onPressed: () => arrowLeft()),
         const Text(' '),
         ElevatedButton(
             child:
                 const Icon(Icons.arrow_forward_outlined, color: Colors.black),
             style: ElevatedButton.styleFrom(
-                fixedSize: const Size(200, 40), primary: Colors.lightBlue[50]),
+                fixedSize: const Size(100, 40), primary: Colors.lightBlue[50]),
             onPressed: () => arrowRight()),
         ElevatedButton(
             child: const Icon(Icons.last_page),
