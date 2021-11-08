@@ -12,7 +12,10 @@ C:\uti\7-Zip\7z.exe a %1%-%%MYDATE%  *.rules fire*.* depl*.* lib\* test\* web\*.
 xcopy *.7z  "c:\dev\zBak\SheetViewer\" /C /Y
 xcopy *.7z  "C:\Users\janre\Dropbox\Drop2NAS\" /C /Y
 
-xcopy *.7z  "p:\pCloud\"  /C /Y
+echo pCloud----
+xcopy *.7z  "d:\pCloud\"  /C /Y
+
+echo asus
 xcopy *.7z  "C:\Asus WebStorage\jan.regent@gmail.com\MySyncFolder\backup\SheetViewer" /C /Y
 
 call powershell .\bakftp.ps1
