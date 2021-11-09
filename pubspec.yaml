@@ -38,8 +38,8 @@ dependencies:
   readmore: ^2.1.0          #https://pub.dev/packages/readmore
 
   #========================================================BL
-  cache_manager: ^1.0.0+3   #https://pub.dev/packages/cache_manager  
-
+  cache_manager: ^1.0.0+3   #https://pub.dev/packages/cache_manager
+  
   #========================================================DL  
   dio: ^4.0.0           #https://pub.dev/packages/dio 
   url_launcher: ^6.0.12 #https://pub.dev/packages/url_launcher

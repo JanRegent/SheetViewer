@@ -1,4 +1,7 @@
+import 'package:cache_manager/core/read_cache_service.dart';
+import 'package:cache_manager/core/write_cache_service.dart';
 import 'package:dio/dio.dart';
+
 import 'package:flutter/services.dart';
 
 late String contentServiceUrl;
@@ -7,13 +10,39 @@ Future getContentServiceUrl() async {
   contentServiceUrl = await loadAssetString('contentServiceUrl');
 }
 
-Future<String> getSheet(String fileId, String sheetName) async {
-  try {
-    var response = await Dio()
-        .get(contentServiceUrl + '?fileid=$fileId&sheetname=$sheetName');
+Future<String> sheetGet(String fileId, String sheetName) async {
+  String key = 'fileid=$fileId&sheetname=$sheetName';
 
+  String jsonString = await sheetLoad(key);
+  if (jsonString.isNotEmpty) return jsonString;
+
+  try {
+    var response = await Dio().get(contentServiceUrl + '?' + key);
+    sheetSave(key, response.data);
     return response.data;
   } catch (e) {
+    return '';
+  }
+}
+
+Future sheetLoad(String key) async {
+  try {
+    String jsonString = await ReadCache.getString(key: key);
+    // ignore: unnecessary_null_comparison
+    if (jsonString == null) return '';
+    return jsonString;
+  } catch (e) {
+    //rint(e); //Do something if error occurs
+    return '';
+  }
+}
+
+Future sheetSave(String key, String jsonString) async {
+  try {
+    await WriteCache.setString(key: key, value: jsonString);
+    return 'OK';
+  } catch (e) {
+    //rint(e); //Do something if error occurs
     return '';
   }
 }
