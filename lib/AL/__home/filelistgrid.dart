@@ -37,23 +37,32 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     return 'ok';
   }
 
-  PopupMenuButton popup() {
+  PopupMenuButton popup(String fileId, String sheetName) {
+    List<PopupMenuItem> menus = [];
+    menus.add(PopupMenuItem(
+      value: 'refreshRows',
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+          deleteStringFileId(fileId, sheetName);
+        },
+        child: const Text('Refresh rows'),
+      ),
+    ));
+    menus.add(PopupMenuItem(
+      value: 'xx',
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Text('button no XX'),
+      ),
+    ));
     return PopupMenuButton(
       initialValue: 2,
       child: const Center(child: Icon(Icons.menu)),
       itemBuilder: (context) {
-        return List.generate(5, (index) {
-          return PopupMenuItem(
-            value: index,
-            child: InkWell(
-              onTap: () {
-                //print(index);
-                Navigator.pop(context);
-              },
-              child: Text('button no $index'),
-            ),
-          );
-        });
+        return menus;
       },
     );
   }
@@ -62,18 +71,16 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     List<Widget> tiles = [];
 
     for (var i = 0; i < fileListSheet.rows.length; i++) {
+      String fileId = bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
+
       tiles.add(Container(
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            popup(),
+            popup(fileId, fileListSheet.rows[i]['sheetName']),
             const Text(' '),
             InkWell(
               onTap: () async {
-                String fileId =
-                    bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
-
-                //runApp(GridViewApp(fileId, fileListSheet.rows[i]['sheetName']));
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
