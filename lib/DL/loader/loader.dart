@@ -91,6 +91,6 @@ Future deleteString(String key) async {
 
 Future deleteStringFileId(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
-  print(key);
+
   await deleteString(key);
 }

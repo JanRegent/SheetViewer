@@ -29,6 +29,12 @@ late FileListSheet fileListSheet = FileListSheet()
   ..filelistTitle = 'Pro hledace 04';
 
 class _FilelistGridPageState extends State<FilelistGridPage> {
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
   Future<String> getData() async {
     String response = await getFilelist();
 
@@ -42,9 +48,9 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     menus.add(PopupMenuItem(
       value: 'refreshRows',
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           Navigator.pop(context);
-          deleteStringFileId(fileId, sheetName);
+          await deleteStringFileId(fileId, sheetName);
         },
         child: const Text('Refresh rows'),
       ),
@@ -67,45 +73,54 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
     );
   }
 
-  GridView filelistGrid() {
-    List<Widget> tiles = [];
-
-    for (var i = 0; i < fileListSheet.rows.length; i++) {
-      String fileId = bl.bLuti.url2fileid(fileListSheet.rows[i]['fileUrl']);
-
-      tiles.add(Container(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            popup(fileId, fileListSheet.rows[i]['sheetName']),
-            const Text(' '),
-            InkWell(
-              onTap: () async {
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DatagridPage(
-                          fileId,
-                          fileListSheet.rows[i]['sheetName'],
-                          fileListSheet.rows[i]['fileTitle']),
-                    ));
-              },
-              child: Text(fileListSheet.rows[i]['fileTitle'],
-                  style: const TextStyle(fontSize: 20)),
-            )
-          ],
-        ),
-        color: i.isEven ? Colors.yellow : Colors.blue,
-      ));
+  late ScrollController _controller;
+  Widget detailBody() {
+    ElevatedButton last5(String fileId, int index) {
+      return ElevatedButton(
+        child: const Text('L5'),
+        onPressed: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DatagridPage(
+                    fileId,
+                    fileListSheet.rows[index]['sheetName'],
+                    fileListSheet.rows[index]['fileTitle']),
+              ));
+        },
+      );
     }
-    return GridView.extent(
-      primary: false,
-      padding: const EdgeInsets.all(16),
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      maxCrossAxisExtent: 200.0,
-      children: tiles,
-    );
+
+    return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: ListView.separated(
+          controller: _controller,
+          separatorBuilder: (context, index) => const Divider(
+            color: Colors.blue,
+          ),
+          itemCount: fileListSheet.rows.length,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: ListTile(
+                    leading: last5(
+                        bl.bLuti
+                            .url2fileid(fileListSheet.rows[index]['fileUrl']),
+                        index),
+                    title: Text(fileListSheet.rows[index]['fileTitle'],
+                        style: const TextStyle(fontSize: 20)),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () {},
+                    )
+                    //  popup(
+                    //     bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
+                    //     fileListSheet.rows[index]['sheetName']),
+                    )),
+          ),
+        ));
   }
 
   @override
@@ -131,7 +146,7 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return Center(child: filelistGrid());
+                  return detailBody();
                 }
             }
           },
