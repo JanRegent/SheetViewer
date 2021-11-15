@@ -1,34 +1,37 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
 import '../views/gridview/_datagridpage.dart';
+import 'filelistviewMenu.dart';
 
-class FilelistGridApp extends StatelessWidget {
-  const FilelistGridApp({Key? key}) : super(key: key);
+class FilelistviewApp extends StatelessWidget {
+  const FilelistviewApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: FilelistGridPage(),
+      home: FilelistviewPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class FilelistGridPage extends StatefulWidget {
-  const FilelistGridPage({Key? key}) : super(key: key);
+class FilelistviewPage extends StatefulWidget {
+  const FilelistviewPage({Key? key}) : super(key: key);
 
   @override
-  _FilelistGridPageState createState() => _FilelistGridPageState();
+  _FilelistviewPageState createState() => _FilelistviewPageState();
 }
 
 late FileListSheet fileListSheet = FileListSheet()
   ..filelistTitle = 'Pro hledace 04';
 
-class _FilelistGridPageState extends State<FilelistGridPage> {
+class _FilelistviewPageState extends State<FilelistviewPage> {
   @override
   void initState() {
     _controller = ScrollController();
@@ -113,7 +116,14 @@ class _FilelistGridPageState extends State<FilelistGridPage> {
                         style: const TextStyle(fontSize: 20)),
                     trailing: IconButton(
                       icon: const Icon(Icons.menu),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FilelistDialogPage(title: 'xxc'),
+                            ));
+                      },
                     )
                     //  popup(
                     //     bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
