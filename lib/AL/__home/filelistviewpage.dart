@@ -8,19 +8,6 @@ import 'package:sheetviewer/DL/loader/loader.dart';
 import '../views/gridview/_datagridpage.dart';
 import 'filelistviewMenu.dart';
 
-class FilelistviewApp extends StatelessWidget {
-  const FilelistviewApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: FilelistviewPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
 class FilelistviewPage extends StatefulWidget {
   const FilelistviewPage({Key? key}) : super(key: key);
 

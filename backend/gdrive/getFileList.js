@@ -6,7 +6,7 @@ var getFileListPars = {
 function getFileList(eParameters ){
 
    try {
-    epar2getFileList(eParameters['fileid'], eParameters['sheetname']);
+    epar2getFileList(eParameters['filelistid'], eParameters['sheetname']);
   }catch{
     epar2getFileList(testSSid, 'testList');
   }

@@ -40,7 +40,7 @@ Future<String> getFilelist() async {
   String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
   //await loadAssetString('fileId');
 
-  String sheetName = 'fileListProHledace';
+  String sheetName = 'hledaniList';
   // await loadAssetString('sheetName');
   try {
     String key = 'filelistid=$fileId&sheetname=$sheetName';
@@ -56,6 +56,28 @@ Future<String> getFilelist() async {
   }
 }
 
+Future<String> getTabsList() async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
+  String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
+  //await loadAssetString('fileId');
+
+  String sheetName = 'tabsList';
+  // await loadAssetString('sheetName');
+  try {
+    String key = 'fileid=$fileId&sheetname=$sheetName';
+
+    // String jsonString = await readString(key);
+    // if (jsonString.isNotEmpty) return jsonString;
+    print((contentServiceUrl + '?action=gettabslist&' + key));
+    var response =
+        await Dio().get(contentServiceUrl + '?action=gettabslist&' + key);
+    updateString(key, response.data);
+    return response.data;
+  } catch (e) {
+    return '';
+  }
+}
 //-------------------------------------------------------------------CRUD
 
 Future updateString(String key, String jsonString) async {
