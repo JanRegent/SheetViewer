@@ -13,8 +13,8 @@ class TabsListsPage extends StatefulWidget {
   _TabsListsPageState createState() => _TabsListsPageState();
 }
 
-late FileListSheet tabsListSheet = FileListSheet()
-  ..filelistTitle = 'Pro hledace 04';
+late TabsListSheet tabsListSheet = TabsListSheet()
+  ..tabslistTitle = 'Pro hledace 04tabs';
 
 class _TabsListsPageState extends State<TabsListsPage> {
   @override
@@ -24,9 +24,8 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   Future<String> getData() async {
     String response = await getTabsList();
-    print('2:' + response);
-    tabsListSheet = FileListSheet.fromJson(response);
 
+    tabsListSheet = TabsListSheet.fromJson(response);
     return 'ok';
   }
 
@@ -34,7 +33,6 @@ class _TabsListsPageState extends State<TabsListsPage> {
     List<Tab> tabsList = [];
     List<FilelistviewPage> tabsPages = [];
     for (var i = 0; i < tabsListSheet.rows.length; i++) {
-      print(tabsListSheet.rows[i]['tabName']);
       tabsList.add(Tab(
         text: tabsListSheet.rows[i]['tabName'],
       ));
@@ -61,31 +59,27 @@ class _TabsListsPageState extends State<TabsListsPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            appBar: AppBar(
-              title: Text(tabsListSheet.filelistTitle),
-              backgroundColor: Colors.green,
-            ),
             body: FutureBuilder<String>(
-              future: getData(), // async work
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Column(
-                      children: const [
-                        Text('Loading....'),
-                        CircularProgressIndicator()
-                      ],
-                    );
+          future: getData(), // async work
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Column(
+                  children: const [
+                    Text('Loading....'),
+                    CircularProgressIndicator()
+                  ],
+                );
 
-                  default:
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return tabs();
-                    }
+              default:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return tabs();
                 }
-              },
-            )
+            }
+          },
+        )
 
             //Center(child: filelistGrid()),
             ));

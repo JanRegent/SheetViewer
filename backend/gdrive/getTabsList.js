@@ -18,22 +18,24 @@ function getTabsList(eParameters ){
   var values = tabslistSheet.getDataRange().getValues();
   //Logger.log(JSON.stringify(values));
 
-  var columns = values[0];
- 
+  var columns = values[0].join('","').split(',');
+  columns[0] = '"' + columns[0];
+  columns[columns.length-1] = columns[columns.length-1] + '"';
+ Logger.log(columns);
   var keyStartAt = 0;
   for (var i = 1; i < values.length; i++) {
     if (values[i][0] == '') continue;
     var object = {}
     for (var j = 0; j < values[i].length; j++) {
-      object[columns[j]] = values[i][j]
+       object[columns[j]] = '"'  + values[i][j] + '"' ;
     }
     objectArray.push(object);
     
   }
  
   var output = JSON.stringify({
-    cols: columns,
-    rows: objectArray,
+    "cols": columns,
+    "rows": objectArray,
   });
   Logger.log(output);
   return output;

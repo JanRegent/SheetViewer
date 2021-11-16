@@ -67,13 +67,15 @@ Future<String> getTabsList() async {
   try {
     String key = 'fileid=$fileId&sheetname=$sheetName';
 
-    // String jsonString = await readString(key);
-    // if (jsonString.isNotEmpty) return jsonString;
-    print((contentServiceUrl + '?action=gettabslist&' + key));
+    String jsonString = await readString(key);
+    if (jsonString.isNotEmpty) return jsonString;
+
     var response =
         await Dio().get(contentServiceUrl + '?action=gettabslist&' + key);
-    updateString(key, response.data);
-    return response.data;
+    String resp = response.data.toString().replaceFirst('cols:', '"cols":');
+    resp = resp.replaceFirst('rows: [', '"rows": [');
+    updateString(key, resp);
+    return resp;
   } catch (e) {
     return '';
   }
