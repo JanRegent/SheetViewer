@@ -29,11 +29,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   Future<String> getData() async {
-    String response = await getFilelist(
+    fileListSheet = await getFilelist(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-
-    fileListSheet = FileListSheet.fromJson(response);
-
     return 'ok';
   }
 
@@ -147,6 +144,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  //print(fileListSheet.rows);
                   return detailBody();
                 }
             }

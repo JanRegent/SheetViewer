@@ -9,16 +9,26 @@ class FileListSheet {
 
   FileListSheet();
 
-  factory FileListSheet.fromJson(String jsonString) {
-    if (jsonString.isEmpty) return FileListSheet();
-
-    var jsonData = json.decode(jsonString);
-    FileListSheet anySheet = FileListSheet()
-      ..cols = List<String>.from(jsonData["cols"])
-      ..filelistTitle = jsonData["filelistTitle"][0]
-      ..rows = jsonData["rows"];
-    return anySheet;
+  factory FileListSheet.fromJson(Map jsonData) {
+    if (jsonData.isEmpty) return FileListSheet();
+    try {
+      FileListSheet anySheet = FileListSheet();
+      anySheet.cols = toListString(jsonData["cols"]);
+      anySheet.rows = jsonData["rows"];
+      return anySheet;
+    } catch (e) {
+      print(e);
+      return FileListSheet();
+    }
   }
+}
+
+List<String> toListString(List<dynamic> items) {
+  List<String> list = [];
+  for (var item in items) {
+    list.add(item.toString());
+  }
+  return list;
 }
 
 class TabsListSheet {

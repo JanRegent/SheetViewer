@@ -4,6 +4,7 @@ import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
+import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 late String contentServiceUrl;
 
@@ -34,21 +35,22 @@ Future<String> loadAssetString(String varname) async {
   }
 }
 
-Future<String> getFilelist(String fileId, String sheetName) async {
+Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
   String contentServiceUrl = await loadAssetString('contentServiceUrl');
-  print(sheetName);
-  print(fileId);
+
   try {
     String key = 'filelistid=$fileId&sheetname=$sheetName';
 
-    String jsonString = await readString(key);
-    if (jsonString.isNotEmpty) return jsonString;
+    //String jsonString = await readString(key);
+    //if (jsonString.isNotEmpty) return jsonString;
+    String urlQuery = contentServiceUrl + '?action=getfilelist&' + key;
+    var response = await Dio().get(urlQuery);
+    FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
+    //updateString(key, response.data);
 
-    var response = await Dio().get(contentServiceUrl + '?' + key);
-    updateString(key, response.data);
-    return response.data;
+    return fileListSheet;
   } catch (e) {
-    return '';
+    return FileListSheet();
   }
 }
 
@@ -81,6 +83,7 @@ Future<String> getTabsList() async {
 Future updateString(String key, String jsonString) async {
   try {
     await WriteCache.setString(key: key, value: jsonString);
+
     return 'OK';
   } catch (e) {
     //rint(e); //Do something if error occurs
