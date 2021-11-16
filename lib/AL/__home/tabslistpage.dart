@@ -13,7 +13,7 @@ class TabsListsPage extends StatefulWidget {
   _TabsListsPageState createState() => _TabsListsPageState();
 }
 
-late TabsListSheet tabsListSheet = TabsListSheet()
+TabsListSheet tabsListSheet = TabsListSheet()
   ..tabslistTitle = 'Pro hledace 04tabs';
 
 class _TabsListsPageState extends State<TabsListsPage> {
@@ -36,7 +36,8 @@ class _TabsListsPageState extends State<TabsListsPage> {
       tabsList.add(Tab(
         text: tabsListSheet.rows[i]['tabName'],
       ));
-      tabsPages.add(const FilelistviewPage());
+      tabsPages.add(FilelistviewPage(
+          tabsListSheet.rows[i]['url'], tabsListSheet.rows[i]['sheetName']));
     }
     return DefaultTabController(
       length: tabsListSheet.rows.length,

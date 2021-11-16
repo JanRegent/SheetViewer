@@ -9,7 +9,10 @@ import '../views/gridview/_datagridpage.dart';
 import 'filelistviewMenu.dart';
 
 class FilelistviewPage extends StatefulWidget {
-  const FilelistviewPage({Key? key}) : super(key: key);
+  final String url;
+  final String sheetName;
+  const FilelistviewPage(this.url, this.sheetName, {Key? key})
+      : super(key: key);
 
   @override
   _FilelistviewPageState createState() => _FilelistviewPageState();
@@ -26,7 +29,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   Future<String> getData() async {
-    String response = await getFilelist();
+    String response = await getFilelist(
+        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
 
     fileListSheet = FileListSheet.fromJson(response);
 

@@ -34,14 +34,10 @@ Future<String> loadAssetString(String varname) async {
   }
 }
 
-Future<String> getFilelist() async {
+Future<String> getFilelist(String fileId, String sheetName) async {
   String contentServiceUrl = await loadAssetString('contentServiceUrl');
-
-  String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
-  //await loadAssetString('fileId');
-
-  String sheetName = 'hledaniList';
-  // await loadAssetString('sheetName');
+  print(sheetName);
+  print(fileId);
   try {
     String key = 'filelistid=$fileId&sheetname=$sheetName';
 
