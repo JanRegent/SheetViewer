@@ -1,16 +1,31 @@
 
+function getdatasheet(eParameters) {
+  try {
+    logi(eParameters['fileid']);
+    var spreadsheet = SpreadsheetApp.openById(eParameters['fileid']);
+    var sheetName = decodeURI(eParameters['sheetname']);
+    logi('encoded sheetname: ' + sheetName);
+    sheet  = spreadsheet.getSheetByName(sheetName );
+  }catch{
+    var spreadsheet = SpreadsheetApp.openById(contentId); 
+    sheet  = spreadsheet.getSheetByName('DemoSheet');
 
-function getDataSheet(sheet, sheetConfig ){
+  }
+  logi('opened sheet: ' + sheet.getName());
+  return getDataSheet2(sheet);
+}
+
+function getDataSheet2(sheet, sheetConfig ){
   var objectArray = [];
   var config = getDataSheetConfig(sheetConfig);
 
   var values = sheet.getDataRange().getValues();
-  //Logger.log(JSON.stringify(values));
+  logi(JSON.stringify(values));
 
   var columns = values[0];
-  //Logger.log(columns);
+  Logger.log(columns);
 
-
+    //last5
    for (var i = values.length - 5; i < values.length; i++) {
     var object = {}
     for (var j = 0; j < values[i].length; j++) {
@@ -28,7 +43,7 @@ function getDataSheet(sheet, sheetConfig ){
     columnsDetailView: config['columnsDetailView'],
     rows: objectArray,
   });
- //Logger.log(output);
+  logi(output);
   return output;
 }
 
@@ -63,6 +78,6 @@ function getSheet__test() {
   var sheet = ss.getActiveSheet();
 
 
-  getDataSheet('', sheet);
+  getdatasheet();
 
 }

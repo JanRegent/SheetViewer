@@ -4,6 +4,7 @@ import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
+import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 late String contentServiceUrl;
@@ -12,18 +13,24 @@ Future getContentServiceUrl() async {
   contentServiceUrl = await loadAssetString('contentServiceUrl');
 }
 
-Future<String> sheetGet(String fileId, String sheetName) async {
+Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
-  String jsonString = await readString(key);
-  if (jsonString.isNotEmpty) return jsonString;
+  // String jsonString = await readString(key);
+  // if (jsonString.isNotEmpty) return jsonString;
 
   try {
-    var response = await Dio().get(contentServiceUrl + '?' + key);
-    updateString(key, response.data);
-    return response.data;
+    String urlQuery =
+        Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
+    print(urlQuery);
+    var response = await Dio().get(urlQuery);
+    print(response.data);
+    DataSheet dataSheet = DataSheet.fromJson(response.data);
+    print(dataSheet.toString());
+    //updateString(key, response.data);
+    return dataSheet;
   } catch (e) {
-    return '';
+    return DataSheet();
   }
 }
 

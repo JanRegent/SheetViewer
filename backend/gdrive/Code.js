@@ -10,7 +10,6 @@ function doGet(e) {
   if(typeof e.parameter.action === "undefined") {
     return respond('{error: "Parameter Action is not defined"}');
   }
-  logi('action: ');
   var action = e.parameter.action.toString().toLowerCase();
   logi('action: ' + action);
 
@@ -20,7 +19,7 @@ function doGet(e) {
     case "getfilelist":
       return respond(getFileList(e.parameters)); 
     case "getdatasheet":
-      return respond(getDataSheet(e.parameters));        
+      return respond(getdatasheet(e.parameters));        
     default:
       return respond('{error: "Parameter Action has no expected value"}');
   }
