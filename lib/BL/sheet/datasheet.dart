@@ -12,7 +12,6 @@ class DataSheet {
   DataSheet();
 
   factory DataSheet.fromJson(Map jsonData) {
-    //var jsonData = json.decode(jsonString);
     List<String> cols = List<String>.from(jsonData["cols"]);
     DataSheet anySheet = DataSheet()
       ..cols = cols

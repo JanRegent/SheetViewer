@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
 import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/packages/cache_manager
@@ -16,8 +18,11 @@ Future getContentServiceUrl() async {
 Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
-  // String jsonString = await readString(key);
-  // if (jsonString.isNotEmpty) return jsonString;
+  String jsonString = await readString(key);
+  if (jsonString.isNotEmpty) {
+    var jsonData = json.decode(jsonString);
+    return DataSheet.fromJson(jsonData);
+  }
 
   try {
     String urlQuery =
@@ -26,7 +31,7 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
     var response = await Dio().get(urlQuery);
     DataSheet dataSheet = DataSheet.fromJson(response.data);
 
-    //updateString(key, response.data);
+    updateString(key, json.encode(response.data));
     return dataSheet;
   } catch (e) {
     return DataSheet();
