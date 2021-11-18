@@ -30,7 +30,6 @@ class _DatagridPageState extends State<DatagridPage> {
   DataSheet dataSheet = DataSheet();
 
   Future<String> getData() async {
-    print('getData()');
     dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
     dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context);

@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
-
 class DataSheet {
   List<String> cols = [];
   List<dynamic> rows = [];
@@ -13,8 +11,8 @@ class DataSheet {
 
   DataSheet();
 
-  factory DataSheet.fromJson(String jsonString) {
-    var jsonData = json.decode(jsonString);
+  factory DataSheet.fromJson(Map jsonData) {
+    //var jsonData = json.decode(jsonString);
     List<String> cols = List<String>.from(jsonData["cols"]);
     DataSheet anySheet = DataSheet()
       ..cols = cols

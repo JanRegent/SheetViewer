@@ -1,39 +1,35 @@
 
 function getdatasheet(eParameters) {
+  var sheet, sheetConfig;
   try {
-    logi(eParameters['fileid']);
     var spreadsheet = SpreadsheetApp.openById(eParameters['fileid']);
     var sheetName = decodeURI(eParameters['sheetname']);
-    logi('encoded sheetname: ' + sheetName);
     sheet  = spreadsheet.getSheetByName(sheetName );
+    sheetConfig  = spreadsheet.getSheetByName(sheetName+'__config__' );
   }catch{
     var spreadsheet = SpreadsheetApp.openById(contentId); 
     sheet  = spreadsheet.getSheetByName('DemoSheet');
+    sheetConfig  = spreadsheet.getSheetByName('DemoSheet__config__' );
 
   }
-  logi('opened sheet: ' + sheet.getName());
-  return getDataSheet2(sheet);
+  return getDataSheet2(sheet, sheetConfig);
 }
 
 function getDataSheet2(sheet, sheetConfig ){
   var objectArray = [];
   var config = getDataSheetConfig(sheetConfig);
-
   var values = sheet.getDataRange().getValues();
   logi(JSON.stringify(values));
 
   var columns = values[0];
-  Logger.log(columns);
-
-    //last5
-   for (var i = values.length - 5; i < values.length; i++) {
+  //last5
+  for (var i = values.length - 5; i < values.length; i++) {
     var object = {}
     for (var j = 0; j < values[i].length; j++) {
       object[columns[j]] = values[i][j]
 
     }
-    objectArray.push(object);
-    
+    objectArray.push(object);   
   }
  
  
@@ -43,7 +39,6 @@ function getDataSheet2(sheet, sheetConfig ){
     columnsDetailView: config['columnsDetailView'],
     rows: objectArray,
   });
-  logi(output);
   return output;
 }
 
@@ -55,7 +50,6 @@ function getDataSheetConfig(sheetConfig ){
     //no__sheet__config__
     return {configState: 'no__sheet__config__'}  
   }
-
   var values = sheetConfig.getDataRange().getValues();
   var params = {} 
   for (var i = 0; i < values.length; i++) {

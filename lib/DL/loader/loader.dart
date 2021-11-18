@@ -22,11 +22,10 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   try {
     String urlQuery =
         Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
-    print(urlQuery);
+    //rint(urlQuery);
     var response = await Dio().get(urlQuery);
-    print(response.data);
     DataSheet dataSheet = DataSheet.fromJson(response.data);
-    print(dataSheet.toString());
+
     //updateString(key, response.data);
     return dataSheet;
   } catch (e) {
