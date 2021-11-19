@@ -30,7 +30,6 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
     //rint(urlQuery);
     var response = await Dio().get(urlQuery);
     DataSheet dataSheet = DataSheet.fromJson(response.data);
-
     updateString(key, json.encode(response.data));
     return dataSheet;
   } catch (e) {
