@@ -4,7 +4,7 @@ class DataSheet {
   List<String> cols = [];
   List<dynamic> rows = [];
   List<String> columnsSelected = [];
-  List<String> columnsDetailView = [];
+  String sheetUrl = '';
 
   //temp
   String sheetTitle = '';
@@ -19,11 +19,9 @@ class DataSheet {
         ..columnsSelected = jsonData["columnsSelected"] != null
             ? List<String>.from(jsonData["columnsSelected"])
             : cols
-        ..columnsDetailView = jsonData["columnsDetailView"] != null
-            ? List<String>.from(jsonData["columnsDetailView"])
-            : cols
+        ..sheetUrl = jsonData["sheetUrl"]
         ..rows = jsonData["rows"];
-
+      print(anySheet.sheetUrl);
       return anySheet;
     } catch (e) {
       //rint(e);

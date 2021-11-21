@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-AL al = AL(); 
+AL al = AL();
 
 class AL {
   Widget linkIconSheetOnGCloud(String fileid) {
@@ -18,7 +18,6 @@ class AL {
       onPressed: () async {
         if (fileid.trim().isEmpty) return;
         String url = 'https://docs.google.com/spreadsheets/d/' + fileid;
-
         await canLaunch(url)
             ? await launch(url)
             : throw 'Could not launch $url';
