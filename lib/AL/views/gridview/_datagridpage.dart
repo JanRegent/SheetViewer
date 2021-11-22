@@ -42,7 +42,7 @@ class _DatagridPageState extends State<DatagridPage> {
     return SfDataGrid(
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns: colsHeader(dataSheet),
+      columns: colsHeader(dataSheet, context),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },

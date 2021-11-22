@@ -34,36 +34,6 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
     return 'ok';
   }
 
-  PopupMenuButton popup(String fileId, String sheetName) {
-    List<PopupMenuItem> menus = [];
-    menus.add(PopupMenuItem(
-      value: 'refreshRows',
-      child: InkWell(
-        onTap: () async {
-          Navigator.pop(context);
-          await deleteStringFileId(fileId, sheetName);
-        },
-        child: const Text('Refresh rows'),
-      ),
-    ));
-    menus.add(PopupMenuItem(
-      value: 'xx',
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: const Text('button no XX'),
-      ),
-    ));
-    return PopupMenuButton(
-      initialValue: 2,
-      child: const Center(child: Icon(Icons.menu)),
-      itemBuilder: (context) {
-        return menus;
-      },
-    );
-  }
-
   late ScrollController _controller;
   Widget detailBody() {
     ElevatedButton last5(String fileId, int index) {
@@ -102,6 +72,18 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                         index),
                     title: Text(fileListSheet.rows[index]['fileTitle'],
                         style: const TextStyle(fontSize: 20)),
+                    subtitle: Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('all',
+                                style: TextStyle(fontSize: 20))),
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('filter',
+                                style: TextStyle(fontSize: 20))),
+                      ],
+                    ),
                     trailing: IconButton(
                       icon: const Icon(Icons.menu),
                       onPressed: () async {
@@ -112,11 +94,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                                   FilelistDialogPage(title: 'xxc'),
                             ));
                       },
-                    )
-                    //  popup(
-                    //     bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
-                    //     fileListSheet.rows[index]['sheetName']),
-                    )),
+                    ))),
           ),
         ));
   }
