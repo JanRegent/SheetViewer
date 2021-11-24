@@ -15,6 +15,11 @@ Future getContentServiceUrl() async {
   contentServiceUrl = await loadAssetString('contentServiceUrl');
 }
 
+Future getdatasheetRefresh(String fileId, String sheetName) async {
+  String key = 'fileid=$fileId&sheetname=$sheetName';
+  await deleteString(key);
+}
+
 Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 

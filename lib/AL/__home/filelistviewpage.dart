@@ -36,10 +36,12 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
 
   late ScrollController _controller;
   Widget detailBody() {
-    ElevatedButton last5(String fileId, int index) {
-      return ElevatedButton(
-        child: const Text('L5'),
+    IconButton last5refresh(String fileId, int index) {
+      return IconButton(
+        icon: const Icon(Icons.refresh),
         onPressed: () async {
+          await getdatasheetRefresh(
+              fileId, fileListSheet.rows[index]['sheetName']);
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -50,6 +52,30 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
               ));
         },
       );
+    }
+
+    ElevatedButton last5(String fileId, int index) {
+      Future showGrid() async {
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DatagridPage(
+                  fileId,
+                  fileListSheet.rows[index]['sheetName'],
+                  fileListSheet.rows[index]['fileTitle']),
+            ));
+      }
+
+      return ElevatedButton(
+          child: const Text('L5'),
+          onPressed: () async {
+            await showGrid();
+          },
+          onLongPress: () async {
+            await getdatasheetRefresh(
+                fileId, fileListSheet.rows[index]['sheetName']);
+            await showGrid();
+          });
     }
 
     return Container(

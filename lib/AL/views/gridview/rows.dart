@@ -77,37 +77,6 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  PopupMenuButton popup(DataGridCell<dynamic> e) {
-    List<PopupMenuItem> menus = [];
-    menus.add(PopupMenuItem(
-      value: '__rowDetail__',
-      child: InkWell(
-        onTap: () {
-          int? rowIx = int.tryParse(e.value);
-          Navigator.pop(context);
-          detailShow(rowIx!);
-        },
-        child: const Text('Row detail'),
-      ),
-    ));
-    menus.add(PopupMenuItem(
-      value: 'xx',
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: const Text('button no XX'),
-      ),
-    ));
-    return PopupMenuButton(
-      initialValue: 2,
-      child: const Center(child: Icon(Icons.menu)),
-      itemBuilder: (context) {
-        return menus;
-      },
-    );
-  }
-
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
