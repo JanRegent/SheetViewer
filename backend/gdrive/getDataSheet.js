@@ -1,21 +1,19 @@
 
 function getdatasheet(eParameters) {
-  var sheet, sheetConfig;
+  var sheet, config;
   try {
     var sheetName = decodeURI(eParameters['sheetname']);
     var sheetUrl = '';
 
     if (sheetName.endsWith('__config__')) {
-      var configSS = SpreadsheetApp.openById(eParameters['fileid']);
-      var sheetConfig  = configSS.getSheetByName(sheetName );
-      var config = getDataSheetConfig(sheetConfig );
+      config  = getConfig_(eParameters['fileid'],sheetName);
       sheet  = SpreadsheetApp.openByUrl(config.url[0]).getSheetByName(config.sheetName[0]);
       sheetUrl = config.url[0];
     }
     else {
       var dataSS = SpreadsheetApp.openById(eParameters['fileid']);
       sheet  = dataSS.getSheetByName(sheetName );
-      sheetConfig  = dataSS.getSheetByName(sheetName+'__config__' );
+      config  = getConfig_(eParameters['fileid'],sheetName );
       sheetUrl = 'https://docs.google.com/spreadsheets/d/' +eParameters['fileid'][0];
     }
 
@@ -23,18 +21,18 @@ function getdatasheet(eParameters) {
     logi(e);
     var testSS = SpreadsheetApp.openById(contentId); 
     sheet  = testSS.getSheetByName('DemoSheet');
-    sheetConfig  = testSS.getSheetByName('DemoSheet__config__' );
+    config  = getConfig_(contentId,'DemoSheet' );
     sheetUrl = contentId;
 
   }
-  return getDataSheet2(sheet, sheetConfig, sheetUrl);
+  return getDataSheet2(sheet, config, sheetUrl);
 }
 
-function getDataSheet2(sheet, sheetConfig, sheetUrl){
+function getDataSheet2(sheet, config, sheetUrl){
   var objectArray = [];
 
-  if (sheetConfig !== undefined)
-    var config = getDataSheetConfig(sheetConfig);
+ 
+
   var values = sheet.getDataRange().getValues();
 
   var columns = values[0];
@@ -47,10 +45,17 @@ function getDataSheet2(sheet, sheetConfig, sheetUrl){
     objectArray.push(object);   
   }
  
+  var columnsSelected;
+  try {
+    columnsSelected = config['columnsSelected'];
+  }catch{
+    columnsSelected = columns;
+  }
  
   var output = JSON.stringify({
     cols: columns,
-    columnsSelected: config['columnsSelected'],
+    columnsSelected: columnsSelected,
+    config: config,
     sheetUrl: sheetUrl,
     rows: objectArray,
   });
@@ -59,30 +64,7 @@ function getDataSheet2(sheet, sheetConfig, sheetUrl){
   return output;
 }
 
-function getDataSheetConfig(sheetConfig ){
-  
-  try {
-    var values = sheetConfig.getDataRange().getValues();
-  }catch(_) {
-    //no__sheet__config__
-    return {configState: 'no__sheet__config__'}  
-  }
-  var values = sheetConfig.getDataRange().getValues();
-  var params = {} 
-  for (var i = 0; i < values.length; i++) {
-    
-    var rowCells = [];
-    for (var j = 1; j < values[i].length; j++) {
-      if (values[i][j] != '')
-        rowCells.push(values[i][j]);
 
-    }
-    params[values[i][0]] = rowCells;
-          
-  }
- 
-  return params;
-}
 
 function getSheet__test() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -92,19 +74,12 @@ function getSheet__test() {
 }
 
 function getSheet__test2() {
-  var ss = SpreadsheetApp.openById('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis');
 
-  var sheetConfig = ss.getSheetByName('Launch Database__config__');
-
-  var config = getDataSheetConfig(sheetConfig );
-
-  Logger.log(config.url[0]);
-  Logger.log(config.sheetName[0]);
-
+  var config = getConfig_('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'Launch Database__config__' );
   
   var sheet  = SpreadsheetApp.openByUrl(config.url[0]).getSheetByName(config.sheetName[0]);
 
-  getDataSheet2(sheet, sheetConfig, config.url[0] );
+  getDataSheet2(sheet, config, config.url[0] );
 }
 
 function getSheet__test3temp() {
