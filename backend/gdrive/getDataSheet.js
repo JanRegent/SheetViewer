@@ -32,7 +32,9 @@ function getdatasheet(eParameters) {
 
 function getDataSheet2(sheet, sheetConfig, sheetUrl){
   var objectArray = [];
-  var config = getDataSheetConfig(sheetConfig);
+
+  if (sheetConfig !== undefined)
+    var config = getDataSheetConfig(sheetConfig);
   var values = sheet.getDataRange().getValues();
 
   var columns = values[0];
@@ -103,4 +105,14 @@ function getSheet__test2() {
   var sheet  = SpreadsheetApp.openByUrl(config.url[0]).getSheetByName(config.sheetName[0]);
 
   getDataSheet2(sheet, sheetConfig, config.url[0] );
+}
+
+function getSheet__test3temp() {
+ 
+
+  var tempUrl = 'https://docs.google.com/spreadsheets/d/1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis/edit#gid=575489284';
+  
+  var sheet  = SpreadsheetApp.openByUrl(tempUrl).getSheetByName('__temp__');
+
+  getDataSheet2(sheet);
 }

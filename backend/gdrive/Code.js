@@ -20,6 +20,8 @@ function doGet(e) {
       return respond(getFileList(e.parameters)); 
     case "getdatasheet":
       return respond(getdatasheet(e.parameters));        
+    case "selectcontains":
+      return respond(selectcontains()); 
     default:
       return respond('{error: "Parameter Action has no expected value"}');
   }
