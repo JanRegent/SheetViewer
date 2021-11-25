@@ -2,6 +2,10 @@ function selectContains(fileId, sheetName) {
   var sheetTemp = SpreadsheetApp.getActive().getSheetByName('__temp__');
   sheetTemp.clear();
   var sheet = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
+  var sheetConfig  = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );
+  var config = getDataSheetConfig(sheetConfig);
+  Logger.log(config);
+
   var values = sheet.getDataRange().getValues();
   sheetTemp.appendRow(values[0]);
 
@@ -9,14 +13,14 @@ function selectContains(fileId, sheetName) {
   var sheetUrl = 'Query(IMPORTRANGE("' + fileId + '"';
   var sheetRange = ',"' + sheetName + '!A:A"' ;
   var sel = ',"SELECT Col1 WHERE Col1 contains \'ego\' ';
-  sheetTemp.getRange('A2').setFormula(sheetUrl +  sheetRange +')' + ',"SELECT Col1 WHERE Col1 contains \'ego\' ")'  );
+  sheetTemp.getRange('A2').setFormula(sheetUrl +  sheetRange +')' + sel + ' ")'  );
 
   
   return getTemp();
 }
 
 function selectContainsTest(){
-  return selectContains("1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA" ,"DailyNotes");
+  return selectContains("1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw" ,"DailyNotes");
 }
 
 //holds processing of next script till last one has completed
@@ -52,7 +56,7 @@ function getTemp(){
     //sheetUrl: sheetUrl,
     rows: objectArray,
   });
-  Logger.log(output);
+  //Logger.log(output);
 
   return output;
 }
