@@ -2,8 +2,7 @@ function selectContains(fileId, sheetName) {
   var sheetTemp = SpreadsheetApp.getActive().getSheetByName('__temp__');
   sheetTemp.clear();
   var sheet = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
-  var sheetConfig  = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );
-  var config = getDataSheetConfig(sheetConfig);
+  var config  = getConfig_(fileId,sheetName );
   Logger.log(config);
 
   var values = sheet.getDataRange().getValues();

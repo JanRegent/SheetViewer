@@ -5,7 +5,6 @@ function respond(response) {
 }
 
 function doGet(e) {
-  return respond(selectContainsTest()); 
  var v = PropertiesService.getScriptProperties().getProperties();
   logi('----------------------------------------------');
   if(typeof e.parameter.action === "undefined") {

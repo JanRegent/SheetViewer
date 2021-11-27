@@ -15,7 +15,7 @@
   }
 
   var selectArr = [];
-  function getSelect(rowIxCurr) {
+  function getSelect1(rowIxCurr) {
 
     function removeLabel(array, label){
       const index = array.indexOf(label);
@@ -27,7 +27,7 @@
 
     var selectObj = {};
     if (values[rowIxCurr][1] !== '')
-      selectObj['columnsSelected'] = removeLabel(values[rowIxCurr], 'select');
+      selectObj['columnsSelected'] = removeLabel(values[rowIxCurr], 'select1');
     selectObj['where'] = removeLabel(values[rowIxCurr+1], 'where');
     selectArr.push(selectObj); 
   }
@@ -37,8 +37,8 @@
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     
     if (values[rowIx][0] == '') continue;
-    if (values[rowIx][0] == 'select') {
-      getSelect(rowIx);
+    if (values[rowIx][0] == 'select1') {
+      getSelect1(rowIx);
       rowIx = rowIx + 1;
       continue;
     }
@@ -55,10 +55,10 @@
   //-------------------------------------columnsSelected in select
   if( configObj['columnsSelected'] === undefined)  
     configObj['columnsSelected'] = cols;
-  configObj['selects'] = selectArr;
-  for (var rowIx = 0; rowIx < configObj.selects.length; rowIx++) {
-    if (configObj.selects[rowIx].columnsSelected === undefined) 
-      configObj.selects[rowIx]['columnsSelected'] = configObj['columnsSelected'];
+  configObj['selects1'] = selectArr;
+  for (var rowIx = 0; rowIx < configObj.selects1.length; rowIx++) {
+    if (configObj.selects1[rowIx].columnsSelected === undefined) 
+      configObj.selects1[rowIx]['columnsSelected'] = configObj['columnsSelected'];
   }
 
   return configObj;

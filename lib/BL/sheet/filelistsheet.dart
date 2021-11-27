@@ -1,6 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
+
+import '../bl.dart';
 
 class FileListSheet {
   List<String> cols = [];
@@ -13,7 +13,7 @@ class FileListSheet {
     if (jsonData.isEmpty) return FileListSheet();
     try {
       FileListSheet anySheet = FileListSheet();
-      anySheet.cols = toListString(jsonData["cols"]);
+      anySheet.cols = bl.toListString(jsonData["cols"]);
       anySheet.rows = jsonData["rows"];
       return anySheet;
     } catch (e) {
@@ -21,14 +21,6 @@ class FileListSheet {
       return FileListSheet();
     }
   }
-}
-
-List<String> toListString(List<dynamic> items) {
-  List<String> list = [];
-  for (var item in items) {
-    list.add(item.toString());
-  }
-  return list;
 }
 
 class TabsListSheet {
