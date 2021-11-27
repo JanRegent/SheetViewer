@@ -7,7 +7,6 @@ import '../bl.dart';
 class DataSheet {
   List<String> cols = [];
   List<dynamic> rows = [];
-  List<String> columnsSelected = [];
   String sheetUrl = '';
   SheetConfig config = SheetConfig();
 
@@ -25,9 +24,6 @@ class DataSheet {
       DataSheet anySheet = DataSheet()
         ..config = config_
         ..cols = cols
-        ..columnsSelected = jsonData["columnsSelected"] != null
-            ? List<String>.from(jsonData["columnsSelected"])
-            : cols
         ..sheetUrl = jsonData["sheetUrl"]
         ..rows = jsonData["rows"];
       return anySheet;
@@ -39,6 +35,8 @@ class DataSheet {
 }
 
 class SheetConfig {
+  String sheetName = '';
+  String fileId = '';
   List<String> columnsSelected = [];
   List<String> selects1 = [];
   String copyrightUrl = '';
@@ -46,21 +44,25 @@ class SheetConfig {
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
+    config.sheetName = config_['sheetName'];
+    config.fileId = config_['fileId'][0];
     config.columnsSelected = bl.toListString(config_['columnsSelected']);
-    print(config_);
     config.copyrightUrl = config_['copyrightUrl'][0];
     for (var item in config_['selects1']) {
       config.selects1.add(json.encode(item));
     }
-    print(config.selects1[1]);
     return config;
   }
 
   @override
   String toString() {
     return ''' 
-    $columnsSelected 
-    $copyrightUrl
+    sheetName:        $sheetName
+    fileId:           $fileId 
+    columnsSelected:  $columnsSelected 
+    copyrightUrl:     $copyrightUrl
+
+    selects1:
     $selects1
     ''';
   }

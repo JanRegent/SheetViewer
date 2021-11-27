@@ -45,16 +45,8 @@ function getDataSheet2(sheet, config, sheetUrl){
     objectArray.push(object);   
   }
  
-  var columnsSelected;
-  try {
-    columnsSelected = config['columnsSelected'];
-  }catch{
-    columnsSelected = columns;
-  }
- 
   var output = JSON.stringify({
     cols: columns,
-    columnsSelected: columnsSelected,
     config: config,
     sheetUrl: sheetUrl,
     rows: objectArray,

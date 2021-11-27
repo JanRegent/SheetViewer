@@ -33,7 +33,13 @@
   }
 
   var values = sheetConfig.getDataRange().getValues();
-  var configObj = {} 
+  var configObj = {
+    sheetName: sheetName,
+    fileId: fileId
+  } 
+  
+  Logger.log(configObj);
+  
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     
     if (values[rowIx][0] == '') continue;

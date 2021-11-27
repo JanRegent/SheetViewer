@@ -25,10 +25,12 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0; colIx < dataSheet.columnsSelected.length; colIx++) {
+    for (var colIx = 0;
+        colIx < dataSheet.config.columnsSelected.length;
+        colIx++) {
       String value = '';
       try {
-        value = dataSheet.rows[rowIx][dataSheet.columnsSelected[colIx]];
+        value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
       } catch (_) {
         value = '?';
       }
