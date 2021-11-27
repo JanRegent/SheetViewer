@@ -33,16 +33,28 @@
   }
 
   var values = sheetConfig.getDataRange().getValues();
-  var configObj = {
-    sheetName: sheetName,
-    fileId: fileId
-  } 
-  
+  var configObj = { } 
+    for (var rowIx = 0; rowIx < values.length; rowIx++) {
+    
+    if (values[rowIx][0] == '') continue;
+    if (values[rowIx][0] == 'sheetName') {
+      configObj['sheetName'] = values[rowIx][1];  
+      continue;
+    }
+    if (values[rowIx][0] == 'fileId') {
+      configObj['fileId'] = values[rowIx][1];  
+      continue;
+    }
+           
+  }
   Logger.log(configObj);
   
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     
     if (values[rowIx][0] == '') continue;
+    if (values[rowIx][0] == 'sheetName') continue;
+    if (values[rowIx][0] == 'fileId') continue;
+
     if (values[rowIx][0] == 'select1') {
       getSelect1(rowIx);
       rowIx = rowIx + 1;
