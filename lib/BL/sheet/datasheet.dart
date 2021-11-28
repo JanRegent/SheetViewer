@@ -14,16 +14,18 @@ class DataSheet {
 
   factory DataSheet.fromJson(Map jsonData) {
     SheetConfig config_ = SheetConfig.fromJson(jsonData['config']);
-
+    print(config_.toString());
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
       if (config_.columnsSelected.isEmpty) config_.columnsSelected = cols;
+
       DataSheet anySheet = DataSheet()
         ..config = config_
         ..cols = cols
         ..rows = jsonData["rows"];
       return anySheet;
     } catch (e) {
+      print(e);
       return DataSheet();
     }
   }
@@ -46,8 +48,8 @@ class SheetConfig {
     try {
       config.columnsSelected = bl.toListString(config_['columnsSelected']);
       config.sheetUrl = config_["sheetUrl"];
-      config_['copyrightUrl'] != '' ? config_['copyrightUrl'] : '';
-      config_['sheetUrl:'] != '' ? config_['sheetUrl:'] : '';
+      config.copyrightUrl = config_['copyrightUrl'];
+      config.sheetUrl = config_['sheetUrl:'];
       for (var item in config_['selects1']) {
         config.selects1.add(json.encode(item));
       }
