@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import '../bl.dart';
@@ -16,17 +14,16 @@ class DataSheet {
 
   factory DataSheet.fromJson(Map jsonData) {
     SheetConfig config_ = SheetConfig.fromJson(jsonData['config']);
-    print('--------------');
-    print(config_.toString());
+
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
+      if (config_.columnsSelected.isEmpty) config_.columnsSelected = cols;
       DataSheet anySheet = DataSheet()
         ..config = config_
         ..cols = cols
         ..rows = jsonData["rows"];
       return anySheet;
     } catch (e) {
-      //rint(e);
       return DataSheet();
     }
   }
@@ -46,13 +43,18 @@ class SheetConfig {
     SheetConfig config = SheetConfig();
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
-    config.columnsSelected = bl.toListString(config_['columnsSelected']);
-    config.sheetUrl = config_["sheetUrl"][0];
-    config.copyrightUrl = config_['copyrightUrl'][0];
-    for (var item in config_['selects1']) {
-      config.selects1.add(json.encode(item));
+    try {
+      config.columnsSelected = bl.toListString(config_['columnsSelected']);
+      config.sheetUrl = config_["sheetUrl"];
+      config_['copyrightUrl'] != '' ? config_['copyrightUrl'] : '';
+      config_['sheetUrl:'] != '' ? config_['sheetUrl:'] : '';
+      for (var item in config_['selects1']) {
+        config.selects1.add(json.encode(item));
+      }
+      return config;
+    } catch (e) {
+      return config;
     }
-    return config;
   }
 
   @override

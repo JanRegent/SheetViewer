@@ -1,18 +1,62 @@
   function getConfig_(fileId, sheetName ){
   
-  try {
-    var sheetConfig;
-    if (sheetName.endsWith('__config__'))
-      sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
-    else
-      sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );  
+    var config = { 
+        sheetName: sheetName,
+        fileId: fileId,
 
-    var sheet  = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
-    var cols = sheet.getDataRange().getValues()[0];
-  }catch(_) {
-    //no__sheet__config__
-    return {configState: 'no__sheet__config__'}  
-  }
+        copyrightUrl: '',
+        sheetUrl: '',
+
+        columnsSelected: [],
+        selects1: [],
+        __ver__: '0'
+      }
+
+    if (sheetName == null) {
+        config.sheetName = sheetName;
+        config.fileId =  fileId;
+        config.__ver__ = 'sheetName == null';
+        return config;
+    }
+
+    try {
+      var sheetConfig;
+      if (sheetName.endsWith('__config__'))
+        sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
+      else
+        sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );  
+
+
+      //--------------------------------------------------------------------config NO exists
+      if (sheetConfig === undefined) {
+        config.sheetName = sheetName;
+        config.fileId =  fileId;
+        config.__ver__ = 'undefined';
+        return config;
+      }
+      //--------------------------------------------------------------------config exists
+    
+      var values = sheetConfig.getDataRange().getValues();
+      for (var rowIx = 0; rowIx < values.length; rowIx++) {
+      
+        if (values[rowIx][0] == '') continue;
+        if (values[rowIx][0] == 'sheetName') {
+          config.sheetName = values[rowIx][1];  
+          continue;
+        }
+        if (values[rowIx][0] == 'fileId') {
+          config.fileId = values[rowIx][1];  
+          continue;
+        }
+              
+      }
+
+    }catch(_) {
+      config.sheetName = sheetName;
+      config.fileId =  fileId;
+      config.__ver__ = 'catch';
+      return config;
+    }
 
   var selectArr = [];
   function getSelect1(rowIxCurr) {
@@ -32,23 +76,18 @@
     selectArr.push(selectObj); 
   }
 
-  var values = sheetConfig.getDataRange().getValues();
-  var configObj = { } 
-    for (var rowIx = 0; rowIx < values.length; rowIx++) {
-    
-    if (values[rowIx][0] == '') continue;
-    if (values[rowIx][0] == 'sheetName') {
-      configObj['sheetName'] = values[rowIx][1];  
-      continue;
+  function getLabelArr(rowIx){
+    var rowCellsArr = [];
+    for (var j = 1; j < values[rowIx].length; j++) {
+      if (values[rowIx][j] != '')
+        rowCellsArr.push(values[rowIx][j]);
+
     }
-    if (values[rowIx][0] == 'fileId') {
-      configObj['fileId'] = values[rowIx][1];  
-      continue;
-    }
-           
+    return rowCellsArr;
   }
-  Logger.log(configObj);
+
   
+  //-----------------------------------------------------------others pars 
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     
     if (values[rowIx][0] == '') continue;
@@ -61,25 +100,36 @@
       continue;
     }
 
+    if (values[rowIx][0] == 'columnsSelected' ) {
+      config.columnsSelected = getLabelArr(rowIx);
+      continue;
+    }
+
+
     var rowCells = [];
     for (var j = 1; j < values[rowIx].length; j++) {
       if (values[rowIx][j] != '')
         rowCells.push(values[rowIx][j]);
 
     }
-    configObj[values[rowIx][0]] = rowCells;
+    config[values[rowIx][0]] = rowCells;
           
   }
-  //-------------------------------------columnsSelected in select
-  if( configObj['columnsSelected'] === undefined)  
-    configObj['columnsSelected'] = cols;
-  configObj['selects1'] = selectArr;
-  for (var rowIx = 0; rowIx < configObj.selects1.length; rowIx++) {
-    if (configObj.selects1[rowIx].columnsSelected === undefined) 
-      configObj.selects1[rowIx]['columnsSelected'] = configObj['columnsSelected'];
+  //---------------------------------------------------columnsSelected in selects
+  //cols    
+  var sheet  = SpreadsheetApp.openById(config.fileId).getSheetByName(config.sheetName);
+  Logger.log(sheet.getName());
+  var cols = sheet.getDataRange().getValues()[0];
+  Logger.log(cols);
+  if( config.columnsSelected == [])  
+    config.columnsSelected = cols;
+  config.selects1 = selectArr;
+  for (var rowIx = 0; rowIx < config.selects1.length; rowIx++) {
+    if (config.selects1[rowIx].columnsSelected === undefined) 
+      config.selects1[rowIx]['columnsSelected'] = config['columnsSelected'];
   }
-
-  return configObj;
+  config.__ver__ = 'defined/final';
+  return config;
 }
 
 
