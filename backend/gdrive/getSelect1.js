@@ -12,12 +12,14 @@ Logger.log(config.selects1[index].where)
 
 
 function getSelect1(fileId, sheetName, column, operator, value) {
+  
   var sheetTemp = SpreadsheetApp.getActive().getSheetByName('__temp__');
+  if (!sheetTemp) ss.insertSheet('__temp__');
   sheetTemp.clear();
 
 
 
-  var sheet = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
+  var sheet = SpreadsheetApp  .openById(fileId).getSheetByName(sheetName);
   var values = sheet.getDataRange().getValues();
     var cols = values[0];
   

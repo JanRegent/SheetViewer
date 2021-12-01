@@ -1,4 +1,5 @@
 function respond(response) {  
+  //Logger.log(response);
   return ContentService
   .createTextOutput(response)
   .setMimeType(ContentService.MimeType.JSON)
@@ -22,6 +23,8 @@ function doGet(e) {
       return respond(getdatasheet(e.parameters));        
     case "selectcontains":
       return respond(selectcontains()); 
+    case "post":
+      return respond(getTemp() );
     default:
       return respond('{error: "Parameter Action has no expected value"}');
   }
