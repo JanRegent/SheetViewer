@@ -1,57 +1,20 @@
-function postTest() {
-  var pars =  {
-  "queryString": "username=jsmith&age=21",
-  "parameters": {
-    "name": "jsmith",
-    "age": "21",
-    'pets': ['fido', 'fluffy']
-  },
-
-  "contentLength": -1
-}
-
-  // var url = "https://script.google.com/macros/s/AKfycbz6DHpu8cDxYbGVdqfWknkl3z0EVpoYrBxpEPSvuK0BZTGM-YkShnbPZV14favw5pqR/exec" ;
-
-  // // Make a POST request with a JSON payload.
-  // var data = {
-  //   'name': 'Bob Smith',
-  //   'age': 35,
-  //   'pets': ['fido', 'fluffy']
-  // };
-  // var options = {
-  //   'method' : 'post',
-  //   'contentType': 'application/json',
-  //   // Convert the JavaScript object to a JSON string.
-  //   'payload' : JSON.stringify(data)
-  // };
-  // var response = UrlFetchApp.fetch(url, options);  
-
-  r = doPost(pars);
-  Logger.log('-----');
-  Logger.log(r);
-
-}
 
 
 function doPost (e){
-  var e =  {
-  "queryString": "username=jsmith&age=21",
-  "parameters": {
-    "name": "jsmith",
-    "age": "21",
-    'pets': ['fido', 'fluffy']
-  },
-
-  "contentLength": -1
-}
   if(!e) return err("No e");
   if(!e.parameters) return err("No params");
-  if(!e.parameters.age) return err("No age");
-  if(!e.parameters.name) return err("No name");
-  if(!e.parameters.pets) return err("No pets");
+  if(!e.parameters.fileId) return err("No fileId");
 
-  return respond(getTemp() );
+  logi(e.parameters.name[0]);
+  logi(e.parameters.fileId[0]);
+  logi(e.parameters.sheetName[0]);
+  logi(e.parameters.column[0]);
+  logi(e.parameters.operator[0]);
+  logi(e.parameters.value[0]);
+
+  return respond(getSelect1(e.parameters.fileId[0],e.parameters.sheetName[0],e.parameters.column[0], e.parameters.operator[0], e.parameters.value[0]) );
 }
+
 
 
 function err(errMsg){
@@ -61,4 +24,26 @@ function err(errMsg){
   });
   Logger.log(output);
   return respond(output);
+}
+
+function postTest() {
+  var pars =  {
+    "parameters": {
+      "name": ["jsmith1"],
+      "fileId": ["1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw"],
+      'sheetName': ["DailyNotes"],
+      'column': ["cesky"],
+      'operator': ["contains"],
+      'value': ["laska"]
+    },
+
+    "contentLength": -1
+  }
+
+  
+
+  r = doPost(pars);
+  Logger.log('-----');
+  Logger.log(r);
+
 }

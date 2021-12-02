@@ -12,14 +12,23 @@ Logger.log(config.selects1[index].where)
 
 
 function getSelect1(fileId, sheetName, column, operator, value) {
+
   
+  
+  logi(fileId);
+  logi(sheetName);
+  logi(column);
+  logi(operator);
+  logi(value);
+
   var sheetTemp = SpreadsheetApp.getActive().getSheetByName('__temp__');
   if (!sheetTemp) ss.insertSheet('__temp__');
+  logi('3');
   sheetTemp.clear();
 
 
 
-  var sheet = SpreadsheetApp  .openById(fileId).getSheetByName(sheetName);
+  var sheet = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
   var values = sheet.getDataRange().getValues();
     var cols = values[0];
   
@@ -40,6 +49,7 @@ function getSelect1(fileId, sheetName, column, operator, value) {
   var colIndex = cols.indexOf(column) + 1;
   var col = 'Col' + colIndex.toString();
   var sel = ',"SELECT ' + allcols +' WHERE '+ col +' '+operator+' \''+value+'\' ';
+  logi(sel);
   sheetTemp.getRange('A1').setFormula(sheetUrl +  sheetRange +')' + sel + ' ")'  );
 
   
@@ -47,7 +57,7 @@ function getSelect1(fileId, sheetName, column, operator, value) {
 }
 
 function selectContainsTest(){
-  return getSelect1("1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw" ,"DailyNotes", 'cesky', 'contains', 'ego');
+  return getSelect1("1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw" ,"DailyNotes", 'cesky', 'contains', 'Filozof');
 }
 
 function selectByIndexTest(){
