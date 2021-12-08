@@ -15,6 +15,9 @@ function doGet(e) {
   logi('action: ' + action);
 
   switch(action) {
+    case "logon": //?action=gettabslist
+      logOn_();
+      return respond('{action:logOn}');
     case "gettabslist": //?action=gettabslist
       return respond(getTabsList(e.parameters)); 
     case "getfilelist":
@@ -26,7 +29,7 @@ function doGet(e) {
     case "post":
       return respond(getTemp() );
     default:
-      return respond('{error: "Parameter Action has no expected value"}');
+      return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
  
  

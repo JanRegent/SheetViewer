@@ -10,10 +10,10 @@ import 'AL/__home/tabslistpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await logOn();
   await getContentServiceUrl();
   String resp = await post0('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw',
       'dailyNotes', 'cesky', 'contains', 'laska');
-  print(resp);
   runApp(const TabsListsPage());
   //runApp(const CounterApp());
 }

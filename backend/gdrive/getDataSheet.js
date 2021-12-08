@@ -1,15 +1,20 @@
 
 function getdatasheet(eParameters) {
   var sheet, config;
+
   try {
     var sheetName = decodeURI(eParameters['sheetname']);
 
     if (sheetName.endsWith('__config__')) {
       config  = getConfig_(eParameters['fileid'],sheetName);
       sheet  = SpreadsheetApp.openByUrl(config.url[0]).getSheetByName(config.sheetName[0]);
+      logi('dataSSUrl from __config__')
+      logi(config.url[0]);
     }
     else {
       var dataSS = SpreadsheetApp.openById(eParameters['fileid']);
+      logi('dataSSUrl')
+      logi(dataSS.getUrl());
       sheet  = dataSS.getSheetByName(sheetName );
       config  = getConfig_(eParameters['fileid'],sheetName );
     }
@@ -17,17 +22,21 @@ function getdatasheet(eParameters) {
   }catch(e) {
     logi(e);
     var testSS = SpreadsheetApp.openById(contentId); 
+    logi('testUrl')
+    logi(testSS.getUrl());
     sheet  = testSS.getSheetByName('DemoSheet');
     config  = getConfig_(contentId,'DemoSheet' );
 
+
   }
+
   return getDataSheet2(sheet, config);
 }
 
 function getDataSheet2(sheet, config){
   var objectArray = [];
 
- Logger.log(config);
+  logi('sheetname: ' + sheet.getName().toString() );
 
   var values = sheet.getDataRange().getValues();
 
@@ -46,14 +55,16 @@ function getDataSheet2(sheet, config){
     config: config,
     rows: objectArray,
   });
-  Logger.log(output);
-
+  
+  logi('rows: ' + objectArray.length);
+  logi(output.toString());
   return output;
 }
 
 
 
 function getSheet__test_DemoSheet() {
+  logClear();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getActiveSheet();
   getdatasheet();
@@ -61,7 +72,7 @@ function getSheet__test_DemoSheet() {
 }
 
 function getSheet__test2__config() {
-
+  logClear();
   var config = getConfig_('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'Launch Database__config__' );
   
   var sheet  = SpreadsheetApp.openById(config.fileId).getSheetByName(config.sheetName);
@@ -70,7 +81,7 @@ function getSheet__test2__config() {
 }
 
 function getSheet__test3temp() {
- 
+  logClear();
   var config = getConfig_('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis','__temp__' );
 
   var tempUrl = 'https://docs.google.com/spreadsheets/d/1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis/edit#gid=575489284';

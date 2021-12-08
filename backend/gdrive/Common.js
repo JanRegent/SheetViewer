@@ -1,6 +1,14 @@
 var testSSid = '1aVOXBHhXJJsHeXFC4kVXZ2CJcV6sHPcIi1cBqxJi8jU';
 var contentId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
 
+function logOn_() {
+  logClear();
+}
+
+function logClear(){
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('log').clear();
+}
+
 function logi(mess){
   SpreadsheetApp.getActiveSpreadsheet().getSheetByName('log')
         .appendRow([new Date(), mess]);

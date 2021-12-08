@@ -32,21 +32,14 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   try {
     String urlQuery =
         Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
-    //rint(urlQuery);
+
     var response = await Dio().get(urlQuery);
+    print(response.data);
     DataSheet dataSheet = DataSheet.fromJson(response.data);
     updateString(key, json.encode(response.data));
     return dataSheet;
   } catch (e) {
     return DataSheet();
-  }
-}
-
-Future<String> loadAssetString(String varname) async {
-  try {
-    return await rootBundle.loadString('config/$varname.txt');
-  } catch (_) {
-    return '';
   }
 }
 
@@ -93,6 +86,18 @@ Future<String> getTabsList() async {
     return '';
   }
 }
+
+Future<String> logOn() async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
+  try {
+    var response = await Dio().get(contentServiceUrl + '?action=logOn');
+    String resp = response.data.toString();
+    return resp;
+  } catch (e) {
+    return '';
+  }
+}
 //-------------------------------------------------------------------CRUD
 
 Future updateString(String key, String jsonString) async {
@@ -131,4 +136,13 @@ Future deleteStringFileId(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
   await deleteString(key);
+}
+
+//-------------------------------------------------------------assets
+Future<String> loadAssetString(String varname) async {
+  try {
+    return await rootBundle.loadString('config/$varname.txt');
+  } catch (_) {
+    return '';
+  }
 }
