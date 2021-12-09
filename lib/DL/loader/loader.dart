@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
@@ -34,7 +35,9 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
         Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
 
     var response = await Dio().get(urlQuery);
-    print(response.data);
+    print(
+      "${response.statusCode} :  ${response.data}",
+    );
     DataSheet dataSheet = DataSheet.fromJson(response.data);
     updateString(key, json.encode(response.data));
     return dataSheet;

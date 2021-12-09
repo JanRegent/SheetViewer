@@ -1,4 +1,11 @@
 cls
+cd web
+cd assets
+cd config
+xcopy ..\..\..\assets\config\contentServiceUrl.txt /y
+cd ..\..\..\
 flutter build web
-echo cd
-xcopy assets\config\contentServiceUrl.txt build\web\assets\config\contentServiceUrl.txt
+
+
+
+
