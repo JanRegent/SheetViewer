@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
@@ -7,6 +6,7 @@ import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
@@ -29,15 +29,26 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
     var jsonData = json.decode(jsonString);
     return DataSheet.fromJson(jsonData);
   }
+  Dio dio = Dio();
+  dio.interceptors.add(PrettyDioLogger());
+  // customization
+  dio.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 90));
 
   try {
     String urlQuery =
         Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
 
-    var response = await Dio().get(urlQuery);
-    print(
-      "${response.statusCode} :  ${response.data}",
-    );
+    var response = await dio.get(urlQuery);
+    // print(
+    //   "${response.statusCode} :  ${response.data}",
+    // );
     DataSheet dataSheet = DataSheet.fromJson(response.data);
     updateString(key, json.encode(response.data));
     return dataSheet;

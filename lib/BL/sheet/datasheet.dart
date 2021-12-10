@@ -14,7 +14,6 @@ class DataSheet {
 
   factory DataSheet.fromJson(Map jsonData) {
     SheetConfig config_ = SheetConfig.fromJson(jsonData['config']);
-    print(config_.toString());
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
       if (config_.columnsSelected.isEmpty) config_.columnsSelected = cols;
@@ -25,7 +24,7 @@ class DataSheet {
         ..rows = jsonData["rows"];
       return anySheet;
     } catch (e) {
-      print(e);
+      //rint(e);
       return DataSheet();
     }
   }
