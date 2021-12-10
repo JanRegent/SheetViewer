@@ -29,3 +29,43 @@ function containsEncodedComponents(x) {
 
 //console.log(containsEncodedComponents('%D1%88%D0%B5%D0%BB%D0%BB%D1%8B')); // шеллы
 // expected output: false
+
+
+ /**
+ * return an object describing what was passed
+ * @param {*} ob the thing to analyze
+ * @return {object} object information
+ */
+function whatAmI (ob) {
+ 
+  try {
+    // test for an object
+    if (ob !== Object(ob)) {
+        return {
+          type:typeof ob,
+          value: ob,
+          length:typeof ob === 'string' ? ob.length : null 
+        } ;
+    }
+    else {
+      try {
+        var stringify = JSON.stringify(ob);
+      }
+      catch (err) {
+        var stringify = '{"result":"unable to stringify"}';
+      }
+      return {
+        type:typeof ob ,
+        value : stringify,
+        name:ob.constructor ? ob.constructor.name : null,
+        nargs:ob.constructor ? ob.constructor.arity : null,
+        length:Array.isArray(ob) ? ob.length:null
+      };       
+    }
+  }
+  catch (err) {
+    return {
+      type:'unable to figure out what I am'
+    } ;
+  }
+  }

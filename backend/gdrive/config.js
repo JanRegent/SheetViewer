@@ -27,7 +27,8 @@ function getConfig_(fileId, sheetName ){
     //-------------------------------------------------------------------cofig NO exists
   if (sheetConfig == null)   {
     config.sheetName = sheetName;
-    config.fileId =  fileId;
+    config.fileId =  fileId; //backend input
+    if (whatAmI(fileId).name == 'Array' ) config.fileId =  fileId[0]; //e.parameters
     config.columnsSelected = getCols(config.fileId, config.sheetName);
     config.__ver__ = '__wrong__config__NotExist';
     logi('config __wrong__config__NotExist');
@@ -141,6 +142,7 @@ function getConfig_test_wrong() {
 }
 
 function getConfig_test_config_NOexists() {
+  logClear();
   Logger.log(getConfig_('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'DemoSheetNoConfig'));
 }
 
