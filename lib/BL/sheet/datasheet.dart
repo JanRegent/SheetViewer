@@ -9,6 +9,7 @@ class DataSheet {
 
   //temp
   String sheetTitle = '';
+  Map rawDataSheet = {};
 
   DataSheet();
 
@@ -17,12 +18,13 @@ class DataSheet {
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
       if (config_.columnsSelected.isEmpty) config_.columnsSelected = cols;
-      print(config_.toString());
+
       DataSheet anySheet = DataSheet()
         ..config = config_
         ..cols = cols
         ..rows = jsonData["rows"];
 
+      anySheet.rawDataSheet = jsonData;
       return anySheet;
     } catch (e) {
       return DataSheet();
@@ -59,11 +61,15 @@ class SheetConfig {
   List<String> selects1 = [];
   String copyrightUrl = '';
   String sheetUrl = '';
+
+  Map rawConfig = {};
+
   SheetConfig();
 
   factory SheetConfig.fromJson(Map config_) {
-    print(config_);
     SheetConfig config = SheetConfig();
+    config.rawConfig = config_;
+
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
 

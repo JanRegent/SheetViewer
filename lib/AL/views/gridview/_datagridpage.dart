@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 import '/AL/views/gridview/rows.dart';
 import '../../../BL/sheet/datasheet.dart';
 import '/DL/loader/loader.dart';
@@ -36,6 +37,18 @@ class _DatagridPageState extends State<DatagridPage> {
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 
+  IconButton jsonViewer() {
+    return IconButton(
+        onPressed: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      JsonViewerPage(dataSheet.rawDataSheet)));
+        },
+        icon: const Icon(Icons.view_agenda));
+  }
+
   final DataGridController _controller = DataGridController();
 
   SfDataGrid sfDataGrid() {
@@ -57,6 +70,7 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.sheetTitle),
+          actions: [jsonViewer()],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work
