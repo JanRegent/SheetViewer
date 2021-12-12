@@ -1,10 +1,10 @@
-function getSelect1byIndex(fileId, sheetName, index) {
+function getSelect1byIndex(fileId, sheetName, selects1Index) {
   var config  = getConfig_(fileId,sheetName );
 
-Logger.log(config.selects1[index].where)
-  var column = config.selects1[index].where[0];
-  operator   = config.selects1[index].where[1];
-  value      = config.selects1[index].where[2];
+Logger.log(config.selects1[selects1Index].where)
+  var column = config.selects1[selects1Index].where[0];
+  operator   = config.selects1[selects1Index].where[1];
+  value      = config.selects1[selects1Index].where[2];
 
   return getSelect1(fileId, sheetName, column, operator, value);
 
@@ -23,7 +23,7 @@ function getSelect1(fileId, sheetName, column, operator, value) {
 
   var sheetTemp = SpreadsheetApp.getActive().getSheetByName('__temp__');
   if (!sheetTemp) ss.insertSheet('__temp__');
-  logi('3');
+  
   sheetTemp.clear();
 
 

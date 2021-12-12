@@ -1,3 +1,10 @@
+/*docs
+
+functions table
+https://support.google.com/docs/table/25273?visit_id=637749230699014120-3574910415&rd=3
+
+*/
+
 var testSSid = '1aVOXBHhXJJsHeXFC4kVXZ2CJcV6sHPcIi1cBqxJi8jU';
 var contentId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
 
