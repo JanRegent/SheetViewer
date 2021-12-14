@@ -41,8 +41,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
         child: ListView.separated(
             controller: _controller,
             separatorBuilder: (context, index) => const Divider(
-                  color: Colors.blue,
-                  height: 2.0,
+                  color: Colors.red,
+                  height: 4.0,
                 ),
             itemCount: fileListSheet.rows.length,
             itemBuilder: (context, index) => Center(
