@@ -21,15 +21,14 @@ ExpansionTileCard filelistCard(
     subtitle: const Text("FLUTTER DEVELOPMENT COMPANY"),
     children: <Widget>[
       //-------------------------------------------------------------last/byValues
+
       ListTile(
-          tileColor: Colors.lightBlue[200],
-          isThreeLine: true,
           leading: last5(
               context,
               bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
               fileListSheet.rows[index]['sheetName'],
               fileListSheet.rows[index]['fileTitle']),
-          subtitle: Text('', style: const TextStyle(fontSize: 20)),
+          //subtitle: Text('', style: const TextStyle(fontSize: 20)),
           title: Row(
             children: [
               ElevatedButton(
@@ -41,7 +40,7 @@ ExpansionTileCard filelistCard(
             ],
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.menu),
+            icon: const Icon(Icons.chevron_right),
             onPressed: () async {
               await Navigator.push(
                   context,
@@ -54,13 +53,11 @@ ExpansionTileCard filelistCard(
       //-------------------------------------------------------------All/selects
       ListTile(
           tileColor: Colors.lightBlue[100],
-          isThreeLine: true,
           leading: showAll(
               context,
               bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
               fileListSheet.rows[index]['sheetName'],
               fileListSheet.rows[index]['fileTitle']),
-          subtitle: Text('', style: const TextStyle(fontSize: 20)),
           title: Row(
             children: [
               ElevatedButton(
@@ -72,7 +69,7 @@ ExpansionTileCard filelistCard(
             ],
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.menu),
+            icon: const Icon(Icons.chevron_right),
             onPressed: () async {
               await Navigator.push(
                   context,
