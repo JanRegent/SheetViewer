@@ -5,7 +5,7 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
-import 'filelistcard2.dart';
+import 'filelistcard_bl.dart';
 import 'filelistviewmenu.dart';
 
 ExpansionTileCard filelistCard(
@@ -17,12 +17,14 @@ ExpansionTileCard filelistCard(
     expandedColor: Colors.red[50],
     key: cardA,
     title: Text(fileListSheet.rows[index]['fileTitle'],
-        style: const TextStyle(fontSize: 20)),
-    subtitle: const Text("FLUTTER DEVELOPMENT COMPANY"),
+        style: const TextStyle(fontSize: 20, color: Colors.black)),
+    subtitle: const Text("FLUTTER DEVELOPMENT COMPANY",
+        style: TextStyle(fontSize: 10, color: Colors.black)),
     children: <Widget>[
       //-------------------------------------------------------------last/byValues
 
       ListTile(
+          tileColor: Colors.lightBlue[200],
           leading: last5(
               context,
               bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
@@ -31,9 +33,7 @@ ExpansionTileCard filelistCard(
           //subtitle: Text('', style: const TextStyle(fontSize: 20)),
           title: Row(
             children: [
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('col1', style: TextStyle(fontSize: 20))),
+              Text('by value: ', style: TextStyle(fontSize: 20)),
               ElevatedButton(
                   onPressed: () {},
                   child: const Text('col2', style: TextStyle(fontSize: 20))),
@@ -52,7 +52,7 @@ ExpansionTileCard filelistCard(
           )),
       //-------------------------------------------------------------All/selects
       ListTile(
-          tileColor: Colors.lightBlue[100],
+          tileColor: Colors.lightBlue[300],
           leading: showAll(
               context,
               bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
@@ -60,9 +60,7 @@ ExpansionTileCard filelistCard(
               fileListSheet.rows[index]['fileTitle']),
           title: Row(
             children: [
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('all', style: TextStyle(fontSize: 20))),
+              Text('by cond: ', style: TextStyle(fontSize: 20)),
               ElevatedButton(
                   onPressed: () {},
                   child: const Text('filter', style: TextStyle(fontSize: 20))),
@@ -78,53 +76,6 @@ ExpansionTileCard filelistCard(
                   ));
             },
           )),
-      ButtonBar(
-        alignment: MainAxisAlignment.spaceAround,
-        buttonHeight: 52.0,
-        buttonMinWidth: 90.0,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              cardA.currentState?.expand();
-            },
-            child: Column(
-              children: const <Widget>[
-                Icon(Icons.arrow_downward),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0),
-                ),
-                Text('Open'),
-              ],
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              cardA.currentState?.collapse();
-            },
-            child: Column(
-              children: const <Widget>[
-                Icon(Icons.arrow_upward),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0),
-                ),
-                Text('Close'),
-              ],
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Column(
-              children: const <Widget>[
-                Icon(Icons.swap_vert),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0),
-                ),
-                Text('Toggle'),
-              ],
-            ),
-          ),
-        ],
-      ),
     ],
   );
 }
