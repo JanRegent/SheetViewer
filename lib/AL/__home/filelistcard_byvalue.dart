@@ -18,9 +18,6 @@ class _ByValePageState extends State<ByValePage> {
 
   Future<String> getConfig() async {
     sheetConfig = await getSheetConfig(widget.fileId, widget.sheetName);
-
-    print(sheetConfig.toString());
-
     return 'ok';
   }
 

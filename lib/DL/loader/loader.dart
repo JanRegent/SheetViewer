@@ -6,6 +6,7 @@ import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
+import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
@@ -63,18 +64,28 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
     String key = 'fileid=$fileId&sheetname=$sheetName';
 
-    //String jsonString = await readString(key);
-    //if (jsonString.isNotEmpty) return jsonString;
+    String jsonString = await readString(key + '__sheetConfig__');
+    if (jsonString.isNotEmpty) {
+      return SheetConfig.fromJson(json.decode(jsonString));
+    }
     String urlQuery = contentServiceUrl + '?action=getSheetConfig&' + key;
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
-
-    //updateString(key, response.data);
+    updateString(key + '__sheetConfig__', json.encode(response.data));
 
     return sheetConfig;
   } catch (e) {
     return SheetConfig();
   }
+}
+
+Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
+  for (var index = 0; index < fileListSheet.rows.length; index++) {
+    String fileId = bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']);
+
+    await getSheetConfig(fileId, fileListSheet.rows[index]['sheetName']);
+  }
+  return 'OK';
 }
 
 Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
