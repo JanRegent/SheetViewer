@@ -6,12 +6,13 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 import 'filelistcard_bl.dart';
+import 'filelistcard_byvalue.dart';
 import 'filelistviewmenu.dart';
 
 ExpansionTileCard filelistCard(
     BuildContext context, FileListSheet fileListSheet, int index) {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
+  String fileId = bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']);
   return ExpansionTileCard(
     baseColor: Colors.cyan[50],
     expandedColor: Colors.red[50],
@@ -30,7 +31,6 @@ ExpansionTileCard filelistCard(
               bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
               fileListSheet.rows[index]['sheetName'],
               fileListSheet.rows[index]['fileTitle']),
-          //subtitle: Text('', style: const TextStyle(fontSize: 20)),
           title: Row(
             children: [
               Text('by value: ', style: TextStyle(fontSize: 20)),
@@ -45,8 +45,8 @@ ExpansionTileCard filelistCard(
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        FilelistDialogPage(title: 'by values'),
+                    builder: (context) => ByValePage(
+                        fileId, fileListSheet.rows[index]['sheetName']),
                   ));
             },
           )),
@@ -55,7 +55,7 @@ ExpansionTileCard filelistCard(
           tileColor: Colors.lightBlue[300],
           leading: showAll(
               context,
-              bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
+              fileId,
               fileListSheet.rows[index]['sheetName'],
               fileListSheet.rows[index]['fileTitle']),
           title: Row(

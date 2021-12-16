@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
+import 'package:sheetviewer/BL/sheet/sheetConfig.dart';
 
 late String contentServiceUrl;
 
@@ -53,6 +54,26 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
     return dataSheet;
   } catch (e) {
     return DataSheet();
+  }
+}
+
+Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
+  try {
+    String key = 'fileid=$fileId&sheetname=$sheetName';
+
+    //String jsonString = await readString(key);
+    //if (jsonString.isNotEmpty) return jsonString;
+    String urlQuery = contentServiceUrl + '?action=getSheetConfig&' + key;
+    var response = await Dio().get(urlQuery);
+    SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
+
+    //updateString(key, response.data);
+
+    return sheetConfig;
+  } catch (e) {
+    return SheetConfig();
   }
 }
 

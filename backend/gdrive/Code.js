@@ -24,6 +24,8 @@ function doGet(e) {
       return respond(getFileList(e.parameters)); 
     case "getdatasheet":
       return respond(getdatasheet(e.parameters));        
+    case "getsheetconfig":
+      return respond(getsheetconfig(e.parameters));    
     case "selectcontains":
       return respond(selectcontains()); 
     case "post":
@@ -31,6 +33,5 @@ function doGet(e) {
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
- 
- 
+  
 }

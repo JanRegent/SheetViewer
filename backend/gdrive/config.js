@@ -1,15 +1,23 @@
 
-    var config = { 
-        sheetName: '',
-        fileId: '',
+function getsheetconfig(eParameters){
+  logi(eParameters['fileid'][0]);
+  logi(eParameters['sheetname'][0]);
+  return JSON.stringify(getConfig_(eParameters['fileid'][0], eParameters['sheetname'][0]));
+}
+//https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
 
-        copyrightUrl: '',
-        sheetUrl: '',
 
-        columnsSelected: [],
-        selects1: [],
-        __ver__: '0'
-      }
+var config = { 
+  sheetName: '',
+  fileId: '',
+
+  copyrightUrl: '',
+  sheetUrl: '',
+
+  columnsSelected: [],
+  selects1: [],
+  __ver__: '0'
+}
 
 function getConfig_(fileId, sheetName ){
 
