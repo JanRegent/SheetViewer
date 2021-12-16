@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 import '../bl.dart';
@@ -7,9 +9,11 @@ class SheetConfig {
   String fileId = '';
 
   List<String> columnsSelected = [];
-  List<String> selects1 = [];
+
   String copyrightUrl = '';
   String sheetUrl = '';
+  List<String> selects1 = [];
+  List<String> byValueColumns = [];
 
   Map rawConfig = {};
 
@@ -29,6 +33,7 @@ class SheetConfig {
       for (var item in config_['selects1']) {
         config.selects1.add(json.encode(item));
       }
+      config.byValueColumns = bl.toListString(config_['filterByValue']);
       return config;
     } catch (e) {
       return config;

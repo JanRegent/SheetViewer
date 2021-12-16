@@ -1,19 +1,21 @@
-// ignore_for_file: file_names, prefer_const_constructors_in_immutables, unused_element, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/sheet/sheetConfig.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
+import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-class ByValePage extends StatefulWidget {
+import 'filelistcard_byvalue_columntabs.dart';
+
+class ByValuePage extends StatefulWidget {
   final String fileId;
   final String sheetName;
-  ByValePage(this.fileId, this.sheetName);
+  // ignore: use_key_in_widget_constructors
+  const ByValuePage(this.fileId, this.sheetName);
 
   @override
   _ByValePageState createState() => _ByValePageState();
 }
 
-class _ByValePageState extends State<ByValePage> {
+class _ByValePageState extends State<ByValuePage> {
   SheetConfig sheetConfig = SheetConfig();
 
   Future<String> getConfig() async {
@@ -21,24 +23,24 @@ class _ByValePageState extends State<ByValePage> {
     return 'ok';
   }
 
+  IconButton jsonViewer() {
+    return IconButton(
+        onPressed: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
+        },
+        icon: const Icon(Icons.view_agenda));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Filter by value'),
+          title: const Text('Filter by value in column'),
           actions: [
-            IconButton(
-                icon: const Icon(
-                  Icons.cut,
-                  color: Colors.black,
-                ),
-                tooltip: 'Settings',
-                onPressed: () async {
-                  // await Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => TextParserPage()),
-                  // );
-                }),
+            jsonViewer(),
           ],
         ),
         body: FutureBuilder<String>(
@@ -58,7 +60,7 @@ class _ByValePageState extends State<ByValePage> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   //print(fileListSheet.rows);
-                  return const Text('22');
+                  return ByValueColumnsTabs(sheetConfig);
                 }
             }
           },
