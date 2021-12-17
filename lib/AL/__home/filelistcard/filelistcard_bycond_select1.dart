@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alib/alib.dart';
 
+import 'filelistcard_bycond_selects1runpane.dart';
+
 class ByCondSelect1 extends StatelessWidget {
   final String fileId;
   final String sheetName;
@@ -26,7 +28,7 @@ class ByCondSelect1 extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
-              Icon(Icons.list),
+              ByCondSelect1runPane(),
               Icon(Icons.add),
             ],
           ),
