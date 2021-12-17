@@ -24,4 +24,79 @@ class AL {
       },
     );
   }
+
+  ElevatedButton iconBack(BuildContext context) {
+    return ElevatedButton(
+      child: const Icon(Icons.arrow_back),
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      onLongPress: () async {
+        iconBackDialog(context);
+      },
+    );
+  }
+
+  iconBackDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context, "Cancel");
+      },
+    );
+    Widget filesetsMenuButton = TextButton(
+      child: const Text("Filesets menu"),
+      onPressed: () async {
+        Navigator.pop(context, "menu");
+      },
+    );
+    Widget thisFilesetButton = TextButton(
+      child: const Text("Home of "),
+      onPressed: () async {
+        Navigator.pop(context, "home");
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+        title: const Text("Skip to.."),
+        content: Column(
+          children: [
+            cancelButton,
+            const Text(' '),
+            const Text(' '),
+            filesetsMenuButton,
+            const Text(' '),
+            thisFilesetButton,
+          ],
+        ));
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    ).then((exit) async {
+      switch (exit) {
+        case 'Cancel':
+          return;
+        case 'menu':
+          // await Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => FilesetsMenuPage()),
+          // );
+          break;
+        case 'home':
+          // await Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => FilesetPage()),
+          // );
+          break;
+        default:
+          return;
+      }
+    });
+  }
 }

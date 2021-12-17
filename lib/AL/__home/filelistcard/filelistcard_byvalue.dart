@@ -8,8 +8,8 @@ import 'filelistcard_byvalue_columntabs.dart';
 class ByValuePage extends StatefulWidget {
   final String fileId;
   final String sheetName;
-  // ignore: use_key_in_widget_constructors
-  const ByValuePage(this.fileId, this.sheetName);
+
+  const ByValuePage(this.fileId, this.sheetName, {Key? key}) : super(key: key);
 
   @override
   _ByValePageState createState() => _ByValePageState();

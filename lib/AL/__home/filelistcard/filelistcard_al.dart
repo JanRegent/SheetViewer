@@ -6,8 +6,8 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 import 'filelistcard_bl.dart';
+import 'filelistcard_bycond_select1.dart';
 import 'filelistcard_byvalue.dart';
-import 'filelistviewmenu.dart';
 
 ExpansionTileCard filelistCard(
     BuildContext context, FileListSheet fileListSheet, int index) {
@@ -50,7 +50,7 @@ ExpansionTileCard filelistCard(
                   ));
             },
           )),
-      //-------------------------------------------------------------All/selects
+      //-------------------------------------------------------------All/select1
       ListTile(
           tileColor: Colors.lightBlue[300],
           leading: showAll(
@@ -62,7 +62,7 @@ ExpansionTileCard filelistCard(
             children: [
               Text('by cond: ', style: TextStyle(fontSize: 20)),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {},
                   child: const Text('filter', style: TextStyle(fontSize: 20))),
             ],
           ),
@@ -72,7 +72,8 @@ ExpansionTileCard filelistCard(
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FilelistDialogPage(title: 'xxc'),
+                    builder: (context) => ByCondSelect1(
+                        fileId, fileListSheet.rows[index]['sheetName']),
                   ));
             },
           )),
