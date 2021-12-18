@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
-
 import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-import 'filelistcard_byvalue_columntabs.dart';
+import '../filelistcard/filelistcard_byvalue_columntabs.dart';
 
 class ByValuePage extends StatefulWidget {
   final String fileId;
   final String sheetName;
-
-  const ByValuePage(this.fileId, this.sheetName, {Key? key}) : super(key: key);
+  // ignore: use_key_in_widget_constructors
+  const ByValuePage(this.fileId, this.sheetName);
 
   @override
   _ByValePageState createState() => _ByValePageState();

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+
+import 'package:sheetviewer/DL/loader/loader.dart';
 
 import 'filelistcard_bl.dart';
 import 'filelistcard_bycond_select1.dart';
@@ -69,11 +72,13 @@ ExpansionTileCard expansionFilelistCard(
           trailing: IconButton(
             icon: const Icon(Icons.chevron_right),
             onPressed: () async {
+              SheetConfig sheetConfig = await getSheetConfig(
+                  fileId, fileListSheet.rows[index]['sheetName']);
+
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ByCondSelect1(
-                        fileId, fileListSheet.rows[index]['sheetName']),
+                    builder: (context) => ByCondSelect1(sheetConfig),
                   ));
             },
           )),

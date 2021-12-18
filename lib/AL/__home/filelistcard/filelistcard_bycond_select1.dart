@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alib/alib.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'filelistcard_bycond_selects1runpane.dart';
 
 class ByCondSelect1 extends StatelessWidget {
-  final String fileId;
-  final String sheetName;
+  final SheetConfig sheetConfig;
 
-  const ByCondSelect1(this.fileId, this.sheetName, {Key? key})
-      : super(key: key);
+  const ByCondSelect1(this.sheetConfig, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +25,10 @@ class ByCondSelect1 extends StatelessWidget {
             ),
             title: const Text('Selects1'),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              ByCondSelect1runPane(),
-              Icon(Icons.add),
+              ByCondSelect1runPane(sheetConfig),
+              const Icon(Icons.add),
             ],
           ),
         ),

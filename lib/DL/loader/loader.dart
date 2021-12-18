@@ -10,7 +10,7 @@ import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
-import 'package:sheetviewer/BL/sheet/sheetConfig.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 late String contentServiceUrl;
 

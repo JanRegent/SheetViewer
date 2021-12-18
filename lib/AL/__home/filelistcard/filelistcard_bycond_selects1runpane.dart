@@ -1,84 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 class ByCondSelect1runPane extends StatefulWidget {
-  const ByCondSelect1runPane({Key? key}) : super(key: key);
+  final SheetConfig sheetConfig;
+  const ByCondSelect1runPane(this.sheetConfig, {Key? key}) : super(key: key);
 
   @override
   _ByCondSelect1runPaneState createState() => _ByCondSelect1runPaneState();
 }
 
 class _ByCondSelect1runPaneState extends State<ByCondSelect1runPane> {
-  final List<String> _students = [
-    'Gianluca',
-    'Lindsay',
-    'Leah',
-    'U',
-    'Marco',
-    'Liam',
-    'Harrison',
-    'Charise',
-    'Ting Wei',
-    'Ryan',
-    'Deena',
-    'Xiao Yuan',
-    'Benjamin',
-    'Calvin',
-    'Claudia',
-    'Kok Hao',
-    'Michalina',
-    'Ruby',
-    'Rachel',
-    'Nadir',
-    'Dan',
-    'Raaid',
-    'Nadia',
-    'Matilda',
-    'Lloyd',
-    'Arielle',
-    'Jun',
-    'Desmond',
-    'Miah',
-    'Aiden',
-    'Kira',
-    'Nathan',
-    'Thung Thung',
-    'Miki',
-    'Yongyou',
-    'Brogan',
-    'Zai Chern',
-    'Gondini',
-    'Ella',
-    'Germaine'
-  ];
-  String textData = "";
-  int current = 0;
-  bool init = true;
-
   @override
   void initState() {
-    addName();
     super.initState();
-  }
-
-  addName() {
-    if (init) {
-      for (int i = 0; i < _students.length; i++) {
-        textData += _students[i] + "   ";
-      }
-    } else {
-      textData += _students[current] + "   ";
-      if (current > _students.length) {
-        current = 0;
-      } else {
-        current++;
-      }
-    }
-    setState(() {});
   }
 
   ListView selects1List() {
     return ListView.builder(
-      itemCount: _students.length,
+      itemCount: widget.sheetConfig.selects1.length,
       itemBuilder: (context, index) {
         return Container(
           decoration: const BoxDecoration(
@@ -86,7 +25,7 @@ class _ByCondSelect1runPaneState extends State<ByCondSelect1runPane> {
             border: Border(bottom: BorderSide()),
           ),
           child: ListTile(
-            title: Text(_students[index]),
+            title: Text(widget.sheetConfig.selects1[index]),
           ),
         );
       },
@@ -126,9 +65,7 @@ class _ByCondSelect1runPaneState extends State<ByCondSelect1runPane> {
         appBar: AppBar(
           actions: [
             ElevatedButton(
-              onPressed: () {
-                addName();
-              },
+              onPressed: () {},
               child: const Icon(
                 Icons.add,
               ),

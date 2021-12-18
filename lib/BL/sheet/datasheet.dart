@@ -1,4 +1,4 @@
-import 'sheetConfig.dart';
+import 'sheet_config.dart';
 
 class DataSheet {
   List<String> cols = [];
