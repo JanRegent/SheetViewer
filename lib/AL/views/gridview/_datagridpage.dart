@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -72,7 +73,18 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.sheetTitle),
-          actions: [jsonViewer()],
+          actions: [
+            // Navigate to the Search Screen
+            IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListSearch()));
+                },
+                icon: const Icon(Icons.search)),
+            jsonViewer()
+          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work
