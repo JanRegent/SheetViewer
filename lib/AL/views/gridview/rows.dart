@@ -8,17 +8,48 @@ import 'detailView/DetailListViewPage.dart';
 class RowsDataSource extends DataGridSource {
   final DataSheet dataSheet;
   final BuildContext context;
+  final String searchWord;
 
-  RowsDataSource(this.dataSheet, this.context) {
+  RowsDataSource(this.dataSheet, this.context, this.searchWord) {
     _stringRowsData = gridRows(dataSheet, context);
   }
 
   List<DataGridRow> gridRows(DataSheet anySheet, BuildContext context) {
     List<DataGridRow> gridrows = [];
+
     for (var rowIx = 0; rowIx < anySheet.rows.length; rowIx++) {
-      gridrows.add(gridRow(anySheet, rowIx));
+      if (searchWord.isNotEmpty) {
+        if (anySheet.rows[rowIx].toString().contains(searchWord)) {
+          gridrows.add(gridRow(anySheet, rowIx));
+        }
+      } else {
+        gridrows.add(gridRow(anySheet, rowIx));
+      }
     }
     return gridrows;
+  }
+
+  DataGridRow gridRowSearchHelper(List<dynamic> filteredRows, int rowIx) {
+    List<DataGridCell> cells = [];
+    cells.add(DataGridCell<String>(
+        columnName: '__leftRowMenu__', value: rowIx.toString()));
+    for (var colIx = 0;
+        colIx < dataSheet.config.columnsSelected.length;
+        colIx++) {
+      String value = '';
+      try {
+        value = filteredRows[rowIx][dataSheet.config.columnsSelected[colIx]];
+      } catch (_) {
+        value = '?';
+      }
+      cells.add(DataGridCell<String>(
+          columnName: dataSheet.cols[colIx], value: value));
+    }
+    cells.add(DataGridCell<String>(
+        columnName: '__rowDetail__', value: rowIx.toString()));
+    DataGridRow dataGridRow = DataGridRow(cells: cells);
+
+    return dataGridRow;
   }
 
   DataGridRow gridRow(DataSheet dataSheet, int rowIx) {

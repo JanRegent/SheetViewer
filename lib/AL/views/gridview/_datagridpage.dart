@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
-import '/AL/views/gridview/rows.dart';
-import '../../../BL/sheet/datasheet.dart';
-import '/DL/loader/loader.dart';
+
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import 'package:sheetviewer/uti/viewers/json_viewer.dart';
+
+import '../../../BL/sheet/datasheet.dart';
+import '/AL/views/gridview/rows.dart';
+import '/DL/loader/loader.dart';
 import 'cols.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -28,11 +30,11 @@ class _DatagridPageState extends State<DatagridPage> {
   }
 
   DataSheet dataSheet = DataSheet();
-
+  String searchWord = ''; // 'ship';
   Future<String> getData() async {
     dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
     dataSheet.sheetTitle = widget.sheetTitle;
-    rowsDataSource = RowsDataSource(dataSheet, context);
+    rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
 
     return rowsDataSource.dataSheet.rows.length.toString();
   }

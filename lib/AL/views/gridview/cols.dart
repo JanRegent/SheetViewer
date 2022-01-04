@@ -23,7 +23,7 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
       onTap: () {
         Navigator.pop(context);
       },
-      child: const Text('button no XX'),
+      child: const Icon(Icons.search),
     ),
   ));
   return PopupMenuButton(
