@@ -46,9 +46,6 @@ dependencies:
   url_launcher: ^6.0.12 #https://pub.dev/packages/url_launcher
   http: ^0.13.4         #https://pub.dev/packages/http
 
-  #---------------------------------------------------------------------uti
-  
-
   #---------------------------------------------------------------------log
   pretty_dio_logger: ^1.1.1   #https://pub.dev/packages/pretty_dio_logger
   flutter_json_viewer: ^1.0.1 #https://pub.dev/packages/flutter_json_viewer
