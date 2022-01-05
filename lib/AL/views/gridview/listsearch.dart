@@ -10,33 +10,14 @@ class ListSearch extends StatefulWidget {
 class ListSearchState extends State<ListSearch> {
   final TextEditingController _textController = TextEditingController();
 
-  static List<String> mainDataList = [
-    "Apple",
-    "Apricot",
-    "Banana",
-    "Blackberry",
-    "Coconut",
-    "Date",
-    "Fig",
-    "Gooseberry",
-    "Grapes",
-    "Lemon",
-    "Litchi",
-    "Mango",
-    "Orange",
-    "Papaya",
-    "Peach",
-    "Pineapple",
-    "Pomegranate",
-    "Starfruit"
-  ];
+  static List<String> wordsList = ['qq', 'ship'];
 
   // Copy Main List into New List.
-  List<String> newDataList = List.from(mainDataList);
+  List<String> newWordsList = List.from(wordsList);
 
   onItemChanged(String value) {
     setState(() {
-      newDataList = mainDataList
+      newWordsList = wordsList
           .where((string) => string.toLowerCase().contains(value.toLowerCase()))
           .toList();
     });
@@ -59,7 +40,7 @@ class ListSearchState extends State<ListSearch> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () {
-                    newDataList = List.from(mainDataList);
+                    newWordsList = List.from(wordsList);
                     setState(() {
                       _textController.clear();
                     });
@@ -69,17 +50,29 @@ class ListSearchState extends State<ListSearch> {
               onChanged: onItemChanged,
             ),
           ),
-          const ListTile(
-            leading: IconButton(onPressed: null, icon: Icon(Icons.search)),
-            title: IconButton(onPressed: null, icon: Icon(Icons.save)),
+          ListTile(
+            leading: _textController.text.isNotEmpty
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.pop(context, _textController.text);
+                    },
+                    icon: const Icon(Icons.search))
+                : const Text(' '),
+            title: _textController.text.isNotEmpty
+                ? IconButton(
+                    onPressed: () {
+                      wordsList.add(_textController.text);
+                    },
+                    icon: const Icon(Icons.save))
+                : const Text(' '),
           ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(12.0),
-              children: newDataList.map((data) {
+              children: newWordsList.map((data) {
                 return ListTile(
                   title: Text(data),
-                  onTap: () => print(data),
+                  onTap: () => Navigator.pop(context, data),
                 );
               }).toList(),
             ),

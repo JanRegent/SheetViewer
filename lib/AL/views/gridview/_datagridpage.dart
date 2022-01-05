@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
 
@@ -35,6 +37,7 @@ class _DatagridPageState extends State<DatagridPage> {
   Future<String> getData() async {
     dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
     dataSheet.sheetTitle = widget.sheetTitle;
+
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
 
     return rowsDataSource.dataSheet.rows.length.toString();
@@ -72,15 +75,28 @@ class _DatagridPageState extends State<DatagridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.sheetTitle),
+          title: searchWord.isEmpty
+              ? Text(widget.sheetTitle)
+              : Text(widget.sheetTitle + ' [$searchWord]'),
           actions: [
+            searchWord.isNotEmpty
+                ? IconButton(
+                    onPressed: () async {
+                      searchWord = '';
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.clear))
+                : const Text(' '),
             // Navigate to the Search Screen
             IconButton(
                 onPressed: () async {
-                  await Navigator.push(
+                  searchWord = '';
+                  searchWord = await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const ListSearch()));
+
+                  setState(() {});
                 },
                 icon: const Icon(Icons.search)),
             jsonViewer()
