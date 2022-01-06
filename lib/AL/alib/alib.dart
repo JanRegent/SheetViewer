@@ -6,7 +6,7 @@ AL al = AL();
 
 class AL {
   Widget linkIconSheetOnGCloud(String fileid) {
-    if (fileid.startsWith('http')) fileid = bl.bLuti.url2fileid(fileid);
+    if (fileid.startsWith('http')) fileid = bl.blUti.url2fileid(fileid);
     // ignore: unnecessary_null_comparison
     if (fileid.trim() == null) return const Text(' ');
     if (fileid.trim().isEmpty) return const Text(' ');

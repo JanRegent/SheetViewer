@@ -13,7 +13,7 @@ class FileListSheet {
     if (jsonData.isEmpty) return FileListSheet();
     try {
       FileListSheet anySheet = FileListSheet();
-      anySheet.cols = bl.toListString(jsonData["cols"]);
+      anySheet.cols = bl.blUti.toListString(jsonData["cols"]);
       anySheet.rows = jsonData["rows"];
       return anySheet;
     } catch (e) {

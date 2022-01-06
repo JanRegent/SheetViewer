@@ -15,7 +15,7 @@ import 'filelistcard_byvalue.dart';
 ExpansionTileCard expansionFilelistCard(
     BuildContext context, FileListSheet fileListSheet, int index) {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-  String fileId = bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']);
+  String fileId = bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']);
   return ExpansionTileCard(
     baseColor: Colors.cyan[50],
     expandedColor: Colors.red[50],
@@ -31,7 +31,7 @@ ExpansionTileCard expansionFilelistCard(
           tileColor: Colors.lightBlue[200],
           leading: last5(
               context,
-              bl.bLuti.url2fileid(fileListSheet.rows[index]['fileUrl']),
+              bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']),
               fileListSheet.rows[index]['sheetName'],
               fileListSheet.rows[index]['fileTitle']),
           title: Row(

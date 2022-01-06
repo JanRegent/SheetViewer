@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
 import 'AL/__home/tabslistpage.dart';
+import 'BL/bl.dart';
 //import 'maintest.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await bl.init();
   await logOn();
-  await getContentServiceUrl();
   // String resp = await post0('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw',
   //     'dailyNotes', 'cesky', 'contains', 'laska');
   runApp(const TabsListsPage());

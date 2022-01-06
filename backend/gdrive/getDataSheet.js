@@ -1,5 +1,5 @@
 
-function getdatasheet(eParameters) {
+function getdatasheet(eParameters, getLastAll) {
   var sheet, config;
 
   try {
@@ -30,10 +30,10 @@ function getdatasheet(eParameters) {
 
   }
 
-  return getDataSheet2(sheet, config);
+  return getDataSheet2(sheet, config, getLastAll);
 }
 
-function getDataSheet2(sheet, config){
+function getDataSheet2(sheet, config, getLastAll){
   var objectArray = [];
 
   logi('sheetname: ' + sheet.getName().toString() );
@@ -41,8 +41,12 @@ function getDataSheet2(sheet, config){
   var values = sheet.getDataRange().getValues();
 
   var columns = values[0];
+  var rowStart = values.length - 10;
+  if (getLastAll === undefined) rowStart = values.length - 10;
+  if (getLastAll === 'getLast') rowStart = values.length - 10;
+  if (getLastAll === 'getAll')  rowStart = 1;
   //last5
-  for (var i = values.length - 5; i < values.length; i++) {
+  for (var i = rowStart; i < values.length; i++) {
     var object = {}
     for (var j = 0; j < values[i].length; j++) {
       object[columns[j]] = values[i][j]

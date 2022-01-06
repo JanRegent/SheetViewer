@@ -37,4 +37,12 @@ class BLuti {
     // ignore: avoid_print
     print(match); // .allMatches || firstMatch || hasMatch || stringMatch
   }
+
+  List<String> toListString(List<dynamic> items) {
+    List<String> list = [];
+    for (var item in items) {
+      list.add(item.toString());
+    }
+    return list;
+  }
 }

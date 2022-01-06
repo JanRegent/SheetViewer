@@ -5,5 +5,14 @@
   "webapp": {
     "executeAs": "USER_DEPLOYING",
     "access": "ANYONE_ANONYMOUS"
+  },
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "SheetQuery",
+        "version": "5",
+        "libraryId": "1pbpOJxDDHVeVr6WQmR5TZKSqTsW4qwdIlcVKIM6UKYvswkivwHpPnHaO"
+      }
+    ]
   }
 }

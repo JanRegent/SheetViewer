@@ -1,15 +1,14 @@
 import 'package:sheetviewer/BL/lib/uti.dart';
 
+import 'lib/blglobal.dart';
+
 BL bl = BL();
 
 class BL {
-  BLuti bLuti = BLuti();
+  BLuti blUti = BLuti();
+  BlGlobal blGlobal = BlGlobal();
 
-  List<String> toListString(List<dynamic> items) {
-    List<String> list = [];
-    for (var item in items) {
-      list.add(item.toString());
-    }
-    return list;
+  Future init() async {
+    await blGlobal.init();
   }
 }

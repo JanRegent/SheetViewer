@@ -25,13 +25,14 @@ class SheetConfig {
     config.fileId = config_['fileId'];
 
     try {
-      config.columnsSelected = bl.toListString(config_['columnsSelected']);
+      config.columnsSelected =
+          bl.blUti.toListString(config_['columnsSelected']);
       config.copyrightUrl = config_['copyrightUrl'] ?? '';
       config.sheetUrl = config_['sheetUrl'] ?? '';
       for (var item in config_['selects1']) {
         config.selects1.add(json.encode(item));
       }
-      config.byValueColumns = bl.toListString(config_['filterByValue']);
+      config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
       return config;
     } catch (e) {
       return config;
