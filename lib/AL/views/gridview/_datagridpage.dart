@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
+import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/uti/debugpages.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import '../../../BL/sheet/datasheet.dart';
 import '/AL/views/gridview/rows.dart';
@@ -46,11 +46,9 @@ class _DatagridPageState extends State<DatagridPage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      JsonViewerPage(dataSheet.rawDataSheet)));
+          bl.dataSheet4debug = dataSheet;
+          await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const DebugPages()));
         },
         icon: const Icon(Icons.view_agenda));
   }

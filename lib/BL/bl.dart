@@ -1,4 +1,5 @@
 import 'package:sheetviewer/BL/lib/uti.dart';
+import 'package:sheetviewer/BL/sheet/datasheet.dart';
 
 import 'lib/blglobal.dart';
 
@@ -11,4 +12,6 @@ class BL {
   Future init() async {
     await blGlobal.init();
   }
+
+  DataSheet dataSheet4debug = DataSheet();
 }
