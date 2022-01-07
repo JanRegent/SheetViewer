@@ -12,8 +12,6 @@ import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
-late String contentServiceUrl;
-
 Future getdatasheetRefresh(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
@@ -24,7 +22,6 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
   String jsonString = await readString(key);
-
   if (jsonString != 'null') {
     var jsonData = json.decode(jsonString);
     return DataSheet.fromJson(jsonData);
@@ -41,9 +38,8 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   //     maxWidth: 90));
 
   try {
-    String urlQuery =
-        Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
-
+    String urlQuery = Uri.encodeFull(
+        bl.blGlobal.contentServiceUrl + '?action=getdatasheet&' + key);
     var response = await dio.get(urlQuery);
     // print(
     //   "${response.statusCode} :  ${response.data}",
@@ -58,8 +54,6 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
 }
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
-  String contentServiceUrl = await loadAssetString('contentServiceUrl');
-
   try {
     String key = 'fileid=$fileId&sheetname=$sheetName';
 
@@ -67,7 +61,8 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     if (jsonString.isNotEmpty) {
       return SheetConfig.fromJson(json.decode(jsonString));
     }
-    String urlQuery = contentServiceUrl + '?action=getSheetConfig&' + key;
+    String urlQuery =
+        bl.blGlobal.contentServiceUrl + '?action=getSheetConfig&' + key;
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(key + '__sheetConfig__', json.encode(response.data));
@@ -88,14 +83,13 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
 }
 
 Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
-  String contentServiceUrl = await loadAssetString('contentServiceUrl');
-
   try {
     String key = 'filelistid=$fileId&sheetname=$sheetName';
 
     //String jsonString = await readString(key);
     //if (jsonString.isNotEmpty) return jsonString;
-    String urlQuery = contentServiceUrl + '?action=getfilelist&' + key;
+    String urlQuery =
+        bl.blGlobal.contentServiceUrl + '?action=getfilelist&' + key;
     var response = await Dio().get(urlQuery);
     FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
     //updateString(key, response.data);
@@ -107,8 +101,6 @@ Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
 }
 
 Future<String> getTabsList() async {
-  String contentServiceUrl = await loadAssetString('contentServiceUrl');
-
   String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
   //await loadAssetString('fileId');
 
@@ -118,10 +110,10 @@ Future<String> getTabsList() async {
     String key = 'fileid=$fileId&sheetname=$sheetName';
 
     String jsonString = await readString(key);
-    if (jsonString.isNotEmpty) return jsonString;
+    if (jsonString != 'null') return jsonString;
 
-    var response =
-        await Dio().get(contentServiceUrl + '?action=gettabslist&' + key);
+    var response = await Dio()
+        .get(bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key);
     String resp = response.data.toString().replaceFirst('cols:', '"cols":');
     resp = resp.replaceFirst('rows: [', '"rows": [');
     updateString(key, resp);
@@ -132,10 +124,9 @@ Future<String> getTabsList() async {
 }
 
 Future<String> logOn() async {
-  String contentServiceUrl = await loadAssetString('contentServiceUrl');
-
   try {
-    var response = await Dio().get(contentServiceUrl + '?action=logOn');
+    var response =
+        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logOn');
     String resp = response.data.toString();
     return resp;
   } catch (e) {
