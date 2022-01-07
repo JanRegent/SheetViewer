@@ -42,6 +42,7 @@ ListView blGlobalsListview() {
   myList.add(ListTile(
     leading: const Text('contentServiceUrl'),
     title: Text(bl.blGlobal.contentServiceUrl),
+    trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
   ));
   return ListView.separated(
       itemCount: myList.length,

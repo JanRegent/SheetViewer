@@ -5,14 +5,18 @@ import 'package:cache_manager/core/read_cache_service.dart';
 import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/packages/cache_manager
 import 'package:dio/dio.dart';
 
+import 'package:flutter/services.dart';
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
+late String contentServiceUrl;
+
 Future getdatasheetRefresh(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
+
   await deleteString(key);
 }
 
@@ -20,7 +24,8 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
   String jsonString = await readString(key);
-  if (jsonString.isNotEmpty) {
+
+  if (jsonString != 'null') {
     var jsonData = json.decode(jsonString);
     return DataSheet.fromJson(jsonData);
   }
@@ -36,14 +41,15 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   //     maxWidth: 90));
 
   try {
-    String urlQuery = Uri.encodeFull(
-        bl.blGlobal.contentServiceUrl + '?action=getdatasheet&' + key);
+    String urlQuery =
+        Uri.encodeFull(contentServiceUrl + '?action=getdatasheet&' + key);
 
     var response = await dio.get(urlQuery);
     // print(
     //   "${response.statusCode} :  ${response.data}",
     // );
     DataSheet dataSheet = DataSheet.fromJson(response.data);
+
     updateString(key, json.encode(response.data));
     return dataSheet;
   } catch (e) {
@@ -52,6 +58,8 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
 }
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
   try {
     String key = 'fileid=$fileId&sheetname=$sheetName';
 
@@ -59,8 +67,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     if (jsonString.isNotEmpty) {
       return SheetConfig.fromJson(json.decode(jsonString));
     }
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=getSheetConfig&' + key;
+    String urlQuery = contentServiceUrl + '?action=getSheetConfig&' + key;
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(key + '__sheetConfig__', json.encode(response.data));
@@ -81,13 +88,14 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
 }
 
 Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
   try {
     String key = 'filelistid=$fileId&sheetname=$sheetName';
 
     //String jsonString = await readString(key);
     //if (jsonString.isNotEmpty) return jsonString;
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=getfilelist&' + key;
+    String urlQuery = contentServiceUrl + '?action=getfilelist&' + key;
     var response = await Dio().get(urlQuery);
     FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
     //updateString(key, response.data);
@@ -99,6 +107,8 @@ Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
 }
 
 Future<String> getTabsList() async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
   String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
   //await loadAssetString('fileId');
 
@@ -110,8 +120,8 @@ Future<String> getTabsList() async {
     String jsonString = await readString(key);
     if (jsonString.isNotEmpty) return jsonString;
 
-    var response = await Dio()
-        .get(bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key);
+    var response =
+        await Dio().get(contentServiceUrl + '?action=gettabslist&' + key);
     String resp = response.data.toString().replaceFirst('cols:', '"cols":');
     resp = resp.replaceFirst('rows: [', '"rows": [');
     updateString(key, resp);
@@ -122,9 +132,10 @@ Future<String> getTabsList() async {
 }
 
 Future<String> logOn() async {
+  String contentServiceUrl = await loadAssetString('contentServiceUrl');
+
   try {
-    var response =
-        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logOn');
+    var response = await Dio().get(contentServiceUrl + '?action=logOn');
     String resp = response.data.toString();
     return resp;
   } catch (e) {
@@ -147,12 +158,10 @@ Future updateString(String key, String jsonString) async {
 Future readString(String key) async {
   try {
     String jsonString = await ReadCache.getString(key: key);
-    // ignore: unnecessary_null_comparison
-    if (jsonString == null) return '';
     return jsonString;
   } catch (e) {
-    //rint(e); //Do something if error occurs
-    return '';
+    //print(e); //Do something if error occurs
+    return 'null';
   }
 }
 
@@ -169,4 +178,13 @@ Future deleteStringFileId(String fileId, String sheetName) async {
   String key = 'fileid=$fileId&sheetname=$sheetName';
 
   await deleteString(key);
+}
+
+//-------------------------------------------------------------assets
+Future<String> loadAssetString(String varname) async {
+  try {
+    return await rootBundle.loadString('config/$varname.txt');
+  } catch (_) {
+    return '';
+  }
 }

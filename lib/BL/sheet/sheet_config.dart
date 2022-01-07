@@ -5,6 +5,7 @@ import '../bl.dart';
 class SheetConfig {
   String sheetName = '';
   String fileId = '';
+  String cacheUrlkey = '';
 
   List<String> columnsSelected = [];
 
@@ -23,7 +24,8 @@ class SheetConfig {
 
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
-
+    config.cacheUrlkey =
+        'fileid=${config.fileId}&sheetname=${config.sheetName}';
     try {
       config.columnsSelected =
           bl.blUti.toListString(config_['columnsSelected']);
