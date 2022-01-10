@@ -6,14 +6,12 @@
 var gSQL = function() {
 
     var Db, Table, Argument, Meth, Data, OriginalData, DataJoin, Row, Col, DataToUpdate,InnerData,AndIn, ColTake1, ColTake2;
+    //jre
+    var colsLastUsed;
 
-    //Some functions
-function getData(db,tableName,argument){
-    var sheet = SpreadsheetApp.openById(db).getSheetByName(tableName);
-     return sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn()).getValues()
-}
 
-function insertion(db,table,data){
+
+  function insertion(db,table,data){
     var id = checkIfIDIsExisting(db, table);
     var sheet = SpreadsheetApp.openById(db).getSheetByName(table);
     //if we insert only one row
@@ -26,10 +24,10 @@ function insertion(db,table,data){
             sheet.appendRow(data[i]);
         }
     }
- return "The data has been added to your table"
-}
+    return "The data has been added to your table"
+  }
 
-function aCompareToB(arg1, arg2, arg3, data, bool, Meth) {
+  function aCompareToB(arg1, arg2, arg3, data, bool, Meth) {
     var position = data[0].indexOf(arg1);
     var map = data.map(function(r) {return r[position]});
     var match = [];
@@ -407,9 +405,14 @@ var argument = b;
 
 return returnValues
 }
+    //----------------------------------------------------------------------------------------------------------------getCols //jre
+    this.getColsLastUsed = function() {
+      return colsLastUsed;
+    }
 
-    //----------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------getVal
     this.getVal = function() {
+      colsLastUsed =  Data[0];
     if(Argument == "ALL"){
      return Data.splice(1,(Data.length - 1))
     }else if  (typeof Argument ==  "string" && Argument != "ALL"){
