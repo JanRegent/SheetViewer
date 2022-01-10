@@ -39,8 +39,9 @@ function doGet(e) {
     //--------------------------------------------------------
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      return respond(getRowsLast(oParams.fileId, oParams.sheetName, oParams.rowsCount));
-      //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=2
+      var values = getRowsLast(oParams.fileId, oParams.sheetName, oParams.rowsCount);
+      return respond(responseData(values));
+      //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');

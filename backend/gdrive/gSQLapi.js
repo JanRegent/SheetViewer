@@ -52,8 +52,10 @@ function getRowsLast(fileId, sheetName, rowsCount){
 
 }
 function getRowsLastTest(){
-  Logger.log(getRowsLast(fileidDemo, 'elonX', 2));
-    Logger.log(SQL.getColsLastUsed());
+  var values = getRowsLast(fileidDemo, 'elonX', 2);
+      
+  Logger.log(responseData(values));
+ 
 }
 
 
