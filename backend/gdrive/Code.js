@@ -1,4 +1,4 @@
-function respond(response) {  
+  function respond(response) {  
   //Logger.log(response);
   return ContentService
   .createTextOutput(response)
@@ -8,11 +8,13 @@ function respond(response) {
 function doGet(e) {
  var v = PropertiesService.getScriptProperties().getProperties();
   logi('----------------------------------------------');
-  if(typeof e.parameter.action === "undefined") {
-    return respond('{error: "Parameter Action is not defined"}');
-  }
+  if(getPar(e, 'action') != '') return paramsErr;
   var action = e.parameter.action.toString().toLowerCase();
   logi('action: ' + action);
+
+  if(getPar(e, 'fileId') != '')    return paramsErr; 
+  if(getPar(e, 'sheetName') != '') return paramsErr; 
+
 
   switch(action) {
     case "logon": //?action=gettabslist
@@ -34,6 +36,12 @@ function doGet(e) {
       return respond(selectcontains()); 
     case "post":
       return respond(getTemp() );
+    //--------------------------------------------------------
+    case "getrowslast":
+      if(getPar(e, 'rowsCount') != '') return paramsErr; 
+      return respond(getRowsLast(oParams.fileId, oParams.sheetName, oParams.rowsCount));
+      //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=2
+
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
