@@ -62,7 +62,7 @@ function getsheetconfig(eParameters){
 
 function getConfig_(fileId, sheetName ){
 
-  logi('getConfig_(fileId, sheetName )');
+
   if (fileId == undefined || fileId == null || fileId == ''  ) {config.__ver__ = '__wrong__fileId'; return config;}
   if (sheetName == undefined || sheetName == null || sheetName == ''  ){config.__ver__ = '__wrong__sheetName';return config;}
 
@@ -81,7 +81,6 @@ function getConfig_(fileId, sheetName ){
     config.columnsSelected = getCols(config.fileId, config.sheetName);
     config.__ver__ = '__wrong__config__NotExist';
     logi('config __wrong__config__NotExist');
-    logi(JSON.stringify(config));
     return config;
   }
 

@@ -1,9 +1,3 @@
-  function respond(response) {  
-  //Logger.log(response);
-  return ContentService
-  .createTextOutput(response)
-  .setMimeType(ContentService.MimeType.JSON)
-}
 
 function doGet(e) {
   var v = PropertiesService.getScriptProperties().getProperties();
@@ -14,7 +8,7 @@ function doGet(e) {
 
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
-  getConfig_();
+  getConfig_(config.fileId, config.sheetName);
   logi(config);
 
   switch(action) {
@@ -48,4 +42,34 @@ function doGet(e) {
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
   
+}
+
+function respond(response) {  
+  //Logger.log(response);
+  return ContentService
+  .createTextOutput(response)
+  .setMimeType(ContentService.MimeType.JSON)
+}
+
+
+
+function responseData(values){
+  var columns = SQL.getColsLastUsed();
+
+  var objectArray = [];
+  for (var i = 0; i < values.length; i++) {
+    var object = {}
+    for (var j = 0; j < values[i].length; j++) {
+      object[columns[j]] = values[i][j]
+    }
+
+    objectArray.push(object);   
+  }
+ 
+  var output = JSON.stringify({
+    cols: columns,
+    config: config,
+    rows: objectArray,
+  });
+  return output;
 }
