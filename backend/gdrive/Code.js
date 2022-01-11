@@ -6,15 +6,16 @@
 }
 
 function doGet(e) {
- var v = PropertiesService.getScriptProperties().getProperties();
-  logi('----------------------------------------------');
+  var v = PropertiesService.getScriptProperties().getProperties();
+  logClear();
   if(getPar(e, 'action') != '') return paramsErr;
   var action = e.parameter.action.toString().toLowerCase();
   logi('action: ' + action);
 
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
-
+  getConfig_();
+  logi(config);
 
   switch(action) {
     case "logon": //?action=gettabslist
@@ -39,7 +40,7 @@ function doGet(e) {
     //--------------------------------------------------------
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsLast(oParams.fileId, oParams.sheetName, oParams.rowsCount);
+      var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 

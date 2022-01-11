@@ -1,11 +1,4 @@
-
-function getsheetconfig(eParameters){
-  logi(eParameters['fileid'][0]);
-  logi(eParameters['sheetname'][0]);
-  return JSON.stringify(getConfig_(eParameters['fileid'][0], eParameters['sheetname'][0]));
-}
-//https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
-
+paramsErr = '';
 
 var config = { 
   sheetName: '',
@@ -16,8 +9,56 @@ var config = {
 
   columnsSelected: [],
   selects1: [],
-  __ver__: '0'
+  __ver__: '0',
+  action: '',
+  rowsCount: 10
 }
+
+function getPar(e, parName) {
+
+  switch(parName) {
+    case "action": //?action=gettabslist
+      if(typeof e.parameter.action === "undefined") { paramsErr = respond('{error: "Parameter Action is not defined"}');  return paramsErr}
+      config.action = e.parameter.action;
+      return '';
+    case "fileId": 
+      if(typeof e.parameter.fileId === "undefined") { paramsErr = respond('{error: "Parameter fileId is not defined"}');  return paramsErr}
+      config.fileId = e.parameter.fileId;
+      logi('fileId: ' + config.fileId);
+      return '';
+    case "sheetName":
+      if(typeof e.parameter.sheetName === "undefined") { paramsErr = respond('{error: "Parameter sheetName is not defined"}');  return paramsErr}
+      config.sheetName = e.parameter.sheetName;
+      logi('sheetName: ' + config.sheetName);
+      return '';
+    case "rowsCount":
+      if(typeof e.parameter.rowsCount === "undefined") { paramsErr = respond('{error: "Parameter rowsCount is not defined"}');  return paramsErr}
+      config.rowsCount = e.parameter.rowsCount;
+      logi('rowsCount: ' + config.rowsCount);
+      return '';   
+    case "getLast":
+      return '';
+    case "getAll":
+      return '';                 
+    case "getsheetconfig":
+      return '';           
+    case "selectcontains":
+      return '';
+    case "post":
+      return '';
+    default:
+      return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
+  }
+
+}
+
+function getsheetconfig(eParameters){
+  logi(eParameters['fileid'][0]);
+  logi(eParameters['sheetname'][0]);
+  return JSON.stringify(getConfig_(eParameters['fileid'][0], eParameters['sheetname'][0]));
+}
+//https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
+
 
 function getConfig_(fileId, sheetName ){
 

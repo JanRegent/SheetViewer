@@ -51,11 +51,10 @@ function getRowsLast(fileId, sheetName, rowsCount){
   return allrows.slice(Math.max(allrows.length - rowsCount, 1));
 
 }
+
 function getRowsLastTest(){
   var values = getRowsLast(fileidDemo, 'elonX', 2);
-      
-  Logger.log(responseData(values));
- 
+  Logger.log(responseData(values)); 
 }
 
 
