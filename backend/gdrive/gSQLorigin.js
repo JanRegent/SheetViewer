@@ -30,9 +30,13 @@ var gSQL = function() {
   function aCompareToB(arg1, arg2, arg3, data, bool, Meth) {
     var position = data[0].indexOf(arg1);
     var map = data.map(function(r) {return r[position]});
+    logi(position,position);
+    logi(arg1);
+    logi(data[0]);
+
     var match = [];
     switch (arg2) {
-        case '=': map.forEach(function(elt, index) {if(index > 0) {if(elt == arg3) {match.push(index);}}});
+        case 'EQ': map.forEach(function(elt, index) {if(index > 0) {if(elt == arg3) {match.push(index);}}});
             break;
         case '>': map.forEach(function(elt, index) {if(index > 0) {if (elt > arg3) {match.push(index);}}});
             break;
@@ -45,7 +49,8 @@ var gSQL = function() {
         case '!=':map.forEach(function(elt, index) {if (index > 0) {if (elt != arg3) {match.push(index);}}});
             break;
         //jre
-        case 'contains':map.forEach(function(elt, index) {if (index > 0) {if (elt.indexOf(arg3) > -1) {match.push(index);}}});
+        case 'contains':map.forEach(function(elt, index) { logi(elt);
+          if (index > 0) {if (elt.indexOf(arg3) > -1) {match.push(index);}}});
           break;            
     }
     if (bool == true) {
@@ -57,7 +62,9 @@ var gSQL = function() {
         returnData.push(data[elt]);
         
     });
-   
+   logi('returnData');
+   logi(returnData.length);
+   logi(returnData);
     
     if (Meth == "GET") {
         return returnData

@@ -1,4 +1,5 @@
 
+//?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX&rowsCount=2
 function doGet(e) {
   var v = PropertiesService.getScriptProperties().getProperties();
   logClear();
@@ -37,7 +38,13 @@ function doGet(e) {
       var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
-
+    case "select1":
+      if(getPar(e, 'column') != '') return paramsErr; 
+      if(getPar(e, 'operator') != '') return paramsErr; 
+      if(getPar(e, 'value') != '') return paramsErr; 
+      logi(config);
+      var values = select1(config.fileId, config.sheetName, config.column,config.operator,config.value);
+      return respond(responseData(values));
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
