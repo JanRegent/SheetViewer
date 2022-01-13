@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speedgolf Scoring</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+  function loadNewPage(url) {
+    //window.location.href = url;
+    window.open(url,"_top");
+  }
+
+  function getUrl(qs)
+  {
+    google.script.run
+        .withSuccessHandler(loadNewPage)
+        .getScriptURL(qs);
+  }
+
+console.log('MyCode');
+</script>
+  </head>
+  <body>
+    <H3>Please choose interface:</H3>
+    <input type="button" value="All Sheets" onClick="getUrl('?mode=allsheets');" />
+    <input type="button" value="One Sheet" onClick="getUrl('?mode=onesheet');" />
+    <input type="button" value="Return to Main" onClick="getUrl('');" />
+  </body>
+</html>
+
+
+
