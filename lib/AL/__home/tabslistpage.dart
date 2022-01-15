@@ -1,9 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
+import '../../DL/apiDoc/apidoc.dart';
 import 'filelistviewPage.dart';
 
 class TabsListsPage extends StatefulWidget {
@@ -16,6 +18,8 @@ class TabsListsPage extends StatefulWidget {
 TabsListSheet tabsListSheet = TabsListSheet()
   ..tabslistTitle = 'Pro hledace 04tabs';
 
+DataSheet apiSheet = DataSheet();
+
 class _TabsListsPageState extends State<TabsListsPage> {
   @override
   void initState() {
@@ -24,8 +28,11 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   Future<String> getData() async {
     String response = await getTabsList();
-
     tabsListSheet = TabsListSheet.fromJson(response);
+
+    apiSheet = await getdatasheet(
+        '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'getRowsLast');
+    print(apiSheet.toString());
     return 'ok';
   }
 
@@ -47,6 +54,18 @@ class _TabsListsPageState extends State<TabsListsPage> {
             tabs: tabsList,
           ),
           title: const Text('Tabs Demo'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.chevron_right),
+              onPressed: () async {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ApidocDataGrid(),
+                    ));
+              },
+            )
+          ],
         ),
         body: TabBarView(
           children: tabsPages,
@@ -76,7 +95,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return tabs();
+                  return ApidocDataGrid(); //tabs();
                 }
             }
           },

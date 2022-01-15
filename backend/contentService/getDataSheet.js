@@ -3,20 +3,20 @@ function getdatasheet(eParameters, getLastAll) {
   var sheet, config;
 
   try {
-    var sheetName = decodeURI(eParameters['sheetname']);
+    var sheetName = decodeURI(eParameters['sheetName']);
 
     if (sheetName.endsWith('__config__')) {
-      config  = getConfig_(eParameters['fileid'],sheetName);
+      config  = getConfig_(eParameters['fileId'],sheetName);
       sheet  = SpreadsheetApp.openByUrl(config.url[0]).getSheetByName(config.sheetName[0]);
       logi('dataSSUrl from __config__')
       logi(config.url[0]);
     }
     else {
-      var dataSS = SpreadsheetApp.openById(eParameters['fileid']);
+      var dataSS = SpreadsheetApp.openById(eParameters['fileId']);
       logi('dataSSUrl')
       logi(dataSS.getUrl());
       sheet  = dataSS.getSheetByName(sheetName );
-      config  = getConfig_(eParameters['fileid'],sheetName );
+      config  = getConfig_(eParameters['fileId'],sheetName );
     }
 
   }catch(e) {
@@ -45,6 +45,7 @@ function getDataSheet2(sheet, config, getLastAll){
   if (getLastAll === undefined) rowStart = values.length - 10;
   if (getLastAll === 'getLast') rowStart = values.length - 10;
   if (getLastAll === 'getAll')  rowStart = 1;
+  if (rowStart< 1) rowStart = 1;
   //last5
   for (var i = rowStart; i < values.length; i++) {
     var object = {}
@@ -83,6 +84,16 @@ function getSheet__test2__config() {
 
   getDataSheet2(sheet, config );
 }
+
+function getSheet__apidoc__config() {
+  logClear();
+  var config = getConfig_('1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'getRowsLast' );
+  
+  var sheet  = SpreadsheetApp.openById(config.fileId).getSheetByName(config.sheetName);
+
+  getDataSheet2(sheet, config );
+}
+
 
 function getSheet__test3temp() {
   logClear();

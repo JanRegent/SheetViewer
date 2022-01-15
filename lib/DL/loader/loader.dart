@@ -19,7 +19,7 @@ Future getdatasheetRefresh(String fileId, String sheetName) async {
 }
 
 Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
-  String key = 'fileid=$fileId&sheetname=$sheetName';
+  String key = 'fileId=$fileId&sheetName=$sheetName';
 
   String jsonString = await readString(key);
   if (jsonString != 'null') {
@@ -40,6 +40,7 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   try {
     String urlQuery = Uri.encodeFull(
         bl.blGlobal.contentServiceUrl + '?action=getdatasheet&' + key);
+    print(urlQuery);
     var response = await dio.get(urlQuery);
     // print(
     //   "${response.statusCode} :  ${response.data}",
