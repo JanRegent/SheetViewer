@@ -3,6 +3,8 @@ import 'package:readmore/readmore.dart';
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../BL/bl.dart';
+
 class RowsDataSource extends DataGridSource {
   final DataSheet dataSheet;
   final BuildContext context;
@@ -31,7 +33,9 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0;
+    cells.add(
+        DataGridCell<String>(columnName: '__curl__', value: rowIx.toString()));
+    for (var colIx = 1;
         colIx < dataSheet.config.columnsSelected.length;
         colIx++) {
       String value = '';
@@ -54,15 +58,26 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
+
     for (var colIx = 0;
         colIx < dataSheet.config.columnsSelected.length;
         colIx++) {
       String value = '';
       try {
-        value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
-      } catch (_) {
+        if (colIx == 1) {
+          value = bl.blGlobal.contentServiceUrl +
+              '?action=getRowsLast' +
+              '&fileId=${dataSheet.rows[rowIx]['fileId']}&sheetName=${dataSheet.rows[rowIx]['sheetName']}' +
+              '&rowsCount=${dataSheet.rows[rowIx]['rowsCount'].toString()}';
+        } else {
+          value =
+              dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
+        }
+      } catch (e) {
+        print(e);
         value = '?';
       }
+      print(colIx.toString() + value);
       cells.add(DataGridCell<String>(
           columnName: dataSheet.cols[colIx], value: value));
     }
@@ -95,6 +110,14 @@ class RowsDataSource extends DataGridSource {
       return IconButton(
         icon: const Icon(Icons.chevron_right),
         onPressed: () => detailShow(rowIx),
+      );
+    }
+    if (e.columnName == 'curl') {
+      return IconButton(
+        icon: const Icon(Icons.run_circle),
+        onPressed: () => () {
+          print(e.value);
+        },
       );
     }
 
