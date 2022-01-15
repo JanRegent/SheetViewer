@@ -32,7 +32,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
     apiSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'getRowsLast');
-    print(apiSheet.toString());
+    //rint(apiSheet.toString());
     return 'ok';
   }
 
@@ -61,7 +61,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ApidocDataGrid(),
+                      builder: (context) => ApidocDataGrid(apiSheet),
                     ));
               },
             )
@@ -95,7 +95,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return ApidocDataGrid(); //tabs();
+                  return ApidocDataGrid(apiSheet); //tabs();
                 }
             }
           },
