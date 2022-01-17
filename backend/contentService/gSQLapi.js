@@ -63,15 +63,17 @@ function getColumnValuesUniq(fileId, sheetName, columnName) {
   var allCol = SQL.DB(fileId).TABLE(sheetName).SELECT(columnName).getVal();  
   var uniqValues = new Set();
 
-   for (var rowIx = 1; rowIx < allCol.length; rowIx++) {
+   for (var rowIx = 0; rowIx < allCol.length; rowIx++) {
      if (allCol[rowIx].toString() === '') break;
      uniqValues.add(allCol[rowIx]);
+     logi(allCol[rowIx]);
    }
+   config['columnValuesUniq'] = Array.from(uniqValues);
   
   
-  return   Array.from(uniqValues);
  
 }
+// ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
 
 function getColumnValuesTest(){
   Logger.log(getColumnValuesUniq(fileidDemo, 'elonX', 'Rampa'));

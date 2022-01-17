@@ -33,10 +33,15 @@ function doGet(e) {
     case "post":
       return respond(getTemp() );
     //--------------------------------------------------------
+     case "getcolumnvaluesuniq":
+      if(getPar(e, 'column') != '') return paramsErr; 
+      var values = getColumnValuesUniq(config.fileId, config.sheetName, config.column);
+      return respond(responseData(undefined));
+      //test ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
-      return respond(responseData(values));
+      return respond(responseData([]));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
     case "select1":
       if(getPar(e, 'column') != '') return paramsErr; 
@@ -64,15 +69,17 @@ function responseData(values){
   var columns = SQL.getColsLastUsed();
 
   var objectArray = [];
-  for (var i = 0; i < values.length; i++) {
-    var object = {}
-    for (var j = 0; j < values[i].length; j++) {
-      object[columns[j]] = values[i][j]
-    }
 
-    objectArray.push(object);   
+  if (values != undefined) {
+    for (var i = 0; i < values.length; i++) {
+      var object = {}
+      for (var j = 0; j < values[i].length; j++) {
+        object[columns[j]] = values[i][j]
+      }
+
+      objectArray.push(object);   
+    }
   }
- 
   var output = JSON.stringify({
     cols: columns,
     config: config,
