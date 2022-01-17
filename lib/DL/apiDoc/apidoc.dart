@@ -5,6 +5,8 @@ import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
+import 'apidocgridpage.dart';
+
 class EndpointsTabPage extends StatefulWidget {
   const EndpointsTabPage({Key? key}) : super(key: key);
 
@@ -26,7 +28,6 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   Future<String> getData() async {
     apiSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'endpoints');
-    print(apiSheet.rows);
     return 'ok';
   }
 
@@ -37,7 +38,7 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
       tabsList.add(Tab(
         text: apiSheet.rows[i]['endpoint'],
       ));
-      tabsPages.add(Text(apiSheet.rows[i]['endpoint']));
+      tabsPages.add(ApidocGridPage(apiSheet.rows[i]['endpoint']));
     }
     return DefaultTabController(
       length: apiSheet.rows.length,
