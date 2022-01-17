@@ -30,9 +30,6 @@ class _TabsListsPageState extends State<TabsListsPage> {
     String response = await getTabsList();
     tabsListSheet = TabsListSheet.fromJson(response);
 
-    apiSheet = await getdatasheet(
-        '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'getRowsLast');
-    //rint(apiSheet.toString());
     return 'ok';
   }
 
@@ -54,18 +51,6 @@ class _TabsListsPageState extends State<TabsListsPage> {
             tabs: tabsList,
           ),
           title: const Text('Tabs Demo'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.chevron_right),
-              onPressed: () async {
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ApidocDataGrid(apiSheet),
-                    ));
-              },
-            )
-          ],
         ),
         body: TabBarView(
           children: tabsPages,
@@ -95,7 +80,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return ApidocDataGrid(apiSheet); //tabs();
+                  return const EndpointsTabPage(); //tabs();
                 }
             }
           },

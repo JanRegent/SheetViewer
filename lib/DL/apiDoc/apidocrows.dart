@@ -74,10 +74,8 @@ class RowsDataSource extends DataGridSource {
               dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
         }
       } catch (e) {
-        print(e);
         value = '?';
       }
-      print(colIx.toString() + value);
       cells.add(DataGridCell<String>(
           columnName: dataSheet.cols[colIx], value: value));
     }
@@ -115,9 +113,7 @@ class RowsDataSource extends DataGridSource {
     if (e.columnName == 'curl') {
       return IconButton(
         icon: const Icon(Icons.run_circle),
-        onPressed: () => () {
-          print(e.value);
-        },
+        onPressed: () => () {},
       );
     }
 

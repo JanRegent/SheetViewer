@@ -14,6 +14,7 @@ class SheetConfig {
   List<String> selects1 = [];
   List<String> byValueColumns = [];
 
+  List<String> columnValuesUniq = [];
   Map rawConfig = {};
 
   SheetConfig();
