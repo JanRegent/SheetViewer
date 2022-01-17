@@ -41,7 +41,7 @@ function doGet(e) {
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
-      return respond(responseData([]));
+      return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
     case "select1":
       if(getPar(e, 'column') != '') return paramsErr; 

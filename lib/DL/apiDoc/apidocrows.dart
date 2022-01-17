@@ -8,9 +8,11 @@ import '../../BL/bl.dart';
 class RowsDataSource extends DataGridSource {
   final DataSheet dataSheet;
   final BuildContext context;
+  final String endpointName;
   final String searchWord;
 
-  RowsDataSource(this.dataSheet, this.context, this.searchWord) {
+  RowsDataSource(
+      this.dataSheet, this.context, this.searchWord, this.endpointName) {
     _stringRowsData = gridRows(dataSheet, context);
   }
 
@@ -64,11 +66,12 @@ class RowsDataSource extends DataGridSource {
         colIx++) {
       String value = '';
       try {
-        if (colIx == 1) {
+        if ('curl' == dataSheet.config.columnsSelected[colIx]) {
           value = bl.blGlobal.contentServiceUrl +
-              '?action=getRowsLast' +
+              '?action=$endpointName' +
               '&fileId=${dataSheet.rows[rowIx]['fileId']}&sheetName=${dataSheet.rows[rowIx]['sheetName']}' +
               '&rowsCount=${dataSheet.rows[rowIx]['rowsCount'].toString()}';
+          print(value);
         } else {
           value =
               dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];

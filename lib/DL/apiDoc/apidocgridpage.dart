@@ -29,7 +29,8 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   Future<String> getData() async {
     endpointSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', widget.endpointName);
-    rowsDataSource = RowsDataSource(endpointSheet, context, '');
+    rowsDataSource =
+        RowsDataSource(endpointSheet, context, '', widget.endpointName);
     return 'ok';
   }
 

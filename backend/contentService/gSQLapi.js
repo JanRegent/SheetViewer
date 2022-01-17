@@ -47,8 +47,10 @@ function getRowsAllTestALL(){
 
 //-------------------------------------------------------------------getRowsLast
 function getRowsLast(fileId, sheetName, rowsCount){
-  var allrows = SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal()
-  return allrows.slice(Math.max(allrows.length - rowsCount, 1));
+  var allrows = SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal();
+  var lastRows = allrows.slice(Math.max(allrows.length - rowsCount, 1));
+  logi(lastRows.length);
+  return lastRows;
 
 }
 
