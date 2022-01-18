@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../AL/views/gridview/_datagridpage.dart';
 import '../../BL/bl.dart';
 
 class RowsDataSource extends DataGridSource {
@@ -121,15 +122,29 @@ class RowsDataSource extends DataGridSource {
             onPressed: () async {
               await canLaunch(e.value)
                   ? await launch(e.value)
-                  : throw 'Could not launch ${e.value}';
+                  : throw 'Could not launch: ${e.value}';
             },
           ),
           IconButton(
             icon: const Icon(Icons.table_chart),
             onPressed: () async {
-              await canLaunch(e.value)
-                  ? await launch(e.value)
-                  : throw 'Could not launch ${e.value}';
+              String fileTitle = e.value
+                  .toString()
+                  .substring(bl.blGlobal.contentServiceUrl.length);
+              String fileId = fileTitle.substring(fileTitle.indexOf('fileId'));
+              fileId = fileId.substring(7, fileId.indexOf('sheetName') - 1);
+
+              String sheetName =
+                  fileTitle.substring(fileTitle.indexOf('sheetName'));
+              sheetName = sheetName.substring(10);
+              sheetName = sheetName.substring(0, sheetName.indexOf('&'));
+
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DatagridPage(fileId, sheetName, fileTitle),
+                  ));
             },
           )
         ],
