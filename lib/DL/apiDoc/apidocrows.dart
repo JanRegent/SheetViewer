@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -71,10 +72,9 @@ class RowsDataSource extends DataGridSource {
               '?action=$endpointName' +
               '&fileId=${dataSheet.rows[rowIx]['fileId']}&sheetName=${dataSheet.rows[rowIx]['sheetName']}' +
               '&rowsCount=${dataSheet.rows[rowIx]['rowsCount'].toString()}';
-          print(value);
         } else {
-          value =
-              dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
+          value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]]
+              .toString();
         }
       } catch (e) {
         value = '?';
@@ -114,9 +114,25 @@ class RowsDataSource extends DataGridSource {
       );
     }
     if (e.columnName == 'curl') {
-      return IconButton(
-        icon: const Icon(Icons.run_circle),
-        onPressed: () => () {},
+      return Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.web),
+            onPressed: () async {
+              await canLaunch(e.value)
+                  ? await launch(e.value)
+                  : throw 'Could not launch ${e.value}';
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.table_chart),
+            onPressed: () async {
+              await canLaunch(e.value)
+                  ? await launch(e.value)
+                  : throw 'Could not launch ${e.value}';
+            },
+          )
+        ],
       );
     }
 
@@ -137,7 +153,7 @@ class RowsDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       int rowIx = int.tryParse(row.getCells().first.value.toString())!;
       return Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topLeft,
         padding: const EdgeInsets.all(8.0),
         child: getCell(e, rowIx),
       );
