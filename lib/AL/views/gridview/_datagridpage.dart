@@ -17,7 +17,10 @@ class DatagridPage extends StatefulWidget {
   final String fileId;
   final String sheetName;
   final String sheetTitle;
-  const DatagridPage(this.fileId, this.sheetName, this.sheetTitle, {Key? key})
+  final String queryString;
+  const DatagridPage(
+      this.fileId, this.sheetName, this.sheetTitle, this.queryString,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -35,9 +38,12 @@ class _DatagridPageState extends State<DatagridPage> {
   DataSheet dataSheet = DataSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
+    if (widget.queryString != null) {
+      dataSheet = await getEndpoint(widget.queryString);
+    } else {
+      dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
+    }
     dataSheet.sheetTitle = widget.sheetTitle;
-
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
 
     return rowsDataSource.dataSheet.rows.length.toString();

@@ -18,6 +18,50 @@ Future getdatasheetRefresh(String fileId, String sheetName) async {
   await deleteString(key);
 }
 
+Future<DataSheet> getEndpoint(String serviceQueryString) async {
+  String queryString =
+      serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
+  print(queryString);
+  String fileId = queryString.substring(queryString.indexOf('fileId'));
+  fileId = fileId.substring(7, fileId.indexOf('sheetName') - 1);
+
+  String sheetName = queryString.substring(queryString.indexOf('sheetName'));
+  sheetName = sheetName.substring(10);
+  sheetName = sheetName.substring(0, sheetName.indexOf('&'));
+
+  String jsonString = await readString(queryString);
+  if (jsonString != 'null') {
+    var jsonData = json.decode(jsonString);
+    return DataSheet.fromJson(jsonData);
+  }
+  Dio dio = Dio();
+  // dio.interceptors.add(PrettyDioLogger());
+  // dio.interceptors.add(PrettyDioLogger(
+  //     requestHeader: true,
+  //     requestBody: true,
+  //     responseBody: true,
+  //     responseHeader: false,
+  //     error: true,
+  //     compact: true,
+  //     maxWidth: 90));
+
+  try {
+    String urlQuery =
+        Uri.encodeFull(bl.blGlobal.contentServiceUrl + queryString);
+    //rint(urlQuery);
+    var response = await dio.get(urlQuery);
+    // print(
+    //   "${response.statusCode} :  ${response.data}",
+    // );
+    DataSheet dataSheet = DataSheet.fromJson(response.data);
+
+    updateString(queryString, json.encode(response.data));
+    return dataSheet;
+  } catch (e) {
+    return DataSheet();
+  }
+}
+
 Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   String key = 'fileId=$fileId&sheetName=$sheetName';
 

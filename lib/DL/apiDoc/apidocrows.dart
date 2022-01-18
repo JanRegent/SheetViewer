@@ -131,19 +131,12 @@ class RowsDataSource extends DataGridSource {
               String fileTitle = e.value
                   .toString()
                   .substring(bl.blGlobal.contentServiceUrl.length);
-              String fileId = fileTitle.substring(fileTitle.indexOf('fileId'));
-              fileId = fileId.substring(7, fileId.indexOf('sheetName') - 1);
-
-              String sheetName =
-                  fileTitle.substring(fileTitle.indexOf('sheetName'));
-              sheetName = sheetName.substring(10);
-              sheetName = sheetName.substring(0, sheetName.indexOf('&'));
 
               await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        DatagridPage(fileId, sheetName, fileTitle),
+                        DatagridPage('', '', fileTitle, e.value),
                   ));
             },
           )
