@@ -24,17 +24,7 @@ function doGet(e) {
 
 var burl = 'https://script.google.com/macros/s/AKfycbyyMkRVy65wGEkX9pCMRe086WNUtj98PdCGYDFJCdinaIaOMWWz7j8sQJPGzCMkjpO-/exec';
 
-// function doGet() {
-//   return HtmlService.createHtmlOutputFromFile("index");
-
-//   //return HtmlService.createTemplateFromFile('getrowsIndex').evaluate();
-//   return HtmlService.createTemplateFromFile('select1Index').evaluate();
-// }
-
-
-function getDataGetRows() {return getData("A1:E", "getRowsLast"); }
-function getDataSelect1() {return getData("A1:G", "select1"); }
-
+var link = 'xx';
 
 //GET DATA FROM GOOGLE SHEET AND RETURN AS AN ARRAY
 function getData(rang, sheetName) {
@@ -49,13 +39,13 @@ function getData(rang, sheetName) {
   var values = range.values;
 
   for (let i = 1; i < values.length; i++) {
-    var link = burl + '?action='+values[i][1];
+    link = burl + '?action='+values[i][1];
     for (let j = 2; j < cols.length; j++) {
       if (values[i][j] == undefined) continue;
       if (values[i][j].toString() == '') continue;
       link = link + '&' + cols[j] + '=' +values[i][j];
     }
-    values[i][0] = link;
+    //values[i][0] = link;
   }
 
   return values;
