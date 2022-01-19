@@ -85,7 +85,9 @@ class RowsDataSource extends DataGridSource {
     }
     cells.add(DataGridCell<String>(
         columnName: '__rowDetail__', value: rowIx.toString()));
-    DataGridRow dataGridRow = DataGridRow(cells: cells);
+    DataGridRow dataGridRow = DataGridRow(
+      cells: cells,
+    );
 
     return dataGridRow;
   }

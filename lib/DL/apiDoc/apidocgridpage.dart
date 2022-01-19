@@ -26,6 +26,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   }
 
   late DataSheet endpointSheet;
+  int rowsSelectedIndex = 0;
   Future<String> getData() async {
     endpointSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', widget.endpointName);
@@ -34,20 +35,23 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
     return 'ok';
   }
 
-  Column grid() {
+  Column apiGrid() {
     return Column(
       children: [
         SfDataGrid(
           source: rowsDataSource,
           columnWidthMode: ColumnWidthMode.fill,
-          selectionMode: SelectionMode.multiple,
+          selectionMode: SelectionMode.single,
           columns: colsHeader(endpointSheet, context),
+          onSelectionChanged:
+              (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
+            setState(() {
+              rowsSelectedIndex =
+                  rowsDataSource.rows.indexOf(selectedRows.first);
+            });
+          },
         ),
-        MaterialButton(
-            color: Colors.red,
-            onPressed: () {
-              /// Add new Row
-            })
+        Text(endpointSheet.rows[rowsSelectedIndex]['rowsCount'].toString())
       ],
     );
   }
@@ -74,7 +78,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return grid();
+                return apiGrid();
               }
           }
         },

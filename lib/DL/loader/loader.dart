@@ -21,13 +21,6 @@ Future getdatasheetRefresh(String fileId, String sheetName) async {
 Future<DataSheet> getEndpoint(String serviceQueryString) async {
   String queryString =
       serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
-  print(queryString);
-  String fileId = queryString.substring(queryString.indexOf('fileId'));
-  fileId = fileId.substring(7, fileId.indexOf('sheetName') - 1);
-
-  String sheetName = queryString.substring(queryString.indexOf('sheetName'));
-  sheetName = sheetName.substring(10);
-  sheetName = sheetName.substring(0, sheetName.indexOf('&'));
 
   String jsonString = await readString(queryString);
   if (jsonString != 'null') {
