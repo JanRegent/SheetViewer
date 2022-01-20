@@ -2,22 +2,6 @@ var SQL = new gSQL();
 var fileidDemo = '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA';
 
 
-//-------------------------------------------------------------------select
-function select1(fileId, sheetName, column,operator,value){
-    return SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').WHERE(column, operator, value).getVal();
-}
-function select1Test(){
-  Logger.log(select1(fileidDemo, 'elonX',  'Rampa', '=', 'Boca Chica'));
-}
-
-function select1Test_NotBocaCicaIsFlorida(){
-  Logger.log(select1(fileidDemo, 'elonX', 'Rampa', '!=', 'Boca Chica'));
-}
-
-function select1Test_Contains(){
-  Logger.log(select1(fileidDemo, 'elonX',  'Orbita / cíl', 'contains', 'ISS'));
-}
-
 //-------------------------------------------------------------------selectAnd
 function selectAnd(fileId, sheetName, column,operator,value, column2,operator2,value2){
     return SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').WHERE(column, operator, value).AND(column2, operator2, value2).getVal();

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -55,15 +56,21 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
 
   ListTile queryStringTile() {
     return ListTile(
-      leading: const Text('querystring'),
-      title: ValueListenableBuilder<int>(
-        valueListenable: rowsSelectedIndex,
-        builder: (context, value, child) => Text(
-          getQuerystring(),
-          style: const TextStyle(fontSize: 20.0, color: Colors.black),
+        leading: const Text('querystring'),
+        title: ValueListenableBuilder<int>(
+          valueListenable: rowsSelectedIndex,
+          builder: (context, value, child) => Text(
+            getQuerystring(),
+            style: const TextStyle(fontSize: 20.0, color: Colors.black),
+          ),
         ),
-      ),
-    );
+        trailing: IconButton(
+            icon: const Icon(Icons.copy),
+            color: Colors.black,
+            tooltip: 'Copy columns toi clipboard',
+            onPressed: () async {
+              FlutterClipboard.copy(getQuerystring()).then((value) {});
+            }));
   }
 
   String backendUrl = '';
