@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../BL/bl.dart';
 import '../loader/loader.dart';
 import 'apidoccols.dart';
 import 'apidocrows.dart';
@@ -26,13 +29,76 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   }
 
   late DataSheet endpointSheet;
-  int rowsSelectedIndex = 0;
+  ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
+
   Future<String> getData() async {
     endpointSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', widget.endpointName);
     rowsDataSource =
         RowsDataSource(endpointSheet, context, '', widget.endpointName);
     return 'ok';
+  }
+
+  String getQuerystring() {
+    String queryString = '?action=' + widget.endpointName + '&';
+    for (var i = 0; i < endpointSheet.cols.length; i++) {
+      queryString += endpointSheet.cols[i] +
+          '=' +
+          endpointSheet.rows[rowsSelectedIndex.value][endpointSheet.cols[i]]
+              .toString() +
+          '&';
+    }
+    queryString = queryString.substring(0, queryString.length - 1);
+    backendUrl = bl.blGlobal.contentServiceUrl + queryString;
+    return queryString;
+  }
+
+  ListTile queryStringTile() {
+    return ListTile(
+      leading: const Text('querystring'),
+      title: ValueListenableBuilder<int>(
+        valueListenable: rowsSelectedIndex,
+        builder: (context, value, child) => Text(
+          getQuerystring(),
+          style: const TextStyle(fontSize: 20.0, color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  String backendUrl = '';
+  ListTile actionsTile() {
+    return ListTile(
+        leading: const Text('actions'),
+        title: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.web),
+              tooltip: 'In browser',
+              onPressed: () async {
+                await canLaunch(backendUrl)
+                    ? await launch(backendUrl)
+                    : throw 'Could not launch: $backendUrl';
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.table_chart),
+              tooltip: 'In SheetsViewer',
+              onPressed: () async {
+                String fileTitle = backendUrl
+                    .toString()
+                    .substring(bl.blGlobal.contentServiceUrl.length);
+
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DatagridPage('', '', fileTitle, backendUrl),
+                    ));
+              },
+            )
+          ],
+        ));
   }
 
   Column apiGrid() {
@@ -45,13 +111,13 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
           columns: colsHeader(endpointSheet, context),
           onSelectionChanged:
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
-            setState(() {
-              rowsSelectedIndex =
-                  rowsDataSource.rows.indexOf(selectedRows.first);
-            });
+            rowsSelectedIndex.value =
+                rowsDataSource.rows.indexOf(selectedRows.first);
+            getQuerystring();
           },
         ),
-        Text(endpointSheet.rows[rowsSelectedIndex]['rowsCount'].toString())
+        queryStringTile(),
+        actionsTile()
       ],
     );
   }

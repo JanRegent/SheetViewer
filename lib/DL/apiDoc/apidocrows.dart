@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
-import '../../AL/views/gridview/_datagridpage.dart';
-import '../../BL/bl.dart';
 
 class RowsDataSource extends DataGridSource {
   final DataSheet dataSheet;
@@ -68,15 +65,8 @@ class RowsDataSource extends DataGridSource {
         colIx++) {
       String value = '';
       try {
-        if ('curl' == dataSheet.config.columnsSelected[colIx]) {
-          value = bl.blGlobal.contentServiceUrl +
-              '?action=$endpointName' +
-              '&fileId=${dataSheet.rows[rowIx]['fileId']}&sheetName=${dataSheet.rows[rowIx]['sheetName']}' +
-              '&rowsCount=${dataSheet.rows[rowIx]['rowsCount'].toString()}';
-        } else {
-          value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]]
-              .toString();
-        }
+        value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]]
+            .toString();
       } catch (e) {
         value = '?';
       }
@@ -116,35 +106,6 @@ class RowsDataSource extends DataGridSource {
         onPressed: () => detailShow(rowIx),
       );
     }
-    if (e.columnName == 'curl') {
-      return Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.web),
-            onPressed: () async {
-              await canLaunch(e.value)
-                  ? await launch(e.value)
-                  : throw 'Could not launch: ${e.value}';
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.table_chart),
-            onPressed: () async {
-              String fileTitle = e.value
-                  .toString()
-                  .substring(bl.blGlobal.contentServiceUrl.length);
-
-              await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DatagridPage('', '', fileTitle, e.value),
-                  ));
-            },
-          )
-        ],
-      );
-    }
 
     return readmoreText(e.value.toString());
   }
@@ -163,7 +124,7 @@ class RowsDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       int rowIx = int.tryParse(row.getCells().first.value.toString())!;
       return Container(
-        alignment: Alignment.topLeft,
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
         child: getCell(e, rowIx),
       );
