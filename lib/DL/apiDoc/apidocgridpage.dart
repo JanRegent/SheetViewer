@@ -118,7 +118,6 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
       children: [
         SfDataGrid(
           source: rowsDataSource,
-          columnWidthMode: ColumnWidthMode.fill,
           selectionMode: SelectionMode.single,
           columns: colsHeader(endpointSheet, context),
           onSelectionChanged:
@@ -128,6 +127,16 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
             getQuerystring();
           },
           allowSorting: true,
+          allowTriStateSorting: true,
+          allowColumnsResizing: false,
+          columnWidthMode: ColumnWidthMode.auto,
+          // columnResizeMode: ColumnResizeMode.onResizeEnd,
+          // onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
+          //   setState(() {
+          //     columnWidths[details.column.columnName] = details.width;
+          //   });
+          //   return true;
+          // },
         ),
         queryStringTile(),
         actionsTile()

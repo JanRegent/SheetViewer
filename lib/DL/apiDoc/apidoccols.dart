@@ -42,19 +42,25 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
   );
 }
 
+late Map<String, double> columnWidths = {};
+
 List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
   List<GridColumn> gridCols = [];
+  columnWidths['__leftRowMenu__'] = 50;
   gridCols.add(GridColumn(
       columnName: '__leftRowMenu__',
-      width: 50,
+      //width: 50,
+      width: columnWidths['__leftRowMenu__']!,
       label: Container(
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
           child: popup(anySheet, context))));
 
   for (var colIx = 0; colIx < anySheet.config.columnsSelected.length; colIx++) {
+    columnWidths[anySheet.config.columnsSelected[colIx]] = double.nan;
     gridCols.add(GridColumn(
         columnName: anySheet.config.columnsSelected[colIx],
+        width: columnWidths[anySheet.config.columnsSelected[colIx]]!,
         label: Container(
             padding: const EdgeInsets.all(16.0),
             alignment: Alignment.center,
