@@ -127,6 +127,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
                 rowsDataSource.rows.indexOf(selectedRows.first);
             getQuerystring();
           },
+          allowSorting: true,
         ),
         queryStringTile(),
         actionsTile()
