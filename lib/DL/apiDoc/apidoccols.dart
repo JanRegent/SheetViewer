@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,15 +19,20 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
       child: const Text('Origin data source show'),
     ),
   ));
+
   menus.add(PopupMenuItem(
-    value: 'xx',
-    child: InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: const Icon(Icons.search),
-    ),
-  ));
+      value: 'xx',
+      child: IconButton(
+        icon: const Icon(Icons.view_column_sharp),
+        tooltip: 'Select columns',
+        onPressed: () async {
+          Navigator.pop(context);
+          List<String> result = await selectListByCheckoxes(
+              context, anySheet.cols, 'Select columns');
+          if (result.isEmpty) return;
+          anySheet.config.columnsSelected = result;
+        },
+      )));
   return PopupMenuButton(
     initialValue: 2,
     child: const Center(child: Icon(Icons.ac_unit)),
@@ -45,6 +51,7 @@ List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
           child: popup(anySheet, context))));
+
   for (var colIx = 0; colIx < anySheet.config.columnsSelected.length; colIx++) {
     gridCols.add(GridColumn(
         columnName: anySheet.config.columnsSelected[colIx],

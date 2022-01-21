@@ -17,15 +17,16 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
       child: const Text('Origin data source show'),
     ),
   ));
+
   menus.add(PopupMenuItem(
-    value: 'xx',
-    child: InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: const Icon(Icons.search),
-    ),
-  ));
+      value: 'xx',
+      child: IconButton(
+        icon: const Icon(Icons.view_column_sharp),
+        tooltip: 'Select columns',
+        onPressed: () async {
+          //Navigator.pop(context);
+        },
+      )));
   return PopupMenuButton(
     initialValue: 2,
     child: const Center(child: Icon(Icons.ac_unit)),

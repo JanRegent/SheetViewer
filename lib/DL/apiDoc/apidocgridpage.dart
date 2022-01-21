@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
+import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,11 +31,15 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   }
 
   late DataSheet endpointSheet;
+  List<String> columnsSelected = [];
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
     endpointSheet = await getdatasheet(
         '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', widget.endpointName);
+    if (columnsSelected.isNotEmpty) {
+      endpointSheet.config.columnsSelected = columnsSelected;
+    }
     rowsDataSource =
         RowsDataSource(endpointSheet, context, '', widget.endpointName);
     return 'ok';
@@ -134,6 +139,19 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Endpoint: ${widget.endpointName}'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                List<String> result = await selectListByCheckoxes(
+                    context, endpointSheet.cols, 'Select columns');
+                if (result.isEmpty) return;
+
+                setState(() {
+                  columnsSelected = result;
+                });
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
       body: FutureBuilder<String>(
         future: getData(), // async work
