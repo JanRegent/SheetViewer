@@ -32,7 +32,7 @@ dependencies:
 
 
   #========================================================AL    
-  syncfusion_flutter_datagrid: ^19.3.44 
+  syncfusion_flutter_datagrid: ^19.4.43  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
   
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
   #text

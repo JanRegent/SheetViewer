@@ -66,6 +66,7 @@ List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
             alignment: Alignment.center,
             child: Text(
               anySheet.config.columnsSelected[colIx],
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ))));
   }
   gridCols.add(GridColumn(
