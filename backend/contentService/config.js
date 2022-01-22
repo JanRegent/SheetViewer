@@ -4,6 +4,8 @@ var config = {
   sheetName: '',
   fileId: '',
 
+  columns: [],
+
   copyrightUrl: '',
   sheetUrl: '',
 
@@ -75,6 +77,40 @@ function getsheetconfig(eParameters){
 //https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
 
 
+function getColumns(values) {
+  var columns = [];
+  var columnsSet ={};
+  for (var rowIx = 0; rowIx < values.length; rowIx++) {
+    if (values[rowIx][0] == 'columns') {
+      var arr =values[rowIx].slice(2, values[rowIx].length);  
+      var arr2  = arr.filter(element => { //only valid cells
+          return element !== null && element !== undefined && element !== '';
+        });
+      columnsSet[values[rowIx][1]]  =  arr2.join('__|__');
+      columns.push(columnsSet);
+      logi(columnsSet.toString());
+      continue;
+    }      
+  }
+  logi(columns.toString());
+  return columns;
+}
+
+function listMap(maparr) {
+
+  logi('*************keys=values');
+  for (const [key, value] of maparr) {
+    logi(key + ' = ' + value)
+  }
+}
+
+function getConfig2test_config_ElonX() {
+  logClear();
+  getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX__config__'  );
+  logi(config);
+}
+
+
 function getConfig_(fileId, sheetName ){
 
 
@@ -102,8 +138,9 @@ function getConfig_(fileId, sheetName ){
   //-------------------------------------------------------------------cofig exists
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
+  config.columns = getColumns(values); 
+ 
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
-
     if (values[rowIx][0] == '') continue;
     if (values[rowIx][0] == 'sheetName') {
       config.sheetName = values[rowIx][1];  
@@ -113,7 +150,7 @@ function getConfig_(fileId, sheetName ){
       config.fileId = values[rowIx][1];  
       continue;
     }
-          
+      
   }
   //-------------------------------------------------func
   var selects1Arr = [];
@@ -188,7 +225,7 @@ function getConfig_(fileId, sheetName ){
   }
   config.__ver__ = 'defined/final';
   logi('config defined/final');
-  logi(JSON.stringify(config));
+  
   return config;
 }
 
@@ -203,6 +240,8 @@ function getConfig_test_wrong() {
   Logger.log(getConfig_('t1'));
 
 }
+
+
 
 function getConfig_test_config_NOexists() {
   logClear();

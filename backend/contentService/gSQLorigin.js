@@ -51,8 +51,9 @@ var gSQL = function() {
         case '!=':map.forEach(function(elt, index) {if (index > 0) {if (elt != arg3) {match.push(index);}}});
             break;
         //jre
-        case 'contains':map.forEach(function(elt, index) { logi(elt);
-          if (index > 0) {if (elt.indexOf(arg3) > -1) {match.push(index);}}});
+        case 'contains':map.forEach(function(elt, index) { 
+            if (index > 0) {if (elt.indexOf(arg3) > -1) {match.push(index);}}
+          });
           break;            
     }
     if (bool == true) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alib/alib.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'package:sheetviewer/DL/loader/loader.dart';
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 
@@ -24,24 +24,13 @@ class _ByValePageState extends State<ByValuePage> {
     return 'ok';
   }
 
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
-        },
-        icon: const Icon(Icons.view_agenda));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Filter by value in column'),
           actions: [
-            jsonViewer(),
+            al.jsonViewer(context, sheetConfig),
           ],
         ),
         body: FutureBuilder<String>(

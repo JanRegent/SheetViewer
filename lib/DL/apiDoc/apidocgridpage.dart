@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:sheetviewer/AL/alib/alib.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
@@ -40,6 +41,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
     if (columnsSelected.isNotEmpty) {
       endpointSheet.config.columnsSelected = columnsSelected;
     }
+
     rowsDataSource =
         RowsDataSource(endpointSheet, context, '', widget.endpointName);
     return 'ok';
@@ -48,6 +50,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   String getQuerystring() {
     String queryString = '?action=' + widget.endpointName + '&';
     for (var i = 0; i < endpointSheet.cols.length; i++) {
+      if (endpointSheet.cols[i].startsWith('__')) continue;
       queryString += endpointSheet.cols[i] +
           '=' +
           endpointSheet.rows[rowsSelectedIndex.value][endpointSheet.cols[i]]
@@ -108,7 +111,8 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
                           DatagridPage('', '', fileTitle, backendUrl),
                     ));
               },
-            )
+            ),
+            al.jsonViewer(context, endpointSheet.config),
           ],
         ));
   }
