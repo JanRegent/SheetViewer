@@ -45,8 +45,6 @@ class _DatagridPageState extends State<DatagridPage> {
     }
     dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
-    print('-------------------------dg');
-    print(dataSheet.config.columns);
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 

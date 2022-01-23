@@ -58,6 +58,7 @@ function doGet(e) {
 
 function respond(response) {  
   //Logger.log(response);
+      listObj(config.headers);
   return ContentService
   .createTextOutput(response)
   .setMimeType(ContentService.MimeType.JSON)

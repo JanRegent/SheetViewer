@@ -8,7 +8,7 @@ class SheetConfig {
   String cacheUrlkey = '';
 
   List<String> columnsSelected = [];
-  List<String> columns = [];
+  List<String> headers = [];
 
   String copyrightUrl = '';
   String sheetUrl = '';
@@ -28,12 +28,21 @@ class SheetConfig {
     config.fileId = config_['fileId'];
     config.cacheUrlkey =
         'fileid=${config.fileId}&sheetname=${config.sheetName}';
-    print('****fromJson ');
-    print(config_['columns']);
+
+    if (config_['headers'] != null) {
+      print('--------------------config_headers');
+      print(config_['headers']);
+      print('----');
+      for (var item in config_['headers']) {
+        print(json.encode(item));
+        config.headers.add(json.encode(item));
+      }
+      print(config.headers);
+    }
     try {
       config.columnsSelected =
           bl.blUti.toListString(config_['columnsSelected']);
-      config.columns = config_['columns'] ?? {};
+
       config.copyrightUrl = config_['copyrightUrl'] ?? '';
       config.sheetUrl = config_['sheetUrl'] ?? '';
       for (var item in config_['selects1']) {

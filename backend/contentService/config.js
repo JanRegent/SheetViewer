@@ -4,7 +4,7 @@ var config = {
   sheetName: '',
   fileId: '',
 
-  columns: [],
+  headers: [],
 
   copyrightUrl: '',
   sheetUrl: '',
@@ -70,44 +70,19 @@ function getPar(e, parName) {
 }
 
 function getsheetconfig(eParameters){
-  logi(eParameters['fileid'][0]);
-  logi(eParameters['sheetname'][0]);
-  return JSON.stringify(getConfig_(eParameters['fileid'][0], eParameters['sheetname'][0]));
+  logi(eParameters['fileId'][0]);
+  logi(eParameters['sheetName'][0]);
+  return JSON.stringify(getConfig_(eParameters['fileId'][0], eParameters['sheetName'][0]));
 }
 //https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
 
 
-function getColumns(values) {
-  var columns = [];
-  var columnsSet ={};
-  for (var rowIx = 0; rowIx < values.length; rowIx++) {
-    if (values[rowIx][0] == 'columns') {
-      var arr =values[rowIx].slice(2, values[rowIx].length);  
-      var arr2  = arr.filter(element => { //only valid cells
-          return element !== null && element !== undefined && element !== '';
-        });
-      columnsSet[values[rowIx][1]]  =  arr2.join('__|__');
-      columns.push(columnsSet);
-      logi(columnsSet.toString());
-      continue;
-    }      
-  }
-  logi(columns.toString());
-  return columns;
-}
-
-function listMap(maparr) {
-
-  logi('*************keys=values');
-  for (const [key, value] of maparr) {
-    logi(key + ' = ' + value)
-  }
-}
 
 function getConfig2test_config_ElonX() {
   logClear();
-  getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX__config__'  );
+  getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX'  );
   logi(config);
+  // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
 }
 
 
@@ -136,9 +111,12 @@ function getConfig_(fileId, sheetName ){
   }
 
   //-------------------------------------------------------------------cofig exists
+  getHeaders(fileId, sheetName);
+    listObj(config.headers);
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
-  config.columns = getColumns(values); 
+
+
  
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     if (values[rowIx][0] == '') continue;
@@ -226,6 +204,7 @@ function getConfig_(fileId, sheetName ){
   config.__ver__ = 'defined/final';
   logi('config defined/final');
   
+
   return config;
 }
 

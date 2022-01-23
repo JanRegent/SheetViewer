@@ -41,11 +41,7 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
   try {
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + queryString);
-    //rint(urlQuery);
     var response = await dio.get(urlQuery);
-    // print(
-    //   "${response.statusCode} :  ${response.data}",
-    // );
     DataSheet dataSheet = DataSheet.fromJson(response.data);
 
     updateString(queryString, json.encode(response.data));
