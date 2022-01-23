@@ -81,7 +81,7 @@ function getsheetconfig(eParameters){
 function getConfig2test_config_ElonX() {
   logClear();
   getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX'  );
-  logi(config);
+
   // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
 }
 
@@ -112,7 +112,7 @@ function getConfig_(fileId, sheetName ){
 
   //-------------------------------------------------------------------cofig exists
   getHeaders(fileId, sheetName);
-    listObj(config.headers);
+  listObj(config.headers, 'cexist ');
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
 
@@ -176,7 +176,7 @@ function getConfig_(fileId, sheetName ){
       rowIx = rowIx + 1;
       continue;
     }
-
+    listObj(config.headers, 'za select');
     if (values[rowIx][0] == 'columnsSelected' ) {
       config.columnsSelected = getLabelArr(rowIx);
       continue;
@@ -189,10 +189,10 @@ function getConfig_(fileId, sheetName ){
         rowCells.push(values[rowIx][j]);
 
     }
-    if (rowCells.length > 1) //lists-arr
-      config[values[rowIx][0]] = rowCells;
-    else
-      config[values[rowIx][0]] = rowCells[0]; //Strings-->Urls..
+    // if (rowCells.length > 1) //lists-arr
+    //   config[values[rowIx][0]] = rowCells;
+    // else
+    //   config[values[rowIx][0]] = rowCells[0]; //Strings-->Urls..
         
   }
   //---------------------------------------------------columnsSelected in selects

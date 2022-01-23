@@ -30,29 +30,38 @@ class SheetConfig {
         'fileid=${config.fileId}&sheetname=${config.sheetName}';
 
     if (config_['headers'] != null) {
-      print('--------------------config_headers');
-      print(config_['headers']);
-      print('----');
       for (var item in config_['headers']) {
-        print(json.encode(item));
         config.headers.add(json.encode(item));
       }
-      print(config.headers);
     }
     try {
       config.columnsSelected =
           bl.blUti.toListString(config_['columnsSelected']);
-
-      config.copyrightUrl = config_['copyrightUrl'] ?? '';
-      config.sheetUrl = config_['sheetUrl'] ?? '';
-      for (var item in config_['selects1']) {
-        config.selects1.add(json.encode(item));
-      }
-      config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
-      return config;
     } catch (e) {
-      return config;
+      config.columnsSelected = [];
     }
+
+    config.copyrightUrl = config_['copyrightUrl'] ?? '';
+    config.sheetUrl = config_['sheetUrl'] ?? '';
+
+    try {
+      if (config_['selects1'] != null) {
+        for (var item in config_['selects1']) {
+          config.selects1.add(json.encode(item));
+        }
+      }
+    } catch (e) {
+      config.selects1 = [];
+    }
+
+    try {
+      config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
+    } catch (e) {
+      config.byValueColumns = [];
+    }
+    print('------------');
+    print(config.toString());
+    return config;
   }
 
   @override
@@ -66,10 +75,15 @@ class SheetConfig {
     sheetUrl:         $sheetUrl
 
     
-    columnsSelected:  $columnsSelected 
-
+    columnsSelected:  $columnsSelected
+    
+    headers:
+    $headers
+    
     selects1:
     $selects1
+
+  
     ''';
   }
 }

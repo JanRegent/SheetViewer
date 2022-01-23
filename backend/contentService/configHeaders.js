@@ -1,9 +1,10 @@
 
 function getHeaders(fileId, sheetName) {
+  config.headers = [];
   var sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );  
    var values = sheetConfig.getDataRange().getValues();
 
-  var headersArr = [];
+  const keys = new Set();
 
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     var headersObj ={};
@@ -12,10 +13,14 @@ function getHeaders(fileId, sheetName) {
       var arr2  = arr.filter(element => { //only valid cells
           return element !== null && element !== undefined && element !== '';
         });
-      headersObj['"' + values[rowIx][1]+ '"']   =  '"' + arr2.join('__|__') + '"';
-      config.headers.push(headersObj);
+      var key =   values[rowIx][1];
+      headersObj[key]   =   arr2.join('__|__') ;
+      if (! keys.has(key) ) 
+        config.headers.push(headersObj);
+      keys[key] = key;  
     }      
   }
+  Logger.log(config.headers);
 
 }
 
@@ -27,9 +32,9 @@ function listMap(maparr) {
   }
 }
 
-function listObj(maparr) {
+function listObj(maparr, mess) {
 
-  logi('*************obj');
+  logi('*************obj ' + mess);
   for (const item of maparr) {
     logi(item);
   }
