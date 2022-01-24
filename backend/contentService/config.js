@@ -1,17 +1,29 @@
 
 
 function getsheetconfig(eParameters){
+  logClear();
+  getConfig_(eParameters['fileId'][0], eParameters['sheetName'][0]);
+   
   logi(eParameters['fileId'][0]);
   logi(eParameters['sheetName'][0]);
-  return JSON.stringify(getConfig_(eParameters['fileId'][0], eParameters['sheetName'][0]));
-}
-//https://script.google.com/macros/s/AKfycbwD2d30ebAzRxF-jxxObisS_WWNyQUhcyIrYrCyrApt437aWUJsfGPRYaQztUB1ik1D/exec?action=getSheetConfig&fileid=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetname=DailyNotes
+  Logger.log(config.sheetParams);
+  listObj(config.headers, 'headers ');
+  listObj(config.getRows, 'getRows ');
+  listObj(config.selects1, 'selects1 ');
 
+  return JSON.stringify(config);
+}
 
 
 function getConfig2test_config_ElonX() {
   logClear();
   getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX'  );
+
+  Logger.log(config.sheetParams);
+  listObj(config.headers, 'headers ');
+  listObj(config.getRows, 'getRows ');
+  listObj(config.selects1, 'selects1 ');
+
 
   // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
 }
@@ -42,13 +54,12 @@ function getConfig_(fileId, sheetName ){
   }
 
   //-------------------------------------------------------------------cofig exists
-  listObj(config.getRows, 'cexist ');
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
   getSheetParams(values);
   getHeaders(values);
   getRowsConfig(values);
-
+  getSelect1Config(values);
  
   for (var rowIx = 0; rowIx < values.length; rowIx++) {
     if (values[rowIx][0] == '') continue;
@@ -62,81 +73,10 @@ function getConfig_(fileId, sheetName ){
     }
       
   }
-  //-------------------------------------------------func
-  var selects1Arr = [];
-  function select1Add(rowIxCurr) {
-
-    function removeLabel(array, label){
-      const index = array.indexOf(label);
-      if (index > -1) {
-        array.splice(index, 1);
-      }
-      return array;
-    }
-
-    var selectObj = {};
-    if (values[rowIxCurr][1] !== '')
-      selectObj['columnsSelected'] = removeLabel(values[rowIxCurr], 'select1');
-    selectObj['where'] = removeLabel(values[rowIxCurr+1], 'where');
-    selects1Arr.push(selectObj); 
-  }
-
-  function getLabelArr(rowIx){
-    var rowCellsArr = [];
-    for (var j = 1; j < values[rowIx].length; j++) {
-      if (values[rowIx][j] != '')
-        rowCellsArr.push(values[rowIx][j]);
-
-    }
-    return rowCellsArr;
-  }
-
-
- //---------------------------------------------------------other pars than fileId, sheetName 
-   if( config.columnsSelected == [])  
-    config.columnsSelected = getCols(config.fileId, config.sheetName);
-
-
-  for (var rowIx = 0; rowIx < values.length; rowIx++) {
-
-    if (values[rowIx][0] == '') continue;
-    if (values[rowIx][0] == 'sheetName') continue;
-    if (values[rowIx][0] == 'fileId') continue;
-
-    // if (values[rowIx][0] == 'select1') {
-    //   select1Add(rowIx);
-    //   rowIx = rowIx + 1;
-    //   continue;
-    // }
-    if (values[rowIx][0] == 'columnsSelected' ) {
-      config.columnsSelected = getLabelArr(rowIx);
-      continue;
-    }
-
-    //
-    var rowCells = [];
-    for (var j = 1; j < values[rowIx].length; j++) {
-      if (values[rowIx][j] != '')
-        rowCells.push(values[rowIx][j]);
-
-    }
-    // if (rowCells.length > 1) //lists-arr
-    //   config[values[rowIx][0]] = rowCells;
-    // else
-    //   config[values[rowIx][0]] = rowCells[0]; //Strings-->Urls..
-        
-  }
-  //---------------------------------------------------columnsSelected in selects
-  config.selects1 = selects1Arr;
-  for (var rowIx = 0; rowIx < config.selects1.length; rowIx++) {
-  if (config.selects1[rowIx].columnsSelected === undefined) 
-    config.selects1[rowIx]['columnsSelected'] = config.columnsSelected;
-  }
+ 
   config.__ver__ = 'defined/final';
-  logi('config defined/final');
-  
 
-  return config;
+
 }
 
 function getCols(fileId, sheetName ){
