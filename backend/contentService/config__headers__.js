@@ -37,6 +37,6 @@ function getHeadersTest_ElonX() {
   logClear();
   var headers = getHeaders(getValuesConfig('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX__config__')  );
   logi(JSON.stringify(headers));
-    Logger.log(config.getRows);
+    Logger.log(config.headers);
    // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
 }

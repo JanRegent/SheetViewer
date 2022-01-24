@@ -3,8 +3,15 @@ paramsErr = '';
 var config = { 
   sheetName: '',
   fileId: '',
+  sheetParams: {
+    sheetName: '',
+    fileId: '',
+    fileIdUrl: '',
+    originUrl: '',
+    copyrightPageUrl: '',
+  },
 
-  getRows:  [],
+  headers:  [],
   getRows:  [],
   selects1: [],
 

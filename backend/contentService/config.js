@@ -45,8 +45,8 @@ function getConfig_(fileId, sheetName ){
   listObj(config.getRows, 'cexist ');
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
-
-  getHeaders(getValuesConfig(fileId, sheetName + '__config__'));
+  getSheetParams(values);
+  getHeaders(values);
   getRowsConfig(values);
 
  
