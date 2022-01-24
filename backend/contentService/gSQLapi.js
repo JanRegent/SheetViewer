@@ -19,30 +19,6 @@ function selectOrTest(){
   Logger.log(selectOr(fileidDemo, 'elonX', ['Mise', 'Orbita / cíl', 'Rampa'], 'Rampa', '=', 'Florida', 'Orbita / cíl', '=', 'GTO'));
 }
 
-//-------------------------------------------------------------------getRowsAll
-
-function getRowsAll(fileId, sheetName){
-  return SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal();
-}
-function getRowsAllTestALL(){
-  Logger.log(getRowsAll(fileidDemo, 'elonX', ['Mise', 'Orbita / cíl', 'Rampa']));
-}
-
-
-//-------------------------------------------------------------------getRowsLast
-function getRowsLast(fileId, sheetName, rowsCount){
-  var allrows = SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal();
-  var lastRows = allrows.slice(Math.max(allrows.length - rowsCount, 1));
-  logi(lastRows.length);
-  return lastRows;
-
-}
-
-function getRowsLastTest(){
-  var values = getRowsLast(fileidDemo, 'elonX', 2);
-  Logger.log(responseData(values)); 
-}
-
 
 //-------------------------------------------------------------------columns
 function getColumnValuesUniq(fileId, sheetName, columnName) {
