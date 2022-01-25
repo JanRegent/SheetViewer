@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,7 +47,20 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
 
 late Map<String, double> columnWidths = {};
 
-List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
+Set columnsGetUsed(SheetConfig sheetConfig) {
+  Set columns = {};
+  for (var rowIx = 0; rowIx < sheetConfig.getRows.length; rowIx++) {
+    Map map = jsonDecode(sheetConfig.getRows[rowIx]);
+    map.forEach((key, value) {
+      columns.add(key);
+    });
+    //rint(columns);
+  }
+  return columns;
+}
+
+List<GridColumn> colsHeader(SheetConfig sheetConfig, BuildContext context) {
+  Set columnsSelected = columnsGetUsed(sheetConfig);
   List<GridColumn> gridCols = [];
   columnWidths['__leftRowMenu__'] = 50;
   gridCols.add(GridColumn(
@@ -54,18 +70,20 @@ List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
       label: Container(
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
-          child: popup(anySheet, context))));
+          child: null
+          //popup(anySheet, context)
+          )));
 
-  for (var colIx = 0; colIx < anySheet.config.columnsSelected.length; colIx++) {
-    columnWidths[anySheet.config.columnsSelected[colIx]] = double.nan;
+  for (var column in columnsSelected) {
+    columnWidths[column] = double.nan;
     gridCols.add(GridColumn(
-        columnName: anySheet.config.columnsSelected[colIx],
-        width: columnWidths[anySheet.config.columnsSelected[colIx]]!,
+        columnName: column,
+        width: columnWidths[column]!,
         label: Container(
             padding: const EdgeInsets.all(16.0),
             alignment: Alignment.center,
             child: Text(
-              anySheet.config.columnsSelected[colIx],
+              column,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ))));
   }

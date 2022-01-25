@@ -89,7 +89,7 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
-    String key = 'fileid=$fileId&sheetname=$sheetName';
+    String key = 'fileId=$fileId&sheetName=$sheetName';
 
     String jsonString = await readString(key + '__sheetConfig__');
     if (jsonString.isNotEmpty) {
@@ -97,6 +97,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     }
     String urlQuery =
         bl.blGlobal.contentServiceUrl + '?action=getSheetConfig&' + key;
+    //rint(urlQuery);
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(key + '__sheetConfig__', json.encode(response.data));

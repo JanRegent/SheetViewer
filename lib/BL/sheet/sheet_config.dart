@@ -12,6 +12,8 @@ class SheetConfig {
 
   String copyrightUrl = '';
   String sheetUrl = '';
+
+  List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
 
@@ -34,15 +36,16 @@ class SheetConfig {
         config.headers.add(json.encode(item));
       }
     }
-    try {
-      config.columnsSelected =
-          bl.blUti.toListString(config_['columnsSelected']);
-    } catch (e) {
-      config.columnsSelected = [];
-    }
 
-    config.copyrightUrl = config_['copyrightUrl'] ?? '';
-    config.sheetUrl = config_['sheetUrl'] ?? '';
+    try {
+      if (config_['getRows'] != null) {
+        for (var item in config_['getRows']) {
+          config.getRows.add(json.encode(item));
+        }
+      }
+    } catch (e) {
+      config.selects1 = [];
+    }
 
     try {
       if (config_['selects1'] != null) {
@@ -55,12 +58,22 @@ class SheetConfig {
     }
 
     try {
+      config.columnsSelected =
+          bl.blUti.toListString(config_['columnsSelected']);
+    } catch (e) {
+      config.columnsSelected = [];
+    }
+
+    config.copyrightUrl = config_['copyrightUrl'] ?? '';
+    config.sheetUrl = config_['sheetUrl'] ?? '';
+
+    try {
       config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
     } catch (e) {
       config.byValueColumns = [];
     }
-    print('------------');
-    print(config.toString());
+
+    //rint(config.toString());
     return config;
   }
 
@@ -80,6 +93,9 @@ class SheetConfig {
     headers:
     $headers
     
+    getRows:
+    $getRows
+
     selects1:
     $selects1
 

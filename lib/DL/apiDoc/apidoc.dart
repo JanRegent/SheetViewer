@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
 import 'apidocgridpage.dart';
@@ -14,10 +13,7 @@ class EndpointsTabPage extends StatefulWidget {
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
 }
 
-TabsListSheet tabsListSheet = TabsListSheet()
-  ..tabslistTitle = 'Pro hledace 04tabs';
-
-DataSheet apiSheet = DataSheet();
+SheetConfig sheetConfig = SheetConfig();
 
 class _EndpointsTabPageState extends State<EndpointsTabPage> {
   @override
@@ -26,22 +22,28 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   }
 
   Future<String> getData() async {
-    apiSheet = await getdatasheet(
-        '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', 'endpoints');
+    sheetConfig = await getSheetConfig(
+        '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    sheetConfig.toString();
     return 'ok';
   }
 
   DefaultTabController tabs() {
     List<Tab> tabsList = [];
     List<Widget> tabsPages = [];
-    for (var i = 0; i < apiSheet.rows.length; i++) {
-      tabsList.add(Tab(
-        text: apiSheet.rows[i]['endpoint'],
-      ));
-      tabsPages.add(ApidocGridPage(apiSheet.rows[i]['endpoint']));
-    }
+
+    tabsList.add(const Tab(
+      text: 'getRows',
+    ));
+    tabsPages.add(ApidocGridPage('getRows', sheetConfig)); //
+
+    tabsList.add(const Tab(
+      text: 'select1',
+    ));
+    tabsPages.add(const Text('select1'));
+
     return DefaultTabController(
-      length: apiSheet.rows.length,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(

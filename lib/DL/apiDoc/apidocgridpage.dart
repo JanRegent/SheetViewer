@@ -2,22 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:sheetviewer/AL/alib/alib.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
-import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../BL/bl.dart';
-import '../loader/loader.dart';
+
 import 'apidoccols.dart';
 import 'apidocrows.dart';
 
 class ApidocGridPage extends StatefulWidget {
   final String endpointName;
+  final SheetConfig sheetConfig;
   static String id = 'datagrid';
-  ApidocGridPage(this.endpointName, {Key? key}) : super(key: key);
+  ApidocGridPage(this.endpointName, this.sheetConfig, {Key? key})
+      : super(key: key);
 
   @override
   _ApidocGridPageState createState() => _ApidocGridPageState();
@@ -31,32 +31,25 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
     super.initState();
   }
 
-  late DataSheet endpointSheet;
   List<String> columnsSelected = [];
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
-    endpointSheet = await getdatasheet(
-        '1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M', widget.endpointName);
-    if (columnsSelected.isNotEmpty) {
-      endpointSheet.config.columnsSelected = columnsSelected;
-    }
-
     rowsDataSource =
-        RowsDataSource(endpointSheet, context, '', widget.endpointName);
+        RowsDataSource(widget.sheetConfig, context, '', widget.endpointName);
     return 'ok';
   }
 
   String getQuerystring() {
     String queryString = '?action=' + widget.endpointName + '&';
-    for (var i = 0; i < endpointSheet.cols.length; i++) {
-      if (endpointSheet.cols[i].startsWith('__')) continue;
-      queryString += endpointSheet.cols[i] +
-          '=' +
-          endpointSheet.rows[rowsSelectedIndex.value][endpointSheet.cols[i]]
-              .toString() +
-          '&';
-    }
+    // for (var i = 0; i < endpointSheet.cols.length; i++) {
+    //   if (endpointSheet.cols[i].startsWith('__')) continue;
+    //   queryString += endpointSheet.cols[i] +
+    //       '=' +
+    //       endpointSheet.rows[rowsSelectedIndex.value][endpointSheet.cols[i]]
+    //           .toString() +
+    //       '&';
+    // }
     queryString = queryString.substring(0, queryString.length - 1);
     backendUrl = bl.blGlobal.contentServiceUrl + queryString;
     return queryString;
@@ -112,7 +105,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
                     ));
               },
             ),
-            al.jsonViewer(context, endpointSheet.config),
+            //al.jsonViewer(context, endpointSheet.config),
           ],
         ));
   }
@@ -123,7 +116,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
         SfDataGrid(
           source: rowsDataSource,
           selectionMode: SelectionMode.single,
-          columns: colsHeader(endpointSheet, context),
+          columns: colsHeader(widget.sheetConfig, context),
           onSelectionChanged:
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
             rowsSelectedIndex.value =
@@ -156,12 +149,12 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
         actions: [
           IconButton(
               onPressed: () async {
-                List<String> result = await selectListByCheckoxes(
-                    context, endpointSheet.cols, 'Select columns');
-                if (result.isEmpty) return;
+                // List<String> result = await selectListByCheckoxes(
+                //     context, endpointSheet.cols, 'Select columns');
+                // if (result.isEmpty) return;
 
                 setState(() {
-                  columnsSelected = result;
+                  //columnsSelected = result;
                 });
               },
               icon: const Icon(Icons.refresh))
