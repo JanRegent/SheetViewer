@@ -33,7 +33,8 @@ function getSelect1Config(values) {
     if (values[rowIx][0].substring(0,2) == '//') continue;
     if (values[rowIx][0].substring(0,2) == '__') break;
 
-    var select1Obj ={};
+    var select1Obj = {};
+    select1Obj['endpoint']   =  'select1' ;
     select1Obj['column']   =  values[rowIx][cols.indexOf('column')] ;
     select1Obj['operator']   =  values[rowIx][cols.indexOf('operator')] ;
     select1Obj['value']   =  values[rowIx][cols.indexOf('value')] ;

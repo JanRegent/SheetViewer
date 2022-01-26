@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:clipboard/clipboard.dart';
-import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
-import 'package:sheetviewer/BL/sheet/sheet_config.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../BL/bl.dart';
+import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/components/selectList/selectlistbycheckoxes.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'apidoccols.dart';
 import 'apidocrows.dart';
@@ -35,79 +32,10 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
+    columnsSelected = columnsGetUsed(widget.sheetConfig, widget.endpointName);
     rowsDataSource =
         RowsDataSource(widget.sheetConfig, context, '', widget.endpointName);
     return 'ok';
-  }
-
-  String getQuerystring() {
-    String queryString = '?action=' + widget.endpointName + '&';
-    // for (var i = 0; i < endpointSheet.cols.length; i++) {
-    //   if (endpointSheet.cols[i].startsWith('__')) continue;
-    //   queryString += endpointSheet.cols[i] +
-    //       '=' +
-    //       endpointSheet.rows[rowsSelectedIndex.value][endpointSheet.cols[i]]
-    //           .toString() +
-    //       '&';
-    // }
-    queryString = queryString.substring(0, queryString.length - 1);
-    backendUrl = bl.blGlobal.contentServiceUrl + queryString;
-    return queryString;
-  }
-
-  ListTile queryStringTile() {
-    return ListTile(
-        leading: const Text('querystring'),
-        title: ValueListenableBuilder<int>(
-          valueListenable: rowsSelectedIndex,
-          builder: (context, value, child) => Text(
-            getQuerystring(),
-            style: const TextStyle(fontSize: 20.0, color: Colors.black),
-          ),
-        ),
-        trailing: IconButton(
-            icon: const Icon(Icons.copy),
-            color: Colors.black,
-            tooltip: 'Copy columns toi clipboard',
-            onPressed: () async {
-              FlutterClipboard.copy(getQuerystring()).then((value) {});
-            }));
-  }
-
-  String backendUrl = '';
-  ListTile actionsTile() {
-    return ListTile(
-        leading: const Text('actions'),
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.web),
-              tooltip: 'In browser',
-              onPressed: () async {
-                await canLaunch(backendUrl)
-                    ? await launch(backendUrl)
-                    : throw 'Could not launch: $backendUrl';
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.table_chart),
-              tooltip: 'In SheetsViewer',
-              onPressed: () async {
-                String fileTitle = backendUrl
-                    .toString()
-                    .substring(bl.blGlobal.contentServiceUrl.length);
-
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DatagridPage('', '', fileTitle, backendUrl),
-                    ));
-              },
-            ),
-            //al.jsonViewer(context, endpointSheet.config),
-          ],
-        ));
   }
 
   Column apiGrid() {
@@ -121,22 +49,20 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
             rowsSelectedIndex.value =
                 rowsDataSource.rows.indexOf(selectedRows.first);
-            getQuerystring();
+            //getQuerystring();
           },
           allowSorting: true,
           allowTriStateSorting: true,
           allowColumnsResizing: false,
           columnWidthMode: ColumnWidthMode.auto,
-          // columnResizeMode: ColumnResizeMode.onResizeEnd,
-          // onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
-          //   setState(() {
-          //     columnWidths[details.column.columnName] = details.width;
-          //   });
-          //   return true;
-          // },
+          columnResizeMode: ColumnResizeMode.onResizeEnd,
+          onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
+            setState(() {
+              columnWidths[details.column.columnName] = details.width;
+            });
+            return true;
+          },
         ),
-        queryStringTile(),
-        actionsTile()
       ],
     );
   }
@@ -149,12 +75,12 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
         actions: [
           IconButton(
               onPressed: () async {
-                // List<String> result = await selectListByCheckoxes(
-                //     context, endpointSheet.cols, 'Select columns');
-                // if (result.isEmpty) return;
+                List<String> result = await selectListByCheckoxes(
+                    context, columnsSelected, 'Select columns');
+                if (result.isEmpty) return;
 
                 setState(() {
-                  //columnsSelected = result;
+                  columnsSelected = result;
                 });
               },
               icon: const Icon(Icons.refresh))

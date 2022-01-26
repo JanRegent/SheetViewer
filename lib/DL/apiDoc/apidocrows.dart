@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'apidoccols.dart';
 
@@ -20,10 +24,8 @@ class RowsDataSource extends DataGridSource {
   }
 
   List<DataGridRow> gridRows(SheetConfig sheetConfig, BuildContext context) {
-    Set columns = columnsGetUsed(sheetConfig, endpointName);
-    List<String> configRows = [];
-    if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
-    if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
+    List<String> columns = columnsGetUsed(sheetConfig, endpointName);
+    List<String> configRows = configRowsGet(sheetConfig, endpointName);
 
     List<DataGridRow> gridrows = [];
     for (var rowIx = 0; rowIx < configRows.length; rowIx++) {
@@ -32,7 +34,14 @@ class RowsDataSource extends DataGridSource {
     return gridrows;
   }
 
-  DataGridRow gridRow(Set columns, List<String> values, int rowIx) {
+  List<String> configRowsGet(SheetConfig sheetConfig, String endpointName) {
+    List<String> configRows = [];
+    if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
+    if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
+    return configRows;
+  }
+
+  DataGridRow gridRow(List<String> columns, List<String> values, int rowIx) {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
@@ -49,13 +58,79 @@ class RowsDataSource extends DataGridSource {
       cells.add(DataGridCell<String>(columnName: column, value: value));
     }
 
+    cells.add(DataGridCell<Widget>(
+        columnName: '__buttons__', value: actionsTile(rowIx, sheetConfig)));
+
     cells.add(DataGridCell<String>(
         columnName: '__rowDetail__', value: rowIx.toString()));
+
     DataGridRow dataGridRow = DataGridRow(
       cells: cells,
     );
 
     return dataGridRow;
+  }
+
+  String getQuerystring(
+      List<String> columns, Map configRow, SheetConfig sheetConfig) {
+    String queryString = '?';
+
+    for (var i = 0; i < columns.length; i++) {
+      if (configRow[columns[i]] == null) continue;
+      if (columns[i].startsWith('__')) continue;
+      queryString += columns[i] + '=' + configRow[columns[i]].toString() + '&';
+    }
+    queryString = queryString.substring(0, queryString.length - 1);
+    queryString = queryString.replaceFirst('endpoint', 'action');
+    queryString +=
+        '&fileId=' + sheetConfig.fileId + '&sheetName=' + sheetConfig.sheetName;
+    return bl.blGlobal.contentServiceUrl + queryString;
+  }
+
+  String backendUrl = '';
+  ListTile actionsTile(int rowIx, SheetConfig sheetConfig) {
+    List<String> columns = columnsGetUsed(sheetConfig, endpointName);
+    List<String> configRows = configRowsGet(sheetConfig, endpointName);
+    Map configRow = jsonDecode(configRows[rowIx]);
+    String backendUrl = getQuerystring(columns, configRow, sheetConfig);
+    return ListTile(
+        title: Row(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.web),
+          tooltip: 'In browser',
+          onPressed: () async {
+            await canLaunch(backendUrl)
+                ? await launch(backendUrl)
+                : throw 'Could not launch: $backendUrl';
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.table_chart),
+          tooltip: 'In SheetsViewer',
+          onPressed: () async {
+            String fileTitle = backendUrl
+                .toString()
+                .substring(bl.blGlobal.contentServiceUrl.length);
+
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      DatagridPage('', '', fileTitle, backendUrl),
+                ));
+          },
+        ),
+        IconButton(
+            icon: const Icon(Icons.copy),
+            color: Colors.black,
+            tooltip: 'Copy columns toi clipboard',
+            onPressed: () async {
+              FlutterClipboard.copy(backendUrl).then((value) {});
+            })
+        //al.jsonViewer(context, endpointSheet.config),
+      ],
+    ));
   }
 
   List<DataGridRow> _stringRowsData = [];
@@ -75,14 +150,16 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  Widget getCell(DataGridCell<dynamic> e, int rowIx) {
+  Widget getCell(DataGridCell<dynamic> e, int rowIx, SheetConfig sheetConfig) {
     if (e.columnName == '__rowDetail__') {
       return IconButton(
         icon: const Icon(Icons.chevron_right),
         onPressed: () => detailShow(rowIx),
       );
     }
-
+    if (e.columnName == '__buttons__') {
+      return actionsTile(rowIx, sheetConfig);
+    }
     return readmoreText(e.value.toString());
   }
 
@@ -102,7 +179,7 @@ class RowsDataSource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: getCell(e, rowIx),
+        child: getCell(e, rowIx, sheetConfig),
       );
     }).toList());
   }

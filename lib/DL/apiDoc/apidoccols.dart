@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -47,7 +48,7 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
 
 late Map<String, double> columnWidths = {};
 
-Set columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
+List<String> columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
   List<String> configRows = [];
   if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
   if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
@@ -59,12 +60,13 @@ Set columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
     });
     //rint(columns);
   }
-  return columns;
+
+  return bl.blUti.toListString(columns.toList());
 }
 
 List<GridColumn> colsHeader(
     SheetConfig sheetConfig, BuildContext context, String endpointName) {
-  Set columnsSelected = columnsGetUsed(sheetConfig, endpointName);
+  List<String> columnsSelected = columnsGetUsed(sheetConfig, endpointName);
   List<GridColumn> gridCols = [];
   columnWidths['__leftRowMenu__'] = 50;
   gridCols.add(GridColumn(
@@ -91,6 +93,17 @@ List<GridColumn> colsHeader(
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ))));
   }
+  gridCols.add(GridColumn(
+      columnName: '__buttons__',
+      width: 250,
+      label: Container(
+          padding: const EdgeInsets.all(10.0),
+          alignment: Alignment.center,
+          child: IconButton(
+            icon: const Text('preview'),
+            onPressed: () {},
+          ))));
+
   gridCols.add(GridColumn(
       columnName: '__rowDetail__',
       width: 50,
