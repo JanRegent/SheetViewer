@@ -95,14 +95,11 @@ List<GridColumn> colsHeader(
   }
   gridCols.add(GridColumn(
       columnName: '__buttons__',
-      width: 250,
+      width: 150,
       label: Container(
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
-          child: IconButton(
-            icon: const Text('preview'),
-            onPressed: () {},
-          ))));
+          child: const Icon(Icons.preview))));
 
   gridCols.add(GridColumn(
       columnName: '__rowDetail__',

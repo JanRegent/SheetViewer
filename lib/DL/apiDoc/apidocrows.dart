@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
@@ -121,13 +120,7 @@ class RowsDataSource extends DataGridSource {
                 ));
           },
         ),
-        IconButton(
-            icon: const Icon(Icons.copy),
-            color: Colors.black,
-            tooltip: 'Copy columns toi clipboard',
-            onPressed: () async {
-              FlutterClipboard.copy(backendUrl).then((value) {});
-            })
+
         //al.jsonViewer(context, endpointSheet.config),
       ],
     ));

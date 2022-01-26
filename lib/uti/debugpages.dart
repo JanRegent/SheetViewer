@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
 import '../AL/alib/alib.dart';
@@ -5,7 +6,53 @@ import '../BL/bl.dart';
 import 'viewers/json_viewer.dart';
 
 class DebugPages extends StatelessWidget {
-  const DebugPages({Key? key}) : super(key: key);
+  final String querystring;
+  const DebugPages(this.querystring, {Key? key}) : super(key: key);
+
+  ListView blGlobalsListview() {
+    List<Widget> myList = [];
+    myList.add(ListTile(
+      leading: const Text('contentServiceUrl'),
+      title: Text(bl.blGlobal.contentServiceUrl),
+      trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
+    ));
+    myList.add(ListTile(
+      leading: const Text('querystring'),
+      title: Text(querystring),
+      trailing: IconButton(
+          icon: const Icon(Icons.copy),
+          color: Colors.black,
+          tooltip: 'Copy columns toi clipboard',
+          onPressed: () async {
+            FlutterClipboard.copy(querystring).then((value) {});
+          }),
+    ));
+    myList.add(ListTile(
+      leading: const Text('fullUrl'),
+      title: Text(bl.blGlobal.contentServiceUrl + querystring),
+      trailing: IconButton(
+          icon: const Icon(Icons.copy),
+          color: Colors.black,
+          tooltip: 'Copy columns toi clipboard',
+          onPressed: () async {
+            FlutterClipboard.copy(bl.blGlobal.contentServiceUrl + querystring)
+                .then((value) {});
+          }),
+    ));
+
+    return ListView.separated(
+        itemCount: myList.length,
+        // The list items
+        itemBuilder: (context, index) {
+          return myList[index];
+        },
+        // The separators
+        separatorBuilder: (context, index) {
+          return Divider(
+            color: Theme.of(context).primaryColor,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +82,4 @@ class DebugPages extends StatelessWidget {
       ),
     );
   }
-}
-
-ListView blGlobalsListview() {
-  List<Widget> myList = [];
-  myList.add(ListTile(
-    leading: const Text('contentServiceUrl'),
-    title: Text(bl.blGlobal.contentServiceUrl),
-    trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
-  ));
-  return ListView.separated(
-      itemCount: myList.length,
-      // The list items
-      itemBuilder: (context, index) {
-        return myList[index];
-      },
-      // The separators
-      separatorBuilder: (context, index) {
-        return Divider(
-          color: Theme.of(context).primaryColor,
-        );
-      });
 }

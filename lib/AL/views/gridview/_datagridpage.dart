@@ -52,8 +52,10 @@ class _DatagridPageState extends State<DatagridPage> {
     return IconButton(
         onPressed: () async {
           bl.dataSheet4debug = dataSheet;
-          await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const DebugPages()));
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DebugPages(widget.sheetTitle)));
         },
         icon: const Icon(Icons.view_agenda));
   }
