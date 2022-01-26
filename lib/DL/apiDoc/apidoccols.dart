@@ -47,10 +47,13 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
 
 late Map<String, double> columnWidths = {};
 
-Set columnsGetUsed(SheetConfig sheetConfig) {
+Set columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
+  List<String> configRows = [];
+  if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
+  if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
   Set columns = {};
-  for (var rowIx = 0; rowIx < sheetConfig.getRows.length; rowIx++) {
-    Map map = jsonDecode(sheetConfig.getRows[rowIx]);
+  for (var rowIx = 0; rowIx < configRows.length; rowIx++) {
+    Map map = jsonDecode(configRows[rowIx]);
     map.forEach((key, value) {
       columns.add(key);
     });
@@ -59,8 +62,9 @@ Set columnsGetUsed(SheetConfig sheetConfig) {
   return columns;
 }
 
-List<GridColumn> colsHeader(SheetConfig sheetConfig, BuildContext context) {
-  Set columnsSelected = columnsGetUsed(sheetConfig);
+List<GridColumn> colsHeader(
+    SheetConfig sheetConfig, BuildContext context, String endpointName) {
+  Set columnsSelected = columnsGetUsed(sheetConfig, endpointName);
   List<GridColumn> gridCols = [];
   columnWidths['__leftRowMenu__'] = 50;
   gridCols.add(GridColumn(

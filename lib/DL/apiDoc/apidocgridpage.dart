@@ -116,7 +116,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
         SfDataGrid(
           source: rowsDataSource,
           selectionMode: SelectionMode.single,
-          columns: colsHeader(widget.sheetConfig, context),
+          columns: colsHeader(widget.sheetConfig, context, widget.endpointName),
           onSelectionChanged:
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
             rowsSelectedIndex.value =

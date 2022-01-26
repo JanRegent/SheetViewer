@@ -20,10 +20,14 @@ class RowsDataSource extends DataGridSource {
   }
 
   List<DataGridRow> gridRows(SheetConfig sheetConfig, BuildContext context) {
-    Set columns = columnsGetUsed(sheetConfig);
+    Set columns = columnsGetUsed(sheetConfig, endpointName);
+    List<String> configRows = [];
+    if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
+    if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
+
     List<DataGridRow> gridrows = [];
-    for (var rowIx = 0; rowIx < sheetConfig.getRows.length; rowIx++) {
-      gridrows.add(gridRow(columns, sheetConfig.getRows, rowIx));
+    for (var rowIx = 0; rowIx < configRows.length; rowIx++) {
+      gridrows.add(gridRow(columns, configRows, rowIx));
     }
     return gridrows;
   }

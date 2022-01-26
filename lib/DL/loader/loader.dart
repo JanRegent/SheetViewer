@@ -92,6 +92,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     String key = 'fileId=$fileId&sheetName=$sheetName';
 
     String jsonString = await readString(key + '__sheetConfig__');
+    if (jsonString == 'null') jsonString = '';
     if (jsonString.isNotEmpty) {
       return SheetConfig.fromJson(json.decode(jsonString));
     }

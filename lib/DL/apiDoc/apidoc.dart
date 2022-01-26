@@ -35,12 +35,12 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsList.add(const Tab(
       text: 'getRows',
     ));
-    tabsPages.add(ApidocGridPage('getRows', sheetConfig)); //
+    tabsPages.add(ApidocGridPage('getRows', sheetConfig));
 
     tabsList.add(const Tab(
       text: 'select1',
     ));
-    tabsPages.add(const Text('select1'));
+    tabsPages.add(ApidocGridPage('select1', sheetConfig));
 
     return DefaultTabController(
       length: 2,
