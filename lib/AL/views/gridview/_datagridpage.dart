@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/uti/debugpages.dart';
+import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -55,7 +55,8 @@ class _DatagridPageState extends State<DatagridPage> {
           await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DebugPages(widget.sheetTitle)));
+                  builder: (context) =>
+                      JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
         },
         icon: const Icon(Icons.view_agenda));
   }

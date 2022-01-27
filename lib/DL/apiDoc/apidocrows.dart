@@ -70,8 +70,11 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  String getQuerystring(
-      List<String> columns, Map configRow, SheetConfig sheetConfig) {
+  String getQuerystring(int rowIx, SheetConfig sheetConfig) {
+    List<String> columns = columnsGetUsed(sheetConfig, endpointName);
+    List<String> configRows = configRowsGet(sheetConfig, endpointName);
+    Map configRow = jsonDecode(configRows[rowIx]);
+
     String queryString = '?';
 
     for (var i = 0; i < columns.length; i++) {
@@ -83,15 +86,12 @@ class RowsDataSource extends DataGridSource {
     queryString = queryString.replaceFirst('endpoint', 'action');
     queryString +=
         '&fileId=' + sheetConfig.fileId + '&sheetName=' + sheetConfig.sheetName;
-    return bl.blGlobal.contentServiceUrl + queryString;
+    backendUrl = bl.blGlobal.contentServiceUrl + queryString;
+    return queryString;
   }
 
   String backendUrl = '';
   ListTile actionsTile(int rowIx, SheetConfig sheetConfig) {
-    List<String> columns = columnsGetUsed(sheetConfig, endpointName);
-    List<String> configRows = configRowsGet(sheetConfig, endpointName);
-    Map configRow = jsonDecode(configRows[rowIx]);
-    String backendUrl = getQuerystring(columns, configRow, sheetConfig);
     return ListTile(
         title: Row(
       children: [
@@ -99,6 +99,7 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.web),
           tooltip: 'In browser',
           onPressed: () async {
+            bl.blGlobal.querystring = getQuerystring(rowIx, sheetConfig);
             await canLaunch(backendUrl)
                 ? await launch(backendUrl)
                 : throw 'Could not launch: $backendUrl';

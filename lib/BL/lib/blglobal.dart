@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 class BlGlobal {
   String contentServiceUrl = '';
   String contentServiceUrlLastModified = '';
+  String querystring = '?';
 
   Future init() async {
     contentServiceUrl = await loadAssetString('contentServiceUrl');
