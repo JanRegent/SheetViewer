@@ -1,13 +1,19 @@
+// ignore_for_file: implementation_imports
+
 import 'package:cross_file/cross_file.dart';
 
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
+
+GetStorage box = GetStorage();
 
 class BlGlobal {
   String contentServiceUrl = '';
   String contentServiceUrlLastModified = '';
-  String querystring = '?';
 
   Future init() async {
+    box = GetStorage();
+    box.write('bl.global.querystring', '?');
     contentServiceUrl = await loadAssetString('contentServiceUrl');
   }
 

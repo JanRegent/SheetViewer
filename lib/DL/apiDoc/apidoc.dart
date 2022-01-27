@@ -1,8 +1,8 @@
-// ignore_for_file: file_names
-
 import 'package:clipboard/clipboard.dart';
+
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
@@ -44,6 +44,10 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
         icon: const Icon(Icons.view_agenda));
   }
 
+  Text querystringText() {
+    return Text(box.read('bl.global.querystring'));
+  }
+
   ListView blGlobalsListview() {
     List<Widget> myList = [];
     myList.add(ListTile(
@@ -53,25 +57,27 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     ));
     myList.add(ListTile(
       leading: const Text('querystring'),
-      title: Text(bl.blGlobal.querystring),
+      title: querystringText(),
       trailing: IconButton(
           icon: const Icon(Icons.copy),
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(bl.blGlobal.querystring).then((value) {});
+            FlutterClipboard.copy(box.read('bl.global.querystring'))
+                .then((value) {});
           }),
     ));
     myList.add(ListTile(
       leading: const Text('fullUrl'),
-      title: Text(bl.blGlobal.contentServiceUrl + bl.blGlobal.querystring),
+      title: Text(
+          bl.blGlobal.contentServiceUrl + box.read('bl.global.querystring')),
       trailing: IconButton(
           icon: const Icon(Icons.copy),
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(
-                    bl.blGlobal.contentServiceUrl + bl.blGlobal.querystring)
+            FlutterClipboard.copy(bl.blGlobal.contentServiceUrl +
+                    box.read('bl.global.querystring'))
                 .then((value) {});
           }),
     ));
@@ -110,7 +116,7 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsPages.add(blGlobalsListview());
 
     tabsList.add(const Tab(
-      text: 'json',
+      text: 'json{}',
     ));
     tabsPages.add(JsonViewerPage(sheetConfig.rawConfig));
 
@@ -121,7 +127,7 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
           bottom: TabBar(
             tabs: tabsList,
           ),
-          title: const Text('SheetsViewer backend API'),
+          title: const Text('SheetsViewer Devtool'),
         ),
         body: TabBarView(
           children: tabsPages,

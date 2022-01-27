@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -99,7 +100,8 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.web),
           tooltip: 'In browser',
           onPressed: () async {
-            bl.blGlobal.querystring = getQuerystring(rowIx, sheetConfig);
+            box.write(
+                'bl.global.querystring', getQuerystring(rowIx, sheetConfig));
             await canLaunch(backendUrl)
                 ? await launch(backendUrl)
                 : throw 'Could not launch: $backendUrl';
