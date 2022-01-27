@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/apiDoc/apidocrows.dart';
 import 'package:sheetviewer/components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -49,7 +51,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
             rowsSelectedIndex.value =
                 rowsDataSource.rows.indexOf(selectedRows.first);
-            //getQuerystring();
+            box.write('rowsSelectedIndex', rowsSelectedIndex.value);
           },
           allowSorting: true,
           allowTriStateSorting: true,

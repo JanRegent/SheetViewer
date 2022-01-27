@@ -1,14 +1,10 @@
-import 'package:clipboard/clipboard.dart';
-
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
-
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'apidocgridpage.dart';
+import 'devtool_blglobals.dart';
 
 class EndpointsTabPage extends StatefulWidget {
   const EndpointsTabPage({Key? key}) : super(key: key);
@@ -44,58 +40,6 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
         icon: const Icon(Icons.view_agenda));
   }
 
-  Text querystringText() {
-    return Text(box.read('bl.global.querystring'));
-  }
-
-  ListView blGlobalsListview() {
-    List<Widget> myList = [];
-    myList.add(ListTile(
-      leading: const Text('contentServiceUrl'),
-      title: Text(bl.blGlobal.contentServiceUrl),
-      trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
-    ));
-    myList.add(ListTile(
-      leading: const Text('querystring'),
-      title: querystringText(),
-      trailing: IconButton(
-          icon: const Icon(Icons.copy),
-          color: Colors.black,
-          tooltip: 'Copy columns toi clipboard',
-          onPressed: () async {
-            FlutterClipboard.copy(box.read('bl.global.querystring'))
-                .then((value) {});
-          }),
-    ));
-    myList.add(ListTile(
-      leading: const Text('fullUrl'),
-      title: Text(
-          bl.blGlobal.contentServiceUrl + box.read('bl.global.querystring')),
-      trailing: IconButton(
-          icon: const Icon(Icons.copy),
-          color: Colors.black,
-          tooltip: 'Copy columns toi clipboard',
-          onPressed: () async {
-            FlutterClipboard.copy(bl.blGlobal.contentServiceUrl +
-                    box.read('bl.global.querystring'))
-                .then((value) {});
-          }),
-    ));
-
-    return ListView.separated(
-        itemCount: myList.length,
-        // The list items
-        itemBuilder: (context, index) {
-          return myList[index];
-        },
-        // The separators
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Theme.of(context).primaryColor,
-          );
-        });
-  }
-
   DefaultTabController tabs() {
     List<Tab> tabsList = [];
     List<Widget> tabsPages = [];
@@ -113,7 +57,7 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsList.add(const Tab(
       text: 'bl.globals',
     ));
-    tabsPages.add(blGlobalsListview());
+    tabsPages.add(BlGlobalsPage());
 
     tabsList.add(const Tab(
       text: 'json{}',

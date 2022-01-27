@@ -71,9 +71,10 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  String getQuerystring(int rowIx, SheetConfig sheetConfig) {
+  String getQuerystring(SheetConfig sheetConfig) {
     List<String> columns = columnsGetUsed(sheetConfig, endpointName);
     List<String> configRows = configRowsGet(sheetConfig, endpointName);
+    int rowIx = box.read('rowsSelectedIndex');
     Map configRow = jsonDecode(configRows[rowIx]);
 
     String queryString = '?';
@@ -88,6 +89,8 @@ class RowsDataSource extends DataGridSource {
     queryString +=
         '&fileId=' + sheetConfig.fileId + '&sheetName=' + sheetConfig.sheetName;
     backendUrl = bl.blGlobal.contentServiceUrl + queryString;
+    box.write('bl.globals.querystring', queryString);
+    box.write('bl.globals.urllaunch', backendUrl);
     return queryString;
   }
 
@@ -100,8 +103,7 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.web),
           tooltip: 'In browser',
           onPressed: () async {
-            box.write(
-                'bl.global.querystring', getQuerystring(rowIx, sheetConfig));
+            box.write('bl.globals.querystring', getQuerystring(sheetConfig));
             await canLaunch(backendUrl)
                 ? await launch(backendUrl)
                 : throw 'Could not launch: $backendUrl';
@@ -111,9 +113,8 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.table_chart),
           tooltip: 'In SheetsViewer',
           onPressed: () async {
-            String fileTitle = backendUrl
-                .toString()
-                .substring(bl.blGlobal.contentServiceUrl.length);
+            box.write('bl.globals.querystring', getQuerystring(sheetConfig));
+            String fileTitle = box.read('bl.globals.querystring');
 
             await Navigator.push(
                 context,

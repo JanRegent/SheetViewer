@@ -13,8 +13,10 @@ class BlGlobal {
 
   Future init() async {
     box = GetStorage();
-    box.write('bl.global.querystring', '?');
+    box.write('bl.globals.querystring', '?');
     contentServiceUrl = await loadAssetString('contentServiceUrl');
+    box.write('bl.globals.contentServiceUrl', contentServiceUrl);
+    box.write('rowsSelectedIndex', 0);
   }
 
   //-------------------------------------------------------------assets
