@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/components/devtool/_endpointstabpage.dart';
+
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -105,7 +107,14 @@ class _DatagridPageState extends State<DatagridPage> {
                   setState(() {});
                 },
                 icon: const Icon(Icons.search)),
-            jsonViewer()
+            IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EndpointsTabPage(dataSheet)));
+                },
+                icon: const Icon(Icons.developer_board))
           ],
         ),
         body: FutureBuilder<String>(

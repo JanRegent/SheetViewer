@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/components/devtool/_endpointstabpage.dart';
@@ -65,8 +66,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => EndpointsTabPage(
-                              '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis',
-                              widget.sheetName)));
+                                DataSheet()..sheetTitle = '__empty__',
+                              )));
                 },
                 icon: const Icon(Icons.developer_board))
           ],

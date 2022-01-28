@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
@@ -7,10 +8,8 @@ import 'apidocgridpage.dart';
 import 'devtool_blglobals.dart';
 
 class EndpointsTabPage extends StatefulWidget {
-  final String fileIdConfig;
-  final String sheetNameConfig;
-  const EndpointsTabPage(this.fileIdConfig, this.sheetNameConfig, {Key? key})
-      : super(key: key);
+  final DataSheet dataSheet;
+  const EndpointsTabPage(this.dataSheet, {Key? key}) : super(key: key);
 
   @override
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
@@ -25,9 +24,8 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   }
 
   Future<String> getData() async {
-    if (widget.fileIdConfig.isNotEmpty && widget.sheetNameConfig.isNotEmpty) {
-      sheetConfig =
-          await getSheetConfig(widget.fileIdConfig, widget.sheetNameConfig);
+    if (widget.dataSheet.sheetTitle != '__empty__') {
+      sheetConfig = widget.dataSheet.config;
     } else {
       sheetConfig = await getSheetConfig(
           '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
