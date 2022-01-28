@@ -30,7 +30,6 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   Future<String> getData() async {
     fileListSheet = await getFilelist(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-    print(fileListSheet.toString());
     await getSheetConfigs(fileListSheet);
     return 'ok';
   }
@@ -65,7 +64,9 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const EndpointsTabPage()));
+                          builder: (context) => EndpointsTabPage(
+                              '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis',
+                              widget.sheetName)));
                 },
                 icon: const Icon(Icons.developer_board))
           ],

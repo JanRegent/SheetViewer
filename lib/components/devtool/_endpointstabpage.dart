@@ -7,7 +7,10 @@ import 'apidocgridpage.dart';
 import 'devtool_blglobals.dart';
 
 class EndpointsTabPage extends StatefulWidget {
-  const EndpointsTabPage({Key? key}) : super(key: key);
+  final String fileIdConfig;
+  final String sheetNameConfig;
+  const EndpointsTabPage(this.fileIdConfig, this.sheetNameConfig, {Key? key})
+      : super(key: key);
 
   @override
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
@@ -22,8 +25,13 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   }
 
   Future<String> getData() async {
-    sheetConfig = await getSheetConfig(
-        '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    if (widget.fileIdConfig.isNotEmpty && widget.sheetNameConfig.isNotEmpty) {
+      sheetConfig =
+          await getSheetConfig(widget.fileIdConfig, widget.sheetNameConfig);
+    } else {
+      sheetConfig = await getSheetConfig(
+          '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    }
 
     return 'ok';
   }
