@@ -58,7 +58,7 @@ function doGet(e) {
 
 function respond(response) {  
   //Logger.log(response);
-  listObj(config.getRows, 'resp');
+  //listObj(config.getRows, 'resp');
   return ContentService
   .createTextOutput(response)
   .setMimeType(ContentService.MimeType.JSON)

@@ -1,10 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
-import 'package:sheetviewer/components/devtool/_endpointstabpage.dart';
 
 import 'filelistcard/filelistcard_al1.dart';
 
@@ -59,18 +57,6 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
         appBar: AppBar(
           title: Text(fileListSheet.filelistTitle),
           backgroundColor: Colors.lightBlue,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EndpointsTabPage(
-                                DataSheet()..sheetTitle = '__empty__',
-                              )));
-                },
-                icon: const Icon(Icons.developer_board))
-          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

@@ -1,6 +1,6 @@
-
+// ?action=getdatasheet&sheetName=dailyNotes&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw
 function getdatasheet(eParameters, getLastAll) {
-  var sheet, config;
+  var sheet
 
   try {
     var sheetName = decodeURI(eParameters['sheetName']);
@@ -15,6 +15,8 @@ function getdatasheet(eParameters, getLastAll) {
       var dataSS = SpreadsheetApp.openById(eParameters['fileId']);
       logi('dataSSUrl')
       logi(dataSS.getUrl());
+      logi(eParameters['fileId']);
+      logi(sheetName);
       sheet  = dataSS.getSheetByName(sheetName );
       config  = getConfig_(eParameters['fileId'],sheetName );
     }
@@ -29,7 +31,8 @@ function getdatasheet(eParameters, getLastAll) {
 
 
   }
-
+  logi('--config--');
+  logi(config);
   return getDataSheet2(sheet, config, getLastAll);
 }
 

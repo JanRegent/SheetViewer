@@ -40,11 +40,13 @@ class _DatagridPageState extends State<DatagridPage> {
   DataSheet dataSheet = DataSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    if (widget.queryString != null) {
-      dataSheet = await getEndpoint(widget.queryString);
-    } else {
-      dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
-    }
+    // print(widget.queryString != null);
+    // if (widget.queryString != null) {
+    //   dataSheet = await getEndpoint(widget.queryString);
+    // } else {
+
+    dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
+
     dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
     return rowsDataSource.dataSheet.rows.length.toString();
