@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
+import 'package:sheetviewer/components/devtool/_endpointstabpage.dart';
 
 import 'filelistcard/filelistcard_al1.dart';
 
@@ -29,7 +30,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   Future<String> getData() async {
     fileListSheet = await getFilelist(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-
+    print(fileListSheet.toString());
     await getSheetConfigs(fileListSheet);
     return 'ok';
   }
@@ -58,6 +59,16 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
         appBar: AppBar(
           title: Text(fileListSheet.filelistTitle),
           backgroundColor: Colors.lightBlue,
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EndpointsTabPage()));
+                },
+                icon: const Icon(Icons.developer_board))
+          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

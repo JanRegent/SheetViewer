@@ -21,6 +21,20 @@ class FileListSheet {
       return FileListSheet();
     }
   }
+
+  @override
+  String toString() {
+    return '''
+      --------------------------FileListSheet
+                                $filelistTitle
+      cols:
+      $cols
+      
+      rows:
+      $rows
+
+    ''';
+  }
 }
 
 class TabsListSheet {

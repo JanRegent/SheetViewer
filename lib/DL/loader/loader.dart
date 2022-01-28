@@ -90,7 +90,6 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
     String key = 'fileId=$fileId&sheetName=$sheetName';
-
     String jsonString = await readString(key + '__sheetConfig__');
     if (jsonString == 'null') jsonString = '';
     if (jsonString.isNotEmpty) {
@@ -120,7 +119,7 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
 
 Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
   try {
-    String key = 'filelistid=$fileId&sheetname=$sheetName';
+    String key = 'fileId=$fileId&sheetName=$sheetName';
 
     //String jsonString = await readString(key);
     //if (jsonString.isNotEmpty) return jsonString;
