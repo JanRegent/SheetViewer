@@ -71,8 +71,9 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
   //     maxWidth: 90));
 
   try {
-    String urlQuery = Uri.encodeFull(
-        bl.blGlobal.contentServiceUrl + '?action=getdatasheet&' + key);
+    String urlQuery = Uri.encodeFull(bl.blGlobal.contentServiceUrl +
+        '?action=getRowsLast&rowsCount=10&' +
+        key);
     print(urlQuery);
     var response = await dio.get(urlQuery);
     // print(

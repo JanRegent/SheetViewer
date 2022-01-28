@@ -12,7 +12,7 @@ class SheetConfig {
 
   String copyrightUrl = '';
   String sheetUrl = '';
-
+  Set sheetParams = {};
   List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
@@ -23,14 +23,20 @@ class SheetConfig {
   SheetConfig();
 
   factory SheetConfig.fromJson(Map config_) {
-    print('sc1');
     SheetConfig config = SheetConfig();
     config.rawConfig = config_;
-    print(config.rawConfig);
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
     config.cacheUrlkey =
         'fileid=${config.fileId}&sheetname=${config.sheetName}';
+    try {
+      Map map = {};
+      map['sheetName'] = json.encode(config_['sheetParams']['sheetName']);
+      config.sheetParams.add(map);
+    } catch (e) {
+      config.sheetParams = {};
+    }
+
     try {
       if (config_['headers'] != null) {
         for (var item in config_['headers']) {
@@ -40,7 +46,6 @@ class SheetConfig {
     } catch (e) {
       config.headers = [];
     }
-    print(2);
     try {
       if (config_['getRows'] != null) {
         for (var item in config_['getRows']) {
@@ -67,10 +72,8 @@ class SheetConfig {
     } catch (e) {
       config.columnsSelected = [];
     }
-    print(7);
     config.copyrightUrl = config_['copyrightUrl'] ?? '';
     config.sheetUrl = config_['sheetUrl'] ?? '';
-    print(8);
     try {
       config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
     } catch (e) {
@@ -90,6 +93,9 @@ class SheetConfig {
 
     copyrightUrl:     $copyrightUrl
     sheetUrl:         $sheetUrl
+
+    sheetParams:
+    $sheetParams
 
     
     columnsSelected:  $columnsSelected
