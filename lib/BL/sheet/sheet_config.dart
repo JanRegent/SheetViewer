@@ -8,9 +8,9 @@ class SheetConfig {
   String cacheUrlkey = '';
 
   List<String> columnsSelected = [];
-  List<String> headers = [];
 
   Map sheetParams = {};
+  Map headers = {};
   List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
@@ -48,13 +48,11 @@ class SheetConfig {
     }
 
     try {
-      if (config_['headers'] != null) {
-        for (var item in config_['headers']) {
-          config.headers.add(json.encode(item));
-        }
+      for (Map item in config_['headers']) {
+        config.headers[item.keys.first] = item.values.first;
       }
     } catch (e) {
-      config.headers = [];
+      config.headers = {};
     }
     try {
       if (config_['getRows'] != null) {
