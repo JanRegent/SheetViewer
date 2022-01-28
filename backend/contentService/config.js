@@ -41,7 +41,7 @@ function getConfig_(fileId, sheetName ){
       sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName);
     else
       sheetConfig = SpreadsheetApp.openById(fileId).getSheetByName(sheetName+'__config__' );  
-logi(sheetConfig.getName());
+
     //-------------------------------------------------------------------cofig NO exists
   if (sheetConfig == null)   {
     config.sheetName = sheetName;
@@ -52,7 +52,7 @@ logi(sheetConfig.getName());
     logi('config __wrong__config__NotExist');
     return config;
   }
-
+logi(sheetConfig.getName());
   //-------------------------------------------------------------------cofig exists
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();

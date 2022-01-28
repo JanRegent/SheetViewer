@@ -74,7 +74,7 @@ Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
     String urlQuery = Uri.encodeFull(bl.blGlobal.contentServiceUrl +
         '?action=getRowsLast&rowsCount=10&' +
         key);
-    print(urlQuery);
+    //rint(urlQuery);
     var response = await dio.get(urlQuery);
     // print(
     //   "${response.statusCode} :  ${response.data}",
@@ -147,13 +147,16 @@ Future<String> getTabsList() async {
 
     String jsonString = await readString(key);
     if (jsonString != 'null') return jsonString;
-    var response = await Dio()
-        .get(bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key);
+    String urlQuery =
+        bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key;
+    //rint(urlQuery);
+    var response = await Dio().get(urlQuery);
     String resp = response.data.toString().replaceFirst('cols:', '"cols":');
     resp = resp.replaceFirst('rows: [', '"rows": [');
     updateString(key, resp);
     return resp;
   } catch (e) {
+    //rint(e);
     return '';
   }
 }

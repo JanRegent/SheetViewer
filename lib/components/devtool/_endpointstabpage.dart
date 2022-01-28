@@ -24,12 +24,12 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   }
 
   Future<String> getData() async {
-    if (widget.dataSheet.sheetTitle != '__empty__') {
-      sheetConfig = widget.dataSheet.config;
-    } else {
-      sheetConfig = await getSheetConfig(
-          '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
-    }
+    // if (widget.dataSheet.sheetTitle != '__empty__') {
+    //   sheetConfig = widget.dataSheet.config;
+    // } else {
+    sheetConfig = await getSheetConfig(
+        '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    //}
 
     return 'ok';
   }

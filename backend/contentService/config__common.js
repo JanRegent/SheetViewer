@@ -12,7 +12,10 @@ var config = {
   },
 
   headers:  [],
-  getRows:  [],
+  getRows:  [
+    {"endpoint":"getRowsLast","rowsCount":10},
+    {"endpoint":"getRowsFirst","rowsCount":10}
+  ],
   selects1: [],
 
   copyrightUrl: '',

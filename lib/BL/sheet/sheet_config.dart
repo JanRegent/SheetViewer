@@ -10,9 +10,7 @@ class SheetConfig {
   List<String> columnsSelected = [];
   List<String> headers = [];
 
-  String copyrightUrl = '';
-  String sheetUrl = '';
-  Set sheetParams = {};
+  Map sheetParams = {};
   List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
@@ -30,10 +28,22 @@ class SheetConfig {
     config.cacheUrlkey =
         'fileid=${config.fileId}&sheetname=${config.sheetName}';
     try {
-      Map map = {};
-      map['sheetName'] = json.encode(config_['sheetParams']['sheetName']);
-      config.sheetParams.add(map);
+      config.sheetParams['sheetName'] =
+          json.encode(config_['sheetParams']['sheetName'] ?? '');
+
+      config.sheetParams['fileId'] =
+          json.encode(config_['sheetParams']['fileId'] ?? '');
+
+      config.sheetParams['fileIdUrl'] =
+          json.encode(config_['sheetParams']['fileIdUrl'] ?? '');
+
+      config.sheetParams['originUrl'] =
+          json.encode(config_['sheetParams']['originUrl'] ?? '');
+
+      config.sheetParams['copyrightPageUrl'] =
+          json.encode(config_['sheetParams']['copyrightPageUrl'] ?? '');
     } catch (e) {
+      //rint(e);
       config.sheetParams = {};
     }
 
@@ -72,8 +82,7 @@ class SheetConfig {
     } catch (e) {
       config.columnsSelected = [];
     }
-    config.copyrightUrl = config_['copyrightUrl'] ?? '';
-    config.sheetUrl = config_['sheetUrl'] ?? '';
+
     try {
       config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
     } catch (e) {
@@ -89,14 +98,9 @@ class SheetConfig {
     return ''' 
     ------------------------------------------config
     sheetName:        $sheetName
-    fileId:           $fileId 
-
-    copyrightUrl:     $copyrightUrl
-    sheetUrl:         $sheetUrl
-
+   
     sheetParams:
     $sheetParams
-
     
     columnsSelected:  $columnsSelected
     
