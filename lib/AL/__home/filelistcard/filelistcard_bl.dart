@@ -17,10 +17,7 @@ ElevatedButton last5(
       onPressed: () async {
         await showGrid();
       },
-      onLongPress: () async {
-        await getdatasheetRefresh(fileId, sheetName);
-        await showGrid();
-      });
+      onLongPress: () async {});
 }
 
 ElevatedButton showAll(
@@ -38,8 +35,5 @@ ElevatedButton showAll(
       onPressed: () async {
         await showGrid();
       },
-      onLongPress: () async {
-        await getdatasheetRefresh(fileId, sheetName);
-        await showGrid();
-      });
+      onLongPress: () async {});
 }

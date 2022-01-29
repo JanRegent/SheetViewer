@@ -12,12 +12,6 @@ import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
-Future getdatasheetRefresh(String fileId, String sheetName) async {
-  String key = 'fileid=$fileId&sheetname=$sheetName';
-
-  await deleteString(key);
-}
-
 Future<DataSheet> getEndpoint(String serviceQueryString) async {
   String queryString =
       serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
@@ -51,7 +45,7 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
   }
 }
 
-Future<DataSheet> getdatasheet(String fileId, String sheetName) async {
+Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String key = 'sheetName=$sheetName&fileId=$fileId';
 
   String jsonString = await readString(key);

@@ -45,7 +45,7 @@ class _DatagridPageState extends State<DatagridPage> {
     //   dataSheet = await getEndpoint(widget.queryString);
     // } else {
 
-    dataSheet = await getdatasheet(widget.fileId, widget.sheetName);
+    dataSheet = await getRowsLast(widget.fileId, widget.sheetName);
 
     dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
