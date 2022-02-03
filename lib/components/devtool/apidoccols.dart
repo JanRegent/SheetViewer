@@ -15,9 +15,9 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
     child: InkWell(
       onTap: () async {
         Navigator.pop(context);
-        await canLaunch(anySheet.config.sheetParams['originUrl'])
-            ? await launch(anySheet.config.sheetParams['originUrl'])
-            : throw 'Could not launch ${anySheet.config.sheetParams['originUrl']}';
+        await canLaunch(anySheet.config.sheetIds.originUrl)
+            ? await launch(anySheet.config.sheetIds.originUrl)
+            : throw 'Could not launch ${anySheet.config.sheetIds.originUrl}';
       },
       child: const Text('Origin data source show'),
     ),

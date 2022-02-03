@@ -9,7 +9,7 @@ class SheetConfig {
 
   List<String> columnsSelected = [];
 
-  Map sheetParams = {};
+  SheetIds sheetIds = SheetIds();
   Map headers = {};
   List<String> getRows = [];
   List<String> selects1 = [];
@@ -28,23 +28,23 @@ class SheetConfig {
     config.cacheUrlkey =
         'fileid=${config.fileId}&sheetname=${config.sheetName}';
     try {
-      config.sheetParams['sheetName'] =
+      config.sheetIds.sheetName =
           json.encode(config_['sheetParams']['sheetName'] ?? '');
 
-      config.sheetParams['fileId'] =
+      config.sheetIds.fileId =
           json.encode(config_['sheetParams']['fileId'] ?? '');
 
-      config.sheetParams['fileIdUrl'] =
+      config.sheetIds.fileIdUrl =
           json.encode(config_['sheetParams']['fileIdUrl'] ?? '');
 
-      config.sheetParams['originUrl'] =
+      config.sheetIds.originUrl =
           json.encode(config_['sheetParams']['originUrl'] ?? '');
 
-      config.sheetParams['copyrightPageUrl'] =
+      config.sheetIds.copyrightPageUrl =
           json.encode(config_['sheetParams']['copyrightPageUrl'] ?? '');
     } catch (e) {
       //rint(e);
-      config.sheetParams = {};
+      config.sheetIds = SheetIds();
     }
 
     try {
@@ -98,7 +98,7 @@ class SheetConfig {
     sheetName:        $sheetName
    
     sheetParams:
-    $sheetParams
+    $sheetIds
     
     columnsSelected:  $columnsSelected
     
@@ -114,4 +114,12 @@ class SheetConfig {
   
     ''';
   }
+}
+
+class SheetIds {
+  String sheetName = '';
+  String fileId = '';
+  String fileIdUrl = '';
+  String originUrl = '';
+  String copyrightPageUrl = '';
 }
