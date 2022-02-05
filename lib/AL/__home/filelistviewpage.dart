@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
@@ -64,9 +66,25 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Column(
-                  children: const [
-                    Text('Loading....'),
-                    CircularProgressIndicator()
+                  children: [
+                    const Text('Loading...'),
+                    Row(
+                      children: [
+                        GetX<CountController>(
+                          init: CountController(),
+                          builder: (_c) => Text(sheetConfigsLoadingController
+                              .currentIndex.value
+                              .toString()),
+                        ),
+                        const Text('   '),
+                        GetX<CountController>(
+                          init: CountController(),
+                          builder: (_c) => Text(
+                              sheetConfigsLoadingController.sheetName.value),
+                        ),
+                      ],
+                    ),
+                    const CircularProgressIndicator()
                   ],
                 );
 

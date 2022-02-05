@@ -3,6 +3,7 @@
 import 'package:cross_file/cross_file.dart';
 
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 GetStorage box = GetStorage();
@@ -30,5 +31,22 @@ class BlGlobal {
     } catch (_) {
       return '';
     }
+  }
+}
+
+CountController sheetConfigsLoadingController = CountController();
+
+class CountController extends GetxController {
+  final sheetName = ''.obs;
+  final currentIndex = ''.obs;
+
+  static CountController get to => Get.find<CountController>();
+
+  sheetNameSet(String sheetNameCurrent) {
+    sheetName(sheetNameCurrent);
+  }
+
+  indexSet(String index) {
+    currentIndex(index);
   }
 }

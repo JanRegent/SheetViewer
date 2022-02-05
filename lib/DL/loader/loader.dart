@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
@@ -106,8 +107,12 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
 Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
   for (var index = 0; index < fileListSheet.rows.length; index++) {
     String fileId = bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']);
+    String sheetName = fileListSheet.rows[index]['sheetName'];
+    sheetConfigsLoadingController.currentIndex.value =
+        index.toString() + '/' + fileListSheet.rows.length.toString();
+    sheetConfigsLoadingController.sheetNameSet(sheetName);
 
-    await getSheetConfig(fileId, fileListSheet.rows[index]['sheetName']);
+    await getSheetConfig(fileId, sheetName);
   }
   return 'OK';
 }
