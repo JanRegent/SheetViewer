@@ -4,13 +4,23 @@ function doGet(e) {
   var v = PropertiesService.getScriptProperties().getProperties();
   logClear();
   if(getPar(e, 'action') != '') return paramsErr;
-  var action = e.parameter.action.toString().toLowerCase();
-  logi('action: ' + action);
-
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
-  getConfig_(config.fileId, config.sheetName);
-  logi(config);
+
+  try{
+    getConfig_(config.fileId, config.sheetName);
+    logi(config);
+    return switchEndpoint(e);
+  }catch(err){
+    logi(err);
+    respond('{error: \n " + '+err+' }');
+  }
+  
+}
+
+function switchEndpoint(e){
+  var action = e.parameter.action.toString().toLowerCase();
+  logi('action: ' + action);
 
   switch(action) {
     case "logon": //?action=gettabslist
@@ -33,6 +43,11 @@ function doGet(e) {
     case "post":
       return respond(getTemp() );
     //--------------------------------------------------------
+     case "getcolumnvaluesuniq":
+      if(getPar(e, 'column') != '') return paramsErr; 
+      var values = getColumnValuesUniq(config.fileId, config.sheetName, config.column);
+      return respond(responseData(undefined));
+      //test ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
@@ -48,11 +63,11 @@ function doGet(e) {
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
-  
 }
 
 function respond(response) {  
   //Logger.log(response);
+  //listObj(config.getRows, 'resp');
   return ContentService
   .createTextOutput(response)
   .setMimeType(ContentService.MimeType.JSON)
@@ -64,15 +79,17 @@ function responseData(values){
   var columns = SQL.getColsLastUsed();
 
   var objectArray = [];
-  for (var i = 0; i < values.length; i++) {
-    var object = {}
-    for (var j = 0; j < values[i].length; j++) {
-      object[columns[j]] = values[i][j]
-    }
 
-    objectArray.push(object);   
+  if (values != undefined) {
+    for (var i = 0; i < values.length; i++) {
+      var object = {}
+      for (var j = 0; j < values[i].length; j++) {
+        object[columns[j]] = values[i][j]
+      }
+
+      objectArray.push(object);   
+    }
   }
- 
   var output = JSON.stringify({
     cols: columns,
     config: config,

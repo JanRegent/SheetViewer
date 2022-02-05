@@ -31,6 +31,22 @@ function containsEncodedComponents(x) {
   return (decodeURI(x) !== decodeURIComponent(x));
 }
 
+function listMap(maparr) {
+
+  logi('*************keys=values');
+  for (const [key, value] of maparr) {
+    logi(key + ' = ' + value)
+  }
+}
+
+function listObj(maparr, mess) {
+
+  logi('*************obj ' + mess);
+  for (const item of maparr) {
+    logi(item);
+  }
+}
+
 //console.log(containsEncodedComponents('%3Fx%3Dtest')); // ?x=test
 // expected output: true
 

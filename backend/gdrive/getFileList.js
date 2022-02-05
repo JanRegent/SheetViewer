@@ -4,9 +4,10 @@ var getFileListPars = {
 }
 
 function getFileList(eParameters ){
-
-   try {
-    epar2getFileList(eParameters['filelistid'], eParameters['sheetname']);
+  logClear();
+  logi('----------------getFileList');
+  try {
+    epar2getFileList(eParameters['fileId'], eParameters['sheetName']);
   }catch{
     epar2getFileList(testSSid, 'testList');
   }
@@ -43,7 +44,7 @@ function getFileList(eParameters ){
     cols: columns,
     rows: objectArray,
   });
-  // Logger.log(output);
+  Logger.log(output);
   return output;
 }
 
@@ -87,6 +88,7 @@ function epar2getFileList(fileId, sheetName) {
 function getFileListTest(){
 
     //?fileid=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetname=bible21
+    //?action=getfilelist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis&sheetName=spaceList
     getFileList();
 }
 
