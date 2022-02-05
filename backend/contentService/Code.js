@@ -1,34 +1,42 @@
 
 //?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX&rowsCount=2
 function doGet(e) {
+  var v = PropertiesService.getScriptProperties().getProperties();
+  logClear();
+  if(getPar(e, 'action') != '') return paramsErr;
+  var action = e.parameter.action.toString().toLowerCase();
+  logi('action: ' + action);
+
+  if(getPar(e, 'fileId') != '')    return paramsErr; 
+  if(getPar(e, 'sheetName') != '') return paramsErr; 
+
   try{
-    var v = PropertiesService.getScriptProperties().getProperties();
-    logClear();
-    if(getPar(e, 'action') != '') return paramsErr;
-    var action = e.parameter.action.toString().toLowerCase();
-    logi('action: ' + action);
-
-    if(getPar(e, 'fileId') != '')    return paramsErr; 
-    if(getPar(e, 'sheetName') != '') return paramsErr; 
     getConfig_(config.fileId, config.sheetName);
-
-    return switchEndpoints(action, e);
-    
+    logi(config);
+    return switchEndpoint(e);
   }catch(err){
-      respond('{error: \n' + err + '}');  
-  }  
+    logi(err);
+    respond('{error: \n " + '+err+' }');
+  }
+  
 }
 
-function switchEndpoints(endpoint, e) {
-
-  switch(endpoint) {
+function switchEndpoint(e){
+  
+  switch(action) {
     case "logon": //?action=gettabslist
       logOn_();
       return respond('{action:logOn}');
     case "gettabslist": //?action=gettabslist
       return respond(getTabsList(e.parameters)); 
     case "getfilelist":
-      return respond(getFileList(e.parameters));                 
+      return respond(getFileList(e.parameters)); 
+    case "getdatasheet":
+      return respond(getdatasheet(e.parameters));    
+    case "getLast":
+      return respond(getdatasheet(e.parameters, 'getLast')); 
+    case "getAll":
+      return respond(getdatasheet(e.parameters, 'getAll'));                 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters));            
     case "selectcontains":
@@ -54,7 +62,7 @@ function switchEndpoints(endpoint, e) {
       var values = select1(config.fileId, config.sheetName, config.column,config.operator,config.value);
       return respond(responseData(values));
     default:
-      return respond('{error: "Parameter endpoint has no expected value: " + '+endpoint+' }');
+      return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
 }
 

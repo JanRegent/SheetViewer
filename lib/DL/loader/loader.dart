@@ -143,14 +143,13 @@ Future<String> getTabsList() async {
     if (jsonString != 'null') return jsonString;
     String urlQuery =
         bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key;
-    //rint(urlQuery);
     var response = await Dio().get(urlQuery);
     String resp = response.data.toString().replaceFirst('cols:', '"cols":');
+
     resp = resp.replaceFirst('rows: [', '"rows": [');
     updateString(key, resp);
     return resp;
   } catch (e) {
-    //rint(e);
     return '';
   }
 }

@@ -1,7 +1,7 @@
 
 function getSheetParams(values) {
 
-  config.sheetParams = {};
+  config.sheetIds = {};
 
   var rowIxStart = indexOfSectionRow('__sheetParams__', values);
   if (rowIxStart == -1) return;
@@ -11,7 +11,7 @@ function getSheetParams(values) {
     if (values[rowIx][0].substring(0,2) == '//') continue;
     if (values[rowIx][0].substring(0,2) == '__') break;
     
-    config.sheetParams[values[rowIx][0]]   =  values[rowIx][1] ;
+    config.sheetIds[values[rowIx][0]]   =  values[rowIx][1] ;
   }
 
 

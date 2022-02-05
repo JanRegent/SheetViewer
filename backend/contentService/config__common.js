@@ -3,7 +3,7 @@ paramsErr = '';
 var config = { 
   sheetName: '',
   fileId: '',
-  sheetParams: {
+  sheetIds: {
     sheetName: '',
     fileId: '',
     fileIdUrl: '',
