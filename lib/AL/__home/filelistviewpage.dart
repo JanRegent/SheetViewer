@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
@@ -68,21 +67,14 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                 return Column(
                   children: [
                     const Text('Loading...'),
-                    Row(
-                      children: [
-                        GetX<CountController>(
-                          init: CountController(),
-                          builder: (_c) => Text(sheetConfigsLoadingController
-                              .currentIndex.value
-                              .toString()),
-                        ),
-                        const Text('   '),
-                        GetX<CountController>(
-                          init: CountController(),
-                          builder: (_c) => Text(
-                              sheetConfigsLoadingController.sheetName.value),
-                        ),
-                      ],
+                    GetX<LoadingNotifier>(
+                      init: LoadingNotifier(),
+                      builder: (_c) => Text(_c.currentIndex.value),
+                    ),
+                    Text('---' + loadingNotifier.sheetName.value),
+                    GetX<LoadingNotifier>(
+                      init: LoadingNotifier(),
+                      builder: (_c) => Text(loadingNotifier.sheetName.value),
                     ),
                     const CircularProgressIndicator()
                   ],
@@ -101,5 +93,23 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
 
         //Center(child: filelistGrid()),
         );
+  }
+}
+
+LoadingNotifier loadingNotifier = LoadingNotifier();
+
+class LoadingNotifier extends GetxController {
+  final sheetName = ''.obs;
+  final currentIndex = ''.obs;
+
+  static LoadingNotifier get to => Get.find<LoadingNotifier>();
+
+  sheetNameSet(String sheetNameCurrent) {
+    print(sheetNameCurrent);
+    sheetName(sheetNameCurrent);
+  }
+
+  indexSet(String index) {
+    currentIndex(index);
   }
 }

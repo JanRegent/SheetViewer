@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
-import 'package:cache_manager/core/write_cache_service.dart'; //https://pub.dev/packages/cache_manager
+import 'package:cache_manager/core/write_cache_service.dart';
+//https://pub.dev/packages/cache_manager
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
+import 'package:sheetviewer/AL/__home/filelistviewpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
@@ -108,9 +109,12 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
   for (var index = 0; index < fileListSheet.rows.length; index++) {
     String fileId = bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']);
     String sheetName = fileListSheet.rows[index]['sheetName'];
-    sheetConfigsLoadingController.currentIndex.value =
+    print(sheetName);
+    loadingNotifier.currentIndex.value =
         index.toString() + '/' + fileListSheet.rows.length.toString();
-    sheetConfigsLoadingController.sheetNameSet(sheetName);
+    print(loadingNotifier.currentIndex.value);
+    print('--');
+    loadingNotifier.sheetNameSet(sheetName);
 
     await getSheetConfig(fileId, sheetName);
   }
