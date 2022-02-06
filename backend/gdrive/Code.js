@@ -31,12 +31,6 @@ function switchEndpoint(e){
       return respond(getTabsList(e.parameters)); 
     case "getfilelist":
       return respond(getFileList(e.parameters)); 
-    case "getdatasheet":
-      return respond(getdatasheet(e.parameters));    
-    case "getLast":
-      return respond(getdatasheet(e.parameters, 'getLast')); 
-    case "getAll":
-      return respond(getdatasheet(e.parameters, 'getAll'));                 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters));            
     case "selectcontains":
