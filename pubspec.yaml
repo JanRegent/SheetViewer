@@ -41,7 +41,6 @@ dependencies:
   #========================================================BL
   cache_manager: ^1.0.0+3       #https://pub.dev/packages/cache_manager
   get_storage: ^2.0.3           #https://pub.dev/packages/get_storage?utm_source=fluttertap
-  get: ^4.6.1                   #https://pub.dev/packages/get
   #========================================================DL  
   dio: ^4.0.0           #https://pub.dev/packages/dio 
   url_launcher: ^6.0.12 #https://pub.dev/packages/url_launcher

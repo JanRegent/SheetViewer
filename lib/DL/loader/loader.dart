@@ -7,7 +7,6 @@ import 'package:cache_manager/core/write_cache_service.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
-import 'package:sheetviewer/AL/__home/filelistviewpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
@@ -109,15 +108,15 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
   for (var index = 0; index < fileListSheet.rows.length; index++) {
     String fileId = bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']);
     String sheetName = fileListSheet.rows[index]['sheetName'];
-    print(sheetName);
-    loadingNotifier.currentIndex.value =
-        index.toString() + '/' + fileListSheet.rows.length.toString();
-    print(loadingNotifier.currentIndex.value);
-    print('--');
-    loadingNotifier.sheetNameSet(sheetName);
+    bl.blGlobal.loadingMessage.value = (index + 1).toString() +
+        ' of ' +
+        fileListSheet.rows.length.toString() +
+        ' - ' +
+        sheetName;
 
     await getSheetConfig(fileId, sheetName);
   }
+  bl.blGlobal.loadingMessage.value = '';
   return 'OK';
 }
 

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 
@@ -24,6 +24,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   @override
   void initState() {
     _controller = ScrollController();
+
     super.initState();
   }
 
@@ -66,16 +67,15 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
               case ConnectionState.waiting:
                 return Column(
                   children: [
-                    const Text('Loading...'),
-                    GetX<LoadingNotifier>(
-                      init: LoadingNotifier(),
-                      builder: (_c) => Text(_c.currentIndex.value),
+                    const Text('Loading sheet config...'),
+                    const Text(' '),
+                    ValueListenableBuilder(
+                      valueListenable: bl.blGlobal.loadingMessage,
+                      builder: (context, value, child) => Text(
+                        '$value',
+                      ),
                     ),
-                    Text('---' + loadingNotifier.sheetName.value),
-                    GetX<LoadingNotifier>(
-                      init: LoadingNotifier(),
-                      builder: (_c) => Text(loadingNotifier.sheetName.value),
-                    ),
+                    const Text(' '),
                     const CircularProgressIndicator()
                   ],
                 );
@@ -93,23 +93,5 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
 
         //Center(child: filelistGrid()),
         );
-  }
-}
-
-LoadingNotifier loadingNotifier = LoadingNotifier();
-
-class LoadingNotifier extends GetxController {
-  final sheetName = ''.obs;
-  final currentIndex = ''.obs;
-
-  static LoadingNotifier get to => Get.find<LoadingNotifier>();
-
-  sheetNameSet(String sheetNameCurrent) {
-    print(sheetNameCurrent);
-    sheetName(sheetNameCurrent);
-  }
-
-  indexSet(String index) {
-    currentIndex(index);
   }
 }

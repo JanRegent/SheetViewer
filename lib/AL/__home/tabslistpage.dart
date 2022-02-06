@@ -70,7 +70,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
               case ConnectionState.waiting:
                 return Column(
                   children: const [
-                    Text('Loading....'),
+                    Text('Loading tabs....'),
                     CircularProgressIndicator()
                   ],
                 );
