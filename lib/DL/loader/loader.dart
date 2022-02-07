@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:cache_manager/core/delete_cache_service.dart';
-import 'package:cache_manager/core/read_cache_service.dart';
-import 'package:cache_manager/core/write_cache_service.dart';
-//https://pub.dev/packages/cache_manager
+//
 import 'package:dio/dio.dart';
 
-import 'package:flutter/services.dart';
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+
+import 'local_crud.dart';
 
 Future<DataSheet> getEndpoint(String serviceQueryString) async {
   String queryString =
@@ -120,48 +118,6 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
   return 'OK';
 }
 
-Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
-  try {
-    String key = 'fileId=$fileId&sheetName=$sheetName';
-
-    //String jsonString = await readString(key);
-    //if (jsonString.isNotEmpty) return jsonString;
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=getfilelist&' + key;
-    var response = await Dio().get(urlQuery);
-    FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
-    //updateString(key, response.data);
-
-    return fileListSheet;
-  } catch (e) {
-    return FileListSheet();
-  }
-}
-
-Future<String> getTabsList() async {
-  String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
-  //await loadAssetString('fileId');
-
-  String sheetName = 'tabsList';
-  // await loadAssetString('sheetName');
-  try {
-    String key = 'fileId=$fileId&sheetName=$sheetName';
-
-    String jsonString = await readString(key);
-    if (jsonString != 'null') return jsonString;
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key;
-    var response = await Dio().get(urlQuery);
-    String resp = response.data.toString().replaceFirst('cols:', '"cols":');
-
-    resp = resp.replaceFirst('rows: [', '"rows": [');
-    updateString(key, resp);
-    return resp;
-  } catch (e) {
-    return '';
-  }
-}
-
 Future<String> logOn() async {
   try {
     var response =
@@ -169,52 +125,6 @@ Future<String> logOn() async {
     String resp = response.data.toString();
     return resp;
   } catch (e) {
-    return '';
-  }
-}
-//-------------------------------------------------------------------CRUD
-
-Future updateString(String key, String jsonString) async {
-  try {
-    await WriteCache.setString(key: key, value: jsonString);
-
-    return 'OK';
-  } catch (e) {
-    //rint(e); //Do something if error occurs
-    return '';
-  }
-}
-
-Future readString(String key) async {
-  try {
-    String jsonString = await ReadCache.getString(key: key);
-    return jsonString;
-  } catch (e) {
-    //print(e); //Do something if error occurs
-    return 'null';
-  }
-}
-
-Future deleteString(String key) async {
-  try {
-    await DeleteCache.deleteKey(key, key = key);
-    return 'OK';
-  } catch (e) {
-    return '';
-  }
-}
-
-Future deleteStringFileId(String fileId, String sheetName) async {
-  String key = 'fileid=$fileId&sheetname=$sheetName';
-
-  await deleteString(key);
-}
-
-//-------------------------------------------------------------assets
-Future<String> loadAssetString(String varname) async {
-  try {
-    return await rootBundle.loadString('config/$varname.txt');
-  } catch (_) {
     return '';
   }
 }
