@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/__home/interests/interests.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/tablist_filelist.dart';
@@ -32,7 +33,9 @@ class _TabsListsPageState extends State<TabsListsPage> {
     return 'ok';
   }
 
-  DefaultTabController tabs() {
+  String interestTitle = 'Tabs Demo';
+
+  DefaultTabController tabs(BuildContext context) {
     List<Tab> tabsList = [];
     List<FilelistviewPage> tabsPages = [];
     for (var i = 0; i < tabsListSheet.rows.length; i++) {
@@ -49,7 +52,16 @@ class _TabsListsPageState extends State<TabsListsPage> {
           bottom: TabBar(
             tabs: tabsList,
           ),
-          title: const Text('Tabs Demo'),
+          title: Text(interestTitle),
+          actions: [
+            ElevatedButton(
+              child: const Text("Interests"),
+              onPressed: () async {
+                interestTitle = await selectInterestDialog(context);
+                setState(() {});
+              },
+            ),
+          ],
         ),
         body: TabBarView(
           children: tabsPages,
@@ -79,7 +91,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return tabs();
+                  return tabs(context);
                 }
             }
           },
