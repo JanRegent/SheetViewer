@@ -67,7 +67,7 @@ function getKeyValParams(values, keyStartAt ){
 //----------------------------------------------------------------------------------------test
 function getTabListTest(){
 
-    //?fileid=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetname=bible21
+    //?sheetName=tabsList&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
     getTabsList();
 }
 

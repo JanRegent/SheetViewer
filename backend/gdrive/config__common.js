@@ -60,39 +60,39 @@ function passTestEQint(expectedInt, func) {
 //-----------------------------------------------------------------------------------------------doGet(e) check params
 
 function getPar(e, parName) {
-
+  var err = '';
   switch(parName) {
     case "action": //?action=gettabslist
-      if(typeof e.parameter.action === "undefined") { paramsErr = respond('{error: "Parameter [Action] is not defined"}'); logi(paramsErr); return paramsErr}
+      if(typeof e.parameter.action === "undefined") {err = '{error: "Parameter [Action] is not defined"}'; logi(err); return respond(err); }
       config.action = e.parameter.action;
       return '';
-    case "fileId": 
-      if(typeof e.parameter.fileId === "undefined") { paramsErr = respond('{error: "Parameter fileId is not defined"}');  logi(paramsErr);  return paramsErr}
+    case "fileId": ``
+      if(typeof e.parameter.fileId === "undefined") { err = ('{error: "Parameter fileId is not defined"}');  logi(err);  return respond(err);}
       config.fileId = e.parameter.fileId;
       logi('fileId: ' + config.fileId);
       return '';
     case "sheetName":
-      if(typeof e.parameter.sheetName === "undefined") { paramsErr = respond('{error: "Parameter sheetName is not defined"}'); logi(paramsErr);  return paramsErr}
+      if(typeof e.parameter.sheetName === "undefined") { err = ('{error: "Parameter sheetName is not defined"}'); logi(err);  return respond(err);}
       config.sheetName = e.parameter.sheetName;
       logi('sheetName: ' + config.sheetName);
       return '';
     case "rowsCount":
-      if(typeof e.parameter.rowsCount === "undefined") { paramsErr = respond('{error: "Parameter rowsCount is not defined"}');  logi(paramsErr);  return paramsErr}
+      if(typeof e.parameter.rowsCount === "undefined") { err = ('{error: "Parameter rowsCount is not defined"}');  logi(err);  return respond(err);}
       config.rowsCount = e.parameter.rowsCount;
       logi('rowsCount: ' + config.rowsCount);
       return '';   
     case "column":
-      if(typeof e.parameter.column === "undefined") { paramsErr = respond('{error: "Parameter column is not defined"}');  logi(paramsErr);  return paramsErr}
+      if(typeof e.parameter.column === "undefined") { err = ('{error: "Parameter column is not defined"}');  logi(err);  return respond(err);}
       config.column = e.parameter.column;
       logi('column: ' + config.column);
       return '';  
     case "operator":
-      if(typeof e.parameter.operator === "undefined") { paramsErr = respond('{error: "Parameter operator is not defined"}');  logi(paramsErr);  return paramsErr}
+      if(typeof e.parameter.operator === "undefined") { err = ('{error: "Parameter operator is not defined"}');  logi(err);  return respond(err);}
       config.operator = e.parameter.operator;
       logi('operator: ' + config.operator);
       return '';  
     case "value":
-      if(typeof e.parameter.value === "undefined") { paramsErr = respond('{error: "Parameter value is not defined"}');  logi(paramsErr);  return paramsErr}
+      if(typeof e.parameter.value === "undefined") { err = ('{error: "Parameter value is not defined"}');  logi(err);  return respond(err);}
       config.value = e.parameter.value;
       logi('value: ' + config.value);
       return '';              

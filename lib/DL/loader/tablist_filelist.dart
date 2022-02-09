@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
@@ -6,15 +8,17 @@ import 'local_crud.dart';
 
 Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
   try {
-    String key = 'fileId=$fileId&sheetName=$sheetName';
+    String queryString =
+        'sheetName=$sheetName&action=getfilelist&fileId=$fileId';
 
-    //String jsonString = await readString(key);
-    //if (jsonString.isNotEmpty) return jsonString;
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=getfilelist&' + key;
+    String jsonString = await readString(queryString);
+    if (jsonString.isNotEmpty) {
+      return FileListSheet.fromJson(jsonDecode(jsonString));
+    }
+    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     var response = await Dio().get(urlQuery);
     FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
-    //updateString(key, response.data);
+    updateString(queryString, response.data);
 
     return fileListSheet;
   } catch (e) {
@@ -29,17 +33,17 @@ Future<String> getTabsList() async {
   String sheetName = 'tabsList';
   // await loadAssetString('sheetName');
   try {
-    String key = 'fileId=$fileId&sheetName=$sheetName';
+    String queryString =
+        'sheetName=$sheetName&action=gettabslist&fileId=$fileId';
 
-    String jsonString = await readString(key);
+    String jsonString = await readString(queryString);
     if (jsonString != 'null') return jsonString;
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=gettabslist&' + key;
+    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     var response = await Dio().get(urlQuery);
     String resp = response.data.toString().replaceFirst('cols:', '"cols":');
 
     resp = resp.replaceFirst('rows: [', '"rows": [');
-    updateString(key, resp);
+    updateString(queryString, resp);
     return resp;
   } catch (e) {
     return '';

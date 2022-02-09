@@ -1,5 +1,4 @@
 function getsheetconfig(eParameters){
-  logClear();
   getConfig_(eParameters['fileId'][0], eParameters['sheetName'][0]);
    
   logi(eParameters['fileId'][0]);
@@ -30,8 +29,8 @@ function getConfig2test_config_ElonX() {
 function getConfig_(fileId, sheetName ){
 
 
-  if (fileId == undefined || fileId == null || fileId == ''  ) {config.__ver__ = '__wrong__fileId'; return config;}
-  if (sheetName == undefined || sheetName == null || sheetName == ''  ){config.__ver__ = '__wrong__sheetName';return config;}
+  if (fileId == undefined || fileId == 'null'  || fileId == null || fileId == ''  ) {config.__ver__ = '__wrong__fileId'; return config;}
+  if (sheetName == undefined || sheetName == 'null'  || sheetName == null || sheetName == ''  ){config.__ver__ = '__wrong__sheetName';return config;}
 
   var sheetConfig;
 

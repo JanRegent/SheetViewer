@@ -121,7 +121,7 @@ Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
 Future<String> logOn() async {
   try {
     var response =
-        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logOn');
+        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logon');
     String resp = response.data.toString();
     return resp;
   } catch (e) {

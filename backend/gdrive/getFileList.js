@@ -4,7 +4,6 @@ var getFileListPars = {
 }
 
 function getFileList(eParameters ){
-  logClear();
   logi('----------------getFileList');
   try {
     epar2getFileList(eParameters['fileId'], eParameters['sheetName']);

@@ -1,10 +1,16 @@
 
 
-//?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX&rowsCount=2
+//?sheetName=elonX&action=getRowsLast&rowsCount=2&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA
+//?action=logOn
 function doGet(e) {
-  var v = PropertiesService.getScriptProperties().getProperties();
-  logClear();
   if(getPar(e, 'action') != '') return paramsErr;
+  var action = e.parameter.action.toString().toLowerCase();
+  if (action == 'logon') {
+    logOn_();
+    logi(e.queryString);
+    return respond('{action:logOn}');
+  }
+  logi(e.queryString);
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
 
@@ -20,14 +26,11 @@ function doGet(e) {
 }
 
 function switchEndpoint(e){
+ 
   var action = e.parameter.action.toString().toLowerCase();
-  logi('action: ' + action);
-
+  
   switch(action) {
-    case "logon": //?action=gettabslist
-      logOn_();
-      return respond('{action:logOn}');
-    case "gettabslist": //?action=gettabslist
+    case "gettabslist": //?sheetName=tabsList&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       return respond(getTabsList(e.parameters)); 
     case "getfilelist":
       return respond(getFileList(e.parameters)); 
