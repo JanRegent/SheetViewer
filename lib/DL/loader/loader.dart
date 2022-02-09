@@ -2,6 +2,7 @@ import 'dart:convert';
 
 //
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -45,9 +46,10 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
 }
 
 Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
-  String key = 'sheetName=$sheetName&fileId=$fileId';
+  String queryString =
+      'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
 
-  String jsonString = await readString(key);
+  String jsonString = await readString(queryString);
   if (jsonString != 'null') {
     var jsonData = json.decode(jsonString);
     return DataSheet.fromJson(jsonData);
@@ -64,9 +66,8 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   //     maxWidth: 90));
 
   try {
-    String urlQuery = Uri.encodeFull(bl.blGlobal.contentServiceUrl +
-        '?action=getRowsLast&rowsCount=10&' +
-        key);
+    String urlQuery =
+        Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
     //rint(urlQuery);
     var response = await dio.get(urlQuery);
     // print(
@@ -74,7 +75,7 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
     // );
     DataSheet dataSheet = DataSheet.fromJson(response.data);
 
-    updateString(key, json.encode(response.data));
+    updateString(queryString, json.encode(response.data));
     return dataSheet;
   } catch (e) {
     return DataSheet();
@@ -83,18 +84,18 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
-    String key = 'fileId=$fileId&sheetName=$sheetName';
-    String jsonString = await readString(key + '__sheetConfig__');
+    String queryString =
+        'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
+    String jsonString = await readString(queryString);
     if (jsonString == 'null') jsonString = '';
     if (jsonString.isNotEmpty) {
       return SheetConfig.fromJson(json.decode(jsonString));
     }
-    String urlQuery =
-        bl.blGlobal.contentServiceUrl + '?action=getSheetConfig&' + key;
+    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     //rint(urlQuery);
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
-    updateString(key + '__sheetConfig__', json.encode(response.data));
+    updateString(queryString, json.encode(response.data));
 
     return sheetConfig;
   } catch (e) {

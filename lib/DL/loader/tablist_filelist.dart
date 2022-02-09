@@ -12,13 +12,13 @@ Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
         'sheetName=$sheetName&action=getfilelist&fileId=$fileId';
 
     String jsonString = await readString(queryString);
-    if (jsonString.isNotEmpty) {
+    if (jsonString != 'null') {
       return FileListSheet.fromJson(jsonDecode(jsonString));
     }
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     var response = await Dio().get(urlQuery);
+    updateString(queryString, jsonEncode(response.data));
     FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
-    updateString(queryString, response.data);
 
     return fileListSheet;
   } catch (e) {
