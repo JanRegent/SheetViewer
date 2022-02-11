@@ -3,15 +3,13 @@ import 'dart:convert';
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
 import 'package:cache_manager/core/write_cache_service.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-GetStorage boxData = GetStorage('data');
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 Future updateString(String key, String jsonString) async {
   try {
     await WriteCache.setString(key: key, value: jsonString);
-    boxData.write(key, jsonDecode(jsonString));
+    interestBox.write(key, jsonDecode(jsonString));
     return 'OK';
   } catch (e) {
     //rint(e); //Do something if error occurs
@@ -21,7 +19,7 @@ Future updateString(String key, String jsonString) async {
 
 Future updateMap(String key, Map map) async {
   try {
-    boxData.write(key, map);
+    interestBox.write(key, map);
     return 'OK';
   } catch (e) {
     logi('updateMap(String ', key);
@@ -42,7 +40,7 @@ Future readString(String key) async {
 
 Future<Map> readMap(String key) async {
   try {
-    return boxData.read(key);
+    return interestBox.read(key);
   } catch (e) {
     //print(e); //Do something if error occurs
     return {};

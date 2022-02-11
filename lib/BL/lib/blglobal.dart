@@ -9,6 +9,8 @@ import 'package:get_storage/get_storage.dart';
 GetStorage globalsBox = GetStorage('globalsBox');
 GetStorage debugBox = GetStorage('debugBox');
 
+GetStorage interestBox = GetStorage('interestBox');
+
 void logi(String key, String value) {
   debugBox.write(key, value);
 }

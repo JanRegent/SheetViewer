@@ -23,7 +23,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   Map tabsListResponse = {};
   Future<String> getData() async {
-    tabsListResponse = await getTabsList();
+    tabsListResponse = await tabsListGet();
     return 'ok';
   }
 
@@ -33,8 +33,6 @@ class _TabsListsPageState extends State<TabsListsPage> {
     List<Tab> tabsList = [];
     List<FilelistviewPage> tabsPages = [];
     for (var i = 0; i < tabsListResponse['rows'].length; i++) {
-      print('--------------------------------------------------------------$i');
-      print(tabsListResponse['rows'][i]);
       Map tabrow = tabsListResponse['rows'][i];
       tabsList.add(Tab(
         text: tabrow['tabName'],

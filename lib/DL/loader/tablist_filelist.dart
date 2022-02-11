@@ -27,7 +27,7 @@ Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
   }
 }
 
-Future<Map> getTabsList() async {
+Future<Map> tabsListGet() async {
   String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
   //await loadAssetString('fileId');
 
@@ -35,24 +35,29 @@ Future<Map> getTabsList() async {
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
+
   try {
     queryString = 'sheetName=$sheetName&action=gettabslist&fileId=$fileId';
-
+    interestBox.write('1_tabsListGet() 1queryString', queryString);
     Map tabsList = await readMap(queryString);
     if (tabsList.isNotEmpty) return tabsList;
+  } catch (_) {}
+
+  try {
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    logi('getTabsList() urlQuery', urlQuery);
+    interestBox.write('1_tabsListGet() 2urlQuery', urlQuery);
     response = await Dio().get(urlQuery);
-    logi('getTabsList() response.data', response.data.toString());
+    interestBox.write(
+        '1_tabsListGet() 3response.data', response.data.toString());
   } catch (e) {
-    logi('getTabsList() err1request', e.toString());
+    interestBox.write('1_tabsListGet() 3err1request', e.toString());
     return {};
   }
 
   try {
     updateMap(queryString, response.data);
   } catch (e) {
-    logi('getTabsList() err2update', e.toString());
+    interestBox.write('1_tabsListGet() 4err2update', e.toString());
   }
   return response.data;
 }
