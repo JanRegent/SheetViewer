@@ -6,7 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 
-GetStorage box = GetStorage();
+GetStorage globalsBox = GetStorage('globalsBox');
+GetStorage debugBox = GetStorage('debugBox');
+
+void logi(String key, String value) {
+  debugBox.write(key, value);
+}
 
 class BlGlobal {
   String contentServiceUrl = '';
@@ -14,11 +19,10 @@ class BlGlobal {
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
-    box = GetStorage();
-    box.write('bl.globals.querystring', '?');
+    globalsBox.write('bl.globals.querystring', '?');
     contentServiceUrl = await loadAssetString('contentServiceUrl');
-    box.write('bl.globals.contentServiceUrl', contentServiceUrl);
-    box.write('rowsSelectedIndex', 0);
+    globalsBox.write('bl.globals.contentServiceUrl', contentServiceUrl);
+    globalsBox.write('rowsSelectedIndex', 0);
 
     loadingMessage = ValueNotifier<String>('');
   }

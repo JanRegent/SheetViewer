@@ -4,8 +4,9 @@ import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
 import 'package:cache_manager/core/write_cache_service.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-GetStorage boxData = GetStorage('boxData');
+GetStorage boxData = GetStorage('data');
 
 Future updateString(String key, String jsonString) async {
   try {
@@ -18,6 +19,17 @@ Future updateString(String key, String jsonString) async {
   }
 }
 
+Future updateMap(String key, Map map) async {
+  try {
+    boxData.write(key, map);
+    return 'OK';
+  } catch (e) {
+    logi('updateMap(String ', key);
+    logi('updateMap(String ', e.toString());
+    return '';
+  }
+}
+
 Future readString(String key) async {
   try {
     String jsonString = await ReadCache.getString(key: key);
@@ -25,6 +37,15 @@ Future readString(String key) async {
   } catch (e) {
     //print(e); //Do something if error occurs
     return 'null';
+  }
+}
+
+Future<Map> readMap(String key) async {
+  try {
+    return boxData.read(key);
+  } catch (e) {
+    //print(e); //Do something if error occurs
+    return {};
   }
 }
 

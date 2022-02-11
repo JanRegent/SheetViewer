@@ -1,12 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/__home/filelistviewpage.dart';
 import 'package:sheetviewer/AL/__home/interests/interests.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/DL/loader/tablist_filelist.dart';
-
-import 'filelistviewPage.dart';
 
 class TabsListsPage extends StatefulWidget {
   const TabsListsPage({Key? key}) : super(key: key);
@@ -14,9 +12,6 @@ class TabsListsPage extends StatefulWidget {
   @override
   _TabsListsPageState createState() => _TabsListsPageState();
 }
-
-TabsListSheet tabsListSheet = TabsListSheet()
-  ..tabslistTitle = 'Pro hledace 04tabs';
 
 DataSheet apiSheet = DataSheet();
 
@@ -26,10 +21,9 @@ class _TabsListsPageState extends State<TabsListsPage> {
     super.initState();
   }
 
+  Map tabsListResponse = {};
   Future<String> getData() async {
-    String response = await getTabsList();
-    tabsListSheet = TabsListSheet.fromJson(response);
-
+    tabsListResponse = await getTabsList();
     return 'ok';
   }
 
@@ -38,15 +32,18 @@ class _TabsListsPageState extends State<TabsListsPage> {
   DefaultTabController tabs(BuildContext context) {
     List<Tab> tabsList = [];
     List<FilelistviewPage> tabsPages = [];
-    for (var i = 0; i < tabsListSheet.rows.length; i++) {
+    for (var i = 0; i < tabsListResponse['rows'].length; i++) {
+      print('--------------------------------------------------------------$i');
+      print(tabsListResponse['rows'][i]);
+      Map tabrow = tabsListResponse['rows'][i];
       tabsList.add(Tab(
-        text: tabsListSheet.rows[i]['tabName'],
+        text: tabrow['tabName'],
       ));
-      tabsPages.add(FilelistviewPage(
-          tabsListSheet.rows[i]['url'], tabsListSheet.rows[i]['sheetName']));
+      tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
     }
+
     return DefaultTabController(
-      length: tabsListSheet.rows.length,
+      length: tabsListResponse['rows'].length,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(

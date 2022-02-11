@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 import 'local_crud.dart';
@@ -26,26 +27,32 @@ Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
   }
 }
 
-Future<String> getTabsList() async {
+Future<Map> getTabsList() async {
   String fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
   //await loadAssetString('fileId');
 
   String sheetName = 'tabsList';
-  // await loadAssetString('sheetName');
+  String queryString = '';
+  // ignore: prefer_typing_uninitialized_variables
+  late var response;
   try {
-    String queryString =
-        'sheetName=$sheetName&action=gettabslist&fileId=$fileId';
+    queryString = 'sheetName=$sheetName&action=gettabslist&fileId=$fileId';
 
-    String jsonString = await readString(queryString);
-    if (jsonString != 'null') return jsonString;
+    Map tabsList = await readMap(queryString);
+    if (tabsList.isNotEmpty) return tabsList;
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    var response = await Dio().get(urlQuery);
-    String resp = response.data.toString().replaceFirst('cols:', '"cols":');
-
-    resp = resp.replaceFirst('rows: [', '"rows": [');
-    updateString(queryString, resp);
-    return resp;
+    logi('getTabsList() urlQuery', urlQuery);
+    response = await Dio().get(urlQuery);
+    logi('getTabsList() response.data', response.data.toString());
   } catch (e) {
-    return '';
+    logi('getTabsList() err1request', e.toString());
+    return {};
   }
+
+  try {
+    updateMap(queryString, response.data);
+  } catch (e) {
+    logi('getTabsList() err2update', e.toString());
+  }
+  return response.data;
 }

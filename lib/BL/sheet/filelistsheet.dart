@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../bl.dart';
 
 class FileListSheet {
@@ -44,9 +42,8 @@ class TabsListSheet {
 
   TabsListSheet();
 
-  factory TabsListSheet.fromJson(String jsonString) {
-    if (jsonString.isEmpty) return TabsListSheet();
-    var jsonData = json.decode(jsonString);
+  factory TabsListSheet.fromJson(Map jsonData) {
+    if (jsonData.isEmpty) return TabsListSheet();
     TabsListSheet anySheet = TabsListSheet()
       ..cols = jsonData["cols"]
       ..rows = jsonData["rows"];
