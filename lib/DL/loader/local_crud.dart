@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:cache_manager/core/delete_cache_service.dart';
 import 'package:cache_manager/core/read_cache_service.dart';
 import 'package:cache_manager/core/write_cache_service.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+
+GetStorage interestBox = GetStorage('interestBox');
 
 Future updateString(String key, String jsonString) async {
   try {

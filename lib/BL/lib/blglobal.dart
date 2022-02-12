@@ -5,11 +5,12 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sheetviewer/DL/_localstore.dart';
 
 GetStorage globalsBox = GetStorage('globalsBox');
 GetStorage debugBox = GetStorage('debugBox');
 
-GetStorage interestBox = GetStorage('interestBox');
+late LocalStore interestStore;
 
 void logi(String key, String value) {
   debugBox.write(key, value);
@@ -25,6 +26,9 @@ class BlGlobal {
     contentServiceUrl = await loadAssetString('contentServiceUrl');
     globalsBox.write('bl.globals.contentServiceUrl', contentServiceUrl);
     globalsBox.write('rowsSelectedIndex', 0);
+
+    interestStore = LocalStore('interest1');
+    await interestStore.init();
 
     loadingMessage = ValueNotifier<String>('');
   }
