@@ -1,27 +1,24 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
-Future<FileListSheet> getFilelist(String fileId, String sheetName) async {
+Future<Map> filelistGet(String fileId, String sheetName) async {
   try {
     String queryString =
         'sheetName=$sheetName&action=getfilelist&fileId=$fileId';
 
-    String jsonString = await interestStore.readString(queryString);
-    if (jsonString != 'null') {
-      return FileListSheet.fromJson(jsonDecode(jsonString));
+    Map map = await interestStore.readMap(queryString);
+    if (map.isNotEmpty) {
+      return map;
     }
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     var response = await Dio().get(urlQuery);
-    interestStore.updateString(queryString, jsonEncode(response.data));
-    FileListSheet fileListSheet = FileListSheet.fromJson(response.data);
+    interestStore.updateMap(queryString, response.data);
 
-    return fileListSheet;
+    return response.data;
   } catch (e) {
-    return FileListSheet();
+    interestStore.updateString('filelistGet() error response', e.toString());
+    return {};
   }
 }
 

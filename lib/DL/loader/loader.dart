@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'local_crud.dart';
@@ -102,13 +101,14 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   }
 }
 
-Future<String> getSheetConfigs(FileListSheet fileListSheet) async {
-  for (var index = 0; index < fileListSheet.rows.length; index++) {
-    String fileId = bl.blUti.url2fileid(fileListSheet.rows[index]['fileUrl']);
-    String sheetName = fileListSheet.rows[index]['sheetName'];
+Future<String> getSheetConfigs(Map fileListSheet) async {
+  for (var index = 0; index < fileListSheet['rows'].length; index++) {
+    String fileId =
+        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+    String sheetName = fileListSheet['rows'][index]['sheetName'];
     bl.blGlobal.loadingMessage.value = (index + 1).toString() +
         ' of ' +
-        fileListSheet.rows.length.toString() +
+        fileListSheet['rows'].length.toString() +
         ' - ' +
         sheetName;
 

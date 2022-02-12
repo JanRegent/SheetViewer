@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
 
 import 'filelistcard_al2exp.dart';
 
-Card filelistCard(
-    BuildContext context, FileListSheet fileListSheet, int index) {
+Card filelistCard(BuildContext context, Map fileListSheet, int index) {
   return Card(
     shape: RoundedRectangleBorder(
       side: BorderSide.merge(

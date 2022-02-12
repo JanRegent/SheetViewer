@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/sheet/filelistsheet.dart';
-import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/DL/loader/tablist_filelist.dart';
 
 import 'filelistcard/filelistcard_al1.dart';
@@ -18,8 +16,7 @@ class FilelistviewPage extends StatefulWidget {
   _FilelistviewPageState createState() => _FilelistviewPageState();
 }
 
-late FileListSheet fileListSheet = FileListSheet()
-  ..filelistTitle = 'Pro hledace 04';
+late Map fileListSheet = {};
 
 class _FilelistviewPageState extends State<FilelistviewPage> {
   @override
@@ -30,9 +27,9 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   Future<String> getData() async {
-    fileListSheet = await getFilelist(
+    fileListSheet = await filelistGet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-    await getSheetConfigs(fileListSheet);
+    //await getSheetConfigs(fileListSheet);
     return 'ok';
   }
 
@@ -48,7 +45,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                   color: Colors.red,
                   height: 4.0,
                 ),
-            itemCount: fileListSheet.rows.length,
+            itemCount: fileListSheet['rows'].length,
             itemBuilder: (context, index) => Center(
                   child: filelistCard(context, fileListSheet, index),
                 )));
@@ -58,7 +55,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(fileListSheet.filelistTitle),
+          title: const Text('fileListSheet.filelistTitle'),
           backgroundColor: Colors.lightBlue,
         ),
         body: FutureBuilder<String>(
