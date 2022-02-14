@@ -30,10 +30,8 @@ function switchEndpoint(e){
   var action = e.parameter.action.toString().toLowerCase();
   
   switch(action) {
-    case "gettabslist": //?sheetName=tabsList&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-      return respond(getTabsList(e.parameters)); 
-    case "getfilelist":
-      return respond(getFileList(e.parameters)); 
+    case "getlistsheet": //?sheetName=getListSheet&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+      return respond(getListSheet(e.parameters)); 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters));            
     case "selectcontains":
