@@ -12,13 +12,10 @@ class DataSheet {
   DataSheet();
 
   factory DataSheet.fromJson(Map jsonData) {
-    SheetConfig config_ = SheetConfig.fromJson(jsonData['config']);
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
-      if (config_.columnsSelected.isEmpty) config_.columnsSelected = cols;
 
       DataSheet anySheet = DataSheet()
-        ..config = config_
         ..cols = cols
         ..rows = jsonData["rows"];
 

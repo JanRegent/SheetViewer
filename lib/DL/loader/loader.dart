@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 //import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
@@ -47,35 +48,37 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String queryString =
       'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
 
-  String jsonString = await readString(queryString);
-  if (jsonString != 'null') {
-    var jsonData = json.decode(jsonString);
-    return DataSheet.fromJson(jsonData);
+  Map map = await interestStore.readMap(queryString);
+  if (map.isNotEmpty) {
+    return DataSheet.fromJson(map);
   }
   Dio dio = Dio();
-  // dio.interceptors.add(PrettyDioLogger());
-  // dio.interceptors.add(PrettyDioLogger(
-  //     requestHeader: true,
-  //     requestBody: true,
-  //     responseBody: true,
-  //     responseHeader: false,
-  //     error: true,
-  //     compact: true,
-  //     maxWidth: 90));
-
+  // ignore: prefer_typing_uninitialized_variables
+  var response;
   try {
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    //rint(urlQuery);
-    var response = await dio.get(urlQuery);
-    // print(
-    //   "${response.statusCode} :  ${response.data}",
-    // );
-    DataSheet dataSheet = DataSheet.fromJson(response.data);
+    response = await dio.get(urlQuery);
+    interestStore.updateString('getRowsLast() 1 urlQuery', urlQuery);
+    interestStore.updateString(
+        'getRowsLast() 2 status', response.statusCode.toString());
+  } catch (e) {
+    interestStore.updateString('getRowsLast() 2 request err', e.toString());
+  }
 
-    updateString(queryString, json.encode(response.data));
+  try {
+    interestStore.updateMap(queryString, response.data);
+  } catch (e) {
+    interestStore.updateString('getRowsLast() updateMap err', e.toString());
+    return DataSheet();
+  }
+
+  try {
+    DataSheet dataSheet = DataSheet.fromJson(response.data);
     return dataSheet;
   } catch (e) {
+    interestStore.updateString(
+        'getRowsLast() DataSheet.fromJson err', e.toString());
     return DataSheet();
   }
 }
