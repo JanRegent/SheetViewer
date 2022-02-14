@@ -48,18 +48,23 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String queryString =
       'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
 
-  Map map = await interestStore.readMap(queryString);
-  if (map.isNotEmpty) {
-    return DataSheet.fromJson(map);
-  }
+  try {
+    Map map = await interestStore.readMap(queryString);
+    if (map.isNotEmpty) {
+      return DataSheet.fromJson(map);
+    }
+  } catch (_) {}
+
   Dio dio = Dio();
   // ignore: prefer_typing_uninitialized_variables
   var response;
   try {
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    response = await dio.get(urlQuery);
     interestStore.updateString('getRowsLast() 1 urlQuery', urlQuery);
+
+    response = await dio.get(urlQuery);
+
     interestStore.updateString(
         'getRowsLast() 2 status', response.statusCode.toString());
   } catch (e) {
