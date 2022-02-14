@@ -27,7 +27,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   Future<String> getData() async {
-    fileListSheet = await filelistGet(
+    fileListSheet = await listSheetGet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
     //await getSheetConfigs(fileListSheet);
     return 'ok';

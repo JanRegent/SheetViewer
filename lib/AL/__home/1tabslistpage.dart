@@ -23,7 +23,8 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   Map tabsListResponse = {};
   Future<String> getData() async {
-    tabsListResponse = await tabsListGet();
+    tabsListResponse = await listSheetGet(
+        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList');
     return 'ok';
   }
 
