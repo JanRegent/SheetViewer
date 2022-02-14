@@ -3,23 +3,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 Future<Map> filelistGet(String fileId, String sheetName) async {
-  try {
-    String queryString =
-        'sheetName=$sheetName&action=getfilelist&fileId=$fileId';
-
-    Map map = await interestStore.readMap(queryString);
-    if (map.isNotEmpty) {
-      return map;
-    }
-    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    var response = await Dio().get(urlQuery);
-    interestStore.updateMap(queryString, response.data);
-
-    return response.data;
-  } catch (e) {
-    interestStore.updateString('filelistGet() error response', e.toString());
-    return {};
-  }
+  return await getListSheet(fileId, sheetName);
 }
 
 Future<Map> tabsListGet() async {
@@ -27,31 +11,35 @@ Future<Map> tabsListGet() async {
   //await loadAssetString('fileId');
 
   String sheetName = 'tabsList';
+  return await getListSheet(fileId, sheetName);
+}
+
+Future getListSheet(String fileId, String sheetName) async {
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
   try {
-    queryString = 'sheetName=$sheetName&action=gettabslist&fileId=$fileId';
+    queryString = 'sheetName=$sheetName&action=getListSheet&fileId=$fileId';
     Map tabsList = await interestStore.readMap(queryString);
     if (tabsList.isNotEmpty) return tabsList;
   } catch (_) {}
 
   try {
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    interestStore.updateString('1_tabsListGet() urlQuery', urlQuery);
+    interestStore.updateString('1_getListSheet() urlQuery', urlQuery);
     response = await Dio().get(urlQuery);
-    interestStore.updateString('2_tabsListGet() response.data length',
+    interestStore.updateString('2_getListSheet() response.data length',
         response.data.toString().length.toString());
   } catch (e) {
-    interestStore.updateString('2_tabsListGet() error response', e.toString());
+    interestStore.updateString('2_getListSheet() error response', e.toString());
     return {};
   }
 
   try {
     interestStore.updateMap(queryString, response.data);
   } catch (e) {
-    interestStore.updateString('1_tabsListGet() 4err2update', e.toString());
+    interestStore.updateString('3_getListSheet() err2update', e.toString());
   }
   return response.data;
 }
