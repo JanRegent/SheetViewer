@@ -33,7 +33,7 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
           List<String> result = await selectListByCheckoxes(
               context, anySheet.cols, 'Select columns');
           if (result.isEmpty) return;
-          anySheet.config.columnsSelected = result;
+          anySheet.headerCols = result;
         },
       )));
   return PopupMenuButton(

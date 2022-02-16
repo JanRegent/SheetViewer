@@ -7,7 +7,7 @@ class SheetConfig {
   String fileId = '';
   String cacheUrlkey = '';
 
-  List<String> columnsSelected = [];
+  List<String> headerCols = [];
 
   SheetIds sheetIds = SheetIds();
   Map headers = {};
@@ -75,10 +75,9 @@ class SheetConfig {
     }
 
     try {
-      config.columnsSelected =
-          bl.blUti.toListString(config_['columnsSelected']);
+      config.headerCols = bl.blUti.toListString(config_['headerCols']);
     } catch (e) {
-      config.columnsSelected = [];
+      config.headerCols = [];
     }
 
     try {
@@ -97,11 +96,11 @@ class SheetConfig {
     ------------------------------------------config
     sheetName:        $sheetName
     fileId:           $fileId
-    
+
     sheetParams:
     $sheetIds
     
-    columnsSelected:  $columnsSelected
+    headerCols:  $headerCols
     
     headers:
     $headers

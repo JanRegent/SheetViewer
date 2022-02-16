@@ -53,6 +53,11 @@ class _DatagridPageState extends State<DatagridPage> {
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 
+  void setStateFunc() {
+    print(dataSheet.headerCols);
+    setState(() {});
+  }
+
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
@@ -72,7 +77,7 @@ class _DatagridPageState extends State<DatagridPage> {
     return SfDataGrid(
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns: colsHeader(dataSheet, context),
+      columns: colsHeader(dataSheet, context, setStateFunc),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },
