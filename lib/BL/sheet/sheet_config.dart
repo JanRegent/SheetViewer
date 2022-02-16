@@ -96,7 +96,8 @@ class SheetConfig {
     return ''' 
     ------------------------------------------config
     sheetName:        $sheetName
-   
+    fileId:           $fileId
+    
     sheetParams:
     $sheetIds
     

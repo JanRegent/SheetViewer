@@ -2,7 +2,10 @@ import 'sheet_config.dart';
 
 class DataSheet {
   List<String> cols = [];
+  List<String> headerCols = [];
+
   List<dynamic> rows = [];
+
   SheetConfig config = SheetConfig();
 
   //temp
@@ -19,6 +22,7 @@ class DataSheet {
         ..cols = cols
         ..rows = jsonData["rows"];
 
+      anySheet.headerCols = jsonData["headerCols"] ?? cols;
       anySheet.rawDataSheet = jsonData;
 
       return anySheet;

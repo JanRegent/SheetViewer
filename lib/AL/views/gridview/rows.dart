@@ -33,12 +33,10 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0;
-        colIx < dataSheet.config.columnsSelected.length;
-        colIx++) {
+    for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {
       String value = '';
       try {
-        value = filteredRows[rowIx][dataSheet.config.columnsSelected[colIx]];
+        value = filteredRows[rowIx][dataSheet.headerCols[colIx]];
       } catch (_) {
         value = '?';
       }
@@ -56,12 +54,10 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0;
-        colIx < dataSheet.config.columnsSelected.length;
-        colIx++) {
+    for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {
       String value = '';
       try {
-        value = dataSheet.rows[rowIx][dataSheet.config.columnsSelected[colIx]];
+        value = dataSheet.rows[rowIx][dataSheet.headerCols[colIx]];
       } catch (_) {
         value = '?';
       }

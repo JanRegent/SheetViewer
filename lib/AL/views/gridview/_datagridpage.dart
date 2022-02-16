@@ -49,6 +49,7 @@ class _DatagridPageState extends State<DatagridPage> {
 
     dataSheet.sheetTitle = widget.sheetTitle;
     rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
+
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 

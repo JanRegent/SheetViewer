@@ -45,14 +45,14 @@ List<GridColumn> colsHeader(DataSheet anySheet, BuildContext context) {
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
           child: popup(anySheet, context))));
-  for (var colIx = 0; colIx < anySheet.config.columnsSelected.length; colIx++) {
+  for (var colIx = 0; colIx < anySheet.headerCols.length; colIx++) {
     gridCols.add(GridColumn(
-        columnName: anySheet.config.columnsSelected[colIx],
+        columnName: anySheet.headerCols[colIx],
         label: Container(
             padding: const EdgeInsets.all(16.0),
             alignment: Alignment.center,
             child: Text(
-              anySheet.config.columnsSelected[colIx],
+              anySheet.headerCols[colIx],
             ))));
   }
   gridCols.add(GridColumn(
