@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
@@ -23,15 +24,23 @@ class LocalStore {
 
   Future<Map> readMap(String key) async {
     try {
-      return _box.read(key);
+      return await _box.read(key);
     } catch (_) {
       return {};
     }
   }
 
+  Future<List<String>> readList(String key) async {
+    try {
+      return bl.blUti.toListString(_box.read(key));
+    } catch (e) {
+      return [];
+    }
+  }
+
   Future<String> readString(String key) async {
     try {
-      return _box.read(key);
+      return await _box.read(key);
     } catch (_) {
       return '';
     }
@@ -45,6 +54,18 @@ class LocalStore {
       logi('--- LocalStore: ', localStoreName);
       logi('updateString(String ', key);
       logi('updateString(String ', e.toString());
+      return '';
+    }
+  }
+
+  Future updateList(String key, List<String> list) async {
+    try {
+      _box.write(key, list);
+      return 'OK';
+    } catch (e) {
+      logi('--- LocalStore: ', localStoreName);
+      logi('updateList(String ', key);
+      logi('updateList(String ', e.toString());
       return '';
     }
   }
