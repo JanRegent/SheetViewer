@@ -61,6 +61,10 @@ class LocalStore {
     }
   }
 
+  Future deleteKey(String key) async {
+    await _box.remove(key);
+  }
+
   Future deleteStorage() async {
     try {
       _box.erase();

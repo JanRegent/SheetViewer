@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/DL/loader/loader.dart';
 
 ElevatedButton last5(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
@@ -16,7 +17,9 @@ ElevatedButton last5(
       onPressed: () async {
         await showGrid();
       },
-      onLongPress: () async {});
+      onLongPress: () async {
+        await getRowsLastDelete(fileId, sheetName);
+      });
 }
 
 ElevatedButton showAll(

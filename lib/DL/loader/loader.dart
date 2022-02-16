@@ -44,6 +44,12 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
   }
 }
 
+Future getRowsLastDelete(String fileId, String sheetName) async {
+  String queryString =
+      'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
+  await interestStore.deleteKey(queryString);
+}
+
 Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String queryString =
       'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
