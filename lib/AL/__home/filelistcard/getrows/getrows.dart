@@ -8,7 +8,8 @@ import 'getrowslastbutton.dart';
 Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
   return Row(
     children: [
-      //getDropdownItems(),
+      rowsCountDropDown(),
+      const Text(' '),
       getRowsFirstButton(
           context,
           bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
@@ -25,7 +26,8 @@ Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
           context,
           bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
           fileListSheet['rows'][index]['sheetName'],
-          fileListSheet['rows'][index]['fileTitle'])
+          fileListSheet['rows'][index]['fileTitle']),
+      rowsCountDropDown(),
     ],
   );
 }
@@ -42,4 +44,17 @@ List<DropdownMenuItem<String>> getDropdownItems() {
     dropDownItems.add(newDropdown);
   }
   return dropDownItems;
+}
+
+String selectedNum = '10';
+DropdownButton rowsCountDropDown() {
+  return DropdownButton<String>(
+      hint: const Text("Select num"),
+      value: selectedNum,
+      onChanged: (value) {
+        // setState(() {
+        //   selectedUser = Value;
+        // });
+      },
+      items: getDropdownItems());
 }
