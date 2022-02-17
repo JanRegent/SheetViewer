@@ -7,9 +7,10 @@ import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
 import 'package:sheetviewer/DL/loader/loader.dart';
 
-import 'filelistcard_bl.dart';
 import 'filelistcard_bycond_select1.dart';
 import 'filelistcard_byvalue.dart';
+import 'getrows/getrows.dart';
+import 'getrows/getrowsallbutton.dart';
 
 ExpansionTileCard expansionFilelistCard(
     BuildContext context, Map fileListSheet, int index) {
@@ -24,15 +25,12 @@ ExpansionTileCard expansionFilelistCard(
     subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
         style: TextStyle(fontSize: 10, color: Colors.black)),
     children: <Widget>[
+      getRowsRow(context, fileListSheet, index),
+
       //-------------------------------------------------------------last/byValues
 
       ListTile(
           tileColor: Colors.lightBlue[200],
-          leading: last5(
-              context,
-              bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
-              fileListSheet['rows'][index]['sheetName'],
-              fileListSheet['rows'][index]['fileTitle']),
           title: Row(
             children: [
               Text('by value: ', style: TextStyle(fontSize: 20)),
@@ -55,7 +53,7 @@ ExpansionTileCard expansionFilelistCard(
       //-------------------------------------------------------------All/select1
       ListTile(
           tileColor: Colors.lightBlue[300],
-          leading: showAll(
+          leading: getRowsAllButton(
               context,
               fileId,
               fileListSheet['rows'][index]['sheetName'],
