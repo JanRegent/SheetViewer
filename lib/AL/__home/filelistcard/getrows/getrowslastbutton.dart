@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/DL/loader/loader.dart';
 
 ElevatedButton getRowsLastButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
+    await interestStore.updateString(
+        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '20');
     await Navigator.push(
         context,
         MaterialPageRoute(

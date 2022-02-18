@@ -46,6 +46,14 @@ class LocalStore {
     }
   }
 
+  String readStringDefault(String key, String defaultValue) {
+    try {
+      return _box.read(key) as String;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
   Future updateString(String key, String jsonString) async {
     try {
       _box.write(key, jsonString);

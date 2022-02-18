@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'getrowsallbutton.dart';
 import 'getrowsfirstbutton.dart';
@@ -7,6 +8,8 @@ import 'getrowslastbutton.dart';
 
 Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
   String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+  String sheetName = fileListSheet['rows'][index]['sheetName'];
+
   return Row(
     children: [
       rowsCountDropDown(),
@@ -28,6 +31,8 @@ Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
           fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),
+      Text(interestStore.readStringDefault(
+          'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '11'))
     ],
   );
 }
