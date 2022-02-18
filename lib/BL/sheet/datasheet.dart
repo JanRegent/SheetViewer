@@ -1,12 +1,13 @@
-import 'sheet_config.dart';
+import 'package:isar/isar.dart';
 
+@Collection()
 class DataSheet {
+  int id = Isar.autoIncrement;
+
   List<String> cols = [];
   List<String> headerCols = [];
 
   List<dynamic> rows = [];
-
-  SheetConfig config = SheetConfig();
 
   //temp
   String sheetTitle = '';

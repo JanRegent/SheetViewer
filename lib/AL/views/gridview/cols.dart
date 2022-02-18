@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import '../../../BL/sheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -13,9 +13,9 @@ PopupMenuButton popup(DataSheet dataSheet, BuildContext context,
     child: InkWell(
       onTap: () async {
         Navigator.pop(context);
-        await canLaunch(dataSheet.config.sheetIds.fileIdUrl)
-            ? await launch(dataSheet.config.sheetIds.fileIdUrl)
-            : throw 'Could not launch ${dataSheet.config.sheetIds.fileIdUrl}';
+        // await canLaunch(dataSheet.config.sheetIds.fileIdUrl)
+        //     ? await launch(dataSheet.config.sheetIds.fileIdUrl)
+        //     : throw 'Could not launch ${dataSheet.config.sheetIds.fileIdUrl}';
       },
       child: const Text('Origin data source show1'),
     ),

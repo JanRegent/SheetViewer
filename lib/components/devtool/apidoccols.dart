@@ -6,7 +6,6 @@ import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/Components/selectList/selectlistbycheckoxes.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
   List<PopupMenuItem> menus = [];
@@ -15,9 +14,9 @@ PopupMenuButton popup(DataSheet anySheet, BuildContext context) {
     child: InkWell(
       onTap: () async {
         Navigator.pop(context);
-        await canLaunch(anySheet.config.sheetIds.originUrl)
-            ? await launch(anySheet.config.sheetIds.originUrl)
-            : throw 'Could not launch ${anySheet.config.sheetIds.originUrl}';
+        // await canLaunch(anySheet.config.sheetIds.originUrl)
+        //     ? await launch(anySheet.config.sheetIds.originUrl)
+        //     : throw 'Could not launch ${anySheet.config.sheetIds.originUrl}';
       },
       child: const Text('Origin data source show'),
     ),

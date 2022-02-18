@@ -6,28 +6,28 @@ import 'getrowsfirstbutton.dart';
 import 'getrowslastbutton.dart';
 
 Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
+  String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
   return Row(
     children: [
       rowsCountDropDown(),
       const Text(' '),
       getRowsFirstButton(
           context,
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
+          fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),
       const Text(' '),
       getRowsAllButton(
           context,
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
+          fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),
       const Text(' '),
       getRowsLastButton(
           context,
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']),
+          fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),
-      rowsCountDropDown(),
     ],
   );
 }
