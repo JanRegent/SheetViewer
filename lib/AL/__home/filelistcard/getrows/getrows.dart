@@ -6,7 +6,8 @@ import 'getrowsallbutton.dart';
 import 'getrowsfirstbutton.dart';
 import 'getrowslastbutton.dart';
 
-Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
+Row getRowsRow(
+    BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
   String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
   String sheetName = fileListSheet['rows'][index]['sheetName'];
 
@@ -28,6 +29,7 @@ Row getRowsRow(BuildContext context, Map fileListSheet, int index) {
       const Text(' '),
       getRowsLastButton(
           context,
+          setStateFunc,
           fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),

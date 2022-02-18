@@ -26,6 +26,10 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
     super.initState();
   }
 
+  void setStateFunc() {
+    setState(() {});
+  }
+
   Future<String> getData() async {
     fileListSheet = await listSheetGet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
@@ -34,6 +38,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   late ScrollController _controller;
+
   Widget detailBody() {
     return Container(
         height: double.infinity,
@@ -47,7 +52,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                 ),
             itemCount: fileListSheet['rows'].length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(context, fileListSheet, index),
+                  child:
+                      filelistCard(context, setStateFunc, fileListSheet, index),
                 )));
   }
 

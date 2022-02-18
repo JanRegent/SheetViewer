@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 import '2_filelistcard_expansion.dart';
 
-Card filelistCard(BuildContext context, Map fileListSheet, int index) {
+Card filelistCard(
+    BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
   return Card(
     shape: RoundedRectangleBorder(
       side: BorderSide.merge(
@@ -18,7 +19,9 @@ Card filelistCard(BuildContext context, Map fileListSheet, int index) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [expansionFilelistCard(context, fileListSheet, index)],
+      children: [
+        expansionFilelistCard(context, setStateFunc, fileListSheet, index)
+      ],
     ),
   );
 }

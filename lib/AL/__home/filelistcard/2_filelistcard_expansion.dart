@@ -13,7 +13,7 @@ import 'getrows/getrows.dart';
 import 'getrows/getrowsallbutton.dart';
 
 ExpansionTileCard expansionFilelistCard(
-    BuildContext context, Map fileListSheet, int index) {
+    BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
   String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
 
@@ -26,7 +26,7 @@ ExpansionTileCard expansionFilelistCard(
     subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
         style: TextStyle(fontSize: 10, color: Colors.black)),
     children: <Widget>[
-      getRowsRow(context, fileListSheet, index),
+      getRowsRow(context, setStateFunc, fileListSheet, index),
 
       //-------------------------------------------------------------last/byValues
 

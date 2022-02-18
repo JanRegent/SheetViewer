@@ -5,11 +5,13 @@ import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/DL/loader/loader.dart';
 
-ElevatedButton getRowsLastButton(
-    BuildContext context, String fileId, String sheetName, String fileTitle) {
+ElevatedButton getRowsLastButton(BuildContext context, Function setStateFunc,
+    String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
     await interestStore.updateString(
-        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '20');
+        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '21');
+    setStateFunc();
+
     await Navigator.push(
         context,
         MaterialPageRoute(
