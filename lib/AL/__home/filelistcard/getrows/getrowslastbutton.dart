@@ -9,7 +9,7 @@ ElevatedButton getRowsLastButton(BuildContext context, Function setStateFunc,
     String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
     await interestStore.updateString(
-        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '21');
+        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '23');
     setStateFunc();
 
     await Navigator.push(

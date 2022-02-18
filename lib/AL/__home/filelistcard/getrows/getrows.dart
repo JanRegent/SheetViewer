@@ -33,6 +33,7 @@ Row getRowsRow(
           fileId,
           fileListSheet['rows'][index]['sheetName'],
           fileListSheet['rows'][index]['fileTitle']),
+      const Text(' '),
       Text(interestStore.readStringDefault(
           'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '11'))
     ],

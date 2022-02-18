@@ -3,7 +3,7 @@ import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/loader/loader.dart';
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-import '../filelistcard/filelistcard_byvalue_columntabs.dart';
+import '../filelistcard/byvalue/filelistcard_byvalue_columntabs.dart';
 
 class ByValuePage extends StatefulWidget {
   final String fileId;
