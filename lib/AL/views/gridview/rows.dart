@@ -52,6 +52,7 @@ class RowsDataSource extends DataGridSource {
 
   DataGridRow gridRow(DataSheet dataSheet, int rowIx) {
     List<DataGridCell> cells = [];
+
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
     for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {

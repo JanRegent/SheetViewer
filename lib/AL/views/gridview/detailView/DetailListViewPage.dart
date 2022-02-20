@@ -103,8 +103,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   String cellvalueGet(String columnSelected) {
     String currentCol =
         widget.dataSheet.cols[widget.dataSheet.cols.indexOf(columnSelected)];
-
-    cellValue = widget.dataSheet.rows[rowIx][currentCol].toString();
+    String cellValue = widget.dataSheet.rows[rowIx][currentCol].toString();
     return cellValue;
   }
 
