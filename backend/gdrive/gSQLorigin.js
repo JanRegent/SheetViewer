@@ -184,7 +184,12 @@ function checkIfIDIsExisting(db, table) {
         }
          var sheet = SpreadsheetApp.openById(Db).getSheetByName(Table);
          Data = sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn()).getValues()
-         
+
+        //jre 
+        Data[0].push('__No__');
+        for (var i = 1; i < Data.length; i++) {
+           Data[i].push((i+1).toString()); 
+        }
 
         if(Meth == "GET"){
             OriginalData = Data;
@@ -422,7 +427,9 @@ return returnValues
 
     //----------------------------------------------------------------------------------------------------------------getVal
     this.getVal = function() {
-      colsLastUsed =  Data[0];
+      colsLastUsed =  Data[0]
+      
+
     if(Argument == "ALL"){
      return Data.splice(1,(Data.length - 1))
     }else if  (typeof Argument ==  "string" && Argument != "ALL"){

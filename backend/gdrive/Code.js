@@ -15,8 +15,6 @@ function doGet(e) {
   if(getPar(e, 'sheetName') != '') return paramsErr; 
 
   try{
-    getConfig_(config.fileId, config.sheetName);
-    logi(config);
     return switchEndpoint(e);
   }catch(err){
     logi(err);
@@ -28,10 +26,9 @@ function doGet(e) {
 function switchEndpoint(e){
  
   var action = e.parameter.action.toString().toLowerCase();
-  
   switch(action) {
-    case "getlistsheet": //?sheetName=getListSheet&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-      return respond(getListSheet(e.parameters)); 
+    case "getlistsheet": //?sheetName=tabsList&action=getListSheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+      return respond(getListSheet()); 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters));            
     case "selectcontains":
@@ -46,7 +43,7 @@ function switchEndpoint(e){
       //test ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
+      var values = getRowsLast(config.sheetIds.fileId, config.sheetIds.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
     case "select1":
@@ -88,7 +85,7 @@ function responseData(values){
   }
   var output = JSON.stringify({
     cols: columns,
-    config: config,
+    //config: config,
     rows: objectArray,
   });
   return output;

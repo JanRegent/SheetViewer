@@ -68,11 +68,13 @@ function getPar(e, parName) {
       return '';
     case "fileId": ``
       if(typeof e.parameter.fileId === "undefined") { err = ('{error: "Parameter fileId is not defined"}');  logi(err);  return respond(err);}
+      config.sheetIds.fileId = e.parameter.fileId;
       config.fileId = e.parameter.fileId;
       logi('fileId: ' + config.fileId);
       return '';
     case "sheetName":
       if(typeof e.parameter.sheetName === "undefined") { err = ('{error: "Parameter sheetName is not defined"}'); logi(err);  return respond(err);}
+      config.sheetIds.sheetName = e.parameter.sheetName;
       config.sheetName = e.parameter.sheetName;
       logi('sheetName: ' + config.sheetName);
       return '';

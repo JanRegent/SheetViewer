@@ -1,19 +1,18 @@
-
-function getListSheet(eParameters ){
-
+//?sheetName=tabsList&action=getListSheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+function getListSheet(){
   var listSheet;
   try {
-    logi(eParameters['fileid']);
-    var spreadsheet = SpreadsheetApp.openById(eParameters['fileid']);
-    listSheet  = spreadsheet.getSheetByName(eParameters['sheetname'] );
-  }catch{
+    var spreadsheet = SpreadsheetApp.openById(config.sheetIds.fileId);
+    listSheet  = spreadsheet.getSheetByName(config.sheetIds.sheetName);
+  }catch(e){
+    logi(JSON.stringify(e));
     var output = JSON.stringify({
       cols: [],
       rows: [],
     });
     return output;
   }
-  logi('opened sheet: ' + listSheet.getName());
+
   var objectArray = [];
   
   var values = listSheet.getDataRange().getValues();
@@ -63,10 +62,12 @@ function getKeyValParams(values, keyStartAt ){
 
 
 //----------------------------------------------------------------------------------------test
-function getTabListTest(){
-
-    //?sheetName=tabsList&action=gettabslist&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-    getTabsList();
+function getListSheetTest(){
+    logClear();
+    config.sheetIds.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
+    config.sheetIds.sheetName = 'tabsList';
+    logi(config);
+    getListSheet();
 }
 
 
