@@ -12,7 +12,7 @@ Row getRowsRow(
   String fileTitle = fileListSheet['rows'][index]['fileTitle'];
   return Row(
     children: [
-      rowsCountDropDown(),
+      getRowsFirstCount(context, setStateFunc, fileId, sheetName),
       const Text(' '),
       getRowsFirstButton(context, fileId, sheetName, fileTitle),
       const Text(' '),
@@ -28,31 +28,4 @@ Row getRowsRow(
       )
     ],
   );
-}
-
-List<DropdownMenuItem<String>> getDropdownItems() {
-  List<DropdownMenuItem<String>> dropDownItems = [];
-  List<String> currenciesList = ['10', '20', '30'];
-  for (String currency in currenciesList) {
-    var newDropdown = DropdownMenuItem(
-      child: Text(currency),
-      value: currency,
-    );
-
-    dropDownItems.add(newDropdown);
-  }
-  return dropDownItems;
-}
-
-String selectedNum = '10';
-DropdownButton rowsCountDropDown() {
-  return DropdownButton<String>(
-      hint: const Text("Select num"),
-      value: selectedNum,
-      onChanged: (value) {
-        // setState(() {
-        //   selectedUser = Value;
-        // });
-      },
-      items: getDropdownItems());
 }

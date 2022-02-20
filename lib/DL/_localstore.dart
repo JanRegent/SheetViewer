@@ -30,6 +30,14 @@ class LocalStore {
     }
   }
 
+  Map readMapNoFuture(String key) {
+    try {
+      return _box.read(key);
+    } catch (_) {
+      return {};
+    }
+  }
+
   Future<List<String>> readList(String key) async {
     try {
       return bl.blUti.toListString(_box.read(key));

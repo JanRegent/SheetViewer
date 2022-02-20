@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
-//import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
@@ -40,56 +38,6 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
     updateString(queryString, json.encode(response.data));
     return dataSheet;
   } catch (e) {
-    return DataSheet();
-  }
-}
-
-Future getRowsLastDelete(String fileId, String sheetName) async {
-  String queryString =
-      'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
-  await interestStore.deleteKey(queryString);
-}
-
-Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
-  String queryString =
-      'sheetName=$sheetName&action=getRowsLast&rowsCount=10&fileId=$fileId';
-
-  try {
-    Map map = await interestStore.readMap(queryString);
-    if (map.isNotEmpty) {
-      return DataSheet.fromJson(map);
-    }
-  } catch (_) {}
-
-  Dio dio = Dio();
-  // ignore: prefer_typing_uninitialized_variables
-  var response;
-  try {
-    String urlQuery =
-        Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    interestStore.updateString('getRowsLast() 1 urlQuery', urlQuery);
-
-    response = await dio.get(urlQuery);
-
-    interestStore.updateString(
-        'getRowsLast() 2 status', response.statusCode.toString());
-  } catch (e) {
-    interestStore.updateString('getRowsLast() 2 request err', e.toString());
-  }
-
-  try {
-    interestStore.updateMap(queryString, response.data);
-  } catch (e) {
-    interestStore.updateString('getRowsLast() updateMap err', e.toString());
-    return DataSheet();
-  }
-
-  try {
-    DataSheet dataSheet = DataSheet.fromJson(response.data);
-    return dataSheet;
-  } catch (e) {
-    interestStore.updateString(
-        'getRowsLast() DataSheet.fromJson err', e.toString());
     return DataSheet();
   }
 }

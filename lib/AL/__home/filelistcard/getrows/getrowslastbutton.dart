@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-import 'package:sheetviewer/DL/loader/loader.dart';
+import 'bl_getrows.dart';
 
 ElevatedButton getRowsLastButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
@@ -28,14 +27,12 @@ ElevatedButton getRowsLastButton(
 ElevatedButton getRowsLastCount(BuildContext context, Function setStateFunc,
     String fileId, String sheetName) {
   Future showGrid() async {
-    await interestStore.updateString(
-        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '23');
+    getRowsUpdateMap(fileId, sheetName, 'lastRowsCount', '20');
     setStateFunc();
   }
 
   return ElevatedButton(
-    child: Text(interestStore.readStringDefault(
-        'sheetName=$sheetName&vars=getlastRowsCount&fileId=$fileId', '11')),
+    child: Text(getRowsReadString(fileId, sheetName, 'lastRowsCount', '10')),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
