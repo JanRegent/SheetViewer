@@ -10,6 +10,7 @@ import 'DL/loader/loader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await GetStorage.init();
   await bl.init();
   await logOn();
