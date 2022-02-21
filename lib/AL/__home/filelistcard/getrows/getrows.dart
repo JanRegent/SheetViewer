@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/components/selectList/selectlistbyradiobuttons.dart';
 
+import 'bl_getrows.dart';
 import 'getrowsallbutton.dart';
 import 'getrowsfirstbutton.dart';
 import 'getrowslastbutton.dart';
@@ -16,8 +18,6 @@ Row getRowsRow(
       const Text(' '),
       getRowsFirstButton(context, fileId, sheetName, fileTitle),
       const Text(' '),
-      getRowsAllButton(context, fileId, sheetName, fileTitle),
-      const Text(' '),
       getRowsLastButton(context, fileId, sheetName, fileTitle),
       const Text(' '),
       getRowsLastCount(
@@ -25,7 +25,25 @@ Row getRowsRow(
         setStateFunc,
         fileId,
         sheetName,
-      )
+      ),
+      const Text(' '),
+      getRowsAllButton(context, fileId, sheetName, fileTitle),
     ],
   );
+}
+
+Future rowsCountSet(BuildContext context, Function setStateFunc, String fileId,
+    String sheetName, String varName) async {
+  List<String> values =
+      List<String>.generate(10, (i) => ((i + 1) * 10).toString());
+  String rowsCount = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              SelectByRadiobuttonsPage('Select rows count value', values)));
+
+  // ignore: unnecessary_null_comparison
+  if (rowsCount == null) return;
+  getRowsUpdateMap(fileId, sheetName, varName, rowsCount);
+  setStateFunc();
 }

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 
 import 'bl_getrows.dart';
+import 'getrows.dart';
 
-ElevatedButton getRowsLastButton(
+IconButton getRowsLastButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
@@ -14,29 +15,36 @@ ElevatedButton getRowsLastButton(
         ));
   }
 
-  return ElevatedButton(
-      child: const Icon(Icons.last_page),
-      onPressed: () async {
-        await showGrid();
-      },
-      onLongPress: () async {
-        await getRowsLastDelete(fileId, sheetName);
-      });
+  return IconButton(
+    icon: Container(
+      height: 100,
+      width: 100,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+        ),
+        //borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: const Center(
+        child: Icon(Icons.last_page, color: Colors.black),
+      ),
+    ),
+    tooltip: 'Last rows',
+    onPressed: () async {
+      await showGrid();
+    },
+  );
 }
 
 ElevatedButton getRowsLastCount(BuildContext context, Function setStateFunc,
     String fileId, String sheetName) {
-  Future showGrid() async {
-    getRowsUpdateMap(fileId, sheetName, 'lastRowsCount', '20');
-    setStateFunc();
-  }
-
   return ElevatedButton(
     child: Text(getRowsReadString(fileId, sheetName, 'lastRowsCount', '10')),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
-      await showGrid();
+      await rowsCountSet(
+          context, setStateFunc, fileId, sheetName, 'lastRowsCount');
     },
   );
 }

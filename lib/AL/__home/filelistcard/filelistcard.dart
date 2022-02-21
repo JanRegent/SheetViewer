@@ -9,6 +9,7 @@ import '../../../DL/loader/loader.dart';
 
 import 'bycond/filelistcard_bycond_select1.dart';
 import 'byvalue/filelistcard_byvalue.dart';
+import 'getrows/bl_getrows.dart';
 import 'getrows/getrows.dart';
 import 'getrows/getrowsallbutton.dart';
 
@@ -23,6 +24,14 @@ Card filelistCard(
       baseColor: Colors.cyan[50],
       expandedColor: Colors.red[50],
       key: cardA,
+      leading: IconButton(
+        icon: const Icon(Icons.refresh),
+        tooltip: 'Clear for refresh',
+        onPressed: () async {
+          await getRowsLastDelete(
+              fileId, fileListSheet['rows'][index]['sheetName']);
+        },
+      ),
       title: Text(fileListSheet['rows'][index]['fileTitle'],
           style: const TextStyle(fontSize: 20, color: Colors.black)),
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",

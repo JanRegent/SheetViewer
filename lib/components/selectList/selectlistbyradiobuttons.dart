@@ -1,102 +1,62 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
-///
-///https://medium.com/@pankajdas09/how-to-update-checkbox-and-return-value-from-dialog-in-flutter-814fa69d2046
-///
-Future<String> selectListByRadiobuttons(
-    BuildContext context, List<String> allItems, String listTitle) async {
-  String selected = '10';
-  await showDialog(
-    context: context,
-    builder: (context) {
-      return _MyDialog(listTitle, allList: allItems, selectedList: const [],
-          onSelectedListListChanged: (items) {
-        selected = items;
-      });
-    },
-  );
+class SelectByRadiobuttonsPage extends StatefulWidget {
+  final String title;
+  final List<String> values;
+  const SelectByRadiobuttonsPage(this.title, this.values, {Key? key})
+      : super(key: key);
 
-  return selected;
+  @override
+  _SelectByRadiobuttonsPageState createState() =>
+      _SelectByRadiobuttonsPageState();
 }
 
-class _MyDialog extends StatefulWidget {
-  final String listTitle;
-  const _MyDialog(
-    this.listTitle, {
-    required this.allList,
-    required this.selectedList,
-    required this.onSelectedListListChanged,
-  });
-  final List<String> allList;
-  final List selectedList;
-  final ValueChanged<String> onSelectedListListChanged;
-  @override
-  _MyDialogState createState() => _MyDialogState();
-}
+class _SelectByRadiobuttonsPageState extends State<SelectByRadiobuttonsPage> {
+  // The group value
+  String _result = '';
 
-class _MyDialogState extends State<_MyDialog> {
-  @override
-  void initState() {
-    super.initState();
+  ElevatedButton okButton() {
+    return ElevatedButton(
+      child: const Icon(Icons.check),
+      onPressed: () async {
+        Navigator.pop(context, _result);
+      },
+    );
   }
 
-  String selectedValue = '';
+  List<RadioListTile> radioButtons() {
+    List<RadioListTile> buttons = [];
+    for (var i = 0; i < widget.values.length; i++) {
+      buttons.add(RadioListTile(
+          title: Text(widget.values[i]),
+          value: widget.values[i],
+          groupValue: _result,
+          onChanged: (value) {
+            setState(() {
+              _result = value.toString();
+            });
+          }));
+    }
+    return buttons;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+          title: Row(
         children: [
-          ListTile(
-            tileColor: Colors.blue[100],
-            leading: Text(widget.listTitle),
-            title: Row(
-              children: [
-                IconButton(
-                  tooltip: 'Cancel selection',
-                  onPressed: () {
-                    Navigator.pop(context, []);
-                  },
-                  icon: const Icon(Icons.cancel),
-                ),
-                IconButton(
-                  tooltip: 'OK, confirm selection',
-                  onPressed: () {
-                    print('qq $selectedValue');
-                    Navigator.pop(context, selectedValue);
-                  },
-                  icon: const Icon(Icons.check),
-                ),
-              ],
-            ),
-            // trailing: IconButton(
-            //   tooltip: 'OK, confirm selection',
-            //   onPressed: () {
-            //   },
-            //   icon: const Icon(Icons.select_all),
-            // ),
+          Text(
+            widget.title + ': ' + _result,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.allList.length,
-              itemBuilder: (BuildContext context, int index) {
-                //final cityName = widget.allList[index];
-                return RadioListTile(
-                  value: 0,
-                  groupValue: index,
-                  onChanged: (value) {
-                    selectedValue = widget.allList[index];
-                  },
-                  title: Text(widget.allList[index]),
-                  subtitle: const Text(" "),
-                  secondary: const Icon(Icons.sd_storage),
-                );
-              },
-            ),
-          ),
+          _result.isNotEmpty ? okButton() : const Text(' ')
         ],
-      ),
+      )),
+      body: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: radioButtons())),
     );
   }
 }
