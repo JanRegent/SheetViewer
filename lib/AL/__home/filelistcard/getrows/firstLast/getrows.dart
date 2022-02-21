@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/components/selectList/selectlistbyradiobuttons.dart';
 
-import 'bl_getrows.dart';
+import '../bl_getrows.dart';
 import 'getrowsallbutton.dart';
 import 'getrowsfirstbutton.dart';
 import 'getrowslastbutton.dart';
 
-Row getRowsRow(
+Row firstLastRow(
     BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
   String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
   String sheetName = fileListSheet['rows'][index]['sheetName'];
