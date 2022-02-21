@@ -3,9 +3,9 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/components/selectList/selectlistbyradiobuttons.dart';
 
 import '../bl_getrows.dart';
-import 'getrowsallbutton.dart';
-import 'getrowsfirstbutton.dart';
-import 'getrowslastbutton.dart';
+import 'allrowsbutton.dart';
+import 'firstbutton.dart';
+import 'lastbutton.dart';
 
 Row firstLastRow(
     BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
@@ -14,20 +14,20 @@ Row firstLastRow(
   String fileTitle = fileListSheet['rows'][index]['fileTitle'];
   return Row(
     children: [
-      getRowsFirstCount(context, setStateFunc, fileId, sheetName),
+      firstRowsCount(context, setStateFunc, fileId, sheetName),
       const Text(' '),
-      getRowsFirstButton(context, fileId, sheetName, fileTitle),
+      firstButton(context, fileId, sheetName, fileTitle),
       const Text(' '),
-      getRowsLastButton(context, fileId, sheetName, fileTitle),
+      lastButton(context, fileId, sheetName, fileTitle),
       const Text(' '),
-      getRowsLastCount(
+      lastRowsCount(
         context,
         setStateFunc,
         fileId,
         sheetName,
       ),
       const Text(' '),
-      getRowsAllButton(context, fileId, sheetName, fileTitle),
+      allRowsButton(context, fileId, sheetName, fileTitle),
     ],
   );
 }

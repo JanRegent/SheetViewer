@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 
 import '../bl_getrows.dart';
-import 'getrows.dart';
+import '_firstlastrow.dart';
 
-IconButton getRowsFirstButton(
+IconButton firstButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
@@ -41,7 +41,7 @@ IconButton getRowsFirstButton(
   );
 }
 
-ElevatedButton getRowsFirstCount(BuildContext context, Function setStateFunc,
+ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
     String fileId, String sheetName) {
   return ElevatedButton(
     child: Text(getRowsReadString(fileId, sheetName, 'firstRowsCount', '10')),

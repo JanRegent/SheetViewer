@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 
-ElevatedButton getRowsAllButton(
+ElevatedButton allRowsButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
