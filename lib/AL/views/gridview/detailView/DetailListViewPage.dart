@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../../../../BL/sheet/datasheet.dart';
 
 //import './../views_common.dart';
@@ -104,6 +106,11 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     String currentCol =
         widget.dataSheet.cols[widget.dataSheet.cols.indexOf(columnSelected)];
     String cellValue = widget.dataSheet.rows[rowIx][currentCol].toString();
+    if (columnSelected.toLowerCase() == 'dateinsert') {
+      DateTime datetime = DateTime.parse(cellValue);
+      datetime = datetime.toLocal();
+      cellValue = DateFormat("yyyy-MM-dd").format(datetime);
+    }
     return cellValue;
   }
 
