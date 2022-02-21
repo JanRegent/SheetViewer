@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sheetviewer/AL/__home/home_help.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/loader/listsheet.dart';
 
@@ -63,6 +65,13 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
         appBar: AppBar(
           title: const Text('fileListSheet.filelistTitle'),
           backgroundColor: Colors.lightBlue,
+          actions: [
+            ElevatedButton(
+              child: const Icon(Icons.help),
+              onPressed: () => helpToastShow(
+                  "Click ob V icon to open cards bb", ToastGravity.CENTER_LEFT),
+            ),
+          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

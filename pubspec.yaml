@@ -37,7 +37,8 @@ dependencies:
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
   #text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
-  
+  fluttertoast: ^8.0.8          #https://pub.dev/packages/fluttertoast
+
   #========================================================BL
   cache_manager: ^1.0.0+3       #https://pub.dev/packages/cache_manager
   get_storage: ^2.0.3           #https://pub.dev/packages/get_storage?utm_source=fluttertap
@@ -62,8 +63,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  intl: ^0.17.0             #https://pub.dev/packages/intl
-
+  intl: ^0.17.0               #https://pub.dev/packages/intl
+  
  
 
 dev_dependencies:

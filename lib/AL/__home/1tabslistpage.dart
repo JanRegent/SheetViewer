@@ -1,9 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/filelistviewpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/DL/loader/listsheet.dart';
+
+import 'home_help.dart';
 
 class TabsListsPage extends StatefulWidget {
   const TabsListsPage({Key? key}) : super(key: key);
@@ -50,14 +53,9 @@ class _TabsListsPageState extends State<TabsListsPage> {
           title: Text(interestTitle),
           actions: [
             ElevatedButton(
-              child: const Text("rowsCount"),
-              onPressed: () async {
-                // //interestTitle = await selectInterestDialog(context);
-                // String rowsCount = await selectListByRadiobuttons(
-                //     context, ['10', '20', '30'], 'xxx');
-
-                setState(() {});
-              },
+              child: const Icon(Icons.help),
+              onPressed: () => helpToastShow(
+                  "<-- Click on tab of interest", ToastGravity.TOP),
             ),
           ],
         ),
@@ -68,34 +66,36 @@ class _TabsListsPageState extends State<TabsListsPage> {
     );
   }
 
+  Widget homeBuilder() {
+    return FutureBuilder<String>(
+      future: getData(), // async work
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Column(
+              children: const [
+                Text('Loading tabs....'),
+                CircularProgressIndicator()
+              ],
+            );
+
+          default:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return tabs(context);
+            }
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            body: FutureBuilder<String>(
-          future: getData(), // async work
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Column(
-                  children: const [
-                    Text('Loading tabs....'),
-                    CircularProgressIndicator()
-                  ],
-                );
-
-              default:
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return tabs(context);
-                }
-            }
-          },
-        )
-
-            //Center(child: filelistGrid()),
-            ));
+          body: homeBuilder(),
+        ));
   }
 }
