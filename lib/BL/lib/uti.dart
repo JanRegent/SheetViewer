@@ -45,4 +45,12 @@ class BLuti {
     }
     return list;
   }
+
+  List<Map> toListMap(List<dynamic> items) {
+    List<Map> list = [];
+    for (var item in items) {
+      list.add(item);
+    }
+    return list;
+  }
 }

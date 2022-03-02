@@ -2,14 +2,24 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:sheetviewer/DL/models/sheets.dart';
 
 import 'AL/__home/1tabslistpage.dart';
 import 'BL/bl.dart';
+
 import 'DL/loader/loader.dart';
 //import 'maintest.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final isar = await Isar.open(
+    schemas: [SheetsSchema],
+    //directory: dir.path,
+    inspector: false, // if you want to enable the inspector for debug builds
+  );
+  sheetsDb = SheetsDb(isar);
 
   await GetStorage.init();
   await bl.init();

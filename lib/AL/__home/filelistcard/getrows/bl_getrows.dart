@@ -63,7 +63,14 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
     interestStore.updateString('getRowsLast() updateMap err', e.toString());
     return DataSheet();
   }
-
+  try {
+    List<String> cols = bl.blUti.toListString(response.data['cols']);
+    List<String> rows = bl.blUti.toListString(response.data['rows']);
+    await sheetsDb.updateSheets(key, cols, rows);
+  } catch (e) {
+    interestStore.updateString('getRowsLast() updateSheets err', e.toString());
+    return DataSheet();
+  }
   try {
     DataSheet dataSheet = DataSheet.fromJson(response.data);
     return dataSheet;

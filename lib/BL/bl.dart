@@ -1,9 +1,11 @@
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
+import 'package:sheetviewer/DL/models/sheets.dart';
 
 import 'lib/blglobal.dart';
 
 BL bl = BL();
+late SheetsDb sheetsDb;
 
 class BL {
   BLuti blUti = BLuti();

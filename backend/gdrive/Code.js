@@ -9,7 +9,16 @@ function doGet(e) {
     logOn_();
     logi(e.queryString);
     return respond('{action:logOn}');
+  }  
+  if (action == 'appendcsv') {
+    logOn_();
+    logi(e.queryString);
+    logi( e.parameter.csv);
+    appendCSV( e.parameter.csv);
+    return respond('{action:appendCSV}');
+    //?action=appendCSV&csv=;xxx;Tomášová Míla;Svoboda ducha;31;Jana Bravencová;
   }
+  
   logi(e.queryString);
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
