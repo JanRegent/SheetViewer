@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
+import 'package:sheetviewer/DL/models/sheets.dart';
 
 Future getRowsUpdateMap(String fileId, String sheetName, varName, value) async {
   String key = 'sheetName=$sheetName&vars=getRows&fileId=$fileId';
@@ -29,6 +33,16 @@ Future getRowsLastDelete(String fileId, String sheetName) async {
 
 Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String key = 'sheetName=$sheetName&action=getRowsLast&fileId=$fileId';
+  Sheets? sheet = await sheetsDb.readSheet(key);
+  if (kDebugMode) {
+    print(sheet?.cols);
+    print(sheet?.id);
+    print(sheet?.rows[2]);
+
+    var row = jsonDecode(sheet!.rows[2]);
+
+    print(row['Mise']);
+  }
   try {
     Map map = await interestStore.readMap(key);
     if (map.isNotEmpty) {

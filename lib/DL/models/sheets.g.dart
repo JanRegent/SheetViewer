@@ -17,12 +17,12 @@ extension GetSheetsCollection on Isar {
 final SheetsSchema = CollectionSchema(
   name: 'Sheets',
   schema:
-      '{"name":"Sheets","idName":"id","properties":[{"name":"cols","type":"StringList"},{"name":"headerCols","type":"StringList"},{"name":"key","type":"String"},{"name":"rows","type":"StringList"}],"indexes":[],"links":[]}',
+      '{"name":"Sheets","idName":"id","properties":[{"name":"cols","type":"StringList"},{"name":"key","type":"String"},{"name":"rows","type":"StringList"}],"indexes":[],"links":[]}',
   nativeAdapter: const _SheetsNativeAdapter(),
   webAdapter: const _SheetsWebAdapter(),
   idName: 'id',
-  propertyIds: {'cols': 0, 'headerCols': 1, 'key': 2, 'rows': 3},
-  listProperties: {'cols', 'headerCols', 'rows'},
+  propertyIds: {'cols': 0, 'key': 1, 'rows': 2},
+  listProperties: {'cols', 'rows'},
   indexIds: {},
   indexTypes: {},
   linkIds: {},
@@ -47,7 +47,6 @@ class _SheetsWebAdapter extends IsarWebTypeAdapter<Sheets> {
   Object serialize(IsarCollection<Sheets> collection, Sheets object) {
     final jsObj = IsarNative.newJsObject();
     IsarNative.jsObjectSet(jsObj, 'cols', object.cols);
-    IsarNative.jsObjectSet(jsObj, 'headerCols', object.headerCols);
     IsarNative.jsObjectSet(jsObj, 'id', object.id);
     IsarNative.jsObjectSet(jsObj, 'key', object.key);
     IsarNative.jsObjectSet(jsObj, 'rows', object.rows);
@@ -58,11 +57,6 @@ class _SheetsWebAdapter extends IsarWebTypeAdapter<Sheets> {
   Sheets deserialize(IsarCollection<Sheets> collection, dynamic jsObj) {
     final object = Sheets();
     object.cols = (IsarNative.jsObjectGet(jsObj, 'cols') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
-    object.headerCols = (IsarNative.jsObjectGet(jsObj, 'headerCols') as List?)
             ?.map((e) => e ?? '')
             .toList()
             .cast<String>() ??
@@ -82,12 +76,6 @@ class _SheetsWebAdapter extends IsarWebTypeAdapter<Sheets> {
     switch (propertyName) {
       case 'cols':
         return ((IsarNative.jsObjectGet(jsObj, 'cols') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
-      case 'headerCols':
-        return ((IsarNative.jsObjectGet(jsObj, 'headerCols') as List?)
                 ?.map((e) => e ?? '')
                 .toList()
                 .cast<String>() ??
@@ -128,27 +116,18 @@ class _SheetsNativeAdapter extends IsarNativeTypeAdapter<Sheets> {
       dynamicSize += bytes.length as int;
     }
     final _cols = bytesList0;
-    final value1 = object.headerCols;
-    dynamicSize += (value1.length) * 8;
-    final bytesList1 = <IsarUint8List>[];
-    for (var str in value1) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList1.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _headerCols = bytesList1;
-    final value2 = object.key;
-    final _key = IsarBinaryWriter.utf8Encoder.convert(value2);
+    final value1 = object.key;
+    final _key = IsarBinaryWriter.utf8Encoder.convert(value1);
     dynamicSize += (_key.length) as int;
-    final value3 = object.rows;
-    dynamicSize += (value3.length) * 8;
-    final bytesList3 = <IsarUint8List>[];
-    for (var str in value3) {
+    final value2 = object.rows;
+    dynamicSize += (value2.length) * 8;
+    final bytesList2 = <IsarUint8List>[];
+    for (var str in value2) {
       final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList3.add(bytes);
+      bytesList2.add(bytes);
       dynamicSize += bytes.length as int;
     }
-    final _rows = bytesList3;
+    final _rows = bytesList2;
     final size = staticSize + dynamicSize;
 
     rawObj.buffer = alloc(size);
@@ -156,9 +135,8 @@ class _SheetsNativeAdapter extends IsarNativeTypeAdapter<Sheets> {
     final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
     final writer = IsarBinaryWriter(buffer, staticSize);
     writer.writeStringList(offsets[0], _cols);
-    writer.writeStringList(offsets[1], _headerCols);
-    writer.writeBytes(offsets[2], _key);
-    writer.writeStringList(offsets[3], _rows);
+    writer.writeBytes(offsets[1], _key);
+    writer.writeStringList(offsets[2], _rows);
   }
 
   @override
@@ -166,10 +144,9 @@ class _SheetsNativeAdapter extends IsarNativeTypeAdapter<Sheets> {
       IsarBinaryReader reader, List<int> offsets) {
     final object = Sheets();
     object.cols = reader.readStringList(offsets[0]) ?? [];
-    object.headerCols = reader.readStringList(offsets[1]) ?? [];
     object.id = id;
-    object.key = reader.readString(offsets[2]);
-    object.rows = reader.readStringList(offsets[3]) ?? [];
+    object.key = reader.readString(offsets[1]);
+    object.rows = reader.readStringList(offsets[2]) ?? [];
     return object;
   }
 
@@ -182,10 +159,8 @@ class _SheetsNativeAdapter extends IsarNativeTypeAdapter<Sheets> {
       case 0:
         return (reader.readStringList(offset) ?? []) as P;
       case 1:
-        return (reader.readStringList(offset) ?? []) as P;
-      case 2:
         return (reader.readString(offset)) as P;
-      case 3:
+      case 2:
         return (reader.readStringList(offset) ?? []) as P;
       default:
         throw 'Illegal propertyIndex';
@@ -374,109 +349,6 @@ extension SheetsQueryFilter on QueryBuilder<Sheets, Sheets, QFilterCondition> {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'cols',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyGreaterThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyLessThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyBetween(
-    String lower,
-    String upper, {
-    bool caseSensitive = true,
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'headerCols',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'headerCols',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<Sheets, Sheets, QAfterFilterCondition> headerColsAnyMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'headerCols',
       value: pattern,
       caseSensitive: caseSensitive,
     ));
@@ -787,10 +659,6 @@ extension SheetsQueryWhereDistinct on QueryBuilder<Sheets, Sheets, QDistinct> {
 extension SheetsQueryProperty on QueryBuilder<Sheets, Sheets, QQueryProperty> {
   QueryBuilder<Sheets, List<String>, QQueryOperations> colsProperty() {
     return addPropertyNameInternal('cols');
-  }
-
-  QueryBuilder<Sheets, List<String>, QQueryOperations> headerColsProperty() {
-    return addPropertyNameInternal('headerCols');
   }
 
   QueryBuilder<Sheets, int, QQueryOperations> idProperty() {
