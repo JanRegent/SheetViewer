@@ -37,16 +37,16 @@ class SheetConfig {
     config.key = 'fileid=${config.fileId}&sheetname=${config.sheetName}';
     try {
       config.sheetIds.sheetName =
-          json.encode(config_['sheetParams']['sheetName'] ?? '');
+          json.encode(config_['sheetIdent']['sheetName'] ?? '');
 
       config.sheetIds.fileId =
-          json.encode(config_['sheetParams']['fileId'] ?? '');
+          json.encode(config_['sheetIdent']['fileId'] ?? '');
 
       config.sheetIds.fileIdUrl =
-          json.encode(config_['sheetParams']['fileIdUrl'] ?? '');
+          json.encode(config_['sheetIdent']['fileIdUrl'] ?? '');
 
       config.sheetIds.originUrl =
-          json.encode(config_['sheetParams']['originUrl'] ?? '');
+          json.encode(config_['sheetIdent']['originUrl'] ?? '');
 
       config.sheetIds.copyrightPageUrl =
           json.encode(config_['sheetParams']['copyrightPageUrl'] ?? '');
@@ -73,8 +73,8 @@ class SheetConfig {
     }
 
     try {
-      if (config_['selects1'] != null) {
-        for (var item in config_['selects1']) {
+      if (config_['select1'] != null) {
+        for (var item in config_['select1']) {
           config.selects1.add(json.encode(item));
         }
       }
@@ -148,7 +148,8 @@ class SheetConfigDb {
     if (keyCount_ > 0) {
       return 'OK';
     }
-    //SheetConfig sheetConfig = SheetConfig()..key = key;
+
+    sheetConfig.key = key;
 
     // for (var i = 0; i < rows.length; i++) {
     //   sheetConfig.rows.add(jsonEncode(rows[i]));

@@ -1,29 +1,3 @@
-function getsheetconfig(eParameters){
-  getConfig_(eParameters['fileId'][0], eParameters['sheetName'][0]);
-   
-  logi(eParameters['fileId'][0]);
-  logi(eParameters['sheetName'][0]);
-  Logger.log(config.sheetIdent);
-  listObj(config.headers, 'headers ');
-  listObj(config.getRows, 'getRows ');
-  listObj(config.selects1, 'selects1 ');
-
-  return JSON.stringify(config);
-}
-
-
-function getConfig2test_config_ElonX() {
-  logClear();
-  getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX'  );
-
-  Logger.log(config.sheetIdent);
-  listObj(config.headers, 'headers ');
-  listObj(config.getRows, 'getRows ');
-  listObj(config.selects1, 'selects1 ');
-
-
-  // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
-}
 
 
 function getConfig_(fileId, sheetName ){
@@ -53,7 +27,7 @@ logi(sheetConfig.getName());
   //-------------------------------------------------------------------cofig exists
   //---------------------------------------------------------fileId, sheetName
   var values = sheetConfig.getDataRange().getValues();
-  getSheetParams(values);
+  getSheetIdent(values);
   getHeaders(values);
   getRowsConfig(values);
   getSelect1Config(values);

@@ -5,13 +5,12 @@
 function doGet(e) {
   if(getPar(e, 'action') != '') return paramsErr;
   var action = e.parameter.action.toString().toLowerCase();
+  logOn_();
   if (action == 'logon') {
-    logOn_();
     logi(e.queryString);
     return respond('{action:logOn}');
   }  
   if (action == 'appendcsv') {
-    logOn_();
     logi(e.queryString);
     logi( e.parameter.csv);
     appendCSV( e.parameter.csv);
@@ -39,7 +38,7 @@ function switchEndpoint(e){
     case "getlistsheet": //?sheetName=tabsList&action=getListSheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       return respond(getListSheet()); 
     case "getsheetconfig":
-      return respond(getsheetconfig(e.parameters));            
+      return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "selectcontains":
       return respond(selectcontains()); 
     case "post":

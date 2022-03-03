@@ -52,11 +52,11 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     //   return SheetConfig.fromJson(json.decode(jsonString));
     // }
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    print(urlQuery);
+
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(queryString, json.encode(response.data));
-
+    sheetConfigDb.updateConfig(queryString, sheetConfig);
     return sheetConfig;
   } catch (e) {
     return SheetConfig();

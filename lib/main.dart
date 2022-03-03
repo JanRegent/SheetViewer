@@ -27,8 +27,8 @@ void main() async {
   await bl.init();
   await logOn();
   SheetConfig sheetConfig = await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
-  sheetConfigDb.updateConfig('dailyNotes', sheetConfig);
+      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+
   // String resp = await post0('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw',
   //     'dailyNotes', 'cesky', 'contains', 'laska');
   runApp(const TabsListsPage());
