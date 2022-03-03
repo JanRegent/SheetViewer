@@ -19,7 +19,7 @@ class SheetsDb {
   final Isar isar;
   SheetsDb(this.isar);
 
-  Future<int> keyCount(String key) async {
+  Future<int> keysCount(String key) async {
     final sheetExists = isar.sheetss.where().filter().keyEqualTo(key);
     int count = await sheetExists.count();
     return count;
@@ -33,7 +33,7 @@ class SheetsDb {
   }
 
   Future updateSheets(String key, List<String> cols, List<dynamic> rows) async {
-    int keyCount_ = await keyCount(key);
+    int keyCount_ = await keysCount(key);
     if (keyCount_ > 0) {
       return 'OK';
     }
@@ -41,7 +41,6 @@ class SheetsDb {
       ..key = key
       ..cols = cols;
     for (var i = 0; i < rows.length; i++) {
-      //print(sheet.rows[i]['Mise']);
       sheet.rows.add(jsonEncode(rows[i]));
     }
     try {

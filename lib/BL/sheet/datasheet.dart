@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:isar/isar.dart';
+import 'package:sheetviewer/DL/models/sheets.dart';
 
 @Collection()
 class DataSheet {
@@ -14,6 +17,22 @@ class DataSheet {
   Map rawDataSheet = {};
 
   DataSheet();
+
+  factory DataSheet.fromSheet(Sheets sheet) {
+    try {
+      DataSheet dataSheet = DataSheet()..cols = sheet.cols;
+
+      for (var i = 0; i < sheet.rows.length; i++) {
+        dataSheet.rows.add(jsonDecode(sheet.rows[i]));
+      }
+
+      dataSheet.headerCols = dataSheet.cols;
+
+      return dataSheet;
+    } catch (e) {
+      return DataSheet();
+    }
+  }
 
   factory DataSheet.fromJson(Map jsonData) {
     try {

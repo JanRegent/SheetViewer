@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -34,23 +32,19 @@ Future getRowsLastDelete(String fileId, String sheetName) async {
 Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String key = 'sheetName=$sheetName&action=getRowsLast&fileId=$fileId';
 
-  try {
-    Sheets? sheet = await sheetsDb.readSheet(key);
-    if (kDebugMode) {
-      print(sheet?.rows[2]);
-      var row = jsonDecode(sheet!.rows[2]);
-      print(row['Mise']);
-      print("Raketa / Dragon");
+  int keysCount = await sheetsDb.keysCount(key);
+  if (keysCount > 0) {
+    try {
+      Sheets? sheet = await sheetsDb.readSheet(key);
+
+      return DataSheet.fromSheet(sheet!);
+    } catch (e) {
+      if (kDebugMode) {
+        print('----------------------getRowsLast readSheet');
+        print(e);
+      }
     }
-  } catch (e) {
-    if (kDebugMode) print(e);
   }
-  try {
-    Map map = await interestStore.readMap(key);
-    if (map.isNotEmpty) {
-      return DataSheet.fromJson(map);
-    }
-  } catch (_) {}
 
   Dio dio = Dio();
   // ignore: prefer_typing_uninitialized_variables
@@ -74,23 +68,18 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   }
 
   try {
-    interestStore.updateMap(key, response.data);
-  } catch (e) {
-    interestStore.updateString('getRowsLast() updateMap err', e.toString());
-    return DataSheet();
-  }
-  try {
     List<String> cols = bl.blUti.toListString(response.data['cols']);
-    //List<List<String>> rows = listListRows(cols, response.data['rows']);
     await sheetsDb.updateSheets(key, cols, response.data['rows']);
   } catch (e) {
-    if (kDebugMode) print(e);
-    //interestStore.updateString('getRowsLast() updateSheets err', e.toString());
+    if (kDebugMode) {
+      print('-------------------------------getRowsLast() updateSheets');
+      print(e);
+    }
     return DataSheet();
   }
   try {
-    DataSheet dataSheet = DataSheet.fromJson(response.data);
-    return dataSheet;
+    Sheets? sheet = await sheetsDb.readSheet(key);
+    return DataSheet.fromSheet(sheet!);
   } catch (e) {
     interestStore.updateString(
         'getRowsLast() DataSheet.fromJson err', e.toString());
