@@ -33,15 +33,17 @@ Future getRowsLastDelete(String fileId, String sheetName) async {
 
 Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   String key = 'sheetName=$sheetName&action=getRowsLast&fileId=$fileId';
-  Sheets? sheet = await sheetsDb.readSheet(key);
-  if (kDebugMode) {
-    print(sheet?.cols);
-    print(sheet?.id);
-    print(sheet?.rows[2]);
 
-    var row = jsonDecode(sheet!.rows[2]);
-
-    print(row['Mise']);
+  try {
+    Sheets? sheet = await sheetsDb.readSheet(key);
+    if (kDebugMode) {
+      print(sheet?.rows[2]);
+      var row = jsonDecode(sheet!.rows[2]);
+      print(row['Mise']);
+      print("Raketa / Dragon");
+    }
+  } catch (e) {
+    if (kDebugMode) print(e);
   }
   try {
     Map map = await interestStore.readMap(key);
@@ -79,10 +81,11 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   }
   try {
     List<String> cols = bl.blUti.toListString(response.data['cols']);
-    List<String> rows = bl.blUti.toListString(response.data['rows']);
-    await sheetsDb.updateSheets(key, cols, rows);
+    //List<List<String>> rows = listListRows(cols, response.data['rows']);
+    await sheetsDb.updateSheets(key, cols, response.data['rows']);
   } catch (e) {
-    interestStore.updateString('getRowsLast() updateSheets err', e.toString());
+    if (kDebugMode) print(e);
+    //interestStore.updateString('getRowsLast() updateSheets err', e.toString());
     return DataSheet();
   }
   try {
@@ -93,4 +96,22 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
         'getRowsLast() DataSheet.fromJson err', e.toString());
     return DataSheet();
   }
+}
+
+List<List<String>> listListRows(List<String> cols, List<dynamic> responseRows) {
+  List<List<String>> rows = [];
+  for (var rowIx = 0; rowIx < responseRows.length; rowIx++) {
+    List<String> row = [];
+    //var rowJson = jsonDecode(responseRows[rowIx]);
+    for (var colIx = 0; colIx < cols.length; colIx++) {
+      try {
+        //row.add(rowJson[cols[colIx]]);
+        row.add(rowIx.toString() + '_' + colIx.toString());
+      } catch (e) {
+        row.add('');
+      }
+    }
+    rows.add(row);
+  }
+  return rows;
 }

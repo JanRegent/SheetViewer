@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
@@ -29,23 +32,25 @@ class SheetsDb {
     return await sheetExists.findFirst();
   }
 
-  Future updateSheets(String key, List<String> cols, List<String> rows) async {
-    Sheets sheets = Sheets()
-      ..key = key
-      ..cols = cols
-      ..rows = rows;
-
+  Future updateSheets(String key, List<String> cols, List<dynamic> rows) async {
     int keyCount_ = await keyCount(key);
     if (keyCount_ > 0) {
       return 'OK';
     }
-
+    Sheets sheet = Sheets()
+      ..key = key
+      ..cols = cols;
+    for (var i = 0; i < rows.length; i++) {
+      //print(sheet.rows[i]['Mise']);
+      sheet.rows.add(jsonEncode(rows[i]));
+    }
     try {
       await isar.writeTxn((isar) async {
-        sheets.id = await isar.sheetss.put(sheets); // insert
+        sheet.id = await isar.sheetss.put(sheet); // insert
       });
       return 'OK';
     } catch (e) {
+      if (kDebugMode) print(e);
       logi('--- LocalStore: ', '-----------------isar');
       logi('updateSheets(String ', key);
       logi('updateSheets(String ', e.toString());
