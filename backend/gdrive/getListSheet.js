@@ -2,8 +2,8 @@
 function getListSheet(){
   var listSheet;
   try {
-    var spreadsheet = SpreadsheetApp.openById(config.sheetIds.fileId);
-    listSheet  = spreadsheet.getSheetByName(config.sheetIds.sheetName);
+    var spreadsheet = SpreadsheetApp.openById(config.sheetIdent.fileId);
+    listSheet  = spreadsheet.getSheetByName(config.sheetIdent.sheetName);
   }catch(e){
     logi(JSON.stringify(e));
     var output = JSON.stringify({
@@ -64,8 +64,8 @@ function getKeyValParams(values, keyStartAt ){
 //----------------------------------------------------------------------------------------test
 function getListSheetTest(){
     logClear();
-    config.sheetIds.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
-    config.sheetIds.sheetName = 'tabsList';
+    config.sheetIdent.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
+    config.sheetIdent.sheetName = 'tabsList';
     logi(config);
     getListSheet();
 }

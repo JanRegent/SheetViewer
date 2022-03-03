@@ -1,11 +1,20 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:isar/isar.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
+
 import '../bl.dart';
 
+part 'sheet_config.g.dart'; // flutter pub run build_runner build
+
+@Collection()
 class SheetConfig {
+  int id = Isar.autoIncrement;
+  String key = '';
+
   String sheetName = '';
   String fileId = '';
-  String cacheUrlkey = '';
 
   List<String> headerCols = [];
 
@@ -25,8 +34,7 @@ class SheetConfig {
     config.rawConfig = config_;
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
-    config.cacheUrlkey =
-        'fileid=${config.fileId}&sheetname=${config.sheetName}';
+    config.key = 'fileid=${config.fileId}&sheetname=${config.sheetName}';
     try {
       config.sheetIds.sheetName =
           json.encode(config_['sheetParams']['sheetName'] ?? '');
@@ -122,4 +130,40 @@ class SheetIds {
   String fileIdUrl = '';
   String originUrl = '';
   String copyrightPageUrl = '';
+}
+
+class SheetConfigDb {
+  final Isar isar;
+
+  SheetConfigDb(this.isar);
+
+  Future<int> keysCount(String key) async {
+    final sheetExists = isar.sheetConfigs.where().filter().keyEqualTo(key);
+    int count = await sheetExists.count();
+    return count;
+  }
+
+  Future updateConfig(String key, SheetConfig sheetConfig) async {
+    int keyCount_ = await keysCount(key);
+    if (keyCount_ > 0) {
+      return 'OK';
+    }
+    //SheetConfig sheetConfig = SheetConfig()..key = key;
+
+    // for (var i = 0; i < rows.length; i++) {
+    //   sheetConfig.rows.add(jsonEncode(rows[i]));
+    // }
+    try {
+      await isar.writeTxn((isar) async {
+        sheetConfig.id = await isar.sheetConfigs.put(sheetConfig); // insert
+      });
+      return 'OK';
+    } catch (e) {
+      if (kDebugMode) print(e);
+      logi('--- LocalStore: ', '-----------------isar');
+      logi('updateSheets(String ', key);
+      logi('updateSheets(String ', e.toString());
+      return '';
+    }
+  }
 }

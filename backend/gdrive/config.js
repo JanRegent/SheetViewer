@@ -3,7 +3,7 @@ function getsheetconfig(eParameters){
    
   logi(eParameters['fileId'][0]);
   logi(eParameters['sheetName'][0]);
-  Logger.log(config.sheetIds);
+  Logger.log(config.sheetIdent);
   listObj(config.headers, 'headers ');
   listObj(config.getRows, 'getRows ');
   listObj(config.selects1, 'selects1 ');
@@ -16,7 +16,7 @@ function getConfig2test_config_ElonX() {
   logClear();
   getConfig_('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX'  );
 
-  Logger.log(config.sheetIds);
+  Logger.log(config.sheetIdent);
   listObj(config.headers, 'headers ');
   listObj(config.getRows, 'getRows ');
   listObj(config.selects1, 'selects1 ');

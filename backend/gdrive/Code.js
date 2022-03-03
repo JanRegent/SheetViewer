@@ -52,7 +52,7 @@ function switchEndpoint(e){
       //test ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsLast(config.sheetIds.fileId, config.sheetIds.sheetName, config.rowsCount);
+      var values = getRowsLast(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
     case "select1":

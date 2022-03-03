@@ -46,13 +46,13 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
     String queryString =
         'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
-    String jsonString = await readString(queryString);
-    if (jsonString == 'null') jsonString = '';
-    if (jsonString.isNotEmpty) {
-      return SheetConfig.fromJson(json.decode(jsonString));
-    }
+    // String jsonString = await readString(queryString);
+    // if (jsonString == 'null') jsonString = '';
+    // if (jsonString.isNotEmpty) {
+    //   return SheetConfig.fromJson(json.decode(jsonString));
+    // }
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    //rint(urlQuery);
+    print(urlQuery);
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(queryString, json.encode(response.data));

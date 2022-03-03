@@ -1,9 +1,10 @@
 
 function getSheetParams(values) {
 
-  config.sheetIds = {};
+  config.sheetIdent = {};
 
-  var rowIxStart = indexOfSectionRow('__sheetIds__', values);
+  var rowIxStart = indexOfSectionRow('__sheetIdent__', values);
+  Logger.log(rowIxStart);
   if (rowIxStart == -1) return;
 
   for (var rowIx = rowIxStart+1; rowIx < values.length; rowIx++) {
@@ -11,7 +12,7 @@ function getSheetParams(values) {
     if (values[rowIx][0].substring(0,2) == '//') continue;
     if (values[rowIx][0].substring(0,2) == '__') break;
     
-    config.sheetIds[values[rowIx][0]]   =  values[rowIx][1] ;
+    config.sheetIdent[values[rowIx][0]]   =  values[rowIx][1] ;
   }
 
 
@@ -21,7 +22,7 @@ function getSheetParams(values) {
 
 function getSheetParamsTest_ElonX() {
   logClear();
-  getSheetParams(getValuesConfig('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX__config__')  );
-  Logger.log(config.headers);
+  getSheetParams(getValuesConfig('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__')  );
+  Logger.log(config.sheetIdent);
    // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
 }
