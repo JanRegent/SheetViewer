@@ -46,6 +46,12 @@ function switchEndpoint(e){
       var values = getRowsLast(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+    case "getrowsfirst":
+      if(getPar(e, 'rowsCount') != '') return paramsErr; 
+      var values = getRowsFirst(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
+      return respond(responseData(values));
+      //test ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }

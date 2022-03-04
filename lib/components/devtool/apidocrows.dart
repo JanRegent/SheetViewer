@@ -122,7 +122,7 @@ class RowsDataSource extends DataGridSource {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DatagridPage('', '', fileTitle, backendUrl),
+                      DatagridPage('', '', fileTitle, const {}),
                 ));
           },
         ),

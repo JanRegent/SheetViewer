@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/components/selectList/selectlistbyradiobuttons.dart';
 
-import '../bl_getrows.dart';
 import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastbutton.dart';
@@ -44,6 +43,6 @@ Future rowsCountSet(BuildContext context, Function setStateFunc, String fileId,
 
   // ignore: unnecessary_null_comparison
   if (rowsCount == null) return;
-  getRowsUpdateMap(fileId, sheetName, varName, rowsCount);
+  //getRowsUpdateMap(fileId, sheetName, varName, rowsCount);
   setStateFunc();
 }

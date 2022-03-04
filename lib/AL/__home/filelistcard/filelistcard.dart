@@ -7,11 +7,10 @@ import 'package:sheetviewer/AL/__home/filelistcard/getrows/firstLast/allrowsbutt
 import 'package:sheetviewer/BL/bl.dart';
 
 import '../../../BL/sheet/sheet_config.dart';
-import '../../../DL/loader/loader.dart';
+import '../../../DL/loader/getsheetconfig.dart';
 
 import 'bycond/filelistcard_bycond_select1.dart';
 import 'byvalue/filelistcard_byvalue.dart';
-import 'getrows/bl_getrows.dart';
 
 Card filelistCard(
     BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
@@ -28,8 +27,8 @@ Card filelistCard(
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          await getRowsLastDelete(
-              fileId, fileListSheet['rows'][index]['sheetName']);
+          // await getRowsLastDelete(
+          //     fileId, fileListSheet['rows'][index]['sheetName']);
         },
       ),
       title: Text(fileListSheet['rows'][index]['fileTitle'],

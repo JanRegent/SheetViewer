@@ -5,38 +5,24 @@ import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
 import 'package:sheetviewer/DL/models/sheets.dart';
 
-Future getRowsUpdateMap(String fileId, String sheetName, varName, value) async {
-  String key = 'sheetName=$sheetName&vars=getRows&fileId=$fileId';
-  Map map = await interestStore.readMap(key);
-  map[varName] = value;
-  await interestStore.updateMap(key, map);
-}
-
-String getRowsReadString(
-    String fileId, String sheetName, String varName, String defaultValue) {
-  String key = 'sheetName=$sheetName&vars=getRows&fileId=$fileId';
-  try {
-    Map map = interestStore.readMapNoFuture(key);
-    return map[varName];
-  } catch (_) {
-    getRowsUpdateMap(fileId, sheetName, varName, defaultValue);
-    return defaultValue;
+String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
+  String queryString = 'sheetName=$sheetName';
+  for (var key in getRowsPars.keys) {
+    queryString += '&$key=' + getRowsPars[key];
   }
+  queryString += '&fileId=' + fileId;
+  return queryString;
 }
 
-Future getRowsLastDelete(String fileId, String sheetName) async {
-  String key = 'sheetName=$sheetName&action=getRowsLast&fileId=$fileId';
-  await interestStore.deleteKey(key);
-}
-
-Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
-  String key = 'sheetName=$sheetName&action=getRowsLast&fileId=$fileId';
+Future<DataSheet> getRows(
+    String fileId, String sheetName, Map getRowsPars) async {
+  String key =
+      'sheetName=$sheetName&action=${getRowsPars['action']}&fileId=$fileId';
 
   int keysCount = await sheetsDb.keysCount(key);
   if (keysCount > 0) {
     try {
       Sheets? sheet = await sheetsDb.readSheet(key);
-
       return DataSheet.fromSheet(sheet!);
     } catch (e) {
       if (kDebugMode) {
@@ -50,10 +36,7 @@ Future<DataSheet> getRowsLast(String fileId, String sheetName) async {
   // ignore: prefer_typing_uninitialized_variables
   var response;
   try {
-    String rowsCount =
-        getRowsReadString(fileId, sheetName, 'lastRowsCount', '10');
-    String queryString =
-        'sheetName=$sheetName&action=getRowsLast&rowsCount=$rowsCount&fileId=$fileId';
+    String queryString = queryStringBuild(fileId, sheetName, getRowsPars);
 
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);

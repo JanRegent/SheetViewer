@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alib/alib.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 
-import 'package:sheetviewer/DL/loader/loader.dart';
+import 'package:sheetviewer/DL/loader/getsheetconfig.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 

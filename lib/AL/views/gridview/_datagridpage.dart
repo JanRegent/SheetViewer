@@ -21,9 +21,9 @@ class DatagridPage extends StatefulWidget {
   final String fileId;
   final String sheetName;
   final String sheetTitle;
-  final String queryString;
+  final Map queryMap;
   const DatagridPage(
-      this.fileId, this.sheetName, this.sheetTitle, this.queryString,
+      this.fileId, this.sheetName, this.sheetTitle, this.queryMap,
       {Key? key})
       : super(key: key);
 
@@ -51,7 +51,10 @@ class _DatagridPageState extends State<DatagridPage> {
     //   dataSheet = await getEndpoint(widget.queryString);
     // } else {
 
-    dataSheet = await getRowsLast(widget.fileId, widget.sheetName);
+    // dataSheet = await getRows(widget.fileId, widget.sheetName,
+    //     {"action": 'getRowsLast', "rowsCount": '5'});
+
+    dataSheet = await getRows(widget.fileId, widget.sheetName, widget.queryMap);
 
     dataSheet.sheetTitle = widget.sheetTitle;
 

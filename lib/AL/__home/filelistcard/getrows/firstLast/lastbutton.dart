@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 
-import '../bl_getrows.dart';
 import '_firstlastrow.dart';
 
 IconButton lastButton(
@@ -11,7 +10,8 @@ IconButton lastButton(
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DatagridPage(fileId, sheetName, fileTitle, ''),
+          builder: (context) => DatagridPage(fileId, sheetName, fileTitle,
+              const {"action": 'getRowsLast', "rowsCount": '10'}),
         ));
   }
 
@@ -39,7 +39,8 @@ IconButton lastButton(
 ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
     String fileId, String sheetName) {
   return ElevatedButton(
-    child: Text(getRowsReadString(fileId, sheetName, 'lastRowsCount', '10')),
+    child: const Text(
+        '10'), // getRowsReadString(fileId, sheetName, 'lastRowsCount', '10')),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {

@@ -7,7 +7,8 @@ ElevatedButton allRowsButton(
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DatagridPage(fileId, sheetName, fileTitle, ''),
+          builder: (context) => DatagridPage(
+              fileId, sheetName, fileTitle, const {"action": 'getSheet'}),
         ));
   }
 

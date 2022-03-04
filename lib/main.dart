@@ -10,7 +10,7 @@ import 'package:sheetviewer/DL/models/sheets.dart';
 import 'AL/__home/1tabslistpage.dart';
 import 'BL/bl.dart';
 
-import 'DL/loader/loader.dart';
+import 'DL/loader/getsheetconfig.dart';
 //import 'maintest.dart';
 
 void main() async {
@@ -35,7 +35,7 @@ void main() async {
 
   if (kDebugMode) {
     print(sheetConfig!.sheetIdent['sheetNameConfig']);
-    print(sheetConfig.toString());
+    //print(sheetConfig.toString());
   }
   runApp(const TabsListsPage());
 }
