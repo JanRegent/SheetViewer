@@ -18,11 +18,14 @@ Card filelistCard(
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
     String fileId =
         bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+    createSheetConfigIfNotExists(
+        fileId, fileListSheet['rows'][index]['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
       expandedColor: Colors.red[50],
       key: cardA,
+      initiallyExpanded: index == 0 ? true : false,
       leading: IconButton(
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',

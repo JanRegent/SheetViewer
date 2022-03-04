@@ -33,6 +33,18 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
   }
 }
 
+Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
+  SheetConfig sheetConfig = SheetConfig();
+  sheetConfig.setKey(sheetName, fileId);
+  int sheetKeyExistsId =
+      await sheetConfigDb.sheetKeyExists(sheetConfig.sheetKey);
+  if (sheetKeyExistsId > -1) return;
+
+  sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
+  sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
+  sheetConfigDb.updateConfig(sheetConfig);
+}
+
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   try {
     String queryString =

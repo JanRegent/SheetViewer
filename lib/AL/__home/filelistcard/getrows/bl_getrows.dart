@@ -52,6 +52,7 @@ Future<DataSheet> getRows(
 
   try {
     List<String> cols = bl.blUti.toListString(response.data['cols']);
+    print('upd');
     await sheetsDb.updateSheets(key, cols, response.data['rows']);
   } catch (e) {
     if (kDebugMode) {

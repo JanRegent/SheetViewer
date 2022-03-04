@@ -42,6 +42,10 @@ class SheetConfig {
     sheetKey = "${sheetIdent["sheetName"]}__|__${sheetIdent["fileId"]}";
   }
 
+  String getKey(String sheetName, String fileId) {
+    return "${sheetName}__|__$fileId";
+  }
+
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
     config.sheetName = config_['sheetName'] ?? '';

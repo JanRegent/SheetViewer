@@ -46,14 +46,6 @@ class _DatagridPageState extends State<DatagridPage> {
   DataSheet dataSheet = DataSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    // print(widget.queryString != null);
-    // if (widget.queryString != null) {
-    //   dataSheet = await getEndpoint(widget.queryString);
-    // } else {
-
-    // dataSheet = await getRows(widget.fileId, widget.sheetName,
-    //     {"action": 'getRowsLast', "rowsCount": '5'});
-
     dataSheet = await getRows(widget.fileId, widget.sheetName, widget.queryMap);
 
     dataSheet.sheetTitle = widget.sheetTitle;
