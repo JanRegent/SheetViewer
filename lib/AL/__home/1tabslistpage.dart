@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/filelistviewpage.dart';
 import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/DL/loader/listsheet.dart';
+import 'package:sheetviewer/DL/loader/getSheet.dart';
 
 import 'home_help.dart';
 
@@ -25,7 +25,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   Map tabsListResponse = {};
   Future<String> getData() async {
-    tabsListResponse = await listSheetGet(
+    tabsListResponse = await getSheet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList');
     return 'ok';
   }

@@ -44,10 +44,11 @@ class SheetConfig {
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
-    config.rawConfig = config_;
-    config.sheetName = config_['sheetName'];
+    config.sheetName = config_['sheetName'] ?? '';
+
     config.fileId = config_['fileId'];
     config.setKey(config_['sheetName'], config_['fileId']);
+    //--------------------------------------------------ident
     config.sheetIdent["createdBy"] = 'cloud';
 
     try {
@@ -120,7 +121,7 @@ class SheetConfig {
     sheetName:        $sheetName
     fileId:           $fileId
 
-    sheetParams:
+    sheetIdent:
     $sheetIdent
     
     headerCols:  $headerCols
@@ -174,6 +175,7 @@ class SheetConfigDb {
     }
 
     sheetConfig.sheetIdentStr.clear();
+
     sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
 
     try {

@@ -1,26 +1,28 @@
+// ignore_for_file: file_names
+
 import 'package:dio/dio.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-Future listSheetGet(String fileId, String sheetName) async {
+Future getSheet(String fileId, String sheetName) async {
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
   try {
-    queryString = 'sheetName=$sheetName&action=getListSheet&fileId=$fileId';
+    queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
     Map tabsList = await interestStore.readMap(queryString);
     if (tabsList.isNotEmpty) return tabsList;
   } catch (_) {}
 
   try {
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    interestStore.updateString('1_getListSheet() urlQuery', urlQuery);
+    interestStore.updateString('1_getSheet() urlQuery', urlQuery);
     response = await Dio().get(urlQuery);
-    interestStore.updateString('2_getListSheet() response.data length',
+    interestStore.updateString('2_getSheet() response.data length',
         response.data.toString().length.toString());
   } catch (e) {
-    interestStore.updateString('2_getListSheet() error response', e.toString());
+    interestStore.updateString('2_getSheet() error response', e.toString());
     return {};
   }
 

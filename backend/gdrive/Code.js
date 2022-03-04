@@ -35,32 +35,17 @@ function switchEndpoint(e){
  
   var action = e.parameter.action.toString().toLowerCase();
   switch(action) {
-    case "getlistsheet": //?sheetName=tabsList&action=getListSheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-      return respond(getListSheet()); 
+    case "getsheet": 
+      //?sheetName=tabsList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+      //?sheetName=hledaniList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+      return respond(getSheet(config.sheetIdent.fileId, config.sheetIdent.sheetName)); 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
-    case "selectcontains":
-      return respond(selectcontains()); 
-    case "post":
-      return respond(getTemp() );
-    //--------------------------------------------------------
-     case "getcolumnvaluesuniq":
-      if(getPar(e, 'column') != '') return paramsErr; 
-      var values = getColumnValuesUniq(config.fileId, config.sheetName, config.column);
-      return respond(responseData(undefined));
-      //test ?action=getColumnValuesUniq&fileId=1VfBoc8YX3AGF-pLXfTAZKMO4Ig-UnfcrItOyGHCYh9M&sheetName=endpoints&column=endpoint
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsLast(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
-    case "select1":
-      if(getPar(e, 'column') != '') return paramsErr; 
-      if(getPar(e, 'operator') != '') return paramsErr; 
-      if(getPar(e, 'value') != '') return paramsErr; 
-      logi(config);
-      var values = select1(config.fileId, config.sheetName, config.column,config.operator,config.value);
-      return respond(responseData(values));
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
@@ -75,9 +60,10 @@ function respond(response) {
 }
 
 
+var colsLastUsed;
 
 function responseData(values){
-  var columns = SQL.getColsLastUsed();
+  var columns = colsLastUsed;
 
   var objectArray = [];
 
@@ -93,7 +79,6 @@ function responseData(values){
   }
   var output = JSON.stringify({
     cols: columns,
-    //config: config,
     rows: objectArray,
   });
   return output;

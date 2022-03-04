@@ -28,4 +28,3 @@ function getConfig2test_config_DailyNotes() {
 
   // ?action=getSheetConfig&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes__config__
 }
-

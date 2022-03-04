@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/home_help.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/loader/listsheet.dart';
+import 'package:sheetviewer/DL/loader/getSheet.dart';
 
 import 'filelistcard/filelistcard.dart';
 
@@ -33,7 +33,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
   }
 
   Future<String> getData() async {
-    fileListSheet = await listSheetGet(
+    fileListSheet = await getSheet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
     //await getSheetConfigs(fileListSheet);
     return 'ok';

@@ -1,17 +1,8 @@
-//-------------------------------------------------------------------getRowsAll
-
-function getRowsAll(fileId, sheetName){
-  return SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal();
-}
-function getRowsAllTestALL(){
-  Logger.log(getRowsAll(fileidDemo, 'elonX', ['Mise', 'Orbita / cíl', 'Rampa']));
-}
-
 
 //-------------------------------------------------------------------getRowsLast
 // ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 function getRowsLast(fileId, sheetName, rowsCount){
-  var allrows = SQL.DB(fileId).TABLE(sheetName).SELECT('ALL').getVal();
+  var allrows = getValues(fileId, sheetName);
   var lastRows = allrows.slice(Math.max(allrows.length - rowsCount, 1));
   return lastRows;
 
@@ -19,52 +10,20 @@ function getRowsLast(fileId, sheetName, rowsCount){
 
 function getRowsLastTest(){
   logClear();
-  var values = getRowsLast(fileidDemo, 'elonX', 2);
+  var values = getRowsLast('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes', 2);
   Logger.log(responseData(values)); 
 }
 
 
-// function getRowsConfig(valuesConfig) {
+function getValues(fileId, sheetName) {
+  var spreadsheet = SpreadsheetApp.openById(fileId);
+  var sheet  = spreadsheet.getSheetByName(sheetName);
+  var values = sheet.getDataRange().getValues();
+  colsLastUsed = values[0];
+  return values;
+}
 
-//   config.getRows = [];
+function getValuesTest() {
 
-//   var rowIxStart = indexOfSectionRow('__getRows__', valuesConfig);
-//   if (rowIxStart == -1) return;
-//   var cols = valuesConfig[rowIxStart]; 
-
-//   for (var rowIx = rowIxStart+1; rowIx < valuesConfig.length; rowIx++) {
-//     if (valuesConfig[rowIx][0] == '')        continue;
-//     if (valuesConfig[rowIx][0].substring(0,2) == '//') continue;
-//     if (valuesConfig[rowIx][0].substring(0,2) == '__') break;
-
-//     var getRowsObj ={};
-//     var endpoint = valuesConfig[rowIx][0];
-//     switch(endpoint) {
-
-//       case "getRowsLast": 
-//         getRowsObj['endpoint'] = 'getRowsLast';
-//         getRowsObj['rowsCount'] = valuesConfig[rowIx][cols.indexOf('rowsCount')];
-//         break;
-//       case "getRowsFirst":
-//         getRowsObj['endpoint'] = 'getRowsFirst';
-//         getRowsObj['rowsCount'] = valuesConfig[rowIx][cols.indexOf('rowsCount')];
-//         break;
-//       case "getRowsPage":
-//         getRowsObj['endpoint'] = 'getRowsPage';
-//         getRowsObj['startRow'] = valuesConfig[rowIx][cols.indexOf('startRow')];
-//         getRowsObj['endRow'] = valuesConfig[rowIx][cols.indexOf('endRow')];
-//         break;
-//     }
-//     if (getRowsObj.endpoint == undefined)  continue;
-//     config.getRows.push(getRowsObj);
-//   }
-// }
-
-
-
-// function getRowsTest_ElonX() {
-//   logClear();
-//   getRowsConfig(getValuesConfig('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX__config__')  );
-//   Logger.log(config.getRows);
-//    // ?action=getSheetConfig&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=elonX
-// }
+  var values = getValues('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+}
