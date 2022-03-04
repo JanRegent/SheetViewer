@@ -56,7 +56,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     updateString(queryString, json.encode(response.data));
-    sheetConfigDb.updateConfig(queryString, sheetConfig);
+    sheetConfigDb.updateConfig(sheetConfig);
     return sheetConfig;
   } catch (e) {
     return SheetConfig();

@@ -26,11 +26,13 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  SheetConfig sheetConfig = await getSheetConfig(
+  await getSheetConfig(
       '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 
-  // String resp = await post0('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw',
-  //     'dailyNotes', 'cesky', 'contains', 'laska');
+  SheetConfig? sheetConfig = await sheetConfigDb.readSheet(
+      'dailyNotes__config____|__1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+
+  print(sheetConfig!.sheetIdent['sheetName']);
   runApp(const TabsListsPage());
 }
 

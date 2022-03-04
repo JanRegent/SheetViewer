@@ -11,48 +11,63 @@ part 'sheet_config.g.dart'; // flutter pub run build_runner build
 @Collection()
 class SheetConfig {
   int id = Isar.autoIncrement;
-  String key = '';
+  String sheetKey = '';
 
   String sheetName = '';
   String fileId = '';
 
   List<String> headerCols = [];
 
-  SheetIds sheetIds = SheetIds();
+  Map sheetIdent = {
+    "sheetName": '',
+    "fileId": '',
+    "fileIdUrl": '',
+    "originUrl": '',
+    "copyrightPageUrl": '',
+    "createdBy": 'automat'
+  };
+  List<String> sheetIdentStr = [];
   Map headers = {};
   List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
 
-  List<String> columnValuesUniq = [];
   Map rawConfig = {};
 
   SheetConfig();
+
+  void setKey(String sheetName, String fileId) {
+    sheetIdent["sheetName"] = sheetName;
+    sheetIdent["fileId"] = fileId;
+    sheetKey = "${sheetIdent["sheetName"]}__|__${sheetIdent["fileId"]}";
+  }
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
     config.rawConfig = config_;
     config.sheetName = config_['sheetName'];
     config.fileId = config_['fileId'];
-    config.key = 'fileid=${config.fileId}&sheetname=${config.sheetName}';
+    config.setKey(config_['sheetName'], config_['fileId']);
+    config.sheetIdent["createdBy"] = 'cloud';
+
     try {
-      config.sheetIds.sheetName =
+      config.sheetIdent["sheetName"] =
           json.encode(config_['sheetIdent']['sheetName'] ?? '');
 
-      config.sheetIds.fileId =
+      config.sheetIdent["fileId"] =
           json.encode(config_['sheetIdent']['fileId'] ?? '');
 
-      config.sheetIds.fileIdUrl =
+      config.sheetIdent["fileIdUrl"] =
           json.encode(config_['sheetIdent']['fileIdUrl'] ?? '');
 
-      config.sheetIds.originUrl =
+      config.sheetIdent["originUrl"] =
           json.encode(config_['sheetIdent']['originUrl'] ?? '');
 
-      config.sheetIds.copyrightPageUrl =
+      config.sheetIdent["copyrightPageUrl"] =
           json.encode(config_['sheetParams']['copyrightPageUrl'] ?? '');
     } catch (e) {
       //rint(e);
-      config.sheetIds = SheetIds();
+
     }
 
     try {
@@ -106,7 +121,7 @@ class SheetConfig {
     fileId:           $fileId
 
     sheetParams:
-    $sheetIds
+    $sheetIdent
     
     headerCols:  $headerCols
     
@@ -124,45 +139,55 @@ class SheetConfig {
   }
 }
 
-class SheetIds {
-  String sheetName = '';
-  String fileId = '';
-  String fileIdUrl = '';
-  String originUrl = '';
-  String copyrightPageUrl = '';
-}
-
 class SheetConfigDb {
   final Isar isar;
 
   SheetConfigDb(this.isar);
 
-  Future<int> keysCount(String key) async {
-    final sheetExists = isar.sheetConfigs.where().filter().keyEqualTo(key);
+  Future<int> sheetKeyExists(String sheetKey) async {
+    final sheetExists =
+        isar.sheetConfigs.where().filter().sheetKeyEqualTo(sheetKey);
     int count = await sheetExists.count();
-    return count;
+    if (count > 0) {
+      SheetConfig? sheetConfig = await sheetExists.findFirst();
+      return sheetConfig!.id;
+    }
+    return -1;
   }
 
-  Future updateConfig(String key, SheetConfig sheetConfig) async {
-    int keyCount_ = await keysCount(key);
-    if (keyCount_ > 0) {
-      return 'OK';
+  Future<SheetConfig?> readSheet(String sheetKey) async {
+    final sheetConfigExists =
+        isar.sheetConfigs.where().filter().sheetKeyEqualTo(sheetKey);
+    int count = await sheetConfigExists.count();
+    if (count == 0) return SheetConfig();
+    SheetConfig? sheetConfig = await sheetConfigExists.findFirst();
+    sheetConfig?.sheetIdent = json.decode(sheetConfig.sheetIdentStr[0]);
+    return sheetConfig;
+  }
+
+  Future updateConfig(SheetConfig sheetConfig) async {
+    int sheetKeyExistsId = await sheetKeyExists(sheetConfig.sheetKey);
+    if (sheetKeyExistsId > -1) {
+      await isar.writeTxn((isar) async {
+        isar.sheetConfigs.delete(sheetKeyExistsId); // delete
+      });
     }
 
-    sheetConfig.key = key;
+    sheetConfig.sheetIdentStr.clear();
+    sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
 
-    // for (var i = 0; i < rows.length; i++) {
-    //   sheetConfig.rows.add(jsonEncode(rows[i]));
-    // }
     try {
       await isar.writeTxn((isar) async {
-        sheetConfig.id = await isar.sheetConfigs.put(sheetConfig); // insert
+        sheetConfig.id = await isar.sheetConfigs.put(
+          sheetConfig,
+          replaceOnConflict: true,
+        ); // insert
       });
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
       logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', key);
+      logi('updateSheets(String ', sheetConfig.sheetKey.toString());
       logi('updateSheets(String ', e.toString());
       return '';
     }
