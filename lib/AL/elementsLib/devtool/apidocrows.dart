@@ -5,7 +5,7 @@ import 'package:readmore/readmore.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';

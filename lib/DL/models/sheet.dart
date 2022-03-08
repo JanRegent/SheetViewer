@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-part 'sheets.g.dart'; // flutter pub run build_runner build
+part 'sheet.g.dart'; // flutter pub run build_runner build
 
 @Collection()
-class Sheets {
+class Sheet {
   int id = Isar.autoIncrement;
   String key = '';
 
@@ -20,15 +20,15 @@ class SheetsDb {
   SheetsDb(this.isar);
 
   Future<int> keysCount(String key) async {
-    final sheetExists = isar.sheetss.where().filter().keyEqualTo(key);
+    final sheetExists = isar.sheets.where().filter().keyEqualTo(key);
     int count = await sheetExists.count();
     return count;
   }
 
-  Future<Sheets?> readSheet(String key) async {
-    final sheetExists = isar.sheetss.where().filter().keyEqualTo(key);
+  Future<Sheet?> readSheet(String key) async {
+    final sheetExists = isar.sheets.where().filter().keyEqualTo(key);
     int count = await sheetExists.count();
-    if (count == 0) return Sheets();
+    if (count == 0) return Sheet();
     return await sheetExists.findFirst();
   }
 
@@ -37,7 +37,7 @@ class SheetsDb {
     if (keyCount_ > 0) {
       return 'OK';
     }
-    Sheets sheet = Sheets()
+    Sheet sheet = Sheet()
       ..key = key
       ..cols = cols;
     for (var i = 0; i < rows.length; i++) {
@@ -45,7 +45,7 @@ class SheetsDb {
     }
     try {
       await isar.writeTxn((isar) async {
-        sheet.id = await isar.sheetss.put(sheet); // insert
+        sheet.id = await isar.sheets.put(sheet); // insert
       });
       return 'OK';
     } catch (e) {

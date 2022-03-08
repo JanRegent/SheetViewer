@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
-import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 

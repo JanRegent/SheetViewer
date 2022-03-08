@@ -7,7 +7,7 @@ import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/allrowsbutton.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import '../../../BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
 import '../../../DL/loader/getsheetconfig.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 

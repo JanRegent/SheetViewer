@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/BL/sheet/sheet_config.dart';
-import 'package:sheetviewer/DL/models/sheets.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheet.dart';
 
 import 'AL/__home/tablist_home/1tabslistpage.dart';
 import 'BL/bl.dart';
@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final isar = await Isar.open(
-    schemas: [SheetsSchema, SheetConfigSchema],
+    schemas: [SheetSchema, SheetConfigSchema],
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
   );

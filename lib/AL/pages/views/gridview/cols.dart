@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
-import '../../../../BL/sheet/datasheet.dart';
+import '../../../../BL/datasheet/datasheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 PopupMenuButton popup(DataSheet dataSheet, BuildContext context,

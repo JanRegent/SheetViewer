@@ -11,7 +11,7 @@ import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../../BL/sheet/datasheet.dart';
+import '../../../../BL/datasheet/datasheet.dart';
 import '/AL/pages/views/gridview/rows.dart';
 
 import 'cols.dart';

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/BL/sheet/datasheet.dart';
-import 'package:sheetviewer/DL/models/sheets.dart';
+import 'package:sheetviewer/BL/datasheet/datasheet.dart';
+import 'package:sheetviewer/DL/models/sheet.dart';
 
 String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
   String queryString = 'sheetName=$sheetName';
@@ -22,7 +22,7 @@ Future<DataSheet> getRows(
   int keysCount = await sheetsDb.keysCount(key);
   if (keysCount > 0) {
     try {
-      Sheets? sheet = await sheetsDb.readSheet(key);
+      Sheet? sheet = await sheetsDb.readSheet(key);
       return DataSheet.fromSheet(sheet!);
     } catch (e) {
       if (kDebugMode) {
@@ -61,7 +61,7 @@ Future<DataSheet> getRows(
     return DataSheet();
   }
   try {
-    Sheets? sheet = await sheetsDb.readSheet(key);
+    Sheet? sheet = await sheetsDb.readSheet(key);
     return DataSheet.fromSheet(sheet!);
   } catch (e) {
     interestStore.updateString(

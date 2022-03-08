@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/BL/sheet/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
 
 import 'filelistcard_bycond_selects1runpane.dart';
 

@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-
-import '../bl.dart';
 
 part 'sheet_config.g.dart'; // flutter pub run build_runner build
 

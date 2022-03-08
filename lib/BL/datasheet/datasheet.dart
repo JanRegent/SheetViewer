@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/DL/models/sheets.dart';
+import 'package:sheetviewer/DL/models/sheet.dart';
 
 @Collection()
 class DataSheet {
@@ -18,7 +18,7 @@ class DataSheet {
 
   DataSheet();
 
-  factory DataSheet.fromSheet(Sheets sheet) {
+  factory DataSheet.fromSheet(Sheet sheet) {
     try {
       DataSheet dataSheet = DataSheet()..cols = sheet.cols;
 
