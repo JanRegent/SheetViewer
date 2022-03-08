@@ -7,7 +7,7 @@ import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/sheet/sheet_config.dart';
 import 'package:sheetviewer/DL/models/sheets.dart';
 
-import 'AL/__home/1tabslistpage.dart';
+import 'AL/__home/tablist_home/1tabslistpage.dart';
 import 'BL/bl.dart';
 
 import 'DL/loader/getsheetconfig.dart';
