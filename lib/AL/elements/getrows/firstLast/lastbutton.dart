@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/datasheet/getdata_bl.dart';
+
 import 'package:sheetviewer/DL/models/sheet_config.dart';
 
 import '_firstlastrow.dart';
@@ -27,26 +27,14 @@ Future<Map> getRowsMapFind(
 IconButton lastButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
-    // await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => const LoadingPage(),
-    //     ));
-
     Map getRowsMap = await getRowsMapFind(fileId, sheetName, 'getRowsLast');
-    await getDataBL(fileId, sheetName, getRowsMap);
+
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
               GetDataPage(fileId, sheetName, fileTitle, getRowsMap),
         ));
-    // await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) =>
-    //           DatagridPage(fileId, sheetName, fileTitle, getRowsMap),
-    //     ));
   }
 
   return IconButton(

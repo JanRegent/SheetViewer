@@ -18,14 +18,9 @@ import 'cols.dart';
 
 /// The home page of the application which hosts the datagrid.
 class DatagridPage extends StatefulWidget {
-  final String fileId;
-  final String sheetName;
-  final String sheetTitle;
-  final Map queryMap;
-  const DatagridPage(
-      this.fileId, this.sheetName, this.sheetTitle, this.queryMap,
-      {Key? key})
-      : super(key: key);
+  final DataSheet dataSheet;
+
+  const DatagridPage(this.dataSheet, {Key? key}) : super(key: key);
 
   @override
   _DatagridPageState createState() => _DatagridPageState();
@@ -40,15 +35,16 @@ class _DatagridPageState extends State<DatagridPage> {
     super.initState();
 
     headerColsKey =
-        'sheetName=${widget.sheetName}&vars=headerCols&fileId=${widget.fileId}';
+        'sheetName=${widget.dataSheet.sheetName}&vars=headerCols&fileId=${widget.dataSheet.fileId}';
   }
 
   DataSheet dataSheet = DataSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    dataSheet = await getRows(widget.fileId, widget.sheetName, widget.queryMap);
+    dataSheet = await getRows(widget.dataSheet.fileId,
+        widget.dataSheet.sheetName, widget.dataSheet.queryMap);
 
-    dataSheet.sheetTitle = widget.sheetTitle;
+    dataSheet.sheetTitle = widget.dataSheet.sheetTitle;
 
     List<String> headerColsLocal = await interestStore.readList(headerColsKey);
     if (headerColsLocal.isNotEmpty) dataSheet.headerCols = headerColsLocal;
@@ -95,8 +91,8 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: searchWord.isEmpty
-              ? Text(widget.sheetTitle)
-              : Text(widget.sheetTitle + ' [$searchWord]'),
+              ? Text(widget.dataSheet.sheetTitle)
+              : Text(widget.dataSheet.sheetTitle + ' [$searchWord]'),
           actions: [
             searchWord.isNotEmpty
                 ? IconButton(

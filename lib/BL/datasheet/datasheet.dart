@@ -7,6 +7,9 @@ import 'package:sheetviewer/DL/models/sheet.dart';
 class DataSheet {
   int id = Isar.autoIncrement;
 
+  String fileId = '';
+  String sheetName = '';
+  Map queryMap = {};
   List<String> cols = [];
   List<String> headerCols = [];
 

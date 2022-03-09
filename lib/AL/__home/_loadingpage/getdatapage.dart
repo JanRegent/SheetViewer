@@ -40,7 +40,9 @@ class _GetDataPageState extends State<GetDataPage> {
         await getDataBL(widget.fileId, widget.sheetName, widget.queryMap);
 
     dataSheet.sheetTitle = widget.sheetTitle;
-
+    dataSheet.fileId = widget.fileId;
+    dataSheet.sheetName = widget.sheetName;
+    dataSheet.queryMap = widget.queryMap;
     return 'OK';
   }
 
@@ -60,29 +62,27 @@ class _GetDataPageState extends State<GetDataPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.sheetTitle)),
         body: FutureBuilder<String>(
-          future: getData(), // async work
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Column(
-                  children: const [
-                    Text('Loading....'),
-                    CircularProgressIndicator()
-                  ],
-                );
+      future: getData(), // async work
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Column(
+              children: const [
+                Text('Loading....'),
+                CircularProgressIndicator()
+              ],
+            );
 
-              default:
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  //Navigator.pop(context, dataSheet);
-                  return DatagridPage(widget.fileId, widget.sheetName,
-                      widget.sheetTitle, widget.queryMap);
-                }
+          default:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              //Navigator.pop(context, dataSheet);
+              return DatagridPage(dataSheet);
             }
-          },
-        ));
+        }
+      },
+    ));
   }
 }

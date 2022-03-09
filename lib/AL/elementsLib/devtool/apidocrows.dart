@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
@@ -116,14 +115,14 @@ class RowsDataSource extends DataGridSource {
           onPressed: () async {
             globalsBox.write(
                 'bl.globals.querystring', getQuerystring(sheetConfig));
-            String fileTitle = globalsBox.read('bl.globals.querystring');
+            //String fileTitle = globalsBox.read('bl.globals.querystring');
 
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      DatagridPage('', '', fileTitle, const {}),
-                ));
+            // await Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) =>
+            //           DatagridPage('', '', fileTitle, const {}),
+            //     ));
           },
         ),
 
