@@ -6,6 +6,7 @@ class DataSheet {
   String fileId = '';
   String sheetName = '';
   Map queryMap = {};
+
   List<String> cols = [];
   List<String> headerCols = [];
 

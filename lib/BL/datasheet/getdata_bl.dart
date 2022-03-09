@@ -7,6 +7,7 @@ import 'package:sheetviewer/DL/models/sheet.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
+import '../../DL/loader/local_crud.dart';
 import 'datasheet.dart';
 
 Future<DataSheet> readSheetFromCache(
@@ -69,6 +70,30 @@ Future<DataSheet> getDataSheetBL(
   } catch (e) {
     interestStore.updateString(
         'getDataSheetBL() DataSheet.fromJson err', e.toString());
+    return DataSheet();
+  }
+}
+
+Future<DataSheet> getEndpoint(String serviceQueryString) async {
+  String queryString =
+      serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
+
+  String jsonString = await readString(queryString);
+  if (jsonString != 'null') {
+    var jsonData = json.decode(jsonString);
+    return DataSheet.fromJson(jsonData);
+  }
+  Dio dio = Dio();
+
+  try {
+    String urlQuery =
+        Uri.encodeFull(bl.blGlobal.contentServiceUrl + queryString);
+    var response = await dio.get(urlQuery);
+    DataSheet dataSheet = DataSheet.fromJson(response.data);
+
+    updateString(queryString, json.encode(response.data));
+    return dataSheet;
+  } catch (e) {
     return DataSheet();
   }
 }

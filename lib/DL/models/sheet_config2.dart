@@ -1,37 +1,8 @@
-import 'dart:convert';
-
 //
 import 'package:dio/dio.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/datasheet/datasheet.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-
-import 'local_crud.dart';
-
-Future<DataSheet> getEndpoint(String serviceQueryString) async {
-  String queryString =
-      serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
-
-  String jsonString = await readString(queryString);
-  if (jsonString != 'null') {
-    var jsonData = json.decode(jsonString);
-    return DataSheet.fromJson(jsonData);
-  }
-  Dio dio = Dio();
-
-  try {
-    String urlQuery =
-        Uri.encodeFull(bl.blGlobal.contentServiceUrl + queryString);
-    var response = await dio.get(urlQuery);
-    DataSheet dataSheet = DataSheet.fromJson(response.data);
-
-    updateString(queryString, json.encode(response.data));
-    return dataSheet;
-  } catch (e) {
-    return DataSheet();
-  }
-}
 
 Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
   SheetConfig sheetConfig = SheetConfig();

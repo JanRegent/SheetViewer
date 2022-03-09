@@ -9,7 +9,7 @@ import 'package:sheetviewer/DL/models/sheet.dart';
 import 'AL/__home/tablist_home/1tabslistpage.dart';
 import 'BL/bl.dart';
 
-import 'DL/loader/getsheetconfig.dart';
+import 'DL/models/sheet_config2.dart';
 //import 'maintest.dart';
 
 void main() async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/datasheet/datasheet.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-import 'package:sheetviewer/DL/loader/getsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheet_config2.dart';
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'apidocgridpage.dart';
