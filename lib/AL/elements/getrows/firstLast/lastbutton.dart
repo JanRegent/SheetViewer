@@ -1,28 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
 
-import 'package:sheetviewer/BL/bl.dart';
-
-import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/BL/datasheet/getdata_bl.dart';
 
 import '_firstlastrow.dart';
-
-Future<Map> getRowsMapFind(
-    String fileId, String sheetName, String action) async {
-  String sheetKey = SheetConfig().getKey(sheetName, fileId);
-  SheetConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
-  Map getRowsMap = {"action": action, "rowsCount": 10};
-  for (var i = 0; i < sheetConfig!.getRows.length; i++) {
-    Map map = jsonDecode(sheetConfig.getRows[i]);
-    if (map['action'] == action) {
-      getRowsMap = map;
-      break;
-    }
-  }
-  return getRowsMap;
-}
 
 IconButton lastButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {

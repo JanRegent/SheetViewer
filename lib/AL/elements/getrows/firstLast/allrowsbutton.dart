@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
+import 'package:sheetviewer/BL/datasheet/getdata_bl.dart';
 
 ElevatedButton allRowsButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
-    // await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => DatagridPage(
-    //           fileId, sheetName, fileTitle, const {"action": 'getSheet'}),
-    //     ));
+    Map getRowsMap = await getRowsMapFind(fileId, sheetName, 'getSheet');
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              GetDataPage(fileId, sheetName, fileTitle, getRowsMap),
+        ));
   }
 
   return ElevatedButton(

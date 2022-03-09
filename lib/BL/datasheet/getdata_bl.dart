@@ -1,24 +1,40 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheet.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/models/sheet_config.dart';
 import 'datasheet.dart';
 
-Future<DataSheet> getDataBL(
-    String fileId, String sheetName, Map getRowsPars) async {
-  String queryString = queryStringBuild(fileId, sheetName, getRowsPars);
+Future<DataSheet> readSheetFromCache(
+    String key, String fileId, String sheetName, Map queryMap) async {
+  DataSheet dataSheet = DataSheet();
+  Sheet? sheet = await sheetsDb.readSheet(key);
+  dataSheet = DataSheet.fromSheet(sheet!);
+  dataSheet.fileId = fileId;
+  dataSheet.sheetName = sheetName;
+  dataSheet.queryMap = queryMap;
+  return dataSheet;
+}
+
+Future<DataSheet> getDataSheetBL(
+    String fileId, String sheetName, Map queryMap) async {
+  String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
   String key =
-      'sheetName=$sheetName&action=${getRowsPars['action']}&fileId=$fileId';
+      'sheetName=$sheetName&action=${queryMap['action']}&fileId=$fileId';
 
   try {
     Sheet? sheet = await sheetsDb.readSheet(key);
-    if (sheet!.key.isNotEmpty) return DataSheet.fromSheet(sheet);
+    if (sheet!.key.isNotEmpty) {
+      return readSheetFromCache(key, fileId, sheetName, queryMap);
+    }
   } catch (e) {
     if (kDebugMode) {
-      print('----------------------getRowsLast readSheet');
+      print('----------------------getDataSheetBL readSheet');
       print(e);
     }
   }
@@ -29,14 +45,14 @@ Future<DataSheet> getDataBL(
   try {
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    interestStore.updateString('getRowsLast() 1 urlQuery', urlQuery);
+    interestStore.updateString('getDataSheetBL() 1 urlQuery', urlQuery);
 
     response = await dio.get(urlQuery);
 
     interestStore.updateString(
-        'getRowsLast() 2 status', response.statusCode.toString());
+        'getDataSheetBL() 2 status', response.statusCode.toString());
   } catch (e) {
-    interestStore.updateString('getRowsLast() 2 request err', e.toString());
+    interestStore.updateString('getDataSheetBL() 2 request err', e.toString());
   }
 
   try {
@@ -44,17 +60,15 @@ Future<DataSheet> getDataBL(
     await sheetsDb.updateSheets(key, cols, response.data['rows']);
   } catch (e) {
     if (kDebugMode) {
-      print('-------------------------------getRowsLast() updateSheets');
+      print('-------------------------------getDataSheetBL() updateSheets');
       print(e);
     }
-    return DataSheet();
   }
   try {
-    Sheet? sheet = await sheetsDb.readSheet(key);
-    return DataSheet.fromSheet(sheet!);
+    return readSheetFromCache(key, fileId, sheetName, queryMap);
   } catch (e) {
     interestStore.updateString(
-        'getRowsLast() DataSheet.fromJson err', e.toString());
+        'getDataSheetBL() DataSheet.fromJson err', e.toString());
     return DataSheet();
   }
 }
@@ -66,4 +80,19 @@ String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
   }
   queryString += '&fileId=' + fileId;
   return queryString;
+}
+
+Future<Map> getRowsMapFind(
+    String fileId, String sheetName, String action) async {
+  String sheetKey = SheetConfig().getKey(sheetName, fileId);
+  SheetConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
+  Map getRowsMap = {"action": action, "rowsCount": 10};
+  for (var i = 0; i < sheetConfig!.getRows.length; i++) {
+    Map map = jsonDecode(sheetConfig.getRows[i]);
+    if (map['action'] == action) {
+      getRowsMap = map;
+      break;
+    }
+  }
+  return getRowsMap;
 }
