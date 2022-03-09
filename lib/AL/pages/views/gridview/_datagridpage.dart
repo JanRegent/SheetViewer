@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elements/getrows/bl_getrows.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/_endpointstabpage.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/listsearch.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -38,18 +37,14 @@ class _DatagridPageState extends State<DatagridPage> {
         'sheetName=${widget.dataSheet.sheetName}&vars=headerCols&fileId=${widget.dataSheet.fileId}';
   }
 
-  DataSheet dataSheet = DataSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    dataSheet = await getRows(widget.dataSheet.fileId,
-        widget.dataSheet.sheetName, widget.dataSheet.queryMap);
-
-    dataSheet.sheetTitle = widget.dataSheet.sheetTitle;
-
     List<String> headerColsLocal = await interestStore.readList(headerColsKey);
-    if (headerColsLocal.isNotEmpty) dataSheet.headerCols = headerColsLocal;
+    if (headerColsLocal.isNotEmpty) {
+      widget.dataSheet.headerCols = headerColsLocal;
+    }
 
-    rowsDataSource = RowsDataSource(dataSheet, context, searchWord);
+    rowsDataSource = RowsDataSource(widget.dataSheet, context, searchWord);
     return rowsDataSource.dataSheet.rows.length.toString();
   }
 
@@ -60,7 +55,7 @@ class _DatagridPageState extends State<DatagridPage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          bl.dataSheet4debug = dataSheet;
+          bl.dataSheet4debug = widget.dataSheet;
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -76,7 +71,8 @@ class _DatagridPageState extends State<DatagridPage> {
     return SfDataGrid(
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns: colsHeader(dataSheet, context, setStateFunc, headerColsKey),
+      columns:
+          colsHeader(widget.dataSheet, context, setStateFunc, headerColsKey),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },
@@ -119,7 +115,8 @@ class _DatagridPageState extends State<DatagridPage> {
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EndpointsTabPage(dataSheet)));
+                          builder: (context) =>
+                              EndpointsTabPage(widget.dataSheet)));
                 },
                 icon: const Icon(Icons.developer_board))
           ],

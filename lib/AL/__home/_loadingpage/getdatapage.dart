@@ -38,7 +38,6 @@ class _GetDataPageState extends State<GetDataPage> {
   Future<String> getData() async {
     dataSheet =
         await getDataBL(widget.fileId, widget.sheetName, widget.queryMap);
-
     dataSheet.sheetTitle = widget.sheetTitle;
     dataSheet.fileId = widget.fileId;
     dataSheet.sheetName = widget.sheetName;
