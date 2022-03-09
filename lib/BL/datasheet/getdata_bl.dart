@@ -24,13 +24,13 @@ Future<DataSheet> getDataSheetBL(
     String fileId, String sheetName, Map queryMap) async {
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-  String key =
+  String cacheKey =
       'sheetName=$sheetName&action=${queryMap['action']}&fileId=$fileId';
 
   try {
-    Sheet? sheet = await sheetsDb.readSheet(key);
-    if (sheet!.key.isNotEmpty) {
-      return readSheetFromCache(key, fileId, sheetName, queryMap);
+    Sheet? sheet = await sheetsDb.readSheet(cacheKey);
+    if (sheet!.cacheKey.isNotEmpty) {
+      return readSheetFromCache(cacheKey, fileId, sheetName, queryMap);
     }
   } catch (e) {
     if (kDebugMode) {
@@ -57,7 +57,7 @@ Future<DataSheet> getDataSheetBL(
 
   try {
     List<String> cols = bl.blUti.toListString(response.data['cols']);
-    await sheetsDb.updateSheets(key, cols, response.data['rows']);
+    await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
   } catch (e) {
     if (kDebugMode) {
       print('-------------------------------getDataSheetBL() updateSheets');
@@ -65,7 +65,7 @@ Future<DataSheet> getDataSheetBL(
     }
   }
   try {
-    return readSheetFromCache(key, fileId, sheetName, queryMap);
+    return readSheetFromCache(cacheKey, fileId, sheetName, queryMap);
   } catch (e) {
     interestStore.updateString(
         'getDataSheetBL() DataSheet.fromJson err', e.toString());

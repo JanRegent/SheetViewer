@@ -1,12 +1,8 @@
 import 'dart:convert';
 
-import 'package:isar/isar.dart';
 import 'package:sheetviewer/DL/models/sheet.dart';
 
-@Collection()
 class DataSheet {
-  int id = Isar.autoIncrement;
-
   String fileId = '';
   String sheetName = '';
   Map queryMap = {};

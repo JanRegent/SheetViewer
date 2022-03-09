@@ -9,7 +9,7 @@ part 'sheet.g.dart'; // flutter pub run build_runner build
 @Collection()
 class Sheet {
   int id = Isar.autoIncrement;
-  String key = '';
+  String cacheKey = '';
 
   List<String> cols = [];
   List<String> rows = [];
@@ -19,28 +19,29 @@ class SheetsDb {
   final Isar isar;
   SheetsDb(this.isar);
 
-  Future<int> keysCount(String key) async {
-    final sheetExists = isar.sheets.where().filter().keyEqualTo(key);
+  Future<int> keysCount(String cacheKey) async {
+    final sheetExists = isar.sheets.where().filter().cacheKeyEqualTo(cacheKey);
     int count = await sheetExists.count();
     return count;
   }
 
-  Future<Sheet?> readSheet(String key) async {
-    final sheetExists = isar.sheets.where().filter().keyEqualTo(key);
+  Future<Sheet?> readSheet(String cacheKey) async {
+    final sheetExists = isar.sheets.where().filter().cacheKeyEqualTo(cacheKey);
     int count = await sheetExists.count();
     if (count == 0) return Sheet();
     Sheet? sheet = await sheetExists.findFirst();
-    sheet?.key = key;
+    sheet?.cacheKey = cacheKey;
     return sheet;
   }
 
-  Future updateSheets(String key, List<String> cols, List<dynamic> rows) async {
-    int keyCount_ = await keysCount(key);
+  Future updateSheets(
+      String cacheKey, List<String> cols, List<dynamic> rows) async {
+    int keyCount_ = await keysCount(cacheKey);
     if (keyCount_ > 0) {
       return 'OK';
     }
     Sheet sheet = Sheet()
-      ..key = key
+      ..cacheKey = cacheKey
       ..cols = cols;
     for (var i = 0; i < rows.length; i++) {
       sheet.rows.add(jsonEncode(rows[i]));
@@ -53,7 +54,7 @@ class SheetsDb {
     } catch (e) {
       if (kDebugMode) print(e);
       logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', key);
+      logi('updateSheets(String ', cacheKey);
       logi('updateSheets(String ', e.toString());
       return '';
     }
