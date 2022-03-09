@@ -29,7 +29,9 @@ class SheetsDb {
     final sheetExists = isar.sheets.where().filter().keyEqualTo(key);
     int count = await sheetExists.count();
     if (count == 0) return Sheet();
-    return await sheetExists.findFirst();
+    Sheet? sheet = await sheetExists.findFirst();
+    sheet?.key = key;
+    return sheet;
   }
 
   Future updateSheets(String key, List<String> cols, List<dynamic> rows) async {

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,16 +26,16 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+  // await getSheetConfig(
+  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 
-  SheetConfig? sheetConfig = await sheetConfigDb.readSheet(
-      'dailyNotes__config____|__1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  // SheetConfig? sheetConfig = await sheetConfigDb.readSheet(
+  //     'dailyNotes__config____|__1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
 
-  if (kDebugMode) {
-    print(sheetConfig!.sheetIdent['sheetNameConfig']);
-    //print(sheetConfig.toString());
-  }
+  // if (kDebugMode) {
+  //   print(sheetConfig!.sheetIdent['sheetNameConfig']);
+  //   //print(sheetConfig.toString());
+  // }
   runApp(const TabsListsPage());
 }
 
