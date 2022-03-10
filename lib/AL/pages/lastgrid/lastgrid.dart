@@ -34,28 +34,38 @@ class _LastGridAppState extends State<LastGridApp> {
     return 'ok';
   }
 
-  Widget taile(int index) {
+  SizedBox taile(int index) {
     String fileId =
         bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
     String sheetName = fileListSheet['rows'][index]['sheetName'];
     String fileTitle = fileListSheet['rows'][index]['fileTitle'];
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(children: [
-        Text(fileListSheet['rows'][index]['fileTitle']),
-        lastButton(context, fileId, sheetName, fileTitle),
-      ]),
-    );
+
+    return SizedBox(
+        height: 200,
+        child: Card(
+          semanticContainer: true,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: Colors.lightBlue,
+          elevation: 5,
+          margin: const EdgeInsets.all(10),
+          child: Column(children: [
+            Text(fileListSheet['rows'][index]['fileTitle']),
+            lastButton(context, fileId, sheetName, fileTitle),
+          ]),
+        ));
   }
 
   Widget detailBody() {
     return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        color: const Color.fromARGB(255, 236, 240, 241),
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 4),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 4),
+          ),
           padding: const EdgeInsets.all(8),
           shrinkWrap: true,
           itemCount: fileListSheet['rows'].length,
