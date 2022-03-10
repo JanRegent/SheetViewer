@@ -13,6 +13,7 @@ class BL {
   BLuti blUti = BLuti();
   BlGlobal blGlobal = BlGlobal();
 
+  String tablistView = 'lastGrid';
   Future init() async {
     await blGlobal.init();
   }

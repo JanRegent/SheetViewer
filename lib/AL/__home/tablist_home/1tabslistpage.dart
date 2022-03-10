@@ -3,9 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
+import 'package:sheetviewer/AL/pages/filelist/filelistviewpage.dart';
 import 'package:sheetviewer/AL/pages/lastgrid/lastgrid.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/datasheet/datasheet.dart';
 import 'package:sheetviewer/BL/datasheet/getsheet.dart';
+
+import 'tablistdrawer.dart';
 
 class TabsListsPage extends StatefulWidget {
   const TabsListsPage({Key? key}) : super(key: key);
@@ -20,6 +24,10 @@ class _TabsListsPageState extends State<TabsListsPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void setStateFunc() {
+    setState(() {});
   }
 
   Map tabsListResponse = {};
@@ -39,13 +47,17 @@ class _TabsListsPageState extends State<TabsListsPage> {
       tabsList.add(Tab(
         text: tabrow['tabName'],
       ));
-      //tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
-      tabsPages.add(LastGridApp(tabrow['url'], tabrow['sheetName']));
+      if (bl.tablistView == 'lastGrid') {
+        tabsPages.add(LastGridApp(tabrow['url'], tabrow['sheetName']));
+      } else {
+        tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
+      }
     }
 
     return DefaultTabController(
       length: tabsListResponse['rows'].length,
       child: Scaffold(
+        drawer: tablistDrawer(setStateFunc),
         appBar: AppBar(
           bottom: TabBar(
             tabs: tabsList,
