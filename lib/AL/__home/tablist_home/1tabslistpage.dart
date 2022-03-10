@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
-import 'package:sheetviewer/AL/pages/filelist/filelistviewpage.dart';
+import 'package:sheetviewer/AL/pages/lastgrid/lastgrid.dart';
 import 'package:sheetviewer/BL/datasheet/datasheet.dart';
 import 'package:sheetviewer/BL/datasheet/getsheet.dart';
 
@@ -33,13 +33,14 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   DefaultTabController tabs(BuildContext context) {
     List<Tab> tabsList = [];
-    List<FilelistviewPage> tabsPages = [];
+    List<Widget> tabsPages = [];
     for (var i = 0; i < tabsListResponse['rows'].length; i++) {
       Map tabrow = tabsListResponse['rows'][i];
       tabsList.add(Tab(
         text: tabrow['tabName'],
       ));
-      tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
+      //tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
+      tabsPages.add(LastGridApp(tabrow['url'], tabrow['sheetName']));
     }
 
     return DefaultTabController(
