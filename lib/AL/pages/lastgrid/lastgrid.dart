@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/lastbutton.dart';
+import 'package:sheetviewer/AL/elements/cards/firstlastgridcard.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/datasheet/getsheet.dart';
 
@@ -34,27 +34,6 @@ class _LastGridAppState extends State<LastGridApp> {
     return 'ok';
   }
 
-  SizedBox taile(int index) {
-    String fileId =
-        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-    String sheetName = fileListSheet['rows'][index]['sheetName'];
-    String fileTitle = fileListSheet['rows'][index]['fileTitle'];
-
-    return SizedBox(
-        height: 200,
-        child: Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: Colors.lightBlue,
-          elevation: 5,
-          margin: const EdgeInsets.all(10),
-          child: Column(children: [
-            Text(fileListSheet['rows'][index]['fileTitle']),
-            lastButton(context, fileId, sheetName, fileTitle),
-          ]),
-        ));
-  }
-
   Widget detailBody() {
     return Container(
         height: double.infinity,
@@ -70,7 +49,8 @@ class _LastGridAppState extends State<LastGridApp> {
           shrinkWrap: true,
           itemCount: fileListSheet['rows'].length,
           itemBuilder: (context, index) {
-            return taile(index);
+            return firstlastGridCard(
+                context, setStateFunc, fileListSheet, index);
           },
         ));
   }
