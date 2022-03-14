@@ -51,7 +51,8 @@ class _TabsListsPageState extends State<TabsListsPage> {
         text: tabrow['tabName'],
       ));
       if (bl.tablistView == 'lastGrid') {
-        tabsPages.add(LastGridApp(tabrow['url'], tabrow['sheetName']));
+        tabsPages.add(
+            LastGridApp(tabrow['url'], tabrow['sheetName'], tabrow['tabName']));
       } else {
         tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
       }

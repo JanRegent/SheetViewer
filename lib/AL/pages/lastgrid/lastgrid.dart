@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
 import 'package:sheetviewer/AL/elements/cards/firstlastgridcard.dart';
+import 'package:sheetviewer/AL/elements/load/loadlist.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 
 class LastGridApp extends StatefulWidget {
   final String url;
   final String sheetName;
-  const LastGridApp(this.url, this.sheetName, {Key? key}) : super(key: key);
+  final String listTitle;
+  const LastGridApp(this.url, this.sheetName, this.listTitle, {Key? key})
+      : super(key: key);
 
   @override
   _LastGridAppState createState() => _LastGridAppState();
@@ -59,7 +62,10 @@ class _LastGridAppState extends State<LastGridApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('fileListSheet.filelistTitle'),
+          title: ListTile(
+            leading: loadList(fileListSheet),
+            title: Text(widget.listTitle),
+          ),
           backgroundColor: Colors.lightBlue,
           actions: [
             ElevatedButton(
@@ -93,7 +99,7 @@ class _LastGridAppState extends State<LastGridApp> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  //print(fileListSheet.rows);
+                  loadListFileListSheet = fileListSheet;
                   return detailBody();
                 }
             }
