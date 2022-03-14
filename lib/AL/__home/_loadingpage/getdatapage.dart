@@ -3,11 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/actionSheet/getdata_bl.dart';
 
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-import '../../../BL/actionSheet/actionsheet.dart';
+import '../../../BL/actionSheet/_actionsheet.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
@@ -33,11 +32,11 @@ class _GetDataPageState extends State<GetDataPage> {
     super.initState();
   }
 
-  ActionSheet dataSheet = ActionSheet();
+  ActionSheet actionSheet = ActionSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    dataSheet =
-        await getDataSheetBL(widget.fileId, widget.sheetName, widget.queryMap);
+    actionSheet =
+        await getActionSheet(widget.fileId, widget.sheetName, widget.queryMap);
 
     return 'OK';
   }
@@ -45,7 +44,7 @@ class _GetDataPageState extends State<GetDataPage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          bl.dataSheet4debug = dataSheet;
+          bl.dataSheet4debug = actionSheet;
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -75,7 +74,7 @@ class _GetDataPageState extends State<GetDataPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               //Navigator.pop(context, dataSheet);
-              return DatagridPage(dataSheet);
+              return DatagridPage(actionSheet);
             }
         }
       },

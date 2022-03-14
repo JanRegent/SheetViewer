@@ -1,11 +1,19 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheet.dart';
+
+part 'actionsheet_getdata.dart';
 
 class ActionSheet {
   String fileId = '';
   String sheetName = '';
   Map queryMap = {};
+
+  ActionSheet();
 
   List<String> cols = [];
   List<String> headerCols = [];
@@ -15,8 +23,6 @@ class ActionSheet {
   //temp
   String sheetTitle = '';
   Map rawDataSheet = {};
-
-  ActionSheet();
 
   factory ActionSheet.fromSheet(Sheet sheet) {
     try {
