@@ -8,7 +8,7 @@ import 'package:sheetviewer/DL/models/sheet.dart';
 
 import '../../DL/models/sheet_config.dart';
 
-part 'actionsheet_getdata.dart';
+part '../../DL/actionsheet_getdata.dart';
 
 class ActionSheet {
   String fileId = '';

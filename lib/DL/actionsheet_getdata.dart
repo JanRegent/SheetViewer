@@ -1,4 +1,4 @@
-part of '_actionsheet.dart';
+part of '../BL/actionSheet/_actionsheet.dart';
 
 Future<ActionSheet> getActionSheet(
     String fileId, String sheetName, String action) async {
