@@ -1,11 +1,12 @@
 part of '_actionsheet.dart';
 
 Future<ActionSheet> getActionSheet(
-    String fileId, String sheetName, Map queryMap) async {
+    String fileId, String sheetName, String action) async {
+  Map queryMap = await ActionSheet().getRowsMapFind(fileId, sheetName, action);
+
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-  String cacheKey =
-      'sheetName=$sheetName&action=${queryMap['action']}&fileId=$fileId';
+  String cacheKey = 'sheetName=$sheetName&action=$action&fileId=$fileId';
 
   try {
     Sheet? sheet = await sheetsDb.readSheet(cacheKey);

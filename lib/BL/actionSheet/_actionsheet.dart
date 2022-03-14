@@ -6,6 +6,8 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheet.dart';
 
+import '../../DL/models/sheet_config.dart';
+
 part 'actionsheet_getdata.dart';
 
 class ActionSheet {
@@ -76,5 +78,20 @@ class ActionSheet {
       str += '\n ${entry.key}:  ${entry.value}';
     }
     return str;
+  }
+
+  Future<Map> getRowsMapFind(
+      String fileId, String sheetName, String action) async {
+    String sheetKey = SheetConfig().getKey(sheetName, fileId);
+    SheetConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
+    Map getRowsMap = {"action": action, "rowsCount": 10};
+    for (var i = 0; i < sheetConfig!.getRows.length; i++) {
+      Map map = jsonDecode(sheetConfig.getRows[i]);
+      if (map['action'] == action) {
+        getRowsMap = map;
+        break;
+      }
+    }
+    return getRowsMap;
   }
 }

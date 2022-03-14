@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
-import 'package:sheetviewer/BL/actionSheet/getdata_bl.dart';
 
 import '_firstlastrow.dart';
 
 IconButton firstButton(
     BuildContext context, String fileId, String sheetName, String fileTitle) {
   Future showGrid() async {
-    Map getRowsMap = await getRowsMapFind(fileId, sheetName, 'getRowsFirst');
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataPage(fileId, sheetName, fileTitle, getRowsMap),
+              GetDataPage(fileId, sheetName, fileTitle, 'getRowsFirst'),
         ));
   }
 

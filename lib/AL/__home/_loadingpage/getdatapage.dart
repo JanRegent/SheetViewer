@@ -13,13 +13,13 @@ class GetDataPage extends StatefulWidget {
   final String fileId;
   final String sheetName;
   final String sheetTitle;
-  final Map queryMap;
+  final String action;
   // ignore: use_key_in_widget_constructors
   const GetDataPage(
     this.fileId,
     this.sheetName,
     this.sheetTitle,
-    this.queryMap,
+    this.action,
   );
 
   @override
@@ -36,7 +36,7 @@ class _GetDataPageState extends State<GetDataPage> {
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
     actionSheet =
-        await getActionSheet(widget.fileId, widget.sheetName, widget.queryMap);
+        await getActionSheet(widget.fileId, widget.sheetName, widget.action);
 
     return 'OK';
   }
