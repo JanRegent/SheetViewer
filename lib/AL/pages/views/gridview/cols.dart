@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
-import '../../../../BL/datasheet/datasheet.dart';
+import '../../../../BL/actionSheet/actionsheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-PopupMenuButton popup(DataSheet dataSheet, BuildContext context,
+PopupMenuButton popup(ActionSheet dataSheet, BuildContext context,
     Function setState, String headerColsKey) {
   List<PopupMenuItem> menus = [];
   menus.add(PopupMenuItem(
@@ -58,7 +58,7 @@ PopupMenuButton popup(DataSheet dataSheet, BuildContext context,
   );
 }
 
-List<GridColumn> colsHeader(DataSheet dataSheet, BuildContext context,
+List<GridColumn> colsHeader(ActionSheet dataSheet, BuildContext context,
     Function setState, String headerColsKey) {
   List<GridColumn> gridCols = [];
   gridCols.add(GridColumn(

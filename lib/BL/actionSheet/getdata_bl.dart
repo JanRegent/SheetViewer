@@ -8,20 +8,20 @@ import 'package:sheetviewer/DL/models/sheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
 import '../../DL/loader/local_crud.dart';
-import 'datasheet.dart';
+import 'actionsheet.dart';
 
-Future<DataSheet> readSheetFromCache(
+Future<ActionSheet> readSheetFromCache(
     String key, String fileId, String sheetName, Map queryMap) async {
-  DataSheet dataSheet = DataSheet();
+  ActionSheet dataSheet = ActionSheet();
   Sheet? sheet = await sheetsDb.readSheet(key);
-  dataSheet = DataSheet.fromSheet(sheet!);
+  dataSheet = ActionSheet.fromSheet(sheet!);
   dataSheet.fileId = fileId;
   dataSheet.sheetName = sheetName;
   dataSheet.queryMap = queryMap;
   return dataSheet;
 }
 
-Future<DataSheet> getDataSheetBL(
+Future<ActionSheet> getDataSheetBL(
     String fileId, String sheetName, Map queryMap) async {
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
@@ -70,18 +70,18 @@ Future<DataSheet> getDataSheetBL(
   } catch (e) {
     interestStore.updateString(
         'getDataSheetBL() DataSheet.fromJson err', e.toString());
-    return DataSheet();
+    return ActionSheet();
   }
 }
 
-Future<DataSheet> getEndpoint(String serviceQueryString) async {
+Future<ActionSheet> getEndpoint(String serviceQueryString) async {
   String queryString =
       serviceQueryString.substring(bl.blGlobal.contentServiceUrl.length);
 
   String jsonString = await readString(queryString);
   if (jsonString != 'null') {
     var jsonData = json.decode(jsonString);
-    return DataSheet.fromJson(jsonData);
+    return ActionSheet.fromJson(jsonData);
   }
   Dio dio = Dio();
 
@@ -89,12 +89,12 @@ Future<DataSheet> getEndpoint(String serviceQueryString) async {
     String urlQuery =
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + queryString);
     var response = await dio.get(urlQuery);
-    DataSheet dataSheet = DataSheet.fromJson(response.data);
+    ActionSheet dataSheet = ActionSheet.fromJson(response.data);
 
     updateString(queryString, json.encode(response.data));
     return dataSheet;
   } catch (e) {
-    return DataSheet();
+    return ActionSheet();
   }
 }
 

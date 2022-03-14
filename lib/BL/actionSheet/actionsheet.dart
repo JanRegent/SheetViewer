@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:sheetviewer/DL/models/sheet.dart';
 
-class DataSheet {
+class ActionSheet {
   String fileId = '';
   String sheetName = '';
   Map queryMap = {};
@@ -16,11 +16,11 @@ class DataSheet {
   String sheetTitle = '';
   Map rawDataSheet = {};
 
-  DataSheet();
+  ActionSheet();
 
-  factory DataSheet.fromSheet(Sheet sheet) {
+  factory ActionSheet.fromSheet(Sheet sheet) {
     try {
-      DataSheet dataSheet = DataSheet()..cols = sheet.cols;
+      ActionSheet dataSheet = ActionSheet()..cols = sheet.cols;
 
       for (var i = 0; i < sheet.rows.length; i++) {
         dataSheet.rows.add(jsonDecode(sheet.rows[i]));
@@ -30,15 +30,15 @@ class DataSheet {
 
       return dataSheet;
     } catch (e) {
-      return DataSheet();
+      return ActionSheet();
     }
   }
 
-  factory DataSheet.fromJson(Map jsonData) {
+  factory ActionSheet.fromJson(Map jsonData) {
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
 
-      DataSheet anySheet = DataSheet()
+      ActionSheet anySheet = ActionSheet()
         ..cols = cols
         ..rows = jsonData["rows"];
 
@@ -47,7 +47,7 @@ class DataSheet {
 
       return anySheet;
     } catch (e) {
-      return DataSheet();
+      return ActionSheet();
     }
   }
 

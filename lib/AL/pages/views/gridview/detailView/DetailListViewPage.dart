@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../BL/datasheet/datasheet.dart';
+import '../../../../../BL/actionSheet/actionsheet.dart';
 
 //import './../views_common.dart';
 
@@ -16,7 +16,7 @@ import '../../../../../BL/datasheet/datasheet.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class DetailListViewPage extends StatefulWidget {
-  final DataSheet dataSheet;
+  final ActionSheet dataSheet;
   late final int startRowIx;
   // ignore: prefer_const_constructors_in_immutables
   DetailListViewPage(this.dataSheet, this.startRowIx, {Key? key})
@@ -135,7 +135,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     );
   }
 
-  Widget detailBody(DataSheet anySheet) {
+  Widget detailBody(ActionSheet anySheet) {
     return Container(
         height: double.infinity,
         width: double.infinity,

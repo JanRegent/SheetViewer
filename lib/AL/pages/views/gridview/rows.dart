@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import '../../../../BL/datasheet/datasheet.dart';
+import '../../../../BL/actionSheet/actionsheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'detailView/DetailListViewPage.dart';
 
 class RowsDataSource extends DataGridSource {
-  final DataSheet dataSheet;
+  final ActionSheet dataSheet;
   final BuildContext context;
   final String searchWord;
 
@@ -14,7 +14,7 @@ class RowsDataSource extends DataGridSource {
     _stringRowsData = gridRows(dataSheet, context);
   }
 
-  List<DataGridRow> gridRows(DataSheet anySheet, BuildContext context) {
+  List<DataGridRow> gridRows(ActionSheet anySheet, BuildContext context) {
     List<DataGridRow> gridrows = [];
 
     for (var rowIx = 0; rowIx < anySheet.rows.length; rowIx++) {
@@ -50,7 +50,7 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  DataGridRow gridRow(DataSheet dataSheet, int rowIx) {
+  DataGridRow gridRow(ActionSheet dataSheet, int rowIx) {
     List<DataGridCell> cells = [];
 
     cells.add(DataGridCell<String>(

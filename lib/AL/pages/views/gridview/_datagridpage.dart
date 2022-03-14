@@ -10,14 +10,14 @@ import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../../BL/datasheet/datasheet.dart';
+import '../../../../BL/actionSheet/actionsheet.dart';
 import '/AL/pages/views/gridview/rows.dart';
 
 import 'cols.dart';
 
 /// The home page of the application which hosts the datagrid.
 class DatagridPage extends StatefulWidget {
-  final DataSheet dataSheet;
+  final ActionSheet dataSheet;
 
   const DatagridPage(this.dataSheet, {Key? key}) : super(key: key);
 

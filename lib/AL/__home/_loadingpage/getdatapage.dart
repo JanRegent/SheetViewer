@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/datasheet/getdata_bl.dart';
+import 'package:sheetviewer/BL/actionSheet/getdata_bl.dart';
 
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-import '../../../../BL/datasheet/datasheet.dart';
+import '../../../BL/actionSheet/actionsheet.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _GetDataPageState extends State<GetDataPage> {
     super.initState();
   }
 
-  DataSheet dataSheet = DataSheet();
+  ActionSheet dataSheet = ActionSheet();
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
     dataSheet =
