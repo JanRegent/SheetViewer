@@ -2,7 +2,7 @@ part of '_actionsheet.dart';
 
 Future<ActionSheet> getActionSheet(
     String fileId, String sheetName, String action) async {
-  Map queryMap = await ActionSheet().getRowsMapFind(fileId, sheetName, action);
+  Map queryMap = await ActionSheet().actionMapFind(fileId, sheetName, action);
 
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
@@ -10,46 +10,20 @@ Future<ActionSheet> getActionSheet(
 
   try {
     Sheet? sheet = await sheetsDb.readSheet(cacheKey);
-    if (sheet!.cacheKey.isNotEmpty) {
-      return readSheetFromCache(cacheKey, fileId, sheetName, queryMap);
+    if (sheet!.cacheKey.isEmpty) {
+      await updateSheetToCache(queryString, cacheKey);
     }
   } catch (e) {
     if (kDebugMode) {
-      print('----------------------getDataSheetBL readSheet');
+      print('----------------------getActionSheet readSheet');
       print(e);
     }
   }
 
-  Dio dio = Dio();
-  // ignore: prefer_typing_uninitialized_variables
-  var response;
-  try {
-    String urlQuery =
-        Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    interestStore.updateString('getDataSheetBL() 1 urlQuery', urlQuery);
-
-    response = await dio.get(urlQuery);
-
-    interestStore.updateString(
-        'getDataSheetBL() 2 status', response.statusCode.toString());
-  } catch (e) {
-    interestStore.updateString('getDataSheetBL() 2 request err', e.toString());
-  }
-
-  try {
-    List<String> cols = bl.blUti.toListString(response.data['cols']);
-    await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
-  } catch (e) {
-    if (kDebugMode) {
-      print('-------------------------------getDataSheetBL() updateSheets');
-      print(e);
-    }
-  }
   try {
     return readSheetFromCache(cacheKey, fileId, sheetName, queryMap);
   } catch (e) {
-    interestStore.updateString(
-        'getDataSheetBL() DataSheet.fromJson err', e.toString());
+    interestStore.updateString('getActionSheet() readSheet', e.toString());
     return ActionSheet();
   }
 }
@@ -63,6 +37,35 @@ Future<ActionSheet> readSheetFromCache(
   dataSheet.sheetName = sheetName;
   dataSheet.queryMap = queryMap;
   return dataSheet;
+}
+
+Future updateSheetToCache(String queryString, String cacheKey) async {
+  Dio dio = Dio();
+  // ignore: prefer_typing_uninitialized_variables
+  var response;
+  try {
+    String urlQuery =
+        Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
+    interestStore.updateString('updateSheetToCache() 1 urlQuery', urlQuery);
+
+    response = await dio.get(urlQuery);
+
+    interestStore.updateString(
+        'updateSheetToCache() 2 status', response.statusCode.toString());
+  } catch (e) {
+    interestStore.updateString(
+        'updateSheetToCache() 2 request err', e.toString());
+  }
+
+  try {
+    List<String> cols = bl.blUti.toListString(response.data['cols']);
+    await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
+  } catch (e) {
+    if (kDebugMode) {
+      print('-------------------------------updateSheetToCache() updateSheets');
+      print(e);
+    }
+  }
 }
 
 String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {

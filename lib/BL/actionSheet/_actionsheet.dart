@@ -80,7 +80,7 @@ class ActionSheet {
     return str;
   }
 
-  Future<Map> getRowsMapFind(
+  Future<Map> actionMapFind(
       String fileId, String sheetName, String action) async {
     String sheetKey = SheetConfig().getKey(sheetName, fileId);
     SheetConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
