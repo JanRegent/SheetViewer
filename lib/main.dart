@@ -29,22 +29,30 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+  // await getSheetConfig(
+  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 
-  await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+  // await getSheetConfig(
+  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
-  String key = SheetConfig().getKey(
-      'dailyNotes__config__', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  String key = SheetConfig()
+      .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
   SheetConfig? sheetConfig = await sheetConfigDb.readSheetByIndex(key);
 
-  sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
-  await sheetConfigDb.updateConfig2(sheetConfig);
-  if (kDebugMode) {
-    print(sheetConfig.getRows);
-    //print(sheetConfig.toString());
+  if (sheetConfig.id > 0) {
+    if (kDebugMode) {
+      print(sheetConfig.id);
+      print(sheetConfig.byValueColumns);
+      //print(sheetConfig.toString());
+    }
+    sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
+    await sheetConfigDb.updateConfig3(sheetConfig, 1647625753322);
+    if (kDebugMode) {
+      print(sheetConfig.byValueColumns);
+      //print(sheetConfig.toString());
+    }
   }
+
   runApp(const TabsListsPage());
 }
 

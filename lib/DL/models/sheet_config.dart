@@ -9,7 +9,7 @@ part 'sheet_config.g.dart'; // flutter pub run build_runner build
 
 @Collection()
 class SheetConfig {
-  int id = Isar.autoIncrement;
+  int id = -1;
 
   String sheetKey = '';
 
@@ -57,6 +57,7 @@ class SheetConfig {
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
+    config.id = config_['id'];
     config.sheetName = config_['sheetName'] ?? '';
 
     config.fileId = config_['fileId'];
@@ -118,8 +119,9 @@ class SheetConfig {
     }
 
     try {
-      config.byValueColumns = bl.blUti.toListString(config_['filterByValue']);
+      config.byValueColumns = bl.blUti.toListString(config_['byValueColumns']);
     } catch (e) {
+      print(e);
       config.byValueColumns = [];
     }
 
@@ -182,41 +184,70 @@ class SheetConfigDb {
   }
 
   Future<SheetConfig> readSheetByIndex(String sheetNameFileKey) async {
-    final listMap =
-        isar.sheetConfigs.where().sheetNameFileIdKeyEqualTo(sheetNameFileKey);
-    List<Map<String, dynamic>> listJson = await listMap.exportJson();
+    try {
+      final listMap =
+          isar.sheetConfigs.where().sheetNameFileIdKeyEqualTo(sheetNameFileKey);
+      List<Map<String, dynamic>> listJson = await listMap.exportJson();
 
-    SheetConfig sheetConfig = SheetConfig.fromJson(listJson[0]);
-    return sheetConfig;
+      SheetConfig sheetConfig = SheetConfig.fromJson(listJson[0]);
+      return sheetConfig;
+    } catch (_) {
+      return SheetConfig()..id = -1;
+    }
   }
 
-  Future updateConfig2(SheetConfig sheetConfig) async {
+  // Future updateConfig2(SheetConfig sheetConfig) async {
+  //   try {
+  //     await isar.writeTxn((isar) async {
+  //       sheetConfig.id = await isar.sheetConfigs.put(
+  //         sheetConfig,
+  //         replaceOnConflict: true,
+  //       ); // insert
+  //     });
+  //     return 'OK';
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('--- updateConfig2: -----------------isar');
+  //       print(e);
+  //     }
+  //     logi('--- updateConfig2: ', '-----------------isar');
+  //     logi('updateConfig2(String ', sheetConfig.sheetKey.toString());
+  //     logi('updateConfig2(String ', e.toString());
+  //     return '';
+  //   }
+  // }
+
+  Future updateConfig3(SheetConfig sheetConfig, int id) async {
     try {
+      SheetConfig? sheetConfig_ = await isar.sheetConfigs.get(id);
+      sheetConfig.id = id;
+      sheetConfig_ = sheetConfig;
       await isar.writeTxn((isar) async {
         sheetConfig.id = await isar.sheetConfigs.put(
-          sheetConfig,
+          sheetConfig_!,
           replaceOnConflict: true,
         ); // insert
       });
       return 'OK';
     } catch (e) {
       if (kDebugMode) {
-        print('--- updateConfig2: -----------------isar');
+        print('--- updateConfig3: -----------------isar');
         print(e);
       }
-      logi('--- updateConfig2: ', '-----------------isar');
-      logi('updateConfig2(String ', sheetConfig.sheetKey.toString());
-      logi('updateConfig2(String ', e.toString());
+      logi('--- updateConfig3: ', '-----------------isar');
+      logi('updateConfig3(String ', sheetConfig.sheetKey.toString());
+      logi('updateConfig3(String ', e.toString());
       return '';
     }
   }
 
-  Future updateConfig(SheetConfig sheetConfig) async {
+  Future updateConfig1(SheetConfig sheetConfig) async {
+    sheetConfig.id = DateTime.now().millisecondsSinceEpoch;
     sheetConfig.sheetIdentStr.clear();
-
     sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
     sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
     try {
+      print(sheetConfig.id);
       await isar.writeTxn((isar) async {
         sheetConfig.id = await isar.sheetConfigs.put(
           sheetConfig,

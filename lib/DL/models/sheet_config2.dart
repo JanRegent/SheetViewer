@@ -13,7 +13,7 @@ Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
 
   sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
   sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
-  sheetConfigDb.updateConfig(sheetConfig);
+  sheetConfigDb.updateConfig1(sheetConfig);
 }
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
@@ -26,7 +26,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
     sheetConfig.setKey(sheetName, fileId);
-    sheetConfigDb.updateConfig(sheetConfig);
+    sheetConfigDb.updateConfig1(sheetConfig);
     return sheetConfig;
   } catch (e) {
     return SheetConfig();
