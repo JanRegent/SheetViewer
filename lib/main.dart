@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,21 +23,28 @@ void main() async {
     inspector: false, // if you want to enable the inspector for debug builds
   );
   sheetsDb = SheetsDb(isar);
+  await sheetsDb.init();
   sheetConfigDb = SheetConfigDb(isar);
-
+  await sheetConfigDb.init();
   await GetStorage.init();
   await bl.init();
   await logOn();
-  // await getSheetConfig(
-  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+  await getSheetConfig(
+      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 
-  // SheetConfig? sheetConfig = await sheetConfigDb.readSheet(
-  //     'dailyNotes__config____|__1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  await getSheetConfig(
+      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
-  // if (kDebugMode) {
-  //   print(sheetConfig!.sheetIdent['sheetNameConfig']);
-  //   //print(sheetConfig.toString());
-  // }
+  String key = SheetConfig().getKey(
+      'dailyNotes__config__', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  SheetConfig? sheetConfig = await sheetConfigDb.readSheetByIndex(key);
+
+  sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
+  await sheetConfigDb.updateConfig2(sheetConfig);
+  if (kDebugMode) {
+    print(sheetConfig.getRows);
+    //print(sheetConfig.toString());
+  }
   runApp(const TabsListsPage());
 }
 

@@ -10,7 +10,11 @@ part 'sheet_config.g.dart'; // flutter pub run build_runner build
 @Collection()
 class SheetConfig {
   int id = Isar.autoIncrement;
+
   String sheetKey = '';
+
+  @Index(unique: true)
+  String sheetNameFileIdKey = '';
 
   String sheetName = '';
   String fileId = '';
@@ -39,6 +43,12 @@ class SheetConfig {
     sheetIdent["sheetName"] = sheetName;
     sheetIdent["fileId"] = fileId;
     sheetKey = "${sheetIdent["sheetName"]}__|__${sheetIdent["fileId"]}";
+
+    sheetNameFileIdKey = sheetKey;
+  }
+
+  void setShetnameFileKey(String sheetName, String fileId) {
+    sheetNameFileIdKey = "${sheetName}__|__$fileId";
   }
 
   String getKey(String sheetName, String fileId) {
@@ -148,6 +158,8 @@ class SheetConfigDb {
 
   SheetConfigDb(this.isar);
 
+  Future init() async {}
+
   Future<int> sheetKeyExists(String sheetKey) async {
     final sheetExists =
         isar.sheetConfigs.where().filter().sheetKeyEqualTo(sheetKey);
@@ -169,23 +181,46 @@ class SheetConfigDb {
     return sheetConfig;
   }
 
-  Future updateConfig(SheetConfig sheetConfig) async {
-    int sheetKeyExistsId = await sheetKeyExists(sheetConfig.sheetKey);
-    if (sheetKeyExistsId > -1) {
-      await isar.writeTxn((isar) async {
-        isar.sheetConfigs.delete(sheetKeyExistsId); // delete
-      });
-    }
+  Future<SheetConfig> readSheetByIndex(String sheetNameFileKey) async {
+    final listMap =
+        isar.sheetConfigs.where().sheetNameFileIdKeyEqualTo(sheetNameFileKey);
+    List<Map<String, dynamic>> listJson = await listMap.exportJson();
 
-    sheetConfig.sheetIdentStr.clear();
+    SheetConfig sheetConfig = SheetConfig.fromJson(listJson[0]);
+    return sheetConfig;
+  }
 
-    sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
-
+  Future updateConfig2(SheetConfig sheetConfig) async {
     try {
       await isar.writeTxn((isar) async {
         sheetConfig.id = await isar.sheetConfigs.put(
           sheetConfig,
           replaceOnConflict: true,
+        ); // insert
+      });
+      return 'OK';
+    } catch (e) {
+      if (kDebugMode) {
+        print('--- updateConfig2: -----------------isar');
+        print(e);
+      }
+      logi('--- updateConfig2: ', '-----------------isar');
+      logi('updateConfig2(String ', sheetConfig.sheetKey.toString());
+      logi('updateConfig2(String ', e.toString());
+      return '';
+    }
+  }
+
+  Future updateConfig(SheetConfig sheetConfig) async {
+    sheetConfig.sheetIdentStr.clear();
+
+    sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
+    sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
+    try {
+      await isar.writeTxn((isar) async {
+        sheetConfig.id = await isar.sheetConfigs.put(
+          sheetConfig,
+          replaceOnConflict: false,
         ); // insert
       });
       return 'OK';

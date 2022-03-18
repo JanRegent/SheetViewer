@@ -19,6 +19,23 @@ class SheetsDb {
   final Isar isar;
   SheetsDb(this.isar);
 
+  Future init() async {
+    await idsBuild();
+  }
+
+  Map<String, int> ids = {};
+  Future idsBuild() async {
+    try {
+      List<Sheet> all =
+          await isar.sheets.where().filter().idGreaterThan(0).findAll();
+
+      for (var i = 0; i < all.length; i++) {
+        String cacheKey = all[i].cacheKey;
+        if (!ids.keys.contains(cacheKey)) ids[cacheKey] = all[i].id;
+      }
+    } catch (_) {}
+  }
+
   Future<int> keysCount(String cacheKey) async {
     final sheetExists = isar.sheets.where().filter().cacheKeyEqualTo(cacheKey);
     int count = await sheetExists.count();

@@ -17,7 +17,7 @@ extension GetSheetConfigCollection on Isar {
 final SheetConfigSchema = CollectionSchema(
   name: 'SheetConfig',
   schema:
-      '{"name":"SheetConfig","idName":"id","properties":[{"name":"byValueColumns","type":"StringList"},{"name":"fileId","type":"String"},{"name":"getRows","type":"StringList"},{"name":"headerCols","type":"StringList"},{"name":"selects1","type":"StringList"},{"name":"sheetIdentStr","type":"StringList"},{"name":"sheetKey","type":"String"},{"name":"sheetName","type":"String"}],"indexes":[],"links":[]}',
+      '{"name":"SheetConfig","idName":"id","properties":[{"name":"byValueColumns","type":"StringList"},{"name":"fileId","type":"String"},{"name":"getRows","type":"StringList"},{"name":"headerCols","type":"StringList"},{"name":"selects1","type":"StringList"},{"name":"sheetIdentStr","type":"StringList"},{"name":"sheetKey","type":"String"},{"name":"sheetName","type":"String"},{"name":"sheetNameFileIdKey","type":"String"}],"indexes":[{"name":"sheetNameFileIdKey","unique":true,"properties":[{"name":"sheetNameFileIdKey","type":"Hash","caseSensitive":true}]}],"links":[]}',
   nativeAdapter: const _SheetConfigNativeAdapter(),
   webAdapter: const _SheetConfigWebAdapter(),
   idName: 'id',
@@ -29,7 +29,8 @@ final SheetConfigSchema = CollectionSchema(
     'selects1': 4,
     'sheetIdentStr': 5,
     'sheetKey': 6,
-    'sheetName': 7
+    'sheetName': 7,
+    'sheetNameFileIdKey': 8
   },
   listProperties: {
     'byValueColumns',
@@ -38,8 +39,12 @@ final SheetConfigSchema = CollectionSchema(
     'selects1',
     'sheetIdentStr'
   },
-  indexIds: {},
-  indexTypes: {},
+  indexIds: {'sheetNameFileIdKey': 0},
+  indexTypes: {
+    'sheetNameFileIdKey': [
+      NativeIndexType.stringHash,
+    ]
+  },
   linkIds: {},
   backlinkIds: {},
   linkedCollections: [],
@@ -70,6 +75,8 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
     IsarNative.jsObjectSet(jsObj, 'sheetIdentStr', object.sheetIdentStr);
     IsarNative.jsObjectSet(jsObj, 'sheetKey', object.sheetKey);
     IsarNative.jsObjectSet(jsObj, 'sheetName', object.sheetName);
+    IsarNative.jsObjectSet(
+        jsObj, 'sheetNameFileIdKey', object.sheetNameFileIdKey);
     return jsObj;
   }
 
@@ -108,6 +115,8 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
             [];
     object.sheetKey = IsarNative.jsObjectGet(jsObj, 'sheetKey') ?? '';
     object.sheetName = IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '';
+    object.sheetNameFileIdKey =
+        IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '';
     return object;
   }
 
@@ -153,6 +162,8 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
         return (IsarNative.jsObjectGet(jsObj, 'sheetKey') ?? '') as P;
       case 'sheetName':
         return (IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '') as P;
+      case 'sheetNameFileIdKey':
+        return (IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '') as P;
       default:
         throw 'Illegal propertyName';
     }
@@ -228,6 +239,9 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
     final value7 = object.sheetName;
     final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value7);
     dynamicSize += (_sheetName.length) as int;
+    final value8 = object.sheetNameFileIdKey;
+    final _sheetNameFileIdKey = IsarBinaryWriter.utf8Encoder.convert(value8);
+    dynamicSize += (_sheetNameFileIdKey.length) as int;
     final size = staticSize + dynamicSize;
 
     rawObj.buffer = alloc(size);
@@ -242,6 +256,7 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
     writer.writeStringList(offsets[5], _sheetIdentStr);
     writer.writeBytes(offsets[6], _sheetKey);
     writer.writeBytes(offsets[7], _sheetName);
+    writer.writeBytes(offsets[8], _sheetNameFileIdKey);
   }
 
   @override
@@ -257,6 +272,7 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
     object.sheetIdentStr = reader.readStringList(offsets[5]) ?? [];
     object.sheetKey = reader.readString(offsets[6]);
     object.sheetName = reader.readString(offsets[7]);
+    object.sheetNameFileIdKey = reader.readString(offsets[8]);
     return object;
   }
 
@@ -282,6 +298,8 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
         return (reader.readString(offset)) as P;
       case 7:
         return (reader.readString(offset)) as P;
+      case 8:
+        return (reader.readString(offset)) as P;
       default:
         throw 'Illegal propertyIndex';
     }
@@ -291,10 +309,56 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
   void attachLinks(Isar isar, int id, SheetConfig object) {}
 }
 
+extension SheetConfigByIndex on IsarCollection<SheetConfig> {
+  Future<SheetConfig?> getBySheetNameFileIdKey(String sheetNameFileIdKey) {
+    return getByIndex('sheetNameFileIdKey', [sheetNameFileIdKey]);
+  }
+
+  SheetConfig? getBySheetNameFileIdKeySync(String sheetNameFileIdKey) {
+    return getByIndexSync('sheetNameFileIdKey', [sheetNameFileIdKey]);
+  }
+
+  Future<bool> deleteBySheetNameFileIdKey(String sheetNameFileIdKey) {
+    return deleteByIndex('sheetNameFileIdKey', [sheetNameFileIdKey]);
+  }
+
+  bool deleteBySheetNameFileIdKeySync(String sheetNameFileIdKey) {
+    return deleteByIndexSync('sheetNameFileIdKey', [sheetNameFileIdKey]);
+  }
+
+  Future<List<SheetConfig?>> getAllBySheetNameFileIdKey(
+      List<String> sheetNameFileIdKeyValues) {
+    final values = sheetNameFileIdKeyValues.map((e) => [e]).toList();
+    return getAllByIndex('sheetNameFileIdKey', values);
+  }
+
+  List<SheetConfig?> getAllBySheetNameFileIdKeySync(
+      List<String> sheetNameFileIdKeyValues) {
+    final values = sheetNameFileIdKeyValues.map((e) => [e]).toList();
+    return getAllByIndexSync('sheetNameFileIdKey', values);
+  }
+
+  Future<int> deleteAllBySheetNameFileIdKey(
+      List<String> sheetNameFileIdKeyValues) {
+    final values = sheetNameFileIdKeyValues.map((e) => [e]).toList();
+    return deleteAllByIndex('sheetNameFileIdKey', values);
+  }
+
+  int deleteAllBySheetNameFileIdKeySync(List<String> sheetNameFileIdKeyValues) {
+    final values = sheetNameFileIdKeyValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync('sheetNameFileIdKey', values);
+  }
+}
+
 extension SheetConfigQueryWhereSort
     on QueryBuilder<SheetConfig, SheetConfig, QWhere> {
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhere> anyId() {
     return addWhereClauseInternal(const WhereClause(indexName: null));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterWhere> anySheetNameFileIdKey() {
+    return addWhereClauseInternal(
+        const WhereClause(indexName: 'sheetNameFileIdKey'));
   }
 }
 
@@ -370,6 +434,42 @@ extension SheetConfigQueryWhere
       upper: [upperId],
       includeUpper: includeUpper,
     ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause>
+      sheetNameFileIdKeyEqualTo(String sheetNameFileIdKey) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: 'sheetNameFileIdKey',
+      lower: [sheetNameFileIdKey],
+      includeLower: true,
+      upper: [sheetNameFileIdKey],
+      includeUpper: true,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause>
+      sheetNameFileIdKeyNotEqualTo(String sheetNameFileIdKey) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(WhereClause(
+        indexName: 'sheetNameFileIdKey',
+        upper: [sheetNameFileIdKey],
+        includeUpper: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: 'sheetNameFileIdKey',
+        lower: [sheetNameFileIdKey],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(WhereClause(
+        indexName: 'sheetNameFileIdKey',
+        lower: [sheetNameFileIdKey],
+        includeLower: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: 'sheetNameFileIdKey',
+        upper: [sheetNameFileIdKey],
+        includeUpper: false,
+      ));
+    }
   }
 }
 
@@ -1275,6 +1375,113 @@ extension SheetConfigQueryFilter
       caseSensitive: caseSensitive,
     ));
   }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'sheetNameFileIdKey',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'sheetNameFileIdKey',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
+      sheetNameFileIdKeyMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'sheetNameFileIdKey',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
 }
 
 extension SheetConfigQueryLinks
@@ -1313,6 +1520,16 @@ extension SheetConfigQueryWhereSortBy
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortBySheetNameDesc() {
     return addSortByInternal('sheetName', Sort.desc);
   }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      sortBySheetNameFileIdKey() {
+    return addSortByInternal('sheetNameFileIdKey', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      sortBySheetNameFileIdKeyDesc() {
+    return addSortByInternal('sheetNameFileIdKey', Sort.desc);
+  }
 }
 
 extension SheetConfigQueryWhereSortThenBy
@@ -1348,6 +1565,16 @@ extension SheetConfigQueryWhereSortThenBy
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenBySheetNameDesc() {
     return addSortByInternal('sheetName', Sort.desc);
   }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      thenBySheetNameFileIdKey() {
+    return addSortByInternal('sheetNameFileIdKey', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      thenBySheetNameFileIdKeyDesc() {
+    return addSortByInternal('sheetNameFileIdKey', Sort.desc);
+  }
 }
 
 extension SheetConfigQueryWhereDistinct
@@ -1369,6 +1596,12 @@ extension SheetConfigQueryWhereDistinct
   QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctBySheetName(
       {bool caseSensitive = true}) {
     return addDistinctByInternal('sheetName', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct>
+      distinctBySheetNameFileIdKey({bool caseSensitive = true}) {
+    return addDistinctByInternal('sheetNameFileIdKey',
+        caseSensitive: caseSensitive);
   }
 }
 
@@ -1411,5 +1644,10 @@ extension SheetConfigQueryProperty
 
   QueryBuilder<SheetConfig, String, QQueryOperations> sheetNameProperty() {
     return addPropertyNameInternal('sheetName');
+  }
+
+  QueryBuilder<SheetConfig, String, QQueryOperations>
+      sheetNameFileIdKeyProperty() {
+    return addPropertyNameInternal('sheetNameFileIdKey');
   }
 }
