@@ -59,7 +59,6 @@ class SheetConfig {
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
     config.id = config_['id'] ?? DateTime.now().millisecondsSinceEpoch;
-
     config.sheetName = config_['sheetName'] ?? '';
     config.fileId = config_['fileId'] ?? '';
     config.setKey(config_['sheetName'], config_['fileId']);
@@ -210,47 +209,28 @@ class SheetConfigDb {
     }
   }
 
-  Future updateConfig3(SheetConfig sheetConfig, int id) async {
+  Future updateConfig(SheetConfig sheetConfig) async {
+    if (kDebugMode) {
+      print('--------------------------updateConfig');
+      print(sheetConfig.id);
+      print(sheetConfig.byValueColumns);
+    }
     try {
-      SheetConfig? sheetConfig_ = await isar.sheetConfigs.get(id);
-      sheetConfig.id = id;
-      sheetConfig_ = sheetConfig;
       await isar.writeTxn((isar) async {
-        sheetConfig.id = await isar.sheetConfigs.put(
-          sheetConfig_!,
+        await isar.sheetConfigs.put(
+          sheetConfig,
           replaceOnConflict: true,
-        ); // insert
+        );
       });
       return 'OK';
     } catch (e) {
       if (kDebugMode) {
-        print('--- updateConfig3: -----------------isar');
+        print('--- updateConfig: -----------------isar');
         print(e);
       }
-      logi('--- updateConfig3: ', '-----------------isar');
-      logi('updateConfig3(String ', sheetConfig.sheetKey.toString());
-      logi('updateConfig3(String ', e.toString());
-      return '';
-    }
-  }
-
-  Future updateConfig1(SheetConfig sheetConfig) async {
-    sheetConfig.sheetIdentStr.clear();
-    sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
-    sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
-    try {
-      await isar.writeTxn((isar) async {
-        sheetConfig.id = await isar.sheetConfigs.put(
-          sheetConfig,
-          replaceOnConflict: false,
-        ); // insert
-      });
-      return 'OK';
-    } catch (e) {
-      if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', sheetConfig.sheetKey.toString());
-      logi('updateSheets(String ', e.toString());
+      logi('--- updateConfig: ', '-----------------isar');
+      logi('updateConfig(String ', sheetConfig.sheetKey.toString());
+      logi('updateConfig(String ', e.toString());
       return '';
     }
   }
@@ -258,6 +238,7 @@ class SheetConfigDb {
 
 Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
   SheetConfig sheetConfig = SheetConfig();
+  sheetConfig.id = DateTime.now().millisecondsSinceEpoch;
   sheetConfig.setKey(sheetName, fileId);
   int sheetKeyExistsId =
       await sheetConfigDb.sheetKeyExists(sheetConfig.sheetKey);
@@ -265,7 +246,7 @@ Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
 
   sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
   sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
-  sheetConfigDb.updateConfig1(sheetConfig);
+  sheetConfigDb.updateConfig(sheetConfig);
 }
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
@@ -278,7 +259,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
 
-    sheetConfigDb.updateConfig1(sheetConfig);
+    sheetConfigDb.updateConfig(sheetConfig);
     return sheetConfig;
   } catch (e) {
     return SheetConfig();

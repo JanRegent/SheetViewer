@@ -38,24 +38,15 @@ void main() async {
       .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
   SheetConfig? sheetConfig = await sheetConfigDb.readSheetByIndex(key);
 
-  if (sheetConfig.id > 0) {
-    if (kDebugMode) {
-      print(sheetConfig.id);
-      print(sheetConfig.byValueColumns);
-      //print(sheetConfig.toString());
-    }
-    sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
-    await sheetConfigDb.updateConfig3(sheetConfig, 1647625753322);
-    if (kDebugMode) {
-      print(sheetConfig.byValueColumns);
-      print(await sheetConfigDb.readIds());
-      //print(sheetConfig.toString());
-    }
-  }
+  sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
+  await sheetConfigDb.updateConfig(sheetConfig);
   if (kDebugMode) {
-    print(await sheetConfigDb.readIds());
-    //print(sheetConfig.toString());
+    print(sheetConfig.byValueColumns);
   }
+  // if (kDebugMode) {
+  //   print(await sheetConfigDb.readIds());
+  //   //print(sheetConfig.toString());
+  // }
   runApp(const TabsListsPage());
 }
 
