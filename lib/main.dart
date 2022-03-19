@@ -11,7 +11,6 @@ import 'AL/__home/tablist_home/1tabslistpage.dart';
 
 import 'BL/bl.dart';
 
-import 'DL/models/sheet_config2.dart';
 //import 'maintest.dart';
 
 void main() async {
@@ -49,10 +48,14 @@ void main() async {
     await sheetConfigDb.updateConfig3(sheetConfig, 1647625753322);
     if (kDebugMode) {
       print(sheetConfig.byValueColumns);
+      print(await sheetConfigDb.readIds());
       //print(sheetConfig.toString());
     }
   }
-
+  if (kDebugMode) {
+    print(await sheetConfigDb.readIds());
+    //print(sheetConfig.toString());
+  }
   runApp(const TabsListsPage());
 }
 

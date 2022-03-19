@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
 
-import 'package:sheetviewer/DL/models/sheet_config2.dart';
-
 import 'filelistcard_byvalue_columntabs.dart';
 
 class ByValuePage extends StatefulWidget {

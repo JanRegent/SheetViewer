@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -57,11 +58,12 @@ class SheetConfig {
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
-    config.id = config_['id'];
-    config.sheetName = config_['sheetName'] ?? '';
+    config.id = config_['id'] ?? DateTime.now().millisecondsSinceEpoch;
 
-    config.fileId = config_['fileId'];
+    config.sheetName = config_['sheetName'] ?? '';
+    config.fileId = config_['fileId'] ?? '';
     config.setKey(config_['sheetName'], config_['fileId']);
+
     //--------------------------------------------------ident
     config.sheetIdent["createdBy"] = 'cloud';
 
@@ -121,7 +123,6 @@ class SheetConfig {
     try {
       config.byValueColumns = bl.blUti.toListString(config_['byValueColumns']);
     } catch (e) {
-      print(e);
       config.byValueColumns = [];
     }
 
@@ -196,26 +197,18 @@ class SheetConfigDb {
     }
   }
 
-  // Future updateConfig2(SheetConfig sheetConfig) async {
-  //   try {
-  //     await isar.writeTxn((isar) async {
-  //       sheetConfig.id = await isar.sheetConfigs.put(
-  //         sheetConfig,
-  //         replaceOnConflict: true,
-  //       ); // insert
-  //     });
-  //     return 'OK';
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('--- updateConfig2: -----------------isar');
-  //       print(e);
-  //     }
-  //     logi('--- updateConfig2: ', '-----------------isar');
-  //     logi('updateConfig2(String ', sheetConfig.sheetKey.toString());
-  //     logi('updateConfig2(String ', e.toString());
-  //     return '';
-  //   }
-  // }
+  Future<List<int>> readIds() async {
+    try {
+      final List<int> ids = await isar.sheetConfigs
+          .filter()
+          .idGreaterThan(0)
+          .idProperty()
+          .findAll();
+      return ids;
+    } catch (_) {
+      return [];
+    }
+  }
 
   Future updateConfig3(SheetConfig sheetConfig, int id) async {
     try {
@@ -242,12 +235,10 @@ class SheetConfigDb {
   }
 
   Future updateConfig1(SheetConfig sheetConfig) async {
-    sheetConfig.id = DateTime.now().millisecondsSinceEpoch;
     sheetConfig.sheetIdentStr.clear();
     sheetConfig.sheetIdentStr.add(jsonEncode(sheetConfig.sheetIdent));
     sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
     try {
-      print(sheetConfig.id);
       await isar.writeTxn((isar) async {
         sheetConfig.id = await isar.sheetConfigs.put(
           sheetConfig,
@@ -262,5 +253,45 @@ class SheetConfigDb {
       logi('updateSheets(String ', e.toString());
       return '';
     }
+  }
+}
+
+Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
+  SheetConfig sheetConfig = SheetConfig();
+  sheetConfig.setKey(sheetName, fileId);
+  int sheetKeyExistsId =
+      await sheetConfigDb.sheetKeyExists(sheetConfig.sheetKey);
+  if (sheetKeyExistsId > -1) return;
+
+  sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
+  sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
+  sheetConfigDb.updateConfig1(sheetConfig);
+}
+
+Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
+  try {
+    String queryString =
+        'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
+
+    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
+
+    var response = await Dio().get(urlQuery);
+    SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
+
+    sheetConfigDb.updateConfig1(sheetConfig);
+    return sheetConfig;
+  } catch (e) {
+    return SheetConfig();
+  }
+}
+
+Future<String> logOn() async {
+  try {
+    var response =
+        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logon');
+    String resp = response.data.toString();
+    return resp;
+  } catch (e) {
+    return '';
   }
 }

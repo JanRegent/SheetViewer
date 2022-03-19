@@ -8,7 +8,6 @@ import 'package:sheetviewer/AL/elements/getrows/firstLast/allrowsbutton.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-import '../../../DL/models/sheet_config2.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 
 Card filelistCard(
