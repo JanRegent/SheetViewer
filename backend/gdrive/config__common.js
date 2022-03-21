@@ -3,19 +3,15 @@ paramsErr = '';
 var config = { 
   sheetName: '',
   fileId: '',
-  fileIdUrl: '',
-  originUrl: '',
-  copyrightPageUrl: '',
+  fileUrl: '',
+  copyrightUrl: '',
 
   headers:  [],
   getRows:  [
-    ["getRowsLast--rowsCount", 10],
-    ["getRowsFirst--rowsCount", 10],
+    "getRowsLast--rowsCount__|__10",
+    "getRowsFirst--rowsCount__|__10",
   ],
   selects1: [],
-
-  copyrightUrl: '',
-  sheetUrl: '',
 
   columnsSelected: [],
   __ver__: '0',

@@ -28,19 +28,22 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  // await getSheetConfig(
-  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
-  // await getSheetConfig(
-  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+  await getSheetConfig(
+      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+  await getSheetConfig(
+      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
-  String key = SheetConfig()
+  String sheetNameFileKey = SheetConfig()
       .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  // int? id = await sheetConfigDb.getId(sheetNameFileKey);
+  // print(id);
 
-  SheetConfig? sheetConfig = await sheetConfigDb.readSheetByIndex(key);
+  SheetConfig? sheetConfig =
+      await sheetConfigDb.readSheetByIndex(sheetNameFileKey);
 
   if (sheetConfig != null) {
     sheetConfig.byValueColumns
-        .add(DateTime.now().millisecondsSinceEpoch.toString());
+        .add('xx__' + DateTime.now().millisecondsSinceEpoch.toString());
     await sheetConfigDb.updateConfig(sheetConfig);
     if (kDebugMode) {
       print(sheetConfig.id);
@@ -48,7 +51,7 @@ void main() async {
     }
   }
   if (kDebugMode) {
-    print(sheetConfig.toString());
+    //print(sheetConfig.toString());
   }
 
   runApp(const TabsListsPage());

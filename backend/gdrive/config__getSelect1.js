@@ -14,7 +14,7 @@ function getSelect1(values) {
     if (values[rowIx][0].substring(0,2) == '__') break;
 
     var row = values[rowIx];
-    var selectRow =   '{selectType: select1, column: '+row[1] + ', operator: ' +row[2] + ', value: ' +row[3] + '}';
+    var selectRow =   'selectType--select1__|__column: '+row[1] + '__|__operator: ' +row[2] + '__|__value: ' +row[3] + '__|__headerName: ' +row[4];
     config.select1.push(selectRow);
   }
 

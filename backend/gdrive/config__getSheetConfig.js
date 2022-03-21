@@ -26,5 +26,6 @@ function getConfig2test_config_DailyNotes() {
 
   Logger.log(config);
 
-  // ?action=getSheetConfig&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes__config__
+  // 
+  // ?sheetName=dailyNotes&action=getSheetConfig&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw
 }
