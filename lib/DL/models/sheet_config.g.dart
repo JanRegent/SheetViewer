@@ -17,7 +17,7 @@ extension GetSheetConfigCollection on Isar {
 final SheetConfigSchema = CollectionSchema(
   name: 'SheetConfig',
   schema:
-      '{"name":"SheetConfig","idName":"id","properties":[{"name":"byValueColumns","type":"StringList"},{"name":"copyrightUrl","type":"String"},{"name":"createdBy","type":"String"},{"name":"fileId","type":"String"},{"name":"fileIdConfig","type":"String"},{"name":"fileUrl","type":"String"},{"name":"getRows","type":"StringList"},{"name":"headerCols","type":"StringList"},{"name":"headers","type":"StringList"},{"name":"selects1","type":"StringList"},{"name":"sheetName","type":"String"},{"name":"sheetNameConfig","type":"String"},{"name":"sheetNameFileIdKey","type":"String"}],"indexes":[{"name":"sheetNameFileIdKey","unique":true,"properties":[{"name":"sheetNameFileIdKey","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"SheetConfig","idName":"id","properties":[{"name":"byValueColumns","type":"String"},{"name":"copyrightUrl","type":"String"},{"name":"createdBy","type":"String"},{"name":"fileId","type":"String"},{"name":"fileIdConfig","type":"String"},{"name":"fileUrl","type":"String"},{"name":"getRows","type":"String"},{"name":"headerCols","type":"String"},{"name":"headers","type":"String"},{"name":"selects1","type":"String"},{"name":"sheetName","type":"String"},{"name":"sheetNameConfig","type":"String"},{"name":"sheetNameFileIdKey","type":"String"}],"indexes":[{"name":"sheetNameFileIdKey","unique":true,"properties":[{"name":"sheetNameFileIdKey","type":"Hash","caseSensitive":true}]}],"links":[]}',
   nativeAdapter: const _SheetConfigNativeAdapter(),
   webAdapter: const _SheetConfigWebAdapter(),
   idName: 'id',
@@ -36,13 +36,7 @@ final SheetConfigSchema = CollectionSchema(
     'sheetNameConfig': 11,
     'sheetNameFileIdKey': 12
   },
-  listProperties: {
-    'byValueColumns',
-    'getRows',
-    'headerCols',
-    'headers',
-    'selects1'
-  },
+  listProperties: {},
   indexIds: {'sheetNameFileIdKey': 0},
   indexTypes: {
     'sheetNameFileIdKey': [
@@ -93,37 +87,17 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
       IsarCollection<SheetConfig> collection, dynamic jsObj) {
     final object = SheetConfig();
     object.byValueColumns =
-        (IsarNative.jsObjectGet(jsObj, 'byValueColumns') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            [];
+        IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '';
     object.copyrightUrl = IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '';
     object.createdBy = IsarNative.jsObjectGet(jsObj, 'createdBy') ?? '';
     object.fileId = IsarNative.jsObjectGet(jsObj, 'fileId') ?? '';
     object.fileIdConfig = IsarNative.jsObjectGet(jsObj, 'fileIdConfig') ?? '';
     object.fileUrl = IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '';
-    object.getRows = (IsarNative.jsObjectGet(jsObj, 'getRows') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
-    object.headerCols = (IsarNative.jsObjectGet(jsObj, 'headerCols') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
-    object.headers = (IsarNative.jsObjectGet(jsObj, 'headers') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
+    object.getRows = IsarNative.jsObjectGet(jsObj, 'getRows') ?? '';
+    object.headerCols = IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '';
+    object.headers = IsarNative.jsObjectGet(jsObj, 'headers') ?? '';
     object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-    object.selects1 = (IsarNative.jsObjectGet(jsObj, 'selects1') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
+    object.selects1 = IsarNative.jsObjectGet(jsObj, 'selects1') ?? '';
     object.sheetName = IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '';
     object.sheetNameConfig =
         IsarNative.jsObjectGet(jsObj, 'sheetNameConfig') ?? '';
@@ -136,11 +110,7 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
   P deserializeProperty<P>(Object jsObj, String propertyName) {
     switch (propertyName) {
       case 'byValueColumns':
-        return ((IsarNative.jsObjectGet(jsObj, 'byValueColumns') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
+        return (IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '') as P;
       case 'copyrightUrl':
         return (IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '') as P;
       case 'createdBy':
@@ -152,32 +122,16 @@ class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
       case 'fileUrl':
         return (IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '') as P;
       case 'getRows':
-        return ((IsarNative.jsObjectGet(jsObj, 'getRows') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
+        return (IsarNative.jsObjectGet(jsObj, 'getRows') ?? '') as P;
       case 'headerCols':
-        return ((IsarNative.jsObjectGet(jsObj, 'headerCols') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
+        return (IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '') as P;
       case 'headers':
-        return ((IsarNative.jsObjectGet(jsObj, 'headers') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
+        return (IsarNative.jsObjectGet(jsObj, 'headers') ?? '') as P;
       case 'id':
         return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
             as P;
       case 'selects1':
-        return ((IsarNative.jsObjectGet(jsObj, 'selects1') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
+        return (IsarNative.jsObjectGet(jsObj, 'selects1') ?? '') as P;
       case 'sheetName':
         return (IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '') as P;
       case 'sheetNameConfig':
@@ -206,14 +160,8 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
       AdapterAlloc alloc) {
     var dynamicSize = 0;
     final value0 = object.byValueColumns;
-    dynamicSize += (value0.length) * 8;
-    final bytesList0 = <IsarUint8List>[];
-    for (var str in value0) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList0.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _byValueColumns = bytesList0;
+    final _byValueColumns = IsarBinaryWriter.utf8Encoder.convert(value0);
+    dynamicSize += (_byValueColumns.length) as int;
     final value1 = object.copyrightUrl;
     final _copyrightUrl = IsarBinaryWriter.utf8Encoder.convert(value1);
     dynamicSize += (_copyrightUrl.length) as int;
@@ -230,41 +178,17 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
     final _fileUrl = IsarBinaryWriter.utf8Encoder.convert(value5);
     dynamicSize += (_fileUrl.length) as int;
     final value6 = object.getRows;
-    dynamicSize += (value6.length) * 8;
-    final bytesList6 = <IsarUint8List>[];
-    for (var str in value6) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList6.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _getRows = bytesList6;
+    final _getRows = IsarBinaryWriter.utf8Encoder.convert(value6);
+    dynamicSize += (_getRows.length) as int;
     final value7 = object.headerCols;
-    dynamicSize += (value7.length) * 8;
-    final bytesList7 = <IsarUint8List>[];
-    for (var str in value7) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList7.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _headerCols = bytesList7;
+    final _headerCols = IsarBinaryWriter.utf8Encoder.convert(value7);
+    dynamicSize += (_headerCols.length) as int;
     final value8 = object.headers;
-    dynamicSize += (value8.length) * 8;
-    final bytesList8 = <IsarUint8List>[];
-    for (var str in value8) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList8.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _headers = bytesList8;
+    final _headers = IsarBinaryWriter.utf8Encoder.convert(value8);
+    dynamicSize += (_headers.length) as int;
     final value9 = object.selects1;
-    dynamicSize += (value9.length) * 8;
-    final bytesList9 = <IsarUint8List>[];
-    for (var str in value9) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList9.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _selects1 = bytesList9;
+    final _selects1 = IsarBinaryWriter.utf8Encoder.convert(value9);
+    dynamicSize += (_selects1.length) as int;
     final value10 = object.sheetName;
     final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value10);
     dynamicSize += (_sheetName.length) as int;
@@ -280,16 +204,16 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
     rawObj.buffer_length = size;
     final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
     final writer = IsarBinaryWriter(buffer, staticSize);
-    writer.writeStringList(offsets[0], _byValueColumns);
+    writer.writeBytes(offsets[0], _byValueColumns);
     writer.writeBytes(offsets[1], _copyrightUrl);
     writer.writeBytes(offsets[2], _createdBy);
     writer.writeBytes(offsets[3], _fileId);
     writer.writeBytes(offsets[4], _fileIdConfig);
     writer.writeBytes(offsets[5], _fileUrl);
-    writer.writeStringList(offsets[6], _getRows);
-    writer.writeStringList(offsets[7], _headerCols);
-    writer.writeStringList(offsets[8], _headers);
-    writer.writeStringList(offsets[9], _selects1);
+    writer.writeBytes(offsets[6], _getRows);
+    writer.writeBytes(offsets[7], _headerCols);
+    writer.writeBytes(offsets[8], _headers);
+    writer.writeBytes(offsets[9], _selects1);
     writer.writeBytes(offsets[10], _sheetName);
     writer.writeBytes(offsets[11], _sheetNameConfig);
     writer.writeBytes(offsets[12], _sheetNameFileIdKey);
@@ -299,17 +223,17 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
   SheetConfig deserialize(IsarCollection<SheetConfig> collection, int id,
       IsarBinaryReader reader, List<int> offsets) {
     final object = SheetConfig();
-    object.byValueColumns = reader.readStringList(offsets[0]) ?? [];
+    object.byValueColumns = reader.readString(offsets[0]);
     object.copyrightUrl = reader.readString(offsets[1]);
     object.createdBy = reader.readString(offsets[2]);
     object.fileId = reader.readString(offsets[3]);
     object.fileIdConfig = reader.readString(offsets[4]);
     object.fileUrl = reader.readString(offsets[5]);
-    object.getRows = reader.readStringList(offsets[6]) ?? [];
-    object.headerCols = reader.readStringList(offsets[7]) ?? [];
-    object.headers = reader.readStringList(offsets[8]) ?? [];
+    object.getRows = reader.readString(offsets[6]);
+    object.headerCols = reader.readString(offsets[7]);
+    object.headers = reader.readString(offsets[8]);
     object.id = id;
-    object.selects1 = reader.readStringList(offsets[9]) ?? [];
+    object.selects1 = reader.readString(offsets[9]);
     object.sheetName = reader.readString(offsets[10]);
     object.sheetNameConfig = reader.readString(offsets[11]);
     object.sheetNameFileIdKey = reader.readString(offsets[12]);
@@ -323,7 +247,7 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
       case -1:
         return id as P;
       case 0:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 1:
         return (reader.readString(offset)) as P;
       case 2:
@@ -335,13 +259,13 @@ class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
       case 5:
         return (reader.readString(offset)) as P;
       case 6:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 7:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 8:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 9:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 10:
         return (reader.readString(offset)) as P;
       case 11:
@@ -524,7 +448,7 @@ extension SheetConfigQueryWhere
 extension SheetConfigQueryFilter
     on QueryBuilder<SheetConfig, SheetConfig, QFilterCondition> {
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyEqualTo(
+      byValueColumnsEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -537,7 +461,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyGreaterThan(
+      byValueColumnsGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -552,7 +476,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyLessThan(
+      byValueColumnsLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -567,7 +491,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyBetween(
+      byValueColumnsBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -585,7 +509,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyStartsWith(
+      byValueColumnsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -598,7 +522,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyEndsWith(
+      byValueColumnsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -611,7 +535,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyContains(String value, {bool caseSensitive = true}) {
+      byValueColumnsContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'byValueColumns',
@@ -621,7 +545,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      byValueColumnsAnyMatches(String pattern, {bool caseSensitive = true}) {
+      byValueColumnsMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'byValueColumns',
@@ -1161,8 +1085,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyEqualTo(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1175,7 +1098,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyGreaterThan(
+      getRowsGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1189,8 +1112,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyLessThan(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1204,8 +1126,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyBetween(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -1223,7 +1144,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyStartsWith(
+      getRowsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1235,8 +1156,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyEndsWith(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1248,8 +1168,9 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsContains(
+      String value,
+      {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'getRows',
@@ -1258,8 +1179,9 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      getRowsAnyMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> getRowsMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'getRows',
@@ -1269,7 +1191,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyEqualTo(
+      headerColsEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1282,7 +1204,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyGreaterThan(
+      headerColsGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1297,7 +1219,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyLessThan(
+      headerColsLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1312,7 +1234,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyBetween(
+      headerColsBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -1330,7 +1252,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyStartsWith(
+      headerColsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1343,7 +1265,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyEndsWith(
+      headerColsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1356,7 +1278,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyContains(String value, {bool caseSensitive = true}) {
+      headerColsContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'headerCols',
@@ -1366,7 +1288,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headerColsAnyMatches(String pattern, {bool caseSensitive = true}) {
+      headerColsMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'headerCols',
@@ -1375,8 +1297,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyEqualTo(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1389,7 +1310,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyGreaterThan(
+      headersGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1403,8 +1324,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyLessThan(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1418,8 +1338,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyBetween(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -1437,7 +1356,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyStartsWith(
+      headersStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1449,8 +1368,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyEndsWith(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1462,8 +1380,9 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersContains(
+      String value,
+      {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'headers',
@@ -1472,8 +1391,9 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      headersAnyMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> headersMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'headers',
@@ -1530,8 +1450,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyEqualTo(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> selects1EqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1544,7 +1463,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyGreaterThan(
+      selects1GreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1559,7 +1478,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyLessThan(
+      selects1LessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -1573,8 +1492,7 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyBetween(
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> selects1Between(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -1592,7 +1510,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyStartsWith(
+      selects1StartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1605,7 +1523,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyEndsWith(
+      selects1EndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1618,7 +1536,7 @@ extension SheetConfigQueryFilter
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyContains(String value, {bool caseSensitive = true}) {
+      selects1Contains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'selects1',
@@ -1627,8 +1545,9 @@ extension SheetConfigQueryFilter
     ));
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition>
-      selects1AnyMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterFilterCondition> selects1Matches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'selects1',
@@ -1964,6 +1883,15 @@ extension SheetConfigQueryLinks
 
 extension SheetConfigQueryWhereSortBy
     on QueryBuilder<SheetConfig, SheetConfig, QSortBy> {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByByValueColumns() {
+    return addSortByInternal('byValueColumns', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      sortByByValueColumnsDesc() {
+    return addSortByInternal('byValueColumns', Sort.desc);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByCopyrightUrl() {
     return addSortByInternal('copyrightUrl', Sort.asc);
   }
@@ -2006,12 +1934,44 @@ extension SheetConfigQueryWhereSortBy
     return addSortByInternal('fileUrl', Sort.desc);
   }
 
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByGetRows() {
+    return addSortByInternal('getRows', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByGetRowsDesc() {
+    return addSortByInternal('getRows', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByHeaderCols() {
+    return addSortByInternal('headerCols', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByHeaderColsDesc() {
+    return addSortByInternal('headerCols', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByHeaders() {
+    return addSortByInternal('headers', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByHeadersDesc() {
+    return addSortByInternal('headers', Sort.desc);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortById() {
     return addSortByInternal('id', Sort.asc);
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortByIdDesc() {
     return addSortByInternal('id', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortBySelects1() {
+    return addSortByInternal('selects1', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortBySelects1Desc() {
+    return addSortByInternal('selects1', Sort.desc);
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> sortBySheetName() {
@@ -2044,6 +2004,15 @@ extension SheetConfigQueryWhereSortBy
 
 extension SheetConfigQueryWhereSortThenBy
     on QueryBuilder<SheetConfig, SheetConfig, QSortThenBy> {
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByByValueColumns() {
+    return addSortByInternal('byValueColumns', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy>
+      thenByByValueColumnsDesc() {
+    return addSortByInternal('byValueColumns', Sort.desc);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByCopyrightUrl() {
     return addSortByInternal('copyrightUrl', Sort.asc);
   }
@@ -2086,12 +2055,44 @@ extension SheetConfigQueryWhereSortThenBy
     return addSortByInternal('fileUrl', Sort.desc);
   }
 
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByGetRows() {
+    return addSortByInternal('getRows', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByGetRowsDesc() {
+    return addSortByInternal('getRows', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByHeaderCols() {
+    return addSortByInternal('headerCols', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByHeaderColsDesc() {
+    return addSortByInternal('headerCols', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByHeaders() {
+    return addSortByInternal('headers', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByHeadersDesc() {
+    return addSortByInternal('headers', Sort.desc);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenById() {
     return addSortByInternal('id', Sort.asc);
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenByIdDesc() {
     return addSortByInternal('id', Sort.desc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenBySelects1() {
+    return addSortByInternal('selects1', Sort.asc);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenBySelects1Desc() {
+    return addSortByInternal('selects1', Sort.desc);
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterSortBy> thenBySheetName() {
@@ -2124,6 +2125,12 @@ extension SheetConfigQueryWhereSortThenBy
 
 extension SheetConfigQueryWhereDistinct
     on QueryBuilder<SheetConfig, SheetConfig, QDistinct> {
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctByByValueColumns(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('byValueColumns',
+        caseSensitive: caseSensitive);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctByCopyrightUrl(
       {bool caseSensitive = true}) {
     return addDistinctByInternal('copyrightUrl', caseSensitive: caseSensitive);
@@ -2149,8 +2156,28 @@ extension SheetConfigQueryWhereDistinct
     return addDistinctByInternal('fileUrl', caseSensitive: caseSensitive);
   }
 
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctByGetRows(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('getRows', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctByHeaderCols(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('headerCols', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctByHeaders(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('headers', caseSensitive: caseSensitive);
+  }
+
   QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctById() {
     return addDistinctByInternal('id');
+  }
+
+  QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctBySelects1(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('selects1', caseSensitive: caseSensitive);
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QDistinct> distinctBySheetName(
@@ -2173,8 +2200,7 @@ extension SheetConfigQueryWhereDistinct
 
 extension SheetConfigQueryProperty
     on QueryBuilder<SheetConfig, SheetConfig, QQueryProperty> {
-  QueryBuilder<SheetConfig, List<String>, QQueryOperations>
-      byValueColumnsProperty() {
+  QueryBuilder<SheetConfig, String, QQueryOperations> byValueColumnsProperty() {
     return addPropertyNameInternal('byValueColumns');
   }
 
@@ -2198,16 +2224,15 @@ extension SheetConfigQueryProperty
     return addPropertyNameInternal('fileUrl');
   }
 
-  QueryBuilder<SheetConfig, List<String>, QQueryOperations> getRowsProperty() {
+  QueryBuilder<SheetConfig, String, QQueryOperations> getRowsProperty() {
     return addPropertyNameInternal('getRows');
   }
 
-  QueryBuilder<SheetConfig, List<String>, QQueryOperations>
-      headerColsProperty() {
+  QueryBuilder<SheetConfig, String, QQueryOperations> headerColsProperty() {
     return addPropertyNameInternal('headerCols');
   }
 
-  QueryBuilder<SheetConfig, List<String>, QQueryOperations> headersProperty() {
+  QueryBuilder<SheetConfig, String, QQueryOperations> headersProperty() {
     return addPropertyNameInternal('headers');
   }
 
@@ -2215,7 +2240,7 @@ extension SheetConfigQueryProperty
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<SheetConfig, List<String>, QQueryOperations> selects1Property() {
+  QueryBuilder<SheetConfig, String, QQueryOperations> selects1Property() {
     return addPropertyNameInternal('selects1');
   }
 

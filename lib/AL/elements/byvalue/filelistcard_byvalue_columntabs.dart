@@ -20,7 +20,7 @@ class _ByValueColumnsTabsState extends State<ByValueColumnsTabs>
   @override
   void initState() {
     super.initState();
-    byValueColumns = widget.sheetConfig.byValueColumns;
+    byValueColumns = widget.sheetConfig.byValueColumns.split('__|__');
     tabController = TabController(
         length: byValueColumns.length, vsync: this, initialIndex: 0);
   }

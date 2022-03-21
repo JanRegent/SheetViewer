@@ -30,6 +30,7 @@ void main() async {
   await logOn();
   await getSheetConfig(
       '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+
   await getSheetConfig(
       '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
@@ -42,12 +43,21 @@ void main() async {
       await sheetConfigDb.readSheetByIndex(sheetNameFileKey);
 
   if (sheetConfig != null) {
-    sheetConfig.byValueColumns
-        .add('xx__' + DateTime.now().millisecondsSinceEpoch.toString());
+    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+        '__|__x1__' +
+        DateTime.now().millisecond.toString();
+    Future.delayed(const Duration(seconds: 1));
+    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+        '__|__x2__' +
+        DateTime.now().millisecond.toString();
+    Future.delayed(const Duration(seconds: 1));
+    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+        '__|__x3__' +
+        DateTime.now().millisecond.toString();
+    print(sheetConfig.byValueColumns);
     await sheetConfigDb.updateConfig(sheetConfig);
     if (kDebugMode) {
       print(sheetConfig.id);
-      print(sheetConfig.byValueColumns);
     }
   }
   if (kDebugMode) {

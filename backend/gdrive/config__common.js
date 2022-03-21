@@ -6,14 +6,12 @@ var config = {
   fileUrl: '',
   copyrightUrl: '',
 
-  headers:  [],
-  getRows:  [
-    "getRowsLast--rowsCount__|__10",
-    "getRowsFirst--rowsCount__|__10",
-  ],
-  selects1: [],
+  headers:  '',
+  getRows: "getRowsLast--rowsCount__|__10__EOL__getRowsFirst--rowsCount__|__10",
+  
+  selects1: '',
 
-  columnsSelected: [],
+  columnsSelected: '',
   __ver__: '0',
   action: '',
   rowsCount: 10

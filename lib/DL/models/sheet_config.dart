@@ -23,12 +23,12 @@ class SheetConfig {
   String copyrightUrl = '';
   String createdBy = '';
 
-  List<String> headerCols = [];
-  List<String> headers = [];
+  String headerCols = '';
+  String headers = '';
 
-  List<String> getRows = [];
-  List<String> selects1 = [];
-  List<String> byValueColumns = [];
+  String getRows = '';
+  String selects1 = '';
+  String byValueColumns = '';
 
   SheetConfig();
 
@@ -57,39 +57,12 @@ class SheetConfig {
     config.copyrightUrl = config_['copyrightUrl'] ?? '';
     config.createdBy = 'cloud';
 
-    try {
-      List<String> getRows = bl.blUti.toListString(config_['getRows']);
-      for (var i = 0; i < getRows.length; i++) {
-        config.getRows.add(getRows[i]);
-      }
-    } catch (e) {
-      config.getRows = [];
-    }
-    try {
-      if (config_['select1'] != null) {
-        List<String> list = bl.blUti.toListString(config_['select1']);
-        for (var i = 0; i < list.length; i++) {
-          config.selects1.add(list[i]);
-        }
-      }
-    } catch (e) {
-      config.selects1 = [];
-    }
+    config.getRows = config_['getRows'] ?? '';
+    config.selects1 = config_['selects1'] ?? '';
 
-    try {
-      List<String> list = bl.blUti.toListString(config_['headers']);
-      for (var i = 0; i < list.length; i++) {
-        config.headers.add(list[i]);
-      }
-    } catch (e) {
-      config.headerCols = [];
-    }
+    //config.headers = config_['headers'] ?? '';
 
-    try {
-      config.byValueColumns = bl.blUti.toListString(config_['byValueColumns']);
-    } catch (e) {
-      config.byValueColumns = [];
-    }
+    config.byValueColumns = config_['byValueColumns'] ?? '';
 
     //rint(config.toString());
     return config;
@@ -200,17 +173,6 @@ class SheetConfigDb {
       maxId += 1;
       sheetConfig.id = maxId;
     }
-    // else {
-    //   try {
-    //     await isar.writeTxn((isar) async {
-    //       await isar.sheetConfigs.delete(sheetConfig.id);
-    //     });
-    //     if (kDebugMode) {
-    //       print('----------------updateConfig *************delete');
-    //       print(sheetConfig);
-    //     }
-    //   } catch (_) {}
-    // }
 
     try {
       await isar.writeTxn((isar) async {
@@ -220,8 +182,8 @@ class SheetConfigDb {
         );
       });
       if (kDebugMode) {
-        print('--------------------------updateConfig');
-        print(sheetConfig);
+        // print('--------------------------updateConfig');
+        // print(sheetConfig);
       }
       return 'OK';
     } catch (e) {
@@ -239,8 +201,8 @@ Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
     ..fileId = fileId;
   sheetConfig.setKey(sheetName, fileId);
 
-  sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
-  sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
+  // sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
+  // sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
   sheetConfigDb.updateConfig(sheetConfig);
 }
 

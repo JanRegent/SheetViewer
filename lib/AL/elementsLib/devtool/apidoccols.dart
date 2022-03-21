@@ -48,8 +48,12 @@ late Map<String, double> columnWidths = {};
 
 List<String> columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
   List<String> configRows = [];
-  if (endpointName.contains('getRows')) configRows = sheetConfig.getRows;
-  if (endpointName.contains('select1')) configRows = sheetConfig.selects1;
+  if (endpointName.contains('getRows')) {
+    configRows = sheetConfig.getRows.split('__|__');
+  }
+  if (endpointName.contains('select1')) {
+    configRows = sheetConfig.selects1.split('__|__');
+  }
   Set columns = {};
   for (var rowIx = 0; rowIx < configRows.length; rowIx++) {
     Map map = jsonDecode(configRows[rowIx]);
