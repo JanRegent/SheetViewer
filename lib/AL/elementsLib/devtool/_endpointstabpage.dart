@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/actionSheet/_actionsheet.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
+//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'apidocgridpage.dart';
 import 'devtool_blglobals.dart';
@@ -37,10 +37,10 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     return IconButton(
         onPressed: () async {
           //bl.dataSheet4debug = ;
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
+          // await Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
         },
         icon: const Icon(Icons.view_agenda));
   }
@@ -67,7 +67,7 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsList.add(const Tab(
       text: 'json{}',
     ));
-    tabsPages.add(JsonViewerPage(sheetConfig.rawConfig));
+    //tabsPages.add(JsonViewerPage(sheetConfig.rawConfig));
 
     return DefaultTabController(
       length: 4,

@@ -3,18 +3,14 @@ paramsErr = '';
 var config = { 
   sheetName: '',
   fileId: '',
-  sheetIdent: {
-    sheetName: '',
-    fileId: '',
-    fileIdUrl: '',
-    originUrl: '',
-    copyrightPageUrl: '',
-  },
+  fileIdUrl: '',
+  originUrl: '',
+  copyrightPageUrl: '',
 
   headers:  [],
   getRows:  [
-    {"endpoint":"getRowsLast","rowsCount":10},
-    {"endpoint":"getRowsFirst","rowsCount":10}
+    ["getRowsLast--rowsCount", 10],
+    ["getRowsFirst--rowsCount", 10],
   ],
   selects1: [],
 
@@ -68,13 +64,13 @@ function getPar(e, parName) {
       return '';
     case "fileId": ``
       if(typeof e.parameter.fileId === "undefined") { err = ('{error: "Parameter fileId is not defined"}');  logi(err);  return respond(err);}
-      config.sheetIdent.fileId = e.parameter.fileId;
+      config.fileId = e.parameter.fileId;
       config.fileId = e.parameter.fileId;
       logi('fileId: ' + config.fileId);
       return '';
     case "sheetName":
       if(typeof e.parameter.sheetName === "undefined") { err = ('{error: "Parameter sheetName is not defined"}'); logi(err);  return respond(err);}
-      config.sheetIdent.sheetName = e.parameter.sheetName;
+      config.sheetName = e.parameter.sheetName;
       config.sheetName = e.parameter.sheetName;
       logi('sheetName: ' + config.sheetName);
       return '';

@@ -38,17 +38,17 @@ function switchEndpoint(e){
     case "getsheet": 
       //?sheetName=tabsList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       //?sheetName=hledaniList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-      return respond(getSheet(config.sheetIdent.fileId, config.sheetIdent.sheetName)); 
+      return respond(getSheet(config.fileId, config.sheetName)); 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsLast(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
+      var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
     case "getrowsfirst":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsFirst(config.sheetIdent.fileId, config.sheetIdent.sheetName, config.rowsCount);
+      var values = getRowsFirst(config.fileId, config.sheetName, config.rowsCount);
       return respond(responseData(values));
       //test ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 

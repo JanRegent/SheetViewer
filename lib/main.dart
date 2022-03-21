@@ -30,23 +30,27 @@ void main() async {
   await logOn();
   // await getSheetConfig(
   //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
-
   // await getSheetConfig(
   //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
   String key = SheetConfig()
       .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+
   SheetConfig? sheetConfig = await sheetConfigDb.readSheetByIndex(key);
 
-  sheetConfig.byValueColumns.add(DateTime.now().toIso8601String());
-  await sheetConfigDb.updateConfig(sheetConfig);
-  if (kDebugMode) {
-    print(sheetConfig.byValueColumns);
+  if (sheetConfig != null) {
+    sheetConfig.byValueColumns
+        .add(DateTime.now().millisecondsSinceEpoch.toString());
+    await sheetConfigDb.updateConfig(sheetConfig);
+    if (kDebugMode) {
+      print(sheetConfig.id);
+      print(sheetConfig.byValueColumns);
+    }
   }
-  // if (kDebugMode) {
-  //   print(await sheetConfigDb.readIds());
-  //   //print(sheetConfig.toString());
-  // }
+  if (kDebugMode) {
+    print(sheetConfig.toString());
+  }
+
   runApp(const TabsListsPage());
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
+//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import '../../elements/byvalue/filelistcard_byvalue_columntabs.dart';
 
@@ -25,10 +25,10 @@ class _ByValePageState extends State<ByValuePage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
+          // await Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
         },
         icon: const Icon(Icons.view_agenda));
   }

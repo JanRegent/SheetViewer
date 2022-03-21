@@ -10,9 +10,8 @@ part 'sheet_config.g.dart'; // flutter pub run build_runner build
 
 @Collection()
 class SheetConfig {
+  @Id()
   int id = -1;
-
-  String sheetKey = '';
 
   @Index(unique: true)
   String sheetNameFileIdKey = '';
@@ -22,30 +21,22 @@ class SheetConfig {
 
   List<String> headerCols = [];
 
-  Map sheetIdent = {
-    "sheetName": '',
-    "fileId": '',
-    "fileIdUrl": '',
-    "originUrl": '',
-    "copyrightPageUrl": '',
-    "createdBy": 'automat'
-  };
-  List<String> sheetIdentStr = [];
-  Map headers = {};
+  String fileIdUrl = '';
+  String originUrl = '';
+  String copyrightPageUrl = '';
+  String createdBy = '';
+
+  List<String> headers = [];
   List<String> getRows = [];
   List<String> selects1 = [];
   List<String> byValueColumns = [];
 
-  Map rawConfig = {};
-
   SheetConfig();
 
   void setKey(String sheetName, String fileId) {
-    sheetIdent["sheetName"] = sheetName;
-    sheetIdent["fileId"] = fileId;
-    sheetKey = "${sheetIdent["sheetName"]}__|__${sheetIdent["fileId"]}";
-
-    sheetNameFileIdKey = sheetKey;
+    this.sheetName = sheetName;
+    this.fileId = fileId;
+    sheetNameFileIdKey = "${sheetName}__|__$fileId";
   }
 
   void setShetnameFileKey(String sheetName, String fileId) {
@@ -58,43 +49,22 @@ class SheetConfig {
 
   factory SheetConfig.fromJson(Map config_) {
     SheetConfig config = SheetConfig();
-    config.id = config_['id'] ?? DateTime.now().millisecondsSinceEpoch;
+
     config.sheetName = config_['sheetName'] ?? '';
     config.fileId = config_['fileId'] ?? '';
     config.setKey(config_['sheetName'], config_['fileId']);
 
-    //--------------------------------------------------ident
-    config.sheetIdent["createdBy"] = 'cloud';
+    config.createdBy = 'cloud';
 
+    // try {
+    //   for (Map item in config_['headers']) {
+    //     config.headers[item.keys.first] = item.values.first;
+    //   }
+    // } catch (e) {
+    //   config.headers = [];
+    // }
     try {
-      config.sheetIdent["sheetName"] =
-          json.encode(config_['sheetIdent']['sheetName'] ?? '');
-
-      config.sheetIdent["fileId"] =
-          json.encode(config_['sheetIdent']['fileId'] ?? '');
-
-      config.sheetIdent["fileIdUrl"] =
-          json.encode(config_['sheetIdent']['fileIdUrl'] ?? '');
-
-      config.sheetIdent["originUrl"] =
-          json.encode(config_['sheetIdent']['originUrl'] ?? '');
-
-      config.sheetIdent["copyrightPageUrl"] =
-          json.encode(config_['sheetParams']['copyrightPageUrl'] ?? '');
-    } catch (e) {
-      //rint(e);
-
-    }
-
-    try {
-      for (Map item in config_['headers']) {
-        config.headers[item.keys.first] = item.values.first;
-      }
-    } catch (e) {
-      config.headers = {};
-    }
-    try {
-      if (config_['getRows'] != null) {
+      if (config_['getRows'].toList() != null) {
         for (var item in config_['getRows']) {
           config.getRows.add(json.encode(item));
         }
@@ -103,27 +73,27 @@ class SheetConfig {
       config.getRows = [];
     }
 
-    try {
-      if (config_['select1'] != null) {
-        for (var item in config_['select1']) {
-          config.selects1.add(json.encode(item));
-        }
-      }
-    } catch (e) {
-      config.selects1 = [];
-    }
+    // try {
+    //   if (config_['select1'] != null) {
+    //     for (var item in config_['select1']) {
+    //       config.selects1.add(json.encode(item));
+    //     }
+    //   }
+    // } catch (e) {
+    //   config.selects1 = [];
+    // }
 
-    try {
-      config.headerCols = bl.blUti.toListString(config_['headerCols']);
-    } catch (e) {
-      config.headerCols = [];
-    }
+    // try {
+    //   config.headerCols = bl.blUti.toListString(config_['headerCols']);
+    // } catch (e) {
+    //   config.headerCols = [];
+    // }
 
-    try {
-      config.byValueColumns = bl.blUti.toListString(config_['byValueColumns']);
-    } catch (e) {
-      config.byValueColumns = [];
-    }
+    // try {
+    //   config.byValueColumns = bl.blUti.toListString(config_['byValueColumns']);
+    // } catch (e) {
+    //   config.byValueColumns = [];
+    // }
 
     //rint(config.toString());
     return config;
@@ -133,12 +103,10 @@ class SheetConfig {
   String toString() {
     return ''' 
     ------------------------------------------config
+    id:               $id  
     sheetName:        $sheetName
     fileId:           $fileId
 
-    sheetIdent:
-    $sheetIdent
-    
     headerCols:  $headerCols
     
     headers:
@@ -150,6 +118,8 @@ class SheetConfig {
     selects1:
     $selects1
 
+    byValueColumns:
+    $byValueColumns
   
     ''';
   }
@@ -160,39 +130,59 @@ class SheetConfigDb {
 
   SheetConfigDb(this.isar);
 
-  Future init() async {}
+  int maxId = -1;
 
-  Future<int> sheetKeyExists(String sheetKey) async {
-    final sheetExists =
-        isar.sheetConfigs.where().filter().sheetKeyEqualTo(sheetKey);
-    int count = await sheetExists.count();
-    if (count > 0) {
-      SheetConfig? sheetConfig = await sheetExists.findFirst();
-      return sheetConfig!.id;
-    }
-    return -1;
+  Future init() async {
+    await updateMaxId();
   }
 
-  Future<SheetConfig?> readSheet(String sheetKey) async {
-    final sheetConfigExists =
-        isar.sheetConfigs.where().filter().sheetKeyEqualTo(sheetKey);
+  Future<int> updateMaxId() async {
+    int max = maxId;
+    List<int> ids = await readIds();
+    if (ids.isNotEmpty) {
+      max = ids.reduce((curr, next) => curr > next ? curr : next);
+    }
+    return max + 1;
+  }
+
+  Future<SheetConfig?> readSheet(String sheetNameFileKey) async {
+    final sheetConfigExists = isar.sheetConfigs
+        .where()
+        .filter()
+        .sheetNameFileIdKeyEqualTo(sheetNameFileKey);
     int count = await sheetConfigExists.count();
     if (count == 0) return SheetConfig();
     SheetConfig? sheetConfig = await sheetConfigExists.findFirst();
-    sheetConfig?.sheetIdent = json.decode(sheetConfig.sheetIdentStr[0]);
     return sheetConfig;
   }
 
-  Future<SheetConfig> readSheetByIndex(String sheetNameFileKey) async {
-    try {
-      final listMap =
-          isar.sheetConfigs.where().sheetNameFileIdKeyEqualTo(sheetNameFileKey);
-      List<Map<String, dynamic>> listJson = await listMap.exportJson();
+  Future<SheetConfig?> readSheetByIndex(String sheetNameFileKey) async {
+    int? id = await getId(sheetNameFileKey);
+    if (id == null) return SheetConfig();
 
-      SheetConfig sheetConfig = SheetConfig.fromJson(listJson[0]);
+    try {
+      SheetConfig? sheetConfig = await isar.sheetConfigs.get(id);
       return sheetConfig;
+    } catch (e) {
+      if (kDebugMode) {
+        print(
+            '---------------------------------readSheetByIndex $id  $sheetNameFileKey');
+        print(e);
+      }
+      return null;
+    }
+  }
+
+  Future<int?> getId(String sheetNameFileKey) async {
+    try {
+      final int? id = await isar.sheetConfigs
+          .filter()
+          .sheetNameFileIdKeyEqualTo(sheetNameFileKey)
+          .idProperty()
+          .findFirst();
+      return id;
     } catch (_) {
-      return SheetConfig()..id = -1;
+      return null;
     }
   }
 
@@ -200,7 +190,7 @@ class SheetConfigDb {
     try {
       final List<int> ids = await isar.sheetConfigs
           .filter()
-          .idGreaterThan(0)
+          .idGreaterThan(-1)
           .idProperty()
           .findAll();
       return ids;
@@ -210,26 +200,36 @@ class SheetConfigDb {
   }
 
   Future updateConfig(SheetConfig sheetConfig) async {
-    if (kDebugMode) {
-      print('--------------------------updateConfig');
-      print(sheetConfig.id);
-      print(sheetConfig.byValueColumns);
+    if (sheetConfig.id == -1) {
+      maxId += 1;
+      sheetConfig.id = maxId;
     }
+    if (kDebugMode) {
+      print(
+          '------------updateConfig ${sheetConfig.id} ${sheetConfig.sheetName}');
+    }
+    int? idd;
     try {
       await isar.writeTxn((isar) async {
-        await isar.sheetConfigs.put(
+        idd = await isar.sheetConfigs.put(
           sheetConfig,
-          replaceOnConflict: true,
+          replaceOnConflict: false,
         );
       });
+      if (kDebugMode) {
+        print('--------------------------updateConfig');
+        print(sheetConfig.id);
+        print('**sheetConfig.byValueColumns');
+        print(sheetConfig.byValueColumns);
+      }
       return 'OK';
     } catch (e) {
       if (kDebugMode) {
-        print('--- updateConfig: -----------------isar');
+        print('--- updateConfig: -----------------isar idd $idd');
         print(e);
       }
       logi('--- updateConfig: ', '-----------------isar');
-      logi('updateConfig(String ', sheetConfig.sheetKey.toString());
+      logi('updateConfig(String ', sheetConfig.sheetNameFileIdKey);
       logi('updateConfig(String ', e.toString());
       return '';
     }
@@ -237,12 +237,10 @@ class SheetConfigDb {
 }
 
 Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
-  SheetConfig sheetConfig = SheetConfig();
-  sheetConfig.id = DateTime.now().millisecondsSinceEpoch;
+  SheetConfig sheetConfig = SheetConfig()
+    ..sheetName = sheetName
+    ..fileId = fileId;
   sheetConfig.setKey(sheetName, fileId);
-  int sheetKeyExistsId =
-      await sheetConfigDb.sheetKeyExists(sheetConfig.sheetKey);
-  if (sheetKeyExistsId > -1) return;
 
   sheetConfig.getRows.add('{"action":"getRowsLast","rowsCount":10}');
   sheetConfig.getRows.add('{"action":"getRowsFirst","rowsCount":10}');
@@ -255,10 +253,8 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
         'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
 
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-
     var response = await Dio().get(urlQuery);
     SheetConfig sheetConfig = SheetConfig.fromJson(response.data);
-
     sheetConfigDb.updateConfig(sheetConfig);
     return sheetConfig;
   } catch (e) {

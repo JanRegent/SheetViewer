@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
+//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 AL al = AL();
@@ -42,10 +42,10 @@ class AL {
   IconButton jsonViewer(BuildContext context, SheetConfig sheetConfig) {
     return IconButton(
         onPressed: () async {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
+          // await Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
         },
         icon: const Icon(Icons.map));
   }

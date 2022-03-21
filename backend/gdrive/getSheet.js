@@ -43,15 +43,15 @@ function getSheet(fileId, sheetName){
 //----------------------------------------------------------------------------------------test
 function getTablistTest(){
     logClear();
-    config.sheetIdent.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
-    config.sheetIdent.sheetName = 'tabsList';
+    config.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
+    config.sheetName = 'tabsList';
     Logger.log(getSheet('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList'));
 }
 
 
 function getListSheetTest(){
     logClear();
-    config.sheetIdent.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
-    config.sheetIdent.sheetName = 'tabsList';
+    config.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';
+    config.sheetName = 'tabsList';
     Logger.log(getSheet('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'hledaniList'));
 }
