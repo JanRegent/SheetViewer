@@ -10,7 +10,7 @@ Future<ActionSheet> getActionSheet(
 
   try {
     Sheet? sheet = await sheetsDb.readSheet(cacheKey);
-    if (sheet!.cacheKey.isEmpty) {
+    if (sheet!.aQuerystringKey.isEmpty) {
       await updateSheetToCache(queryString, cacheKey);
     }
   } catch (e) {
@@ -58,8 +58,9 @@ Future updateSheetToCache(String queryString, String cacheKey) async {
   }
 
   try {
-    List<String> cols = bl.blUti.toListString(response.data['cols']);
-    await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
+    //List<String> cols = bl.blUti.toListString(response.data['cols']);
+    //await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
+    await sheetsDb.updateSheetsFromResponse(response.data);
   } catch (e) {
     if (kDebugMode) {
       print('-------------------------------updateSheetToCache() updateSheets');

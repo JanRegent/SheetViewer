@@ -28,38 +28,38 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
+  // await getSheetConfig(
+  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 
-  await getSheetConfig(
-      '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+  // await getSheetConfig(
+  //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
 
-  String sheetNameFileKey = SheetConfig()
-      .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
+  // String sheetNameFileKey = SheetConfig()
+  //     .getKey('dailyNotes', '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
   // int? id = await sheetConfigDb.getId(sheetNameFileKey);
   // print(id);
 
-  SheetConfig? sheetConfig =
-      await sheetConfigDb.readSheetByIndex(sheetNameFileKey);
+  // SheetConfig? sheetConfig =
+  //     await sheetConfigDb.readSheetByIndex(sheetNameFileKey);
 
-  if (sheetConfig != null) {
-    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
-        '__|__x1__' +
-        DateTime.now().millisecond.toString();
-    Future.delayed(const Duration(seconds: 1));
-    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
-        '__|__x2__' +
-        DateTime.now().millisecond.toString();
-    Future.delayed(const Duration(seconds: 1));
-    sheetConfig.byValueColumns = sheetConfig.byValueColumns +
-        '__|__x3__' +
-        DateTime.now().millisecond.toString();
-    print(sheetConfig.byValueColumns);
-    await sheetConfigDb.updateConfig(sheetConfig);
-    if (kDebugMode) {
-      print(sheetConfig.id);
-    }
-  }
+  // if (sheetConfig != null) {
+  //   sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+  //       '__|__x1__' +
+  //       DateTime.now().millisecond.toString();
+  //   Future.delayed(const Duration(seconds: 1));
+  //   sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+  //       '__|__x2__' +
+  //       DateTime.now().millisecond.toString();
+  //   Future.delayed(const Duration(seconds: 1));
+  //   sheetConfig.byValueColumns = sheetConfig.byValueColumns +
+  //       '__|__x3__' +
+  //       DateTime.now().millisecond.toString();
+
+  //   await sheetConfigDb.updateConfig(sheetConfig);
+  //   if (kDebugMode) {
+  //     print(sheetConfig.id);
+  //   }
+  // }
   if (kDebugMode) {
     //print(sheetConfig.toString());
   }

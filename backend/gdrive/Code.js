@@ -3,11 +3,15 @@
 //?sheetName=elonX&action=getRowsLast&rowsCount=2&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA
 //?action=logOn
 function doGet(e) {
+  
+  config.queryString = e.queryString;
+
   if(getPar(e, 'action') != '') return paramsErr;
   var action = e.parameter.action.toString().toLowerCase();
   logOn_();
   if (action == 'logon') {
     logi(e.queryString);
+    
     return respond('{action:logOn}');
   }  
   if (action == 'appendcsv') {
@@ -85,6 +89,7 @@ function responseData(values){
   }
   var output = JSON.stringify({
     cols: columns,
+    config: config,
     rows: objectArray,
   });
   return output;

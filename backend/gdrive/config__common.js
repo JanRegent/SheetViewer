@@ -5,16 +5,7 @@ var config = {
   fileId: '',
   fileUrl: '',
   copyrightUrl: '',
-
-  headers:  '',
-  getRows: "getRowsLast--rowsCount__|__10__EOL__getRowsFirst--rowsCount__|__10",
-  
-  selects1: '',
-
-  columnsSelected: '',
   __ver__: '0',
-  action: '',
-  rowsCount: 10
 }
 
 function indexOfSectionRow(sectionName, values) {
