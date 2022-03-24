@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/models/sheet.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import '../../DL/models/sheet_config.dart';
 
@@ -26,7 +26,7 @@ class ActionSheet {
   String sheetTitle = '';
   Map rawDataSheet = {};
 
-  factory ActionSheet.fromSheet(Sheet sheet) {
+  factory ActionSheet.fromSheet(SheetView sheet) {
     try {
       ActionSheet dataSheet = ActionSheet()..cols = sheet.cols;
 

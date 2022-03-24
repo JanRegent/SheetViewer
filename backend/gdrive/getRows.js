@@ -52,4 +52,5 @@ function getValues(fileId, sheetName) {
 function getValuesTest() {
 
   var values = getValues('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+  Logger.log(values);
 }

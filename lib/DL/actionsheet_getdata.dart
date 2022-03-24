@@ -1,17 +1,15 @@
 part of '../BL/actionSheet/_actionsheet.dart';
 
-Future<ActionSheet> getActionSheet(
+Future<SheetView?> getActionSheet(
     String fileId, String sheetName, String action) async {
   Map queryMap = await ActionSheet().actionMapFind(fileId, sheetName, action);
 
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-  String cacheKey = 'sheetName=$sheetName&action=$action&fileId=$fileId';
-
   try {
-    Sheet? sheet = await sheetsDb.readSheet(cacheKey);
-    if (sheet!.aQuerystringKey.isEmpty) {
-      await updateSheetToCache(queryString, cacheKey);
+    SheetView? sheet = await sheetsDb.readSheet(queryString);
+    if (sheet!.aStatus.startsWith('warn: not exists')) {
+      await updateSheetToCache(queryString);
     }
   } catch (e) {
     if (kDebugMode) {
@@ -21,25 +19,15 @@ Future<ActionSheet> getActionSheet(
   }
 
   try {
-    return readSheetFromCache(cacheKey, fileId, sheetName, queryMap);
+    SheetView? sheet = await sheetsDb.readSheet(queryString);
+    return sheet;
   } catch (e) {
-    interestStore.updateString('getActionSheet() readSheet', e.toString());
-    return ActionSheet();
+    return (SheetView().aStatus = 'getActionSheet() readSheet ' + e.toString())
+        as SheetView?;
   }
 }
 
-Future<ActionSheet> readSheetFromCache(
-    String key, String fileId, String sheetName, Map queryMap) async {
-  ActionSheet dataSheet = ActionSheet();
-  Sheet? sheet = await sheetsDb.readSheet(key);
-  dataSheet = ActionSheet.fromSheet(sheet!);
-  dataSheet.fileId = fileId;
-  dataSheet.sheetName = sheetName;
-  dataSheet.queryMap = queryMap;
-  return dataSheet;
-}
-
-Future updateSheetToCache(String queryString, String cacheKey) async {
+Future updateSheetToCache(String queryString) async {
   Dio dio = Dio();
   // ignore: prefer_typing_uninitialized_variables
   var response;

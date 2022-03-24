@@ -81,7 +81,7 @@ function responseData(values){
     for (var i = 0; i < values.length; i++) {
       var object = {}
       for (var j = 0; j < values[i].length; j++) {
-        object[columns[j]] = values[i][j]
+        object['"'+columns[j]+'"'] = '"'+values[i][j] + '"';
       }
 
       objectArray.push(object);   

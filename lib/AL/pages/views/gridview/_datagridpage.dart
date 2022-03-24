@@ -1,25 +1,24 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elementsLib/devtool/_endpointstabpage.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/listsearch.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../../BL/actionSheet/_actionsheet.dart';
 import '/AL/pages/views/gridview/rows.dart';
 
 import 'cols.dart';
 
 /// The home page of the application which hosts the datagrid.
 class DatagridPage extends StatefulWidget {
-  final ActionSheet dataSheet;
+  final SheetView sheetView;
 
-  const DatagridPage(this.dataSheet, {Key? key}) : super(key: key);
+  const DatagridPage(this.sheetView, {Key? key}) : super(key: key);
 
   @override
   _DatagridPageState createState() => _DatagridPageState();
@@ -34,18 +33,18 @@ class _DatagridPageState extends State<DatagridPage> {
     super.initState();
 
     headerColsKey =
-        'sheetName=${widget.dataSheet.sheetName}&vars=headerCols&fileId=${widget.dataSheet.fileId}';
+        'sheetName=${widget.sheetView.sheetName}&vars=headerCols&fileId=${widget.sheetView.fileId}';
   }
 
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
     List<String> headerColsLocal = await interestStore.readList(headerColsKey);
     if (headerColsLocal.isNotEmpty) {
-      widget.dataSheet.headerCols = headerColsLocal;
+      widget.sheetView.colsHeader = headerColsLocal;
     }
 
-    rowsDataSource = RowsDataSource(widget.dataSheet, context, searchWord);
-    return rowsDataSource.dataSheet.rows.length.toString();
+    rowsDataSource = RowsDataSource(widget.sheetView, context, searchWord);
+    return rowsDataSource.sheetView.rows.length.toString();
   }
 
   void setStateFunc() {
@@ -55,7 +54,7 @@ class _DatagridPageState extends State<DatagridPage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          bl.dataSheet4debug = widget.dataSheet;
+          //bl.dataSheet4debug = widget.sheetView;
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -72,7 +71,7 @@ class _DatagridPageState extends State<DatagridPage> {
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
       columns:
-          colsHeader(widget.dataSheet, context, setStateFunc, headerColsKey),
+          colsHeader(widget.sheetView, context, setStateFunc, headerColsKey),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },
@@ -87,8 +86,8 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: searchWord.isEmpty
-              ? Text(widget.dataSheet.sheetTitle)
-              : Text(widget.dataSheet.sheetTitle + ' [$searchWord]'),
+              ? Text(widget.sheetView.sheetName)
+              : Text(widget.sheetView.sheetName + ' [$searchWord]'),
           actions: [
             searchWord.isNotEmpty
                 ? IconButton(
@@ -112,11 +111,11 @@ class _DatagridPageState extends State<DatagridPage> {
                 icon: const Icon(Icons.search)),
             IconButton(
                 onPressed: () async {
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              EndpointsTabPage(widget.dataSheet)));
+                  // await Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             EndpointsTabPage(widget.dataSheet)));
                 },
                 icon: const Icon(Icons.developer_board))
           ],

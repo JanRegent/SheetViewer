@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class BLuti {
   String url2fileid(String url) {
     if (!url.startsWith('https://docs.')) return url;
@@ -52,5 +54,11 @@ class BLuti {
       list.add(item);
     }
     return list;
+  }
+
+  Map stringToMap(String string) {
+    String str = string.substring(1, string.length - 1).replaceAll('\\"', '"');
+    Map map = jsonDecode(str);
+    return map;
   }
 }

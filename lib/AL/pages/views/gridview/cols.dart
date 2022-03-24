@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 
-import '../../../../BL/actionSheet/_actionsheet.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-PopupMenuButton popup(ActionSheet dataSheet, BuildContext context,
+PopupMenuButton popup(SheetView sheetView, BuildContext context,
     Function setState, String headerColsKey) {
   List<PopupMenuItem> menus = [];
   menus.add(PopupMenuItem(
@@ -29,10 +29,10 @@ PopupMenuButton popup(ActionSheet dataSheet, BuildContext context,
         onPressed: () async {
           Navigator.pop(context);
           List<String> result = await selectListByCheckoxes(
-              context, dataSheet.cols, 'Select columns');
+              context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
           await interestStore.updateList(headerColsKey, result);
-          dataSheet.headerCols = result;
+          sheetView.colsHeader = result;
           setState();
         },
       )));
@@ -58,7 +58,7 @@ PopupMenuButton popup(ActionSheet dataSheet, BuildContext context,
   );
 }
 
-List<GridColumn> colsHeader(ActionSheet dataSheet, BuildContext context,
+List<GridColumn> colsHeader(SheetView sheetView, BuildContext context,
     Function setState, String headerColsKey) {
   List<GridColumn> gridCols = [];
   gridCols.add(GridColumn(
@@ -67,15 +67,16 @@ List<GridColumn> colsHeader(ActionSheet dataSheet, BuildContext context,
       label: Container(
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
-          child: popup(dataSheet, context, setState, headerColsKey))));
-  for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {
+          child: popup(sheetView, context, setState, headerColsKey))));
+  for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
+    //print(sheetView.colsHeader[colIx]);
     gridCols.add(GridColumn(
-        columnName: dataSheet.headerCols[colIx],
+        columnName: sheetView.colsHeader[colIx],
         label: Container(
             padding: const EdgeInsets.all(16.0),
             alignment: Alignment.center,
             child: Text(
-              dataSheet.headerCols[colIx],
+              sheetView.colsHeader[colIx],
             ))));
   }
   gridCols.add(GridColumn(

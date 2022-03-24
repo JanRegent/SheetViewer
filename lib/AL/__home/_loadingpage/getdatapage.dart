@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
@@ -32,11 +33,12 @@ class _GetDataPageState extends State<GetDataPage> {
     super.initState();
   }
 
-  ActionSheet actionSheet = ActionSheet();
+  SheetView sheetView = SheetView()..aStatus = 'info:empty';
+
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    actionSheet =
-        await getActionSheet(widget.fileId, widget.sheetName, widget.action);
+    sheetView =
+        (await getActionSheet(widget.fileId, widget.sheetName, widget.action))!;
 
     return 'OK';
   }
@@ -44,7 +46,7 @@ class _GetDataPageState extends State<GetDataPage> {
   IconButton jsonViewer() {
     return IconButton(
         onPressed: () async {
-          bl.dataSheet4debug = actionSheet;
+          //bl.dataSheet4debug = actionSheet;
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -74,7 +76,7 @@ class _GetDataPageState extends State<GetDataPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               //Navigator.pop(context, dataSheet);
-              return DatagridPage(actionSheet);
+              return DatagridPage(sheetView);
             }
         }
       },

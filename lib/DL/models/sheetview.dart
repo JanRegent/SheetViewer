@@ -6,13 +6,13 @@ import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-part 'sheet.g.dart'; // flutter pub run build_runner build
+part 'sheetview.g.dart'; // flutter pub run build_runner build
 
 @Collection()
-class Sheet {
+class SheetView {
   int id = Isar.autoIncrement;
   String aQuerystringKey = '';
-  String status = '';
+  String aStatus = '';
 
   String sheetName = '';
   String fileId = '';
@@ -26,13 +26,41 @@ class Sheet {
   @Ignore()
   Map rawDataSheet = {};
 
-  Sheet();
+  SheetView();
 
-  factory Sheet.fromJson(Map jsonData) {
+  @override
+  String toString() {
+    return '''
+  ----------------------------------------------------------------------shetView
+  id $id
+  aQuerystringKey $aQuerystringKey
+  aStatus         $aStatus
+
+  sheetName       $sheetName
+  fileId          $fileId
+  fileUrl         $fileUrl
+  copyrightUrl    $copyrightUrl
+
+  cols
+    $cols      
+  colsHeader
+    $colsHeader
+  
+  rows
+    $rows
+
+  @Ignore()
+  rawDataSheet
+    $rawDataSheet
+
+    ''';
+  }
+
+  factory SheetView.fromJson(Map jsonData) {
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
 
-      Sheet sheet = Sheet()
+      SheetView sheet = SheetView()
         ..cols = cols
         ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
 
@@ -50,7 +78,7 @@ class Sheet {
 
       return sheet;
     } catch (e) {
-      return Sheet()..status = 'err: \n' + e.toString();
+      return SheetView()..aStatus = 'err: \n' + e.toString();
     }
   }
 }
@@ -66,7 +94,7 @@ class SheetsDb {
   Map<String, int> ids = {};
   Future idsBuild() async {
     try {
-      List<Sheet> all =
+      List<SheetView> all =
           await isar.sheets.where().filter().idGreaterThan(0).findAll();
 
       for (var i = 0; i < all.length; i++) {
@@ -83,13 +111,26 @@ class SheetsDb {
     return count;
   }
 
-  Future<Sheet?> readSheet(String querystringKey) async {
-    final sheetExists =
-        isar.sheets.where().filter().aQuerystringKeyEqualTo(querystringKey);
-    int count = await sheetExists.count();
-    if (count == 0) return Sheet();
-    Sheet? sheet = await sheetExists.findFirst();
-    sheet?.aQuerystringKey = querystringKey;
+  Future<int?> getId_(String aQuerystringKey) async {
+    try {
+      final int? id = await isar.sheets
+          .filter()
+          .aQuerystringKeyEqualTo(aQuerystringKey)
+          .idProperty()
+          .findFirst();
+      return id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<SheetView?> readSheet(String aQuerystringKey) async {
+    int? id = await getId_(aQuerystringKey);
+    if (id == null) {
+      return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
+    }
+    SheetView? sheet = await isar.sheets.get(id);
+    //sheet?.aQuerystringKey = querystringKey;
     return sheet;
   }
 
@@ -99,7 +140,7 @@ class SheetsDb {
     if (keyCount_ > 0) {
       return 'OK';
     }
-    Sheet sheet = Sheet()
+    SheetView sheet = SheetView()
       ..aQuerystringKey = cacheKey
       ..cols = cols;
     for (var i = 0; i < rows.length; i++) {
@@ -120,7 +161,7 @@ class SheetsDb {
   }
 
   Future updateSheetsFromResponse(Map jsonData) async {
-    Sheet sheet = Sheet.fromJson(jsonData);
+    SheetView sheet = SheetView.fromJson(jsonData);
 
     try {
       await isar.writeTxn((isar) async {

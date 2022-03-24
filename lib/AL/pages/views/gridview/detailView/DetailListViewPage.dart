@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../BL/actionSheet/_actionsheet.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 
 //import './../views_common.dart';
 
@@ -16,10 +17,10 @@ import '../../../../../BL/actionSheet/_actionsheet.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class DetailListViewPage extends StatefulWidget {
-  final ActionSheet dataSheet;
+  final SheetView sheetView;
   late final int startRowIx;
   // ignore: prefer_const_constructors_in_immutables
-  DetailListViewPage(this.dataSheet, this.startRowIx, {Key? key})
+  DetailListViewPage(this.sheetView, this.startRowIx, {Key? key})
       : super(key: key);
 
   @override
@@ -44,7 +45,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   void initState() {
     _controller = ScrollController();
 
-    columnsSelected = widget.dataSheet.cols;
+    columnsSelected = widget.sheetView.cols;
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
@@ -53,8 +54,8 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
 
   void refreshCorrectIndex() {
     if (rowIx < 0) rowIx = 0;
-    if (rowIx >= widget.dataSheet.rows.length) {
-      rowIx = widget.dataSheet.rows.length - 1;
+    if (rowIx >= widget.sheetView.rows.length) {
+      rowIx = widget.sheetView.rows.length - 1;
     }
     setState(() {});
   }
@@ -95,7 +96,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             child: const Icon(Icons.last_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              rowIx = widget.dataSheet.rows.length - 1;
+              rowIx = widget.sheetView.rows.length - 1;
               refreshCorrectIndex();
             }),
       ],
@@ -103,9 +104,10 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   }
 
   String cellvalueGet(String columnSelected) {
-    String currentCol =
-        widget.dataSheet.cols[widget.dataSheet.cols.indexOf(columnSelected)];
-    String cellValue = widget.dataSheet.rows[rowIx][currentCol].toString();
+    // String currentCol =
+    //     widget.sheetView.cols[widget.sheetView.cols.indexOf(columnSelected)];
+    Map row = jsonDecode(widget.sheetView.rows[rowIx]);
+    String cellValue = row[columnSelected].toString();
     if (columnSelected.toLowerCase() == 'dateinsert') {
       DateTime datetime = DateTime.parse(cellValue);
       datetime = datetime.toLocal();
@@ -135,7 +137,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     );
   }
 
-  Widget detailBody(ActionSheet anySheet) {
+  Widget detailBody(SheetView sheetView) {
     return Container(
         height: double.infinity,
         width: double.infinity,
@@ -164,7 +166,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
       appBar: AppBar(
         title: arrowsRow(context),
       ),
-      body: detailBody(widget.dataSheet),
+      body: detailBody(widget.sheetView),
     );
   }
 }

@@ -1,29 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import '../../../../BL/actionSheet/_actionsheet.dart';
+import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'detailView/DetailListViewPage.dart';
 
 class RowsDataSource extends DataGridSource {
-  final ActionSheet dataSheet;
+  final SheetView sheetView;
   final BuildContext context;
   final String searchWord;
 
-  RowsDataSource(this.dataSheet, this.context, this.searchWord) {
-    _stringRowsData = gridRows(dataSheet, context);
+  RowsDataSource(this.sheetView, this.context, this.searchWord) {
+    _stringRowsData = gridRows(sheetView, context);
   }
 
-  List<DataGridRow> gridRows(ActionSheet anySheet, BuildContext context) {
+  List<DataGridRow> gridRows(SheetView sheetView, BuildContext context) {
     List<DataGridRow> gridrows = [];
 
-    for (var rowIx = 0; rowIx < anySheet.rows.length; rowIx++) {
+    for (var rowIx = 0; rowIx < sheetView.rows.length; rowIx++) {
       if (searchWord.isNotEmpty) {
-        if (anySheet.rows[rowIx].toString().contains(searchWord)) {
-          gridrows.add(gridRow(anySheet, rowIx));
+        if (sheetView.rows[rowIx].toString().contains(searchWord)) {
+          gridrows.add(gridRow(sheetView, rowIx));
         }
       } else {
-        gridrows.add(gridRow(anySheet, rowIx));
+        gridrows.add(gridRow(sheetView, rowIx));
       }
     }
     return gridrows;
@@ -33,15 +36,16 @@ class RowsDataSource extends DataGridSource {
     List<DataGridCell> cells = [];
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {
+    Map row = jsonDecode(filteredRows[rowIx]);
+    for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       String value = '';
       try {
-        value = filteredRows[rowIx][dataSheet.headerCols[colIx]];
+        value = row[sheetView.colsHeader[colIx]];
       } catch (_) {
         value = '?';
       }
       cells.add(DataGridCell<String>(
-          columnName: dataSheet.cols[colIx], value: value));
+          columnName: sheetView.cols[colIx], value: value));
     }
     cells.add(DataGridCell<String>(
         columnName: '__rowDetail__', value: rowIx.toString()));
@@ -50,20 +54,21 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  DataGridRow gridRow(ActionSheet dataSheet, int rowIx) {
+  DataGridRow gridRow(SheetView sheetView, int rowIx) {
     List<DataGridCell> cells = [];
 
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    for (var colIx = 0; colIx < dataSheet.headerCols.length; colIx++) {
+    Map row = bl.blUti.stringToMap(sheetView.rows[rowIx]);
+    for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       String value = '';
       try {
-        value = dataSheet.rows[rowIx][dataSheet.headerCols[colIx]];
+        value = row[sheetView.colsHeader[colIx]];
       } catch (_) {
         value = '?';
       }
       cells.add(DataGridCell<String>(
-          columnName: dataSheet.cols[colIx], value: value));
+          columnName: sheetView.cols[colIx], value: value));
     }
     cells.add(DataGridCell<String>(
         columnName: '__rowDetail__', value: rowIx.toString()));
@@ -104,7 +109,7 @@ class RowsDataSource extends DataGridSource {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => DetailListViewPage(dataSheet, rowIx)),
+          builder: (context) => DetailListViewPage(sheetView, rowIx)),
     );
   }
 
