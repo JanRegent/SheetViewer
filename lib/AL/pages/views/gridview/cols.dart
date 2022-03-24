@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-PopupMenuButton popup(SheetView sheetView, BuildContext context,
-    Function setState, String headerColsKey) {
+PopupMenuButton popup(
+    SheetView sheetView, BuildContext context, Function setState) {
   List<PopupMenuItem> menus = [];
   menus.add(PopupMenuItem(
     value: 'Origin data source show',
@@ -31,8 +30,8 @@ PopupMenuButton popup(SheetView sheetView, BuildContext context,
           List<String> result = await selectListByCheckoxes(
               context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
-          await interestStore.updateList(headerColsKey, result);
           sheetView.colsHeader = result;
+          await sheetView.save();
           setState();
         },
       )));
@@ -44,7 +43,8 @@ PopupMenuButton popup(SheetView sheetView, BuildContext context,
         tooltip: 'Reset columns',
         onPressed: () async {
           Navigator.pop(context);
-          interestStore.deleteKey(headerColsKey);
+          sheetView.colsHeader = sheetView.cols;
+          await sheetView.save();
           setState();
         },
       )));
@@ -58,8 +58,8 @@ PopupMenuButton popup(SheetView sheetView, BuildContext context,
   );
 }
 
-List<GridColumn> colsHeader(SheetView sheetView, BuildContext context,
-    Function setState, String headerColsKey) {
+List<GridColumn> colsHeader(
+    SheetView sheetView, BuildContext context, Function setState) {
   List<GridColumn> gridCols = [];
   gridCols.add(GridColumn(
       columnName: '__leftRowMenu__',
@@ -67,7 +67,7 @@ List<GridColumn> colsHeader(SheetView sheetView, BuildContext context,
       label: Container(
           padding: const EdgeInsets.all(10.0),
           alignment: Alignment.center,
-          child: popup(sheetView, context, setState, headerColsKey))));
+          child: popup(sheetView, context, setState))));
   for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
     //print(sheetView.colsHeader[colIx]);
     gridCols.add(GridColumn(

@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final isar = await Isar.open(
-    schemas: [SheetSchema, SheetConfigSchema],
+    schemas: [SheetViewSchema, SheetConfigSchema],
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
   );

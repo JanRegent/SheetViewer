@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/listsearch.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:sheetviewer/uti/viewers/json_viewer.dart';
@@ -27,22 +26,13 @@ class DatagridPage extends StatefulWidget {
 class _DatagridPageState extends State<DatagridPage> {
   late RowsDataSource rowsDataSource;
   String fileurlId = '';
-  String headerColsKey = '';
   @override
   void initState() {
     super.initState();
-
-    headerColsKey =
-        'sheetName=${widget.sheetView.sheetName}&vars=headerCols&fileId=${widget.sheetView.fileId}';
   }
 
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    List<String> headerColsLocal = await interestStore.readList(headerColsKey);
-    if (headerColsLocal.isNotEmpty) {
-      widget.sheetView.colsHeader = headerColsLocal;
-    }
-
     rowsDataSource = RowsDataSource(widget.sheetView, context, searchWord);
     return rowsDataSource.sheetView.rows.length.toString();
   }
@@ -70,8 +60,7 @@ class _DatagridPageState extends State<DatagridPage> {
     return SfDataGrid(
       source: rowsDataSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns:
-          colsHeader(widget.sheetView, context, setStateFunc, headerColsKey),
+      columns: colsHeader(widget.sheetView, context, setStateFunc),
       onQueryRowHeight: (RowHeightDetails details) {
         return details.getIntrinsicRowHeight(details.rowIndex);
       },

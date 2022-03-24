@@ -60,26 +60,30 @@ class SheetView {
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
 
-      SheetView sheet = SheetView()
+      SheetView sheetView = SheetView()
         ..cols = cols
         ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
 
       List<String> rows = bl.blUti.toListString(jsonData["rows"]);
       for (var i = 0; i < rows.length; i++) {
-        sheet.rows.add(jsonEncode(rows[i]));
+        sheetView.rows.add(jsonEncode(rows[i]));
       }
 
-      sheet.sheetName = jsonData["config"]["sheetName"] ?? '';
-      sheet.fileId = jsonData["config"]["fileId"] ?? '';
-      sheet.fileUrl = jsonData["config"]["fileUrl"] ?? '';
-      sheet.copyrightUrl = jsonData["config"]["copyrightUrl"] ?? '';
-      sheet.colsHeader = jsonData["headerCols"] ?? cols;
-      sheet.rawDataSheet = jsonData;
+      sheetView.sheetName = jsonData["config"]["sheetName"] ?? '';
+      sheetView.fileId = jsonData["config"]["fileId"] ?? '';
+      sheetView.fileUrl = jsonData["config"]["fileUrl"] ?? '';
+      sheetView.copyrightUrl = jsonData["config"]["copyrightUrl"] ?? '';
+      sheetView.colsHeader = jsonData["headerCols"] ?? cols;
+      sheetView.rawDataSheet = jsonData;
 
-      return sheet;
+      return sheetView;
     } catch (e) {
       return SheetView()..aStatus = 'err: \n' + e.toString();
     }
+  }
+
+  Future save() async {
+    await sheetsDb.updateSheetView(this);
   }
 }
 
@@ -95,7 +99,7 @@ class SheetsDb {
   Future idsBuild() async {
     try {
       List<SheetView> all =
-          await isar.sheets.where().filter().idGreaterThan(0).findAll();
+          await isar.sheetViews.where().filter().idGreaterThan(0).findAll();
 
       for (var i = 0; i < all.length; i++) {
         String cacheKey = all[i].aQuerystringKey;
@@ -106,14 +110,14 @@ class SheetsDb {
 
   Future<int> keysCount(String querystringKey) async {
     final sheetExists =
-        isar.sheets.where().filter().aQuerystringKeyEqualTo(querystringKey);
+        isar.sheetViews.where().filter().aQuerystringKeyEqualTo(querystringKey);
     int count = await sheetExists.count();
     return count;
   }
 
   Future<int?> getId_(String aQuerystringKey) async {
     try {
-      final int? id = await isar.sheets
+      final int? id = await isar.sheetViews
           .filter()
           .aQuerystringKeyEqualTo(aQuerystringKey)
           .idProperty()
@@ -129,49 +133,64 @@ class SheetsDb {
     if (id == null) {
       return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
     }
-    SheetView? sheet = await isar.sheets.get(id);
+    SheetView? sheet = await isar.sheetViews.get(id);
     //sheet?.aQuerystringKey = querystringKey;
     return sheet;
   }
 
-  Future updateSheets(
-      String cacheKey, List<String> cols, List<dynamic> rows) async {
-    int keyCount_ = await keysCount(cacheKey);
-    if (keyCount_ > 0) {
-      return 'OK';
-    }
-    SheetView sheet = SheetView()
-      ..aQuerystringKey = cacheKey
-      ..cols = cols;
-    for (var i = 0; i < rows.length; i++) {
-      sheet.rows.add(jsonEncode(rows[i]));
-    }
+  // Future updateSheets(
+  //     String cacheKey, List<String> cols, List<dynamic> rows) async {
+  //   int keyCount_ = await keysCount(cacheKey);
+  //   if (keyCount_ > 0) {
+  //     return 'OK';
+  //   }
+  //   SheetView sheetView = SheetView()
+  //     ..aQuerystringKey = cacheKey
+  //     ..cols = cols;
+  //   for (var i = 0; i < rows.length; i++) {
+  //     sheetView.rows.add(jsonEncode(rows[i]));
+  //   }
+  //   try {
+  //     await isar.writeTxn((isar) async {
+  //       sheetView.id = await isar.sheetViews.put(sheetView); // insert
+  //     });
+  //     return 'OK';
+  //   } catch (e) {
+  //     if (kDebugMode) print(e);
+  //     logi('--- LocalStore: ', '-----------------isar');
+  //     logi('updateSheets(String ', cacheKey);
+  //     logi('updateSheets(String ', e.toString());
+  //     return '';
+  //   }
+  // }
+
+  Future updateSheetView(SheetView sheetView) async {
     try {
       await isar.writeTxn((isar) async {
-        sheet.id = await isar.sheets.put(sheet); // insert
+        sheetView.id = await isar.sheetViews.put(sheetView); // insert
       });
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
       logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', cacheKey);
-      logi('updateSheets(String ', e.toString());
+      logi('updateSheetView(String ', sheetView.aQuerystringKey);
+      logi('updateSheetView(String ', e.toString());
       return '';
     }
   }
 
   Future updateSheetsFromResponse(Map jsonData) async {
-    SheetView sheet = SheetView.fromJson(jsonData);
+    SheetView sheetView = SheetView.fromJson(jsonData);
 
     try {
       await isar.writeTxn((isar) async {
-        sheet.id = await isar.sheets.put(sheet); // insert
+        sheetView.id = await isar.sheetViews.put(sheetView); // insert
       });
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
       logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', sheet.aQuerystringKey);
+      logi('updateSheets(String ', sheetView.aQuerystringKey);
       logi('updateSheets(String ', e.toString());
       return '';
     }
