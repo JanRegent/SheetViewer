@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
+import 'package:sheetviewer/BL/actionSheet/_actionsheet.dart';
 
 import '_firstlastrow.dart';
 
@@ -48,8 +49,10 @@ ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
+      var queryMap = {'action': 'getRowsFirst', 'rowsCount': '10'};
+      String aQuerystringKey = queryStringBuild(fileId, sheetName, queryMap);
       await rowsCountSet(
-          context, setStateFunc, fileId, sheetName, 'firstRowsCount');
+          context, setStateFunc, aQuerystringKey, 'firstRowsCount');
     },
   );
 }

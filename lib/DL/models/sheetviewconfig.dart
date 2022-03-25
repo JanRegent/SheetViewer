@@ -74,7 +74,9 @@ class SheetViewConfigDb {
   Future<SheetViewConfig?> readSheet(String aQuerystringKey) async {
     int? id = await getId_(aQuerystringKey);
     if (id == null) {
-      return SheetViewConfig()..aStatus = 'warn: not exists: $aQuerystringKey';
+      return SheetViewConfig()
+        ..aStatus = 'warn: not exists: new created'
+        ..aQuerystringKey = aQuerystringKey;
     }
     SheetViewConfig? sheetViewConfig = await isar.sheetViewConfigs.get(id);
     return sheetViewConfig;

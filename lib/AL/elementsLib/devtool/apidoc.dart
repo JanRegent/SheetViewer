@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/apidocgridpage.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/devtool_blglobals.dart';
-import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheetconfig.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 class EndpointsTabPage extends StatefulWidget {

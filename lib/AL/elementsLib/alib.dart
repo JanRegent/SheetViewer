@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheetconfig.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 

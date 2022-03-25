@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheetconfig.dart';
 
 class ByCondSelect1runPane extends StatefulWidget {
   final SheetConfig sheetConfig;

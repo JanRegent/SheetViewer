@@ -7,7 +7,7 @@ import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-import '../../DL/models/sheet_config.dart';
+import '../../DL/models/sheetconfig.dart';
 
 part '../../DL/sheetview_getdata.dart';
 

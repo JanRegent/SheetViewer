@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/DL/models/sheet_config.dart';
+import 'package:sheetviewer/DL/models/sheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
