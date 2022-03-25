@@ -13,7 +13,10 @@ class SheetViewConfig {
   String aStatus = '';
 
   String colsHeader = '';
-  String queryVars = '';
+  String getRowsLast = '';
+  String getRowsFirst = '';
+  String getRowsFrom = '';
+  String getRowsTo = '';
 
   SheetViewConfig();
 
@@ -26,8 +29,8 @@ class SheetViewConfig {
   aStatus         $aStatus
 
   colsHeader      $colsHeader
-  queryVars       $queryVars
-
+  getRowsFirst    $getRowsFirst
+  getRowsLast     $getRowsLast
 
 
     ''';
@@ -39,7 +42,8 @@ class SheetViewConfig {
         ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
 
       sheetViewConfig.colsHeader = jsonData["colsHeader"] ?? '';
-      sheetViewConfig.queryVars = jsonData["queryVars"] ?? '';
+      sheetViewConfig.getRowsFirst = jsonData["getRowsFirst"] ?? 10;
+      sheetViewConfig.getRowsLast = jsonData["getRowsLast"] ?? 10;
 
       return sheetViewConfig;
     } catch (e) {
@@ -114,5 +118,11 @@ class SheetViewConfigDb {
       logi('updateSheets(String ', e.toString());
       return '';
     }
+  }
+
+  Future saveColsHeader(String aQuerystringKey, List<String> colsHeader) async {
+    SheetViewConfig? sheetViewConfig = await readSheet(aQuerystringKey);
+    sheetViewConfig?.colsHeader = colsHeader.join('__|__');
+    await sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig!);
   }
 }

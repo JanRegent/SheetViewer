@@ -17,7 +17,7 @@ extension GetSheetViewConfigCollection on Isar {
 final SheetViewConfigSchema = CollectionSchema(
   name: 'SheetViewConfig',
   schema:
-      '{"name":"SheetViewConfig","idName":"id","properties":[{"name":"aQuerystringKey","type":"String"},{"name":"aStatus","type":"String"},{"name":"colsHeader","type":"String"},{"name":"queryVars","type":"String"}],"indexes":[],"links":[]}',
+      '{"name":"SheetViewConfig","idName":"id","properties":[{"name":"aQuerystringKey","type":"String"},{"name":"aStatus","type":"String"},{"name":"colsHeader","type":"String"},{"name":"getRowsFirst","type":"String"},{"name":"getRowsFrom","type":"String"},{"name":"getRowsLast","type":"String"},{"name":"getRowsTo","type":"String"}],"indexes":[],"links":[]}',
   nativeAdapter: const _SheetViewConfigNativeAdapter(),
   webAdapter: const _SheetViewConfigWebAdapter(),
   idName: 'id',
@@ -25,7 +25,10 @@ final SheetViewConfigSchema = CollectionSchema(
     'aQuerystringKey': 0,
     'aStatus': 1,
     'colsHeader': 2,
-    'queryVars': 3
+    'getRowsFirst': 3,
+    'getRowsFrom': 4,
+    'getRowsLast': 5,
+    'getRowsTo': 6
   },
   listProperties: {},
   indexIds: {},
@@ -55,8 +58,11 @@ class _SheetViewConfigWebAdapter extends IsarWebTypeAdapter<SheetViewConfig> {
     IsarNative.jsObjectSet(jsObj, 'aQuerystringKey', object.aQuerystringKey);
     IsarNative.jsObjectSet(jsObj, 'aStatus', object.aStatus);
     IsarNative.jsObjectSet(jsObj, 'colsHeader', object.colsHeader);
+    IsarNative.jsObjectSet(jsObj, 'getRowsFirst', object.getRowsFirst);
+    IsarNative.jsObjectSet(jsObj, 'getRowsFrom', object.getRowsFrom);
+    IsarNative.jsObjectSet(jsObj, 'getRowsLast', object.getRowsLast);
+    IsarNative.jsObjectSet(jsObj, 'getRowsTo', object.getRowsTo);
     IsarNative.jsObjectSet(jsObj, 'id', object.id);
-    IsarNative.jsObjectSet(jsObj, 'queryVars', object.queryVars);
     return jsObj;
   }
 
@@ -68,8 +74,11 @@ class _SheetViewConfigWebAdapter extends IsarWebTypeAdapter<SheetViewConfig> {
         IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '';
     object.aStatus = IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '';
     object.colsHeader = IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '';
+    object.getRowsFirst = IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '';
+    object.getRowsFrom = IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '';
+    object.getRowsLast = IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '';
+    object.getRowsTo = IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '';
     object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-    object.queryVars = IsarNative.jsObjectGet(jsObj, 'queryVars') ?? '';
     return object;
   }
 
@@ -82,11 +91,17 @@ class _SheetViewConfigWebAdapter extends IsarWebTypeAdapter<SheetViewConfig> {
         return (IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '') as P;
       case 'colsHeader':
         return (IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '') as P;
+      case 'getRowsFirst':
+        return (IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '') as P;
+      case 'getRowsFrom':
+        return (IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '') as P;
+      case 'getRowsLast':
+        return (IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '') as P;
+      case 'getRowsTo':
+        return (IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '') as P;
       case 'id':
         return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
             as P;
-      case 'queryVars':
-        return (IsarNative.jsObjectGet(jsObj, 'queryVars') ?? '') as P;
       default:
         throw 'Illegal propertyName';
     }
@@ -118,9 +133,18 @@ class _SheetViewConfigNativeAdapter
     final value2 = object.colsHeader;
     final _colsHeader = IsarBinaryWriter.utf8Encoder.convert(value2);
     dynamicSize += (_colsHeader.length) as int;
-    final value3 = object.queryVars;
-    final _queryVars = IsarBinaryWriter.utf8Encoder.convert(value3);
-    dynamicSize += (_queryVars.length) as int;
+    final value3 = object.getRowsFirst;
+    final _getRowsFirst = IsarBinaryWriter.utf8Encoder.convert(value3);
+    dynamicSize += (_getRowsFirst.length) as int;
+    final value4 = object.getRowsFrom;
+    final _getRowsFrom = IsarBinaryWriter.utf8Encoder.convert(value4);
+    dynamicSize += (_getRowsFrom.length) as int;
+    final value5 = object.getRowsLast;
+    final _getRowsLast = IsarBinaryWriter.utf8Encoder.convert(value5);
+    dynamicSize += (_getRowsLast.length) as int;
+    final value6 = object.getRowsTo;
+    final _getRowsTo = IsarBinaryWriter.utf8Encoder.convert(value6);
+    dynamicSize += (_getRowsTo.length) as int;
     final size = staticSize + dynamicSize;
 
     rawObj.buffer = alloc(size);
@@ -130,7 +154,10 @@ class _SheetViewConfigNativeAdapter
     writer.writeBytes(offsets[0], _aQuerystringKey);
     writer.writeBytes(offsets[1], _aStatus);
     writer.writeBytes(offsets[2], _colsHeader);
-    writer.writeBytes(offsets[3], _queryVars);
+    writer.writeBytes(offsets[3], _getRowsFirst);
+    writer.writeBytes(offsets[4], _getRowsFrom);
+    writer.writeBytes(offsets[5], _getRowsLast);
+    writer.writeBytes(offsets[6], _getRowsTo);
   }
 
   @override
@@ -140,8 +167,11 @@ class _SheetViewConfigNativeAdapter
     object.aQuerystringKey = reader.readString(offsets[0]);
     object.aStatus = reader.readString(offsets[1]);
     object.colsHeader = reader.readString(offsets[2]);
+    object.getRowsFirst = reader.readString(offsets[3]);
+    object.getRowsFrom = reader.readString(offsets[4]);
+    object.getRowsLast = reader.readString(offsets[5]);
+    object.getRowsTo = reader.readString(offsets[6]);
     object.id = id;
-    object.queryVars = reader.readString(offsets[3]);
     return object;
   }
 
@@ -158,6 +188,12 @@ class _SheetViewConfigNativeAdapter
       case 2:
         return (reader.readString(offset)) as P;
       case 3:
+        return (reader.readString(offset)) as P;
+      case 4:
+        return (reader.readString(offset)) as P;
+      case 5:
+        return (reader.readString(offset)) as P;
+      case 6:
         return (reader.readString(offset)) as P;
       default:
         throw 'Illegal propertyIndex';
@@ -576,6 +612,434 @@ extension SheetViewConfigQueryFilter
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'getRowsFirst',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'getRowsFirst',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFirstMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'getRowsFirst',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'getRowsFrom',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'getRowsFrom',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsFromMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'getRowsFrom',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'getRowsLast',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'getRowsLast',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsLastMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'getRowsLast',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'getRowsTo',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'getRowsTo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
+      getRowsToMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'getRowsTo',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
       idEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
@@ -625,113 +1089,6 @@ extension SheetViewConfigQueryFilter
       includeUpper: includeUpper,
     ));
   }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsGreaterThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsLessThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsBetween(
-    String lower,
-    String upper, {
-    bool caseSensitive = true,
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'queryVars',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'queryVars',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterFilterCondition>
-      queryVarsMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'queryVars',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
-  }
 }
 
 extension SheetViewConfigQueryLinks
@@ -768,22 +1125,52 @@ extension SheetViewConfigQueryWhereSortBy
     return addSortByInternal('colsHeader', Sort.desc);
   }
 
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsFirst() {
+    return addSortByInternal('getRowsFirst', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsFirstDesc() {
+    return addSortByInternal('getRowsFirst', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsFrom() {
+    return addSortByInternal('getRowsFrom', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsFromDesc() {
+    return addSortByInternal('getRowsFrom', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsLast() {
+    return addSortByInternal('getRowsLast', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsLastDesc() {
+    return addSortByInternal('getRowsLast', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsTo() {
+    return addSortByInternal('getRowsTo', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      sortByGetRowsToDesc() {
+    return addSortByInternal('getRowsTo', Sort.desc);
+  }
+
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy> sortById() {
     return addSortByInternal('id', Sort.asc);
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy> sortByIdDesc() {
     return addSortByInternal('id', Sort.desc);
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
-      sortByQueryVars() {
-    return addSortByInternal('queryVars', Sort.asc);
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
-      sortByQueryVarsDesc() {
-    return addSortByInternal('queryVars', Sort.desc);
   }
 }
 
@@ -818,22 +1205,52 @@ extension SheetViewConfigQueryWhereSortThenBy
     return addSortByInternal('colsHeader', Sort.desc);
   }
 
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsFirst() {
+    return addSortByInternal('getRowsFirst', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsFirstDesc() {
+    return addSortByInternal('getRowsFirst', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsFrom() {
+    return addSortByInternal('getRowsFrom', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsFromDesc() {
+    return addSortByInternal('getRowsFrom', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsLast() {
+    return addSortByInternal('getRowsLast', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsLastDesc() {
+    return addSortByInternal('getRowsLast', Sort.desc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsTo() {
+    return addSortByInternal('getRowsTo', Sort.asc);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
+      thenByGetRowsToDesc() {
+    return addSortByInternal('getRowsTo', Sort.desc);
+  }
+
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy> thenById() {
     return addSortByInternal('id', Sort.asc);
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy> thenByIdDesc() {
     return addSortByInternal('id', Sort.desc);
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
-      thenByQueryVars() {
-    return addSortByInternal('queryVars', Sort.asc);
-  }
-
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterSortBy>
-      thenByQueryVarsDesc() {
-    return addSortByInternal('queryVars', Sort.desc);
   }
 }
 
@@ -855,13 +1272,28 @@ extension SheetViewConfigQueryWhereDistinct
     return addDistinctByInternal('colsHeader', caseSensitive: caseSensitive);
   }
 
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct> distinctById() {
-    return addDistinctByInternal('id');
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct>
+      distinctByGetRowsFirst({bool caseSensitive = true}) {
+    return addDistinctByInternal('getRowsFirst', caseSensitive: caseSensitive);
   }
 
-  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct> distinctByQueryVars(
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct>
+      distinctByGetRowsFrom({bool caseSensitive = true}) {
+    return addDistinctByInternal('getRowsFrom', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct>
+      distinctByGetRowsLast({bool caseSensitive = true}) {
+    return addDistinctByInternal('getRowsLast', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct> distinctByGetRowsTo(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('queryVars', caseSensitive: caseSensitive);
+    return addDistinctByInternal('getRowsTo', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<SheetViewConfig, SheetViewConfig, QDistinct> distinctById() {
+    return addDistinctByInternal('id');
   }
 }
 
@@ -880,11 +1312,26 @@ extension SheetViewConfigQueryProperty
     return addPropertyNameInternal('colsHeader');
   }
 
-  QueryBuilder<SheetViewConfig, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+  QueryBuilder<SheetViewConfig, String, QQueryOperations>
+      getRowsFirstProperty() {
+    return addPropertyNameInternal('getRowsFirst');
   }
 
-  QueryBuilder<SheetViewConfig, String, QQueryOperations> queryVarsProperty() {
-    return addPropertyNameInternal('queryVars');
+  QueryBuilder<SheetViewConfig, String, QQueryOperations>
+      getRowsFromProperty() {
+    return addPropertyNameInternal('getRowsFrom');
+  }
+
+  QueryBuilder<SheetViewConfig, String, QQueryOperations>
+      getRowsLastProperty() {
+    return addPropertyNameInternal('getRowsLast');
+  }
+
+  QueryBuilder<SheetViewConfig, String, QQueryOperations> getRowsToProperty() {
+    return addPropertyNameInternal('getRowsTo');
+  }
+
+  QueryBuilder<SheetViewConfig, int, QQueryOperations> idProperty() {
+    return addPropertyNameInternal('id');
   }
 }

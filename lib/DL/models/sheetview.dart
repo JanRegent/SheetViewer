@@ -88,14 +88,6 @@ class SheetView {
       return SheetView()..aStatus = 'err: \n' + e.toString();
     }
   }
-
-  Future save(String whatChanged) async {
-    sheetViewConfig.aQuerystringKey = aQuerystringKey;
-    if (whatChanged == 'colsHeader') {
-      sheetViewConfig.colsHeader = colsHeader.join('__|__');
-    }
-    await sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig);
-  }
 }
 
 class SheetsDb {

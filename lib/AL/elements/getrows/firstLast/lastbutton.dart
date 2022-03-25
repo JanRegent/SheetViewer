@@ -45,8 +45,7 @@ ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
     onPressed: () async {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String aQuerystringKey = queryStringBuild(fileId, sheetName, queryMap);
-      await rowsCountSet(
-          context, setStateFunc, aQuerystringKey, 'lastRowsCount');
+      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsLast');
     },
   );
 }

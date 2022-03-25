@@ -32,7 +32,7 @@ Row firstLastRow(
   );
 }
 
-Future rowsCountSet(BuildContext context, Function setStateFunc,
+Future getRowsSet(BuildContext context, Function setStateFunc,
     String aQuerystringKey, String varName) async {
   List<String> values =
       List<String>.generate(10, (i) => ((i + 1) * 10).toString());
@@ -44,14 +44,10 @@ Future rowsCountSet(BuildContext context, Function setStateFunc,
 
   // ignore: unnecessary_null_comparison
   if (rowsCount == null) return;
-  getRowsUpdateMap(aQuerystringKey, varName, rowsCount);
-  setStateFunc();
-}
-
-Future getRowsUpdateMap(String aQuerystringKey, varName, rowsCount) async {
   SheetViewConfig? sheetViewConfig =
       await sheetViewConfigDb.readSheet(aQuerystringKey);
-  sheetViewConfig?.queryVars = '$varName=$rowsCount';
+  if (varName == 'getRowsFirst') sheetViewConfig?.getRowsFirst = rowsCount;
+  if (varName == 'getRowsLast') sheetViewConfig?.getRowsFirst = rowsCount;
   sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig!);
-  return 'OK';
+  setStateFunc();
 }

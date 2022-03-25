@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -31,7 +32,8 @@ PopupMenuButton popup(
               context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
           sheetView.colsHeader = result;
-          await sheetView.save('colsHeader');
+          await sheetViewConfigDb.saveColsHeader(
+              sheetView.aQuerystringKey, sheetView.colsHeader);
           setState();
         },
       )));
@@ -44,7 +46,8 @@ PopupMenuButton popup(
         onPressed: () async {
           Navigator.pop(context);
           sheetView.colsHeader = sheetView.cols;
-          await sheetView.save('colsHeader');
+          await sheetViewConfigDb.saveColsHeader(
+              sheetView.aQuerystringKey, sheetView.colsHeader);
           setState();
         },
       )));

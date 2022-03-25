@@ -51,8 +51,7 @@ ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
     onPressed: () async {
       var queryMap = {'action': 'getRowsFirst', 'rowsCount': '10'};
       String aQuerystringKey = queryStringBuild(fileId, sheetName, queryMap);
-      await rowsCountSet(
-          context, setStateFunc, aQuerystringKey, 'firstRowsCount');
+      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsFirst');
     },
   );
 }
