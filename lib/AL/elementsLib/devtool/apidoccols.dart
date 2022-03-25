@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/actionSheet/_actionsheet.dart';
 import 'package:sheetviewer/DL/models/sheetconfig.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-PopupMenuButton popup(ActionSheet anySheet, BuildContext context) {
+PopupMenuButton popup(SheetView sheetView, BuildContext context) {
   List<PopupMenuItem> menus = [];
   menus.add(PopupMenuItem(
     value: 'Origin data source show',
@@ -30,9 +30,9 @@ PopupMenuButton popup(ActionSheet anySheet, BuildContext context) {
         onPressed: () async {
           Navigator.pop(context);
           List<String> result = await selectListByCheckoxes(
-              context, anySheet.cols, 'Select columns');
+              context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
-          anySheet.headerCols = result;
+          sheetView.colsHeader = result;
         },
       )));
   return PopupMenuButton(

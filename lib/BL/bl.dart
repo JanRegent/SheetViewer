@@ -1,5 +1,5 @@
 import 'package:sheetviewer/BL/lib/uti.dart';
-import 'package:sheetviewer/BL/actionSheet/_actionsheet.dart';
+
 import 'package:sheetviewer/DL/models/sheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
@@ -19,6 +19,4 @@ class BL {
   Future init() async {
     await blGlobal.init();
   }
-
-  ActionSheet dataSheet4debug = ActionSheet();
 }

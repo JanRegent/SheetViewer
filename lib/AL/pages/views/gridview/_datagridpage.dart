@@ -2,10 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/listsearch.dart';
-import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
-
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -45,11 +42,11 @@ class _DatagridPageState extends State<DatagridPage> {
     return IconButton(
         onPressed: () async {
           //bl.dataSheet4debug = widget.sheetView;
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
+          // await Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
         },
         icon: const Icon(Icons.view_agenda));
   }

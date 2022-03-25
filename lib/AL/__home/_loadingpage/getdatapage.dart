@@ -2,12 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
-import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
-
-import 'package:sheetviewer/uti/viewers/json_viewer.dart';
-
-import '../../../BL/actionSheet/_actionsheet.dart';
+import 'package:sheetviewer/DL/sheetview_getdata.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
@@ -47,11 +43,11 @@ class _GetDataPageState extends State<GetDataPage> {
     return IconButton(
         onPressed: () async {
           //bl.dataSheet4debug = actionSheet;
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
+          // await Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
         },
         icon: const Icon(Icons.view_agenda));
   }

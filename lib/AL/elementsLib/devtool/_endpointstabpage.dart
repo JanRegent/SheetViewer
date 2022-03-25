@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/actionSheet/_actionsheet.dart';
+
 import 'package:sheetviewer/DL/models/sheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetview.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'apidocgridpage.dart';
 import 'devtool_blglobals.dart';
 
 class EndpointsTabPage extends StatefulWidget {
-  final ActionSheet dataSheet;
-  const EndpointsTabPage(this.dataSheet, {Key? key}) : super(key: key);
+  final SheetView sheetView;
+  const EndpointsTabPage(this.sheetView, {Key? key}) : super(key: key);
 
   @override
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
