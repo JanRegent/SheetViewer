@@ -17,7 +17,7 @@ extension GetSheetViewCollection on Isar {
 final SheetViewSchema = CollectionSchema(
   name: 'SheetView',
   schema:
-      '{"name":"SheetView","idName":"id","properties":[{"name":"aQuerystringKey","type":"String"},{"name":"aStatus","type":"String"},{"name":"cols","type":"StringList"},{"name":"colsHeader","type":"StringList"},{"name":"copyrightUrl","type":"String"},{"name":"fileId","type":"String"},{"name":"fileUrl","type":"String"},{"name":"rows","type":"StringList"},{"name":"sheetName","type":"String"}],"indexes":[],"links":[]}',
+      '{"name":"SheetView","idName":"id","properties":[{"name":"aQuerystringKey","type":"String"},{"name":"aStatus","type":"String"},{"name":"cols","type":"StringList"},{"name":"copyrightUrl","type":"String"},{"name":"fileId","type":"String"},{"name":"fileUrl","type":"String"},{"name":"rows","type":"StringList"},{"name":"sheetName","type":"String"}],"indexes":[],"links":[]}',
   nativeAdapter: const _SheetViewNativeAdapter(),
   webAdapter: const _SheetViewWebAdapter(),
   idName: 'id',
@@ -25,14 +25,13 @@ final SheetViewSchema = CollectionSchema(
     'aQuerystringKey': 0,
     'aStatus': 1,
     'cols': 2,
-    'colsHeader': 3,
-    'copyrightUrl': 4,
-    'fileId': 5,
-    'fileUrl': 6,
-    'rows': 7,
-    'sheetName': 8
+    'copyrightUrl': 3,
+    'fileId': 4,
+    'fileUrl': 5,
+    'rows': 6,
+    'sheetName': 7
   },
-  listProperties: {'cols', 'colsHeader', 'rows'},
+  listProperties: {'cols', 'rows'},
   indexIds: {},
   indexTypes: {},
   linkIds: {},
@@ -59,7 +58,6 @@ class _SheetViewWebAdapter extends IsarWebTypeAdapter<SheetView> {
     IsarNative.jsObjectSet(jsObj, 'aQuerystringKey', object.aQuerystringKey);
     IsarNative.jsObjectSet(jsObj, 'aStatus', object.aStatus);
     IsarNative.jsObjectSet(jsObj, 'cols', object.cols);
-    IsarNative.jsObjectSet(jsObj, 'colsHeader', object.colsHeader);
     IsarNative.jsObjectSet(jsObj, 'copyrightUrl', object.copyrightUrl);
     IsarNative.jsObjectSet(jsObj, 'fileId', object.fileId);
     IsarNative.jsObjectSet(jsObj, 'fileUrl', object.fileUrl);
@@ -76,11 +74,6 @@ class _SheetViewWebAdapter extends IsarWebTypeAdapter<SheetView> {
         IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '';
     object.aStatus = IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '';
     object.cols = (IsarNative.jsObjectGet(jsObj, 'cols') as List?)
-            ?.map((e) => e ?? '')
-            .toList()
-            .cast<String>() ??
-        [];
-    object.colsHeader = (IsarNative.jsObjectGet(jsObj, 'colsHeader') as List?)
             ?.map((e) => e ?? '')
             .toList()
             .cast<String>() ??
@@ -107,12 +100,6 @@ class _SheetViewWebAdapter extends IsarWebTypeAdapter<SheetView> {
         return (IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '') as P;
       case 'cols':
         return ((IsarNative.jsObjectGet(jsObj, 'cols') as List?)
-                ?.map((e) => e ?? '')
-                .toList()
-                .cast<String>() ??
-            []) as P;
-      case 'colsHeader':
-        return ((IsarNative.jsObjectGet(jsObj, 'colsHeader') as List?)
                 ?.map((e) => e ?? '')
                 .toList()
                 .cast<String>() ??
@@ -165,35 +152,26 @@ class _SheetViewNativeAdapter extends IsarNativeTypeAdapter<SheetView> {
       dynamicSize += bytes.length as int;
     }
     final _cols = bytesList2;
-    final value3 = object.colsHeader;
-    dynamicSize += (value3.length) * 8;
-    final bytesList3 = <IsarUint8List>[];
-    for (var str in value3) {
-      final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList3.add(bytes);
-      dynamicSize += bytes.length as int;
-    }
-    final _colsHeader = bytesList3;
-    final value4 = object.copyrightUrl;
-    final _copyrightUrl = IsarBinaryWriter.utf8Encoder.convert(value4);
+    final value3 = object.copyrightUrl;
+    final _copyrightUrl = IsarBinaryWriter.utf8Encoder.convert(value3);
     dynamicSize += (_copyrightUrl.length) as int;
-    final value5 = object.fileId;
-    final _fileId = IsarBinaryWriter.utf8Encoder.convert(value5);
+    final value4 = object.fileId;
+    final _fileId = IsarBinaryWriter.utf8Encoder.convert(value4);
     dynamicSize += (_fileId.length) as int;
-    final value6 = object.fileUrl;
-    final _fileUrl = IsarBinaryWriter.utf8Encoder.convert(value6);
+    final value5 = object.fileUrl;
+    final _fileUrl = IsarBinaryWriter.utf8Encoder.convert(value5);
     dynamicSize += (_fileUrl.length) as int;
-    final value7 = object.rows;
-    dynamicSize += (value7.length) * 8;
-    final bytesList7 = <IsarUint8List>[];
-    for (var str in value7) {
+    final value6 = object.rows;
+    dynamicSize += (value6.length) * 8;
+    final bytesList6 = <IsarUint8List>[];
+    for (var str in value6) {
       final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-      bytesList7.add(bytes);
+      bytesList6.add(bytes);
       dynamicSize += bytes.length as int;
     }
-    final _rows = bytesList7;
-    final value8 = object.sheetName;
-    final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value8);
+    final _rows = bytesList6;
+    final value7 = object.sheetName;
+    final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value7);
     dynamicSize += (_sheetName.length) as int;
     final size = staticSize + dynamicSize;
 
@@ -204,12 +182,11 @@ class _SheetViewNativeAdapter extends IsarNativeTypeAdapter<SheetView> {
     writer.writeBytes(offsets[0], _aQuerystringKey);
     writer.writeBytes(offsets[1], _aStatus);
     writer.writeStringList(offsets[2], _cols);
-    writer.writeStringList(offsets[3], _colsHeader);
-    writer.writeBytes(offsets[4], _copyrightUrl);
-    writer.writeBytes(offsets[5], _fileId);
-    writer.writeBytes(offsets[6], _fileUrl);
-    writer.writeStringList(offsets[7], _rows);
-    writer.writeBytes(offsets[8], _sheetName);
+    writer.writeBytes(offsets[3], _copyrightUrl);
+    writer.writeBytes(offsets[4], _fileId);
+    writer.writeBytes(offsets[5], _fileUrl);
+    writer.writeStringList(offsets[6], _rows);
+    writer.writeBytes(offsets[7], _sheetName);
   }
 
   @override
@@ -219,13 +196,12 @@ class _SheetViewNativeAdapter extends IsarNativeTypeAdapter<SheetView> {
     object.aQuerystringKey = reader.readString(offsets[0]);
     object.aStatus = reader.readString(offsets[1]);
     object.cols = reader.readStringList(offsets[2]) ?? [];
-    object.colsHeader = reader.readStringList(offsets[3]) ?? [];
-    object.copyrightUrl = reader.readString(offsets[4]);
-    object.fileId = reader.readString(offsets[5]);
-    object.fileUrl = reader.readString(offsets[6]);
+    object.copyrightUrl = reader.readString(offsets[3]);
+    object.fileId = reader.readString(offsets[4]);
+    object.fileUrl = reader.readString(offsets[5]);
     object.id = id;
-    object.rows = reader.readStringList(offsets[7]) ?? [];
-    object.sheetName = reader.readString(offsets[8]);
+    object.rows = reader.readStringList(offsets[6]) ?? [];
+    object.sheetName = reader.readString(offsets[7]);
     return object;
   }
 
@@ -242,16 +218,14 @@ class _SheetViewNativeAdapter extends IsarNativeTypeAdapter<SheetView> {
       case 2:
         return (reader.readStringList(offset) ?? []) as P;
       case 3:
-        return (reader.readStringList(offset) ?? []) as P;
+        return (reader.readString(offset)) as P;
       case 4:
         return (reader.readString(offset)) as P;
       case 5:
         return (reader.readString(offset)) as P;
       case 6:
-        return (reader.readString(offset)) as P;
-      case 7:
         return (reader.readStringList(offset) ?? []) as P;
-      case 8:
+      case 7:
         return (reader.readString(offset)) as P;
       default:
         throw 'Illegal propertyIndex';
@@ -653,113 +627,6 @@ extension SheetViewQueryFilter
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'cols',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyGreaterThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyLessThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyBetween(
-    String lower,
-    String upper, {
-    bool caseSensitive = true,
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'colsHeader',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'colsHeader',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetView, SheetView, QAfterFilterCondition>
-      colsHeaderAnyMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'colsHeader',
       value: pattern,
       caseSensitive: caseSensitive,
     ));
@@ -1504,10 +1371,6 @@ extension SheetViewQueryProperty
 
   QueryBuilder<SheetView, List<String>, QQueryOperations> colsProperty() {
     return addPropertyNameInternal('cols');
-  }
-
-  QueryBuilder<SheetView, List<String>, QQueryOperations> colsHeaderProperty() {
-    return addPropertyNameInternal('colsHeader');
   }
 
   QueryBuilder<SheetView, String, QQueryOperations> copyrightUrlProperty() {

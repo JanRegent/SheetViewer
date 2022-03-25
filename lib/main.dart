@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/DL/models/sheet_config.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'AL/__home/tablist_home/1tabslistpage.dart';
 
@@ -17,12 +18,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final isar = await Isar.open(
-    schemas: [SheetViewSchema, SheetConfigSchema],
+    schemas: [SheetViewSchema, SheetViewConfigSchema, SheetConfigSchema],
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
   );
   sheetsDb = SheetsDb(isar);
   await sheetsDb.init();
+  sheetViewConfigDb = SheetViewConfigDb(isar);
   sheetConfigDb = SheetConfigDb(isar);
   await sheetConfigDb.init();
   await GetStorage.init();

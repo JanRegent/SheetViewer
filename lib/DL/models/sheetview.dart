@@ -5,6 +5,7 @@ import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 part 'sheetview.g.dart'; // flutter pub run build_runner build
 
@@ -20,11 +21,15 @@ class SheetView {
   String copyrightUrl = '';
 
   List<String> cols = [];
+  @Ignore()
   List<String> colsHeader = [];
   List<String> rows = [];
 
   @Ignore()
   Map rawDataSheet = {};
+
+  @Ignore()
+  SheetViewConfig sheetViewConfig = SheetViewConfig();
 
   SheetView();
 
@@ -64,6 +69,8 @@ class SheetView {
         ..cols = cols
         ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
 
+      sheetView.colsHeader = cols;
+
       List<String> rows = bl.blUti.toListString(jsonData["rows"]);
       for (var i = 0; i < rows.length; i++) {
         sheetView.rows.add(jsonEncode(rows[i]));
@@ -82,8 +89,12 @@ class SheetView {
     }
   }
 
-  Future save() async {
-    await sheetsDb.updateSheetView(this);
+  Future save(String whatChanged) async {
+    sheetViewConfig.aQuerystringKey = aQuerystringKey;
+    if (whatChanged == 'colsHeader') {
+      sheetViewConfig.colsHeader = colsHeader.join('__|__');
+    }
+    await sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig);
   }
 }
 
@@ -134,35 +145,8 @@ class SheetsDb {
       return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
     }
     SheetView? sheet = await isar.sheetViews.get(id);
-    //sheet?.aQuerystringKey = querystringKey;
     return sheet;
   }
-
-  // Future updateSheets(
-  //     String cacheKey, List<String> cols, List<dynamic> rows) async {
-  //   int keyCount_ = await keysCount(cacheKey);
-  //   if (keyCount_ > 0) {
-  //     return 'OK';
-  //   }
-  //   SheetView sheetView = SheetView()
-  //     ..aQuerystringKey = cacheKey
-  //     ..cols = cols;
-  //   for (var i = 0; i < rows.length; i++) {
-  //     sheetView.rows.add(jsonEncode(rows[i]));
-  //   }
-  //   try {
-  //     await isar.writeTxn((isar) async {
-  //       sheetView.id = await isar.sheetViews.put(sheetView); // insert
-  //     });
-  //     return 'OK';
-  //   } catch (e) {
-  //     if (kDebugMode) print(e);
-  //     logi('--- LocalStore: ', '-----------------isar');
-  //     logi('updateSheets(String ', cacheKey);
-  //     logi('updateSheets(String ', e.toString());
-  //     return '';
-  //   }
-  // }
 
   Future updateSheetView(SheetView sheetView) async {
     try {
@@ -185,6 +169,23 @@ class SheetsDb {
     try {
       await isar.writeTxn((isar) async {
         sheetView.id = await isar.sheetViews.put(sheetView); // insert
+      });
+    } catch (e) {
+      if (kDebugMode) print(e);
+      logi('--- LocalStore: ', '-----------------isar');
+      logi('updateSheets(String ', sheetView.aQuerystringKey);
+      logi('updateSheets(String ', e.toString());
+    }
+
+    try {
+      SheetViewConfig sheetViewConfig = SheetViewConfig()
+        ..aQuerystringKey = sheetView.aQuerystringKey;
+
+      sheetViewConfig.colsHeader = sheetView.colsHeader.join('__|__');
+
+      await isar.writeTxn((isar) async {
+        sheetView.id =
+            await isar.sheetViewConfigs.put(sheetViewConfig); // insert
       });
       return 'OK';
     } catch (e) {

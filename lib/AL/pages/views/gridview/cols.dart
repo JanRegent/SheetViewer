@@ -31,7 +31,7 @@ PopupMenuButton popup(
               context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
           sheetView.colsHeader = result;
-          await sheetView.save();
+          await sheetView.save('colsHeader');
           setState();
         },
       )));
@@ -44,7 +44,7 @@ PopupMenuButton popup(
         onPressed: () async {
           Navigator.pop(context);
           sheetView.colsHeader = sheetView.cols;
-          await sheetView.save();
+          await sheetView.save('colsHeader');
           setState();
         },
       )));

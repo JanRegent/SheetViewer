@@ -37,8 +37,8 @@ class _GetDataPageState extends State<GetDataPage> {
 
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    sheetView =
-        (await getActionSheet(widget.fileId, widget.sheetName, widget.action))!;
+    sheetView = (await sheetViewGetData(
+        widget.fileId, widget.sheetName, widget.action))!;
 
     return 'OK';
   }

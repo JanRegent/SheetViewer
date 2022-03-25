@@ -1,15 +1,17 @@
 part of '../BL/actionSheet/_actionsheet.dart';
 
-Future<SheetView?> getActionSheet(
+Future<SheetView?> sheetViewGetData(
     String fileId, String sheetName, String action) async {
   Map queryMap = await ActionSheet().actionMapFind(fileId, sheetName, action);
 
   String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
+  SheetView? sheetView;
   try {
-    SheetView? sheet = await sheetsDb.readSheet(queryString);
-    if (sheet!.aStatus.startsWith('warn: not exists')) {
+    sheetView = await sheetsDb.readSheet(queryString);
+    if (sheetView!.aStatus.startsWith('warn: not exists')) {
       await updateSheetToCache(queryString);
+      sheetView = await sheetsDb.readSheet(queryString);
     }
   } catch (e) {
     if (kDebugMode) {
@@ -17,10 +19,12 @@ Future<SheetView?> getActionSheet(
       print(e);
     }
   }
-
   try {
-    SheetView? sheet = await sheetsDb.readSheet(queryString);
-    return sheet;
+    SheetViewConfig? sheetViewConfig =
+        await sheetViewConfigDb.readSheet(queryString);
+    sheetView!.colsHeader = sheetViewConfig!.colsHeader.split('__|__');
+    sheetView.sheetViewConfig = sheetViewConfig;
+    return sheetView;
   } catch (e) {
     return (SheetView().aStatus = 'getActionSheet() readSheet ' + e.toString())
         as SheetView?;

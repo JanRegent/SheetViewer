@@ -5,10 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import '../../DL/models/sheet_config.dart';
 
-part '../../DL/actionsheet_getdata.dart';
+part '../../DL/sheetview_getdata.dart';
 
 class ActionSheet {
   String fileId = '';
