@@ -131,7 +131,7 @@ class SheetViewConfigDb {
     SheetViewConfig? sheetViewConfig =
         await sheetViewConfigDb.readSheet(aQuerystringKey);
     if (varName == 'getRowsFirst') sheetViewConfig?.getRowsFirst = rowsCount;
-    if (varName == 'getRowsLast') sheetViewConfig?.getRowsFirst = rowsCount;
+    if (varName == 'getRowsLast') sheetViewConfig?.getRowsLast = rowsCount;
     updateSheetViewConfig(sheetViewConfig!);
   }
 }

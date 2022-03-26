@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
@@ -11,13 +12,11 @@ class GetDataPage extends StatefulWidget {
   final String sheetName;
   final String sheetTitle;
   final String action;
+  final SheetViewConfig sheetViewConfig;
+
   // ignore: use_key_in_widget_constructors
-  const GetDataPage(
-    this.fileId,
-    this.sheetName,
-    this.sheetTitle,
-    this.action,
-  );
+  const GetDataPage(this.fileId, this.sheetName, this.sheetTitle, this.action,
+      this.sheetViewConfig);
 
   @override
   _GetDataPageState createState() => _GetDataPageState();
@@ -33,8 +32,8 @@ class _GetDataPageState extends State<GetDataPage> {
 
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    sheetView = (await sheetViewGetData(
-        widget.fileId, widget.sheetName, widget.action))!;
+    sheetView = (await sheetViewGetData(widget.fileId, widget.sheetName,
+        widget.action, widget.sheetViewConfig))!;
 
     return 'OK';
   }

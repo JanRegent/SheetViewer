@@ -8,10 +8,11 @@ import 'package:sheetviewer/AL/elements/getrows/firstLast/allrowsbutton.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/models/sheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 
-Card filelistCard(
-    BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
+Card filelistCard(BuildContext context, Function setStateFunc,
+    Map fileListSheet, int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
     String fileId =
@@ -37,7 +38,8 @@ Card filelistCard(
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastRow(context, setStateFunc, fileListSheet, index),
+        firstLastRow(
+            context, setStateFunc, fileListSheet, index, sheetViewConfig),
 
         //-------------------------------------------------------------last/byValues
 
@@ -69,7 +71,8 @@ Card filelistCard(
                 context,
                 fileId,
                 fileListSheet['rows'][index]['sheetName'],
-                fileListSheet['rows'][index]['fileTitle']),
+                fileListSheet['rows'][index]['fileTitle'],
+                sheetViewConfig),
             title: Row(
               children: [
                 const Text('by cond: ', style: TextStyle(fontSize: 20)),

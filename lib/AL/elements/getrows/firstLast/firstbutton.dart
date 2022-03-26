@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import '_firstlastrow.dart';
 
-IconButton firstButton(
-    BuildContext context, String fileId, String sheetName, String fileTitle) {
+IconButton firstButton(BuildContext context, String fileId, String sheetName,
+    String fileTitle, SheetViewConfig sheetViewConfig) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              GetDataPage(fileId, sheetName, fileTitle, 'getRowsFirst'),
+          builder: (context) => GetDataPage(
+              fileId, sheetName, fileTitle, 'getRowsFirst', sheetViewConfig),
         ));
   }
 
@@ -43,7 +44,7 @@ IconButton firstButton(
 }
 
 ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
-    String fileId, String sheetName) {
+    String fileId, String sheetName, SheetViewConfig sheetViewConfig) {
   return ElevatedButton(
     child: const Text('10'),
     style: ElevatedButton.styleFrom(
@@ -51,7 +52,8 @@ ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
     onPressed: () async {
       var queryMap = {'action': 'getRowsFirst', 'rowsCount': '10'};
       String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsFirst');
+      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsFirst',
+          sheetViewConfig);
     },
   );
 }

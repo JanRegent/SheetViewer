@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-SizedBox firstlastGridCard(
-    BuildContext context, Function setStateFunc, Map fileListSheet, int index) {
+SizedBox firstlastGridCard(BuildContext context, Function setStateFunc,
+    Map fileListSheet, int index, SheetViewConfig sheetViewConfig) {
   return SizedBox(
       height: 200,
       child: Card(
@@ -14,7 +15,8 @@ SizedBox firstlastGridCard(
         margin: const EdgeInsets.all(10),
         child: Column(children: [
           Text(fileListSheet['rows'][index]['fileTitle']),
-          firstLastRow(context, setStateFunc, fileListSheet, index),
+          firstLastRow(
+              context, setStateFunc, fileListSheet, index, sheetViewConfig),
         ]),
       ));
 }

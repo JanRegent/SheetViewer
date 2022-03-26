@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import '_firstlastrow.dart';
 
-IconButton lastButton(
-    BuildContext context, String fileId, String sheetName, String fileTitle) {
+IconButton lastButton(BuildContext context, String fileId, String sheetName,
+    String fileTitle, SheetViewConfig sheetViewConfig) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              GetDataPage(fileId, sheetName, fileTitle, 'getRowsLast'),
+          builder: (context) => GetDataPage(
+              fileId, sheetName, fileTitle, 'getRowsLast', sheetViewConfig),
         ));
   }
 
@@ -37,17 +38,19 @@ IconButton lastButton(
 }
 
 ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
-    String fileId, String sheetName) {
-  String rowsCount = '10';
-
+    String fileId, String sheetName, SheetViewConfig sheetViewConfig) {
   return ElevatedButton(
-    child: Text(rowsCount),
+    child: Text(sheetViewConfig.getRowsLast.isNotEmpty
+        ? sheetViewConfig.getRowsLast
+        : '10'),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsLast');
+
+      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsLast',
+          sheetViewConfig);
     },
   );
 }

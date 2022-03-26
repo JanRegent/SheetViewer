@@ -167,4 +167,15 @@ class SheetsDb {
       return '';
     }
   }
+
+  Future deleteSheet(String aQuerystringKey) async {
+    int? id = await getId_(aQuerystringKey);
+    if (id == null) {
+      return;
+    }
+
+    await isar.writeTxn((isar) async {
+      await isar.sheetViews.delete(id);
+    });
+  }
 }

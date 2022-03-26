@@ -10,8 +10,9 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import 'models/sheetview.dart';
 
 Future<SheetView?> sheetViewGetData(
-    String fileId, String sheetName, String action) async {
-  Map queryMap = await actionMapFind(fileId, sheetName, action);
+    String fileId, String sheetName, String action, sheetViewConfig) async {
+  Map queryMap =
+      await actionMapCreate(fileId, sheetName, action, sheetViewConfig);
 
   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
 
@@ -103,6 +104,24 @@ String printMap(Map row) {
     str += '\n ${entry.key}:  ${entry.value}';
   }
   return str;
+}
+
+Future<Map> actionMapCreate(String fileId, String sheetName, String action,
+    SheetViewConfig sheetViewConfig) async {
+  late Map getRowsMap;
+  if (action == "getRowsFirst") {
+    String rowsCount = sheetViewConfig.getRowsFirst.isNotEmpty
+        ? sheetViewConfig.getRowsFirst
+        : '10';
+    getRowsMap = {"action": "getRowsFirst", "rowsCount": rowsCount};
+  }
+  if (action == "getRowsLast") {
+    String rowsCount = sheetViewConfig.getRowsLast.isNotEmpty
+        ? sheetViewConfig.getRowsLast
+        : '10';
+    getRowsMap = {"action": "getRowsLast", "rowsCount": rowsCount};
+  }
+  return getRowsMap;
 }
 
 Future<Map> actionMapFind(

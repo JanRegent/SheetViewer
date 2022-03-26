@@ -5,6 +5,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'dart:async';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 String loadListSheetName = 'space';
 Map loadListFileListSheet = {};
@@ -24,7 +25,7 @@ Future loadListByActions(Map fileListSheet) async {
         bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
     String sheetName = fileListSheet['rows'][index]['sheetName'];
     for (var action in actions) {
-      await sheetViewGetData(fileId, sheetName, action);
+      await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
     }
   }
 }
