@@ -39,7 +39,7 @@ class SheetViewConfig {
   factory SheetViewConfig.fromJson(Map jsonData) {
     try {
       SheetViewConfig sheetViewConfig = SheetViewConfig()
-        ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
+        ..aQuerystringKey = jsonData["config"]["queryStringKey"] ?? '';
 
       sheetViewConfig.colsHeader = jsonData["colsHeader"] ?? '';
       sheetViewConfig.getRowsFirst = jsonData["getRowsFirst"] ?? 10;
@@ -120,9 +120,18 @@ class SheetViewConfigDb {
     }
   }
 
-  Future saveColsHeader(String aQuerystringKey, List<String> colsHeader) async {
+  Future colsHeaderSave(String aQuerystringKey, List<String> colsHeader) async {
     SheetViewConfig? sheetViewConfig = await readSheet(aQuerystringKey);
     sheetViewConfig?.colsHeader = colsHeader.join('__|__');
     await sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig!);
+  }
+
+  Future getRowsSave(
+      String aQuerystringKey, String varName, String rowsCount) async {
+    SheetViewConfig? sheetViewConfig =
+        await sheetViewConfigDb.readSheet(aQuerystringKey);
+    if (varName == 'getRowsFirst') sheetViewConfig?.getRowsFirst = rowsCount;
+    if (varName == 'getRowsLast') sheetViewConfig?.getRowsFirst = rowsCount;
+    updateSheetViewConfig(sheetViewConfig!);
   }
 }

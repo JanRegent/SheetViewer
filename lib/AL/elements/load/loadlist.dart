@@ -4,7 +4,7 @@ import 'package:sheetviewer/BL/bl.dart';
 
 import 'dart:async';
 
-import 'package:sheetviewer/DL/sheetview_getdata.dart';
+import 'package:sheetviewer/DL/getdata_models.dart';
 
 String loadListSheetName = 'space';
 Map loadListFileListSheet = {};

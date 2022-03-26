@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'allrowsbutton.dart';
 import 'firstbutton.dart';
@@ -12,6 +11,7 @@ Row firstLastRow(
   String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
   String sheetName = fileListSheet['rows'][index]['sheetName'];
   String fileTitle = fileListSheet['rows'][index]['fileTitle'];
+
   return Row(
     children: [
       firstRowsCount(context, setStateFunc, fileId, sheetName),
@@ -44,10 +44,6 @@ Future getRowsSet(BuildContext context, Function setStateFunc,
 
   // ignore: unnecessary_null_comparison
   if (rowsCount == null) return;
-  SheetViewConfig? sheetViewConfig =
-      await sheetViewConfigDb.readSheet(aQuerystringKey);
-  if (varName == 'getRowsFirst') sheetViewConfig?.getRowsFirst = rowsCount;
-  if (varName == 'getRowsLast') sheetViewConfig?.getRowsFirst = rowsCount;
-  sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig!);
+  await sheetViewConfigDb.getRowsSave(aQuerystringKey, varName, rowsCount);
   setStateFunc();
 }

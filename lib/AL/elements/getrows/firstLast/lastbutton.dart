@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
-import 'package:sheetviewer/DL/sheetview_getdata.dart';
+import 'package:sheetviewer/DL/getdata_models.dart';
 
 import '_firstlastrow.dart';
 
@@ -38,13 +38,15 @@ IconButton lastButton(
 
 ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
     String fileId, String sheetName) {
+  String rowsCount = '10';
+
   return ElevatedButton(
-    child: const Text('10'),
+    child: Text(rowsCount),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
-      String aQuerystringKey = queryStringBuild(fileId, sheetName, queryMap);
+      String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
       await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsLast');
     },
   );

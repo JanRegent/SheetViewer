@@ -5,6 +5,7 @@ import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 part 'sheetview.g.dart'; // flutter pub run build_runner build
@@ -65,10 +66,7 @@ class SheetView {
     try {
       List<String> cols = List<String>.from(jsonData["cols"]);
 
-      SheetView sheetView = SheetView()
-        ..cols = cols
-        ..aQuerystringKey = jsonData["config"]["queryString"] ?? '';
-
+      SheetView sheetView = SheetView()..cols = cols;
       sheetView.colsHeader = cols;
 
       List<String> rows = bl.blUti.toListString(jsonData["rows"]);
@@ -83,6 +81,9 @@ class SheetView {
       sheetView.colsHeader = jsonData["headerCols"] ?? cols;
       sheetView.rawDataSheet = jsonData;
 
+      sheetView.aQuerystringKey = queryStringKeyBuild(
+          sheetView.fileId, sheetView.sheetName, {'action': 'getRowsLast'});
+
       return sheetView;
     } catch (e) {
       return SheetView()..aStatus = 'err: \n' + e.toString();
@@ -94,29 +95,7 @@ class SheetsDb {
   final Isar isar;
   SheetsDb(this.isar);
 
-  Future init() async {
-    await idsBuild();
-  }
-
-  Map<String, int> ids = {};
-  Future idsBuild() async {
-    try {
-      List<SheetView> all =
-          await isar.sheetViews.where().filter().idGreaterThan(0).findAll();
-
-      for (var i = 0; i < all.length; i++) {
-        String cacheKey = all[i].aQuerystringKey;
-        if (!ids.keys.contains(cacheKey)) ids[cacheKey] = all[i].id;
-      }
-    } catch (_) {}
-  }
-
-  Future<int> keysCount(String querystringKey) async {
-    final sheetExists =
-        isar.sheetViews.where().filter().aQuerystringKeyEqualTo(querystringKey);
-    int count = await sheetExists.count();
-    return count;
-  }
+  Future init() async {}
 
   Future<int?> getId_(String aQuerystringKey) async {
     try {

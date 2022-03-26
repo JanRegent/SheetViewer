@@ -13,14 +13,15 @@ Future<SheetView?> sheetViewGetData(
     String fileId, String sheetName, String action) async {
   Map queryMap = await actionMapFind(fileId, sheetName, action);
 
-  String queryString = queryStringBuild(fileId, sheetName, queryMap);
+  String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
 
   SheetView? sheetView;
   try {
-    sheetView = await sheetsDb.readSheet(queryString);
+    sheetView = await sheetsDb.readSheet(queryStringKey);
     if (sheetView!.aStatus.startsWith('warn: not exists')) {
+      String queryString = queryStringBuild(fileId, sheetName, queryMap);
       await updateSheetToCache(queryString);
-      sheetView = await sheetsDb.readSheet(queryString);
+      sheetView = await sheetsDb.readSheet(queryStringKey);
     }
   } catch (e) {
     if (kDebugMode) {
@@ -30,7 +31,7 @@ Future<SheetView?> sheetViewGetData(
   }
   try {
     SheetViewConfig? sheetViewConfig =
-        await sheetViewConfigDb.readSheet(queryString);
+        await sheetViewConfigDb.readSheet(queryStringKey);
     sheetView!.colsHeader = sheetViewConfig!.colsHeader.split('__|__');
     sheetView.sheetViewConfig = sheetViewConfig;
     return sheetView;
@@ -77,6 +78,23 @@ String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
   }
   queryString += '&fileId=' + fileId;
   return queryString;
+}
+
+String queryStringKeyBuild(String fileId, String sheetName, Map queryPars) {
+  String queryStringKey = 'sheetName=$sheetName';
+  for (String key in queryPars.keys) {
+    if (key == 'action') {
+      if (queryPars[key].toString().startsWith('getRows')) {
+        queryStringKey += '&$key=' + queryPars[key].toString();
+      }
+      continue;
+    }
+    if (key.startsWith('rows')) continue;
+
+    queryStringKey += '&$key=' + queryPars[key].toString();
+  }
+  queryStringKey += '&fileId=' + fileId;
+  return queryStringKey;
 }
 
 String printMap(Map row) {

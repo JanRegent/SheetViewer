@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
-import 'package:sheetviewer/DL/sheetview_getdata.dart';
+import 'package:sheetviewer/DL/getdata_models.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
