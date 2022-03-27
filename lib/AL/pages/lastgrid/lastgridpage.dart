@@ -34,20 +34,8 @@ class _LastGridAppState extends State<LastGridApp> {
   Future<String> getData() async {
     fileListSheet = await getSheet(
         '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-
-    for (var index = 0; index < fileListSheet['rows'].length; index++) {
-      var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
-      String fileId =
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-      String sheetName = fileListSheet['rows'][index]['sheetName'];
-      String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      SheetViewConfig? sheetViewConfig =
-          await sheetViewConfigDb.readSheet(aQuerystringKey);
-      sheetViewConfig?.fileListSheetRow = fileListSheet['rows'][index];
-      sheetViewConfig?.fileId = fileId;
-      sheetViewConfig?.sheetName = sheetName;
-      sheetViewConfigs.add(sheetViewConfig!);
-    }
+    sheetViewConfigs = await fileListSheet2sheetViewConfigs(
+        fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
     return 'ok';
   }
 

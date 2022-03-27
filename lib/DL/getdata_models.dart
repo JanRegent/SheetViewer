@@ -138,3 +138,22 @@ Future<Map> actionMapFind(
   }
   return getRowsMap;
 }
+
+Future<List<SheetViewConfig>> fileListSheet2sheetViewConfigs(
+    Map fileListSheet, var queryMap) async {
+  List<SheetViewConfig> sheetViewConfigs = [];
+
+  for (var index = 0; index < fileListSheet['rows'].length; index++) {
+    String fileId =
+        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+    String sheetName = fileListSheet['rows'][index]['sheetName'];
+    String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
+    SheetViewConfig? sheetViewConfig =
+        await sheetViewConfigDb.readSheet(aQuerystringKey);
+    sheetViewConfig?.fileListSheetRow = fileListSheet['rows'][index];
+    sheetViewConfig?.fileId = fileId;
+    sheetViewConfig?.sheetName = sheetName;
+    sheetViewConfigs.add(sheetViewConfig!);
+  }
+  return sheetViewConfigs;
+}
