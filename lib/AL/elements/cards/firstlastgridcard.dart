@@ -3,7 +3,7 @@ import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 SizedBox firstlastGridCard(BuildContext context, Function setStateFunc,
-    int index, SheetViewConfig sheetViewConfig) {
+    SheetViewConfig sheetViewConfig) {
   return SizedBox(
       height: 200,
       child: Card(

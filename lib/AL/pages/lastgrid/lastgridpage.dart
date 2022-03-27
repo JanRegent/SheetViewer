@@ -55,7 +55,7 @@ class _LastGridAppState extends State<LastGridApp> {
           itemCount: fileListSheet['rows'].length,
           itemBuilder: (context, index) {
             return firstlastGridCard(
-                context, setStateFunc, index, sheetViewConfigs[index]);
+                context, setStateFunc, sheetViewConfigs[index]);
           },
         ));
   }
