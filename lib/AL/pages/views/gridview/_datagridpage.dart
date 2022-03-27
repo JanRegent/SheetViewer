@@ -13,8 +13,9 @@ import 'cols.dart';
 /// The home page of the application which hosts the datagrid.
 class DatagridPage extends StatefulWidget {
   final SheetView sheetView;
-
-  const DatagridPage(this.sheetView, {Key? key}) : super(key: key);
+  final String fileTitle;
+  const DatagridPage(this.sheetView, this.fileTitle, {Key? key})
+      : super(key: key);
 
   @override
   _DatagridPageState createState() => _DatagridPageState();
@@ -72,8 +73,8 @@ class _DatagridPageState extends State<DatagridPage> {
     return Scaffold(
         appBar: AppBar(
           title: searchWord.isEmpty
-              ? Text(widget.sheetView.sheetName)
-              : Text(widget.sheetView.sheetName + ' [$searchWord]'),
+              ? Text(widget.fileTitle)
+              : Text(widget.fileTitle + ' [$searchWord]'),
           actions: [
             searchWord.isNotEmpty
                 ? IconButton(

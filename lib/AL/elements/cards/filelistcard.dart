@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elements/bycond/filelistcard_bycond_select1.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/allrowsbutton.dart';
-import 'package:sheetviewer/BL/bl.dart';
 
-import 'package:sheetviewer/DL/models/sheetconfig.dart';
+import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 
@@ -15,10 +14,9 @@ Card filelistCard(BuildContext context, Function setStateFunc,
     Map fileListSheet, int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-    String fileId =
-        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+
     createSheetConfigIfNotExists(
-        fileId, fileListSheet['rows'][index]['sheetName']);
+        sheetViewConfig.fileId, fileListSheet['rows'][index]['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
@@ -38,8 +36,7 @@ Card filelistCard(BuildContext context, Function setStateFunc,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastRow(
-            context, setStateFunc, fileListSheet, index, sheetViewConfig),
+        firstLastRow(context, setStateFunc, sheetViewConfig),
 
         //-------------------------------------------------------------last/byValues
 
@@ -59,20 +56,15 @@ Card filelistCard(BuildContext context, Function setStateFunc,
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ByValuePage(
-                          fileId, fileListSheet['rows'][index]['sheetName']),
+                      builder: (context) => ByValuePage(sheetViewConfig.fileId,
+                          fileListSheet['rows'][index]['sheetName']),
                     ));
               },
             )),
         //-------------------------------------------------------------All/select1
         ListTile(
             tileColor: Colors.lightBlue[300],
-            leading: allRowsButton(
-                context,
-                fileId,
-                fileListSheet['rows'][index]['sheetName'],
-                fileListSheet['rows'][index]['fileTitle'],
-                sheetViewConfig),
+            leading: allRowsButton(context, sheetViewConfig),
             title: Row(
               children: [
                 const Text('by cond: ', style: TextStyle(fontSize: 20)),
@@ -86,7 +78,8 @@ Card filelistCard(BuildContext context, Function setStateFunc,
               icon: const Icon(Icons.chevron_right),
               onPressed: () async {
                 SheetConfig sheetConfig = await getSheetConfig(
-                    fileId, fileListSheet['rows'][index]['sheetName']);
+                    sheetViewConfig.fileId,
+                    fileListSheet['rows'][index]['sheetName']);
 
                 await Navigator.push(
                     context,

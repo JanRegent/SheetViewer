@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/models/sheetconfig.dart';
+import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';

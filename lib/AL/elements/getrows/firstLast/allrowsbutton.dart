@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-ElevatedButton allRowsButton(BuildContext context, String fileId,
-    String sheetName, String fileTitle, SheetViewConfig sheetViewConfig) {
+ElevatedButton allRowsButton(
+    BuildContext context, SheetViewConfig sheetViewConfig) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetDataPage(
-              fileId, sheetName, fileTitle, 'getSheet', sheetViewConfig),
+          builder: (context) => GetDataPage('getSheet', sheetViewConfig),
         ));
   }
 

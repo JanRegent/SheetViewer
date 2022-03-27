@@ -18,6 +18,13 @@ class SheetViewConfig {
   String getRowsFrom = '';
   String getRowsTo = '';
 
+  @Ignore()
+  Map fileListSheetRow = {};
+  @Ignore()
+  String fileId = '';
+  @Ignore()
+  String sheetName = '';
+
   SheetViewConfig();
 
   @override

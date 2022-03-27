@@ -4,7 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-part 'sheetconfig.g.dart'; // flutter pub run build_runner build
+part 'zsheetconfig.g.dart'; // flutter pub run build_runner build
 
 @Collection()
 class SheetConfig {

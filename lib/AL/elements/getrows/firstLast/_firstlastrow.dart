@@ -7,23 +7,19 @@ import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastbutton.dart';
 
-Row firstLastRow(BuildContext context, Function setStateFunc, Map fileListSheet,
-    int index, SheetViewConfig sheetViewConfig) {
-  String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-  String sheetName = fileListSheet['rows'][index]['sheetName'];
-  String fileTitle = fileListSheet['rows'][index]['fileTitle'];
-
+Row firstLastRow(BuildContext context, Function setStateFunc,
+    SheetViewConfig sheetViewConfig) {
   return Row(
     children: [
-      firstRowsCount(context, setStateFunc, fileId, sheetName, sheetViewConfig),
+      firstRowsCount(context, setStateFunc, sheetViewConfig),
       const Text(' '),
-      firstButton(context, fileId, sheetName, fileTitle, sheetViewConfig),
+      firstButton(context, sheetViewConfig),
       const Text(' '),
-      lastButton(context, fileId, sheetName, fileTitle, sheetViewConfig),
+      lastButton(context, sheetViewConfig),
       const Text(' '),
-      lastRowsCount(context, setStateFunc, fileId, sheetName, sheetViewConfig),
+      lastRowsCount(context, setStateFunc, sheetViewConfig),
       const Text(' '),
-      allRowsButton(context, fileId, sheetName, fileTitle, sheetViewConfig),
+      allRowsButton(context, sheetViewConfig),
     ],
   );
 }

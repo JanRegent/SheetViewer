@@ -8,15 +8,11 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataPage extends StatefulWidget {
-  final String fileId;
-  final String sheetName;
-  final String sheetTitle;
   final String action;
   final SheetViewConfig sheetViewConfig;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataPage(this.fileId, this.sheetName, this.sheetTitle, this.action,
-      this.sheetViewConfig);
+  const GetDataPage(this.action, this.sheetViewConfig);
 
   @override
   _GetDataPageState createState() => _GetDataPageState();
@@ -32,8 +28,11 @@ class _GetDataPageState extends State<GetDataPage> {
 
   String searchWord = ''; // 'ship';
   Future<String> getData() async {
-    sheetView = (await sheetViewGetData(widget.fileId, widget.sheetName,
-        widget.action, widget.sheetViewConfig))!;
+    sheetView = (await sheetViewGetData(
+        widget.sheetViewConfig.fileId,
+        widget.sheetViewConfig.sheetName,
+        widget.action,
+        widget.sheetViewConfig))!;
 
     return 'OK';
   }
@@ -71,7 +70,8 @@ class _GetDataPageState extends State<GetDataPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               //Navigator.pop(context, dataSheet);
-              return DatagridPage(sheetView);
+              return DatagridPage(sheetView,
+                  widget.sheetViewConfig.fileListSheetRow['fileTitle']);
             }
         }
       },

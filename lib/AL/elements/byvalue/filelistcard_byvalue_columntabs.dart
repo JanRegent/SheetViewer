@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/DL/models/sheetconfig.dart';
+import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
 class ByValueColumnsTabs extends StatefulWidget {
   final SheetConfig sheetConfig;
