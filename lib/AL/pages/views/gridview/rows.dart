@@ -6,7 +6,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import 'detailView/DetailListViewPage.dart';
+import '../detailView/DetailListViewPage.dart';
 
 class RowsDataSource extends DataGridSource {
   final SheetView sheetView;
@@ -94,22 +94,21 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  Widget getCell(DataGridCell<dynamic> e, int rowIx) {
+  Widget getCell(DataGridCell<dynamic> e) {
     if (e.columnName == '__rowDetail__') {
       return IconButton(
         icon: const Icon(Icons.chevron_right),
-        onPressed: () => detailShow(rowIx),
+        onPressed: () => detailShow(),
       );
     }
 
     return readmoreText(e.value.toString());
   }
 
-  Future detailShow(int rowIx) async {
+  Future detailShow() async {
     await Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => DetailListViewPage(sheetView, rowIx)),
+      MaterialPageRoute(builder: (context) => DetailListViewPage(sheetView)),
     );
   }
 
@@ -117,11 +116,12 @@ class RowsDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
-      int rowIx = int.tryParse(row.getCells().first.value.toString())!;
+      sheetView.currentRowsIndex =
+          int.tryParse(row.getCells().first.value.toString())!;
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: getCell(e, rowIx),
+        child: getCell(e),
       );
     }).toList());
   }

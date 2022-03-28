@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class BLuti {
   String url2fileid(String url) {
     if (!url.startsWith('https://docs.')) return url;
@@ -60,5 +62,25 @@ class BLuti {
     String str = string.substring(1, string.length - 1).replaceAll('\\"', '"');
     Map map = jsonDecode(str);
     return map;
+  }
+
+  // date fomatter function
+  String getFormattedDateFromFormattedString(
+      {required String currentFormat,
+      required String desiredFormat,
+      required String value}) {
+    String formattedDate = "";
+    // ignore: unnecessary_null_comparison
+    if (value != null || value.isNotEmpty) {
+      try {
+        DateTime dateTime =
+            DateFormat(currentFormat).parse(value, true).toLocal();
+        formattedDate = DateFormat(desiredFormat).format(dateTime);
+      } catch (e) {
+        return '';
+      }
+    }
+    // print("Formatted date time:  $formattedDate");
+    return formattedDate.toString();
   }
 }

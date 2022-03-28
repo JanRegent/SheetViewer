@@ -32,6 +32,9 @@ class SheetView {
   @Ignore()
   SheetViewConfig sheetViewConfig = SheetViewConfig();
 
+  @Ignore()
+  int currentRowsIndex = 0;
+
   SheetView();
 
   @override

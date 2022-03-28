@@ -75,16 +75,24 @@ var colsLastUsed;
 function responseData(values){
   var columns = colsLastUsed;
 
+  const dateiInsertIndex = columns.indexOf('dateinsert');
   var objectArray = [];
 
   if (values != undefined) {
     for (var i = 0; i < values.length; i++) {
-      var object = {}
-      for (var j = 0; j < values[i].length; j++) {
-        object['"'+columns[j]+'"'] = '"'+values[i][j] + '"';
-      }
+      // var object = {}
+      // for (var j = 0; j < values[i].length; j++) {
+      //   if (i != dateiInsertIndex){
+      //     object['"'+columns[j]+'"'] = '"'+values[i][j] + '"';
+      //   }
+      //   else {
+      //     object['"'+columns[j]+'"'] = '"'+ vanillaToDateOnlyIso8601(values[i][j]) + '"';
+      //   }
+      // }
 
-      objectArray.push(object);   
+      //objectArray.push(object);   
+      Logger.log(values[i][dateiInsertIndex]);
+
     }
   }
   var output = JSON.stringify({
@@ -92,5 +100,24 @@ function responseData(values){
     config: config,
     rows: objectArray,
   });
-  return output;
+  
 }
+
+function vanillaToDateOnlyIso8601(date) {
+  // month May has zero-based index 4
+  //const date = new Date(2014, 4, 11);
+
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
+  const dd = String(date.getDate()).padStart(2, "0");
+
+  if (yyyy < 1583) {
+    // TODO: decide how to support dates before 1583
+    //throw new Error(`dates before year 1583 are not supported`);
+    return '';
+  }
+
+  const formatted = `${yyyy}-${mm}-${dd}`;
+  return formatted;
+}
+

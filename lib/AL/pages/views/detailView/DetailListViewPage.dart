@@ -1,9 +1,7 @@
 // ignore_for_file: file_names
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 //import './../views_common.dart';
@@ -18,10 +16,9 @@ import 'package:sheetviewer/DL/models/sheetview.dart';
 
 class DetailListViewPage extends StatefulWidget {
   final SheetView sheetView;
-  late final int startRowIx;
+
   // ignore: prefer_const_constructors_in_immutables
-  DetailListViewPage(this.sheetView, this.startRowIx, {Key? key})
-      : super(key: key);
+  DetailListViewPage(this.sheetView, {Key? key}) : super(key: key);
 
   @override
   _DetailListViewPageState createState() => _DetailListViewPageState();
@@ -30,7 +27,6 @@ class DetailListViewPage extends StatefulWidget {
 class _DetailListViewPageState extends State<DetailListViewPage> {
   TextEditingController highlighControler = TextEditingController();
 
-  int rowIx = 0;
   late String cellValue;
   List<String> columnsSelected = [];
   late int colIx;
@@ -49,24 +45,25 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
-    rowIx = widget.startRowIx;
   }
 
   void refreshCorrectIndex() {
-    if (rowIx < 0) rowIx = 0;
-    if (rowIx >= widget.sheetView.rows.length) {
-      rowIx = widget.sheetView.rows.length - 1;
+    if (widget.sheetView.currentRowsIndex < 0) {
+      widget.sheetView.currentRowsIndex = 0;
+    }
+    if (widget.sheetView.currentRowsIndex >= widget.sheetView.rows.length) {
+      widget.sheetView.currentRowsIndex = widget.sheetView.rows.length - 1;
     }
     setState(() {});
   }
 
   void arrowLeft() {
-    rowIx -= 1;
+    widget.sheetView.currentRowsIndex -= 1;
     refreshCorrectIndex();
   }
 
   void arrowRight() {
-    rowIx += 1;
+    widget.sheetView.currentRowsIndex += 1;
     refreshCorrectIndex();
   }
 
@@ -77,7 +74,7 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             child: const Icon(Icons.first_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              rowIx = 0;
+              widget.sheetView.currentRowsIndex = 0;
               refreshCorrectIndex();
             }),
         ElevatedButton(
@@ -96,7 +93,8 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
             child: const Icon(Icons.last_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              rowIx = widget.sheetView.rows.length - 1;
+              widget.sheetView.currentRowsIndex =
+                  widget.sheetView.rows.length - 1;
               refreshCorrectIndex();
             }),
       ],
@@ -106,12 +104,22 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   String cellvalueGet(String columnSelected) {
     // String currentCol =
     //     widget.sheetView.cols[widget.sheetView.cols.indexOf(columnSelected)];
-    Map row = jsonDecode(widget.sheetView.rows[rowIx]);
+
+    Map row = bl.blUti
+        .stringToMap(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
+
     String cellValue = row[columnSelected].toString();
     if (columnSelected.toLowerCase() == 'dateinsert') {
-      DateTime datetime = DateTime.parse(cellValue);
-      datetime = datetime.toLocal();
-      cellValue = DateFormat("yyyy-MM-dd").format(datetime);
+      try {
+        DateTime dt1 = DateTime.parse(cellValue);
+        cellValue = dt1.year.toString() +
+            '-' +
+            dt1.month.toString() +
+            '-' +
+            dt1.day.toString();
+      } catch (_) {
+        cellValue = '';
+      }
     }
     return cellValue;
   }
