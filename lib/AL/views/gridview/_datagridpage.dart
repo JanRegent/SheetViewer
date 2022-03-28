@@ -1,12 +1,12 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/pages/views/gridview/listsearch.dart';
+import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '/AL/pages/views/gridview/rows.dart';
+import '/AL/views/gridview/rows.dart';
 
 import 'cols.dart';
 

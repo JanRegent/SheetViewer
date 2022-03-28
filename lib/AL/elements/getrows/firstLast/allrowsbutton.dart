@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/__home/_loadingpage/getdatapage.dart';
+import 'package:sheetviewer/AL/elements/getdataviews.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 ElevatedButton allRowsButton(

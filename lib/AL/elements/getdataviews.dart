@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/pages/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
