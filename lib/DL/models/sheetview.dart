@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
@@ -24,6 +23,7 @@ class SheetView {
   List<String> cols = [];
   @Ignore()
   List<String> colsHeader = [];
+
   List<String> rows = [];
 
   @Ignore()
@@ -72,9 +72,12 @@ class SheetView {
       SheetView sheetView = SheetView()..cols = cols;
       sheetView.colsHeader = cols;
 
-      List<String> rows = bl.blUti.toListString(jsonData["rows"]);
+      //List<String> rows = bl.blUti.toListString(jsonDecode(jsonData["rows"]));
+
+      List<dynamic> rows = jsonData["rows"];
       for (var i = 0; i < rows.length; i++) {
-        sheetView.rows.add(jsonEncode(rows[i]));
+        String row = jsonEncode(rows[i]); //map to String workarround of Isar
+        sheetView.rows.add(row);
       }
 
       sheetView.sheetName = jsonData["config"]["sheetName"] ?? '';

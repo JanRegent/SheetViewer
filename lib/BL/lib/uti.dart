@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 
 class BLuti {
@@ -56,12 +54,6 @@ class BLuti {
       list.add(item);
     }
     return list;
-  }
-
-  Map stringToMap(String string) {
-    String str = string.substring(1, string.length - 1).replaceAll('\\"', '"');
-    Map map = jsonDecode(str);
-    return map;
   }
 
   // date fomatter function

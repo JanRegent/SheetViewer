@@ -47,9 +47,10 @@ function switchEndpoint(e){
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsLast(config.fileId, config.sheetName, config.rowsCount);
-      return respond(responseData(values));
-      //test ?action=getRowsLast&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+      var values = getRowsLastTam(config.fileId, config.sheetName, config.rowsCount);
+      logi(values.length);
+      return respond(responseDataTam(values));
+      //test ?action=getRowsLast&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=10
     case "getrowsfirst":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsFirst(config.fileId, config.sheetName, config.rowsCount);
@@ -72,52 +73,22 @@ function respond(response) {
 
 var colsLastUsed;
 
-function responseData(values){
-  var columns = colsLastUsed;
-
-  const dateiInsertIndex = columns.indexOf('dateinsert');
-  var objectArray = [];
-
-  if (values != undefined) {
-    for (var i = 0; i < values.length; i++) {
-      // var object = {}
-      // for (var j = 0; j < values[i].length; j++) {
-      //   if (i != dateiInsertIndex){
-      //     object['"'+columns[j]+'"'] = '"'+values[i][j] + '"';
-      //   }
-      //   else {
-      //     object['"'+columns[j]+'"'] = '"'+ vanillaToDateOnlyIso8601(values[i][j]) + '"';
-      //   }
-      // }
-
-      //objectArray.push(object);   
-      Logger.log(values[i][dateiInsertIndex]);
-
-    }
-  }
+function responseDataTam(values){
   var output = JSON.stringify({
-    cols: columns,
+    cols: colsLastUsed,
     config: config,
-    rows: objectArray,
+    rows: values,
   });
+  return output;
   
 }
 
-function vanillaToDateOnlyIso8601(date) {
-  // month May has zero-based index 4
-  //const date = new Date(2014, 4, 11);
-
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
-  const dd = String(date.getDate()).padStart(2, "0");
-
-  if (yyyy < 1583) {
-    // TODO: decide how to support dates before 1583
-    //throw new Error(`dates before year 1583 are not supported`);
-    return '';
-  }
-
-  const formatted = `${yyyy}-${mm}-${dd}`;
-  return formatted;
+function responseData(values){
+  var output = JSON.stringify({
+    cols: columns,
+    config: config,
+    rows: values,
+  });
+  
 }
 

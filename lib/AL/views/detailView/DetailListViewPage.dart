@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/bl.dart';
+
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 //import './../views_common.dart';
@@ -105,21 +107,13 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
     // String currentCol =
     //     widget.sheetView.cols[widget.sheetView.cols.indexOf(columnSelected)];
 
-    Map row = bl.blUti
-        .stringToMap(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
-
-    String cellValue = row[columnSelected].toString();
-    if (columnSelected.toLowerCase() == 'dateinsert') {
-      try {
-        DateTime dt1 = DateTime.parse(cellValue);
-        cellValue = dt1.year.toString() +
-            '-' +
-            dt1.month.toString() +
-            '-' +
-            dt1.day.toString();
-      } catch (_) {
-        cellValue = '';
-      }
+    Map row =
+        jsonDecode(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
+    String cellValue = '';
+    try {
+      cellValue = row[columnSelected].toString();
+    } catch (_) {
+      cellValue = '';
     }
     return cellValue;
   }

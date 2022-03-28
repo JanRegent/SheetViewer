@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -59,7 +58,7 @@ class RowsDataSource extends DataGridSource {
 
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    Map row = bl.blUti.stringToMap(sheetView.rows[rowIx]);
+    Map row = jsonDecode(sheetView.rows[rowIx]);
     for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       String value = '';
       try {
