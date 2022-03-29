@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
 import 'package:sheetviewer/AL/alayouts/filelist/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastgridpage.dart';
+import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
@@ -41,6 +42,18 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   String interestTitle = 'Tabs Demo';
 
+  Widget switchPage(String pageLayout, Map tabrow) {
+    pageLayout = 'LastNew1Page';
+    switch (pageLayout) {
+      case 'lastGrid':
+        return LastGridApp(tabrow['url'], tabrow['sheetName']);
+      case 'LastNew1Page':
+        return const LastNew1Page();
+      default:
+        throw FilelistviewPage(tabrow['url'], tabrow['sheetName']);
+    }
+  }
+
   DefaultTabController tabs(BuildContext context) {
     List<Tab> tabsList = [];
     List<Widget> tabsPages = [];
@@ -49,11 +62,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
       tabsList.add(Tab(
         text: tabrow['tabName'],
       ));
-      if (bl.tablistView == 'lastGrid') {
-        tabsPages.add(LastGridApp(tabrow['url'], tabrow['sheetName']));
-      } else {
-        tabsPages.add(FilelistviewPage(tabrow['url'], tabrow['sheetName']));
-      }
+      tabsPages.add(switchPage(bl.tablistView, tabrow));
     }
 
     return DefaultTabController(

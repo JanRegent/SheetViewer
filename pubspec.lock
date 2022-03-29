@@ -429,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  nil:
+    dependency: transitive
+    description:
+      name: nil
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   package_config:
     dependency: transitive
     description:
@@ -436,6 +443,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  page_grid:
+    dependency: "direct main"
+    description:
+      name: page_grid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:
@@ -813,5 +827,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.15.0 <3.0.0"
+  dart: ">=2.16.0 <3.0.0"
   flutter: ">=2.10.0"
