@@ -48,40 +48,38 @@ function switchEndpoint(e){
     case "getrowslast":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
       var values = getRowsLastTam(config.fileId, config.sheetName, config.rowsCount);
-      logi(values.length);
-      return respond(responseDataTam(values));
+      return responseDataTamotsu(values);
       //test ?action=getRowsLast&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=10
     case "getrowsfirst":
       if(getPar(e, 'rowsCount') != '') return paramsErr; 
-      var values = getRowsFirst(config.fileId, config.sheetName, config.rowsCount);
-      return respond(responseData(values));
-      //test ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+            logi(config);
+      var values = getRowsFirstTam(config.fileId, config.sheetName, config.rowsCount);
+      return responseDataTamotsu(values);
+      //test ?action=getRowsFirst&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=3
 
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }
 }
 
-function respond(response) {  
-  //Logger.log(response);
-  //listObj(config.getRows, 'resp');
-  return ContentService
-  .createTextOutput(response)
-  .setMimeType(ContentService.MimeType.JSON)
-}
-
 
 var colsLastUsed;
 
-function responseDataTam(values){
+function responseDataTamotsu(values){
   var output = JSON.stringify({
     cols: colsLastUsed,
     config: config,
     rows: values,
   });
-  return output;
+
+  return ContentService
+    .createTextOutput(output)
+    .setMimeType(ContentService.MimeType.JSON)
+ 
   
 }
+
+//---------------------------------------------2del
 
 function responseData(values){
   var output = JSON.stringify({
@@ -90,5 +88,14 @@ function responseData(values){
     rows: values,
   });
   
+}
+
+
+function respond(response) {  
+  //Logger.log(response);
+  //listObj(config.getRows, 'resp');
+  return ContentService
+  .createTextOutput(response)
+  .setMimeType(ContentService.MimeType.JSON)
 }
 
