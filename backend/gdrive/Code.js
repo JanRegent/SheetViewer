@@ -42,7 +42,7 @@ function switchEndpoint(e){
     case "getsheet": 
       //?sheetName=tabsList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       //?sheetName=hledaniList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
-      return respond(getSheet(config.fileId, config.sheetName)); 
+      return responseDataTamotsu(getSheetTam(config.fileId, config.sheetName)); 
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "getrowslast":

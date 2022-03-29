@@ -19,9 +19,10 @@ Future<SheetView?> sheetViewGetData(
   SheetView? sheetView;
   try {
     sheetView = await sheetsDb.readSheet(queryStringKey);
+
     if (sheetView!.aStatus.startsWith('warn: not exists')) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
-      await updateSheetToCache(queryString);
+      await updateSheetToCache(queryString, queryStringKey);
       sheetView = await sheetsDb.readSheet(queryStringKey);
     }
   } catch (e) {
@@ -42,7 +43,7 @@ Future<SheetView?> sheetViewGetData(
   }
 }
 
-Future updateSheetToCache(String queryString) async {
+Future updateSheetToCache(String queryString, String queryStringKey) async {
   Dio dio = Dio();
   // ignore: prefer_typing_uninitialized_variables
   var response;
@@ -63,7 +64,7 @@ Future updateSheetToCache(String queryString) async {
   try {
     //List<String> cols = bl.blUti.toListString(response.data['cols']);
     //await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
-    await sheetsDb.updateSheetsFromResponse(response.data);
+    await sheetsDb.updateSheetsFromResponse(response.data, queryStringKey);
   } catch (e) {
     if (kDebugMode) {
       print('-------------------------------updateSheetToCache() updateSheets');
@@ -121,6 +122,7 @@ Future<Map> actionMapCreate(String fileId, String sheetName, String action,
         : '10';
     getRowsMap = {"action": "getRowsLast", "rowsCount": rowsCount};
   }
+
   return getRowsMap;
 }
 

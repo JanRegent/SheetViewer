@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 part 'sheetview.g.dart'; // flutter pub run build_runner build
@@ -87,9 +86,6 @@ class SheetView {
       sheetView.colsHeader = jsonData["headerCols"] ?? cols;
       sheetView.rawDataSheet = jsonData;
 
-      sheetView.aQuerystringKey = queryStringKeyBuild(
-          sheetView.fileId, sheetView.sheetName, {'action': 'getRowsLast'});
-
       return sheetView;
     } catch (e) {
       return SheetView()..aStatus = 'err: \n' + e.toString();
@@ -140,9 +136,9 @@ class SheetsDb {
     }
   }
 
-  Future updateSheetsFromResponse(Map jsonData) async {
+  Future updateSheetsFromResponse(Map jsonData, String queryStringKey) async {
     SheetView sheetView = SheetView.fromJson(jsonData);
-
+    sheetView.aQuerystringKey = queryStringKey;
     try {
       await isar.writeTxn((isar) async {
         sheetView.id = await isar.sheetViews.put(sheetView); // insert
