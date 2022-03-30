@@ -62,14 +62,51 @@ var rowMax;
 
 
 function getAgent(fileId, sheetName) {
-  Tamotsu.initialize(SpreadsheetApp.openById(fileId));
+  if (fileId == null) return undefined;
+  var ss; 
+  if (fileId.substring(0,4) === 'http' )  
+    ss = SpreadsheetApp.openByUrl(fileId);
+  else
+    ss = SpreadsheetApp.openById(fileId);
+
+  Tamotsu.initialize(ss);
   var Agent = Tamotsu.Table.define({ sheetName: sheetName  });
   rowMax = Agent.all().length;
   return Agent;
 }
 
+function url2fileid( url) {
+  if (url.substring(0, 'https://docs.'.length)  == 'https://docs.') return url;
+  var fileid = url.replaceAll('https://docs.google.com/spreadsheets/d/', '');
+  fileid = fileid.substring(0, fileid.indexOf('/'));
+  return fileid;
+}
+
+//----------------------------------------------------------------------------------------
+function getRowsLast1quote(fileId, sheetName) {
+  var rows = getSheetTam(fileId, sheetName);
+  var arr = []
+  for (var i = 0; i < rows.length; i++) {
+    var row = {}
+    var Agent = getAgent(rows[i]['fileUrl'], rows[i]['sheetName'] );
+    if (Agent == undefined) continue;
+    var lastRow = Agent.last()
+    var quoteColumn = rows[i]['quoteColumn'];
+    if (quoteColumn == '') continue;
+    row['quote'] = lastRow[quoteColumn];
+    row['fileUrl'] = rows[i]['fileUrl'];
+    row['sheetName'] = rows[i]['sheetName'];
+    arr.push(row);
+  }
+  return arr;
+  // ?action=getRowsLast&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=3
+}
 
 //----------------------------------------------------------------------------------------test
+function getRowsLast1byList_test() {
+  Logger.log(getRowsLast1byList('https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500', 'hledaniList'));
+}
+
 function getTablistTest(){
     logClear();
     config.fileId = '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis';

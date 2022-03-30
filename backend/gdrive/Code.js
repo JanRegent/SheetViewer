@@ -57,6 +57,11 @@ function switchEndpoint(e){
       return responseDataTamotsu(values);
       //test ?action=getRowsFirst&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=3
 
+    case "getrowslast1quote":
+      var values = getRowsLast1quote(config.fileId, config.sheetName, config.rowsCount);
+      return responseDataTamotsu(values);
+      //test ?action=getRowsLast1quote&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo&sheetName=hledaniList
+
     default:
       return respond('{error: "Parameter Action has no expected value: " + '+action+' }');
   }

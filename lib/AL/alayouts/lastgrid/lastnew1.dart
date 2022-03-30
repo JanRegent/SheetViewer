@@ -13,28 +13,26 @@ class LastNew1Page extends StatefulWidget {
 }
 
 class _LastNew1PageState extends State<LastNew1Page> {
-  // bool datatype to give toggle effect to button and
-  // depending on this bool value will show full text or
-  // limit the number of line to be viewed in text.
+  // https://protocoderspoint.com/how-to-implement-read-more-read-less-text-in-flutter/
 
   late Map fileListSheet = {};
 
   Future<String> getData() async {
-    fileListSheet = await getSheet(widget.url, widget.sheetName);
+    fileListSheet = await getrowslast1quote(widget.url, widget.sheetName);
+    print(fileListSheet);
     return 'ok';
   }
 
   bool isReadmore = false;
 
-  Column newsColumn(String fileTitle) {
+  Column newsColumn(int index) {
     return Column(children: [
       Text(
-        fileTitle,
+        fileListSheet['rows'][index]['sheetName'],
         style: const TextStyle(fontSize: 30),
       ),
       //text widget to display long text
-      buildText(
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."),
+      buildText(fileListSheet['rows'][index]['quote']),
       ElevatedButton(
           onPressed: () {
             setState(() {
@@ -55,7 +53,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
             //                    <-- BoxDecoration
             border: Border(bottom: BorderSide()),
           ),
-          child: newsColumn(fileListSheet['rows'][index]['fileTitle']),
+          child: newsColumn(index),
         );
       },
     );
