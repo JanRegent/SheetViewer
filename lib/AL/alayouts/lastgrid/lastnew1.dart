@@ -19,7 +19,6 @@ class _LastNew1PageState extends State<LastNew1Page> {
 
   Future<String> getData() async {
     fileListSheet = await getrowslast1quote(widget.url, widget.sheetName);
-    print(fileListSheet);
     return 'ok';
   }
 

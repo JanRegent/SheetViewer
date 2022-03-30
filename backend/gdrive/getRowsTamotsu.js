@@ -84,27 +84,27 @@ function url2fileid( url) {
 
 //----------------------------------------------------------------------------------------
 function getRowsLast1quote(fileId, sheetName) {
-  var rows = getSheetTam(fileId, sheetName);
+  var listRows = getSheetTam(fileId, sheetName);
   var arr = []
-  for (var i = 0; i < rows.length; i++) {
-    var row = {}
-    var Agent = getAgent(rows[i]['fileUrl'], rows[i]['sheetName'] );
+  for (var i = 0; i < listRows.length; i++) {
+    var row = listRows[i];
+    var Agent = getAgent(row['fileUrl'], row['sheetName'] );
     if (Agent == undefined) continue;
     var lastRow = Agent.last()
-    var quoteColumn = rows[i]['quoteColumn'];
-    if (quoteColumn == '') continue;
-    row['quote'] = lastRow[quoteColumn];
-    row['fileUrl'] = rows[i]['fileUrl'];
-    row['sheetName'] = rows[i]['sheetName'];
+    if (row['quoteColumn'] == '') continue;
+
+    row['quote'] = lastRow[row['quoteColumn']];
+    
     arr.push(row);
   }
+  colsLastUsed.push('quote');
   return arr;
-  // ?action=getRowsLast&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=3
+  // ?action=getRowsLast1quote&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo&sheetName=hledaniList
 }
 
 //----------------------------------------------------------------------------------------test
 function getRowsLast1byList_test() {
-  Logger.log(getRowsLast1byList('https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500', 'hledaniList'));
+  Logger.log(getRowsLast1quote('https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500', 'hledaniList'));
 }
 
 function getTablistTest(){
