@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Future post1() async {
@@ -15,5 +16,7 @@ Future post1() async {
   });
   var response = await dio.post('', data: formData);
 
-  print(response.data);
+  if (kDebugMode) {
+    print(response.data);
+  }
 }

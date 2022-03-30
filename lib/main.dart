@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/DL/loader/posts.dart';
+//import 'package:sheetviewer/DL/loader/posts.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
@@ -31,7 +31,8 @@ void main() async {
   await GetStorage.init();
   await bl.init();
   await logOn();
-  await post1();
+  //await post1();
+
   // await getSheetConfig(
   //     '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes__config__');
 

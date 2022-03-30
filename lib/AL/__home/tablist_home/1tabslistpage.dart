@@ -48,7 +48,9 @@ class _TabsListsPageState extends State<TabsListsPage> {
       case 'lastGrid':
         return LastGridApp(tabrow['url'], tabrow['sheetName']);
       case 'LastNew1Page':
-        return const LastNew1Page();
+        return const LastNew1Page(
+            'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500',
+            'hledaniList');
       default:
         throw FilelistviewPage(tabrow['url'], tabrow['sheetName']);
     }

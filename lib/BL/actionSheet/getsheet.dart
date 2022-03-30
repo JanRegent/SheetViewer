@@ -5,6 +5,9 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 Future getSheet(String fileId, String sheetName) async {
+  if (fileId.toLowerCase().startsWith('https')) {
+    fileId = bl.blUti.url2fileid(fileId);
+  }
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
