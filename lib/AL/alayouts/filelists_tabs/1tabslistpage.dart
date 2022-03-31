@@ -23,10 +23,6 @@ class _TabsListsPageState extends State<TabsListsPage> {
     super.initState();
   }
 
-  void setStateFunc() {
-    setState(() {});
-  }
-
   Map tabsListResponse = {};
   Future<String> getData() async {
     tabsListResponse = await getSheet(

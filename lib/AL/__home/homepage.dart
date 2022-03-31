@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Icon(Icons.home),
             ElevatedButton(
+              child: const Text('Last N'),
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -21,11 +22,9 @@ class HomeScreen extends StatelessWidget {
                       builder: (context) => const TabsListsPage('lastGrid')),
                 );
               },
-
-              //=> context.beamToNamed('/lastGrid'),
-              child: const Text('Last N'),
             ),
             ElevatedButton(
+              child: const Text('File lists'),
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -33,9 +32,6 @@ class HomeScreen extends StatelessWidget {
                       builder: (context) => const TabsListsPage('fileList')),
                 );
               },
-
-              //=> context.beamToNamed('/fileList'),
-              child: const Text('File lists'),
             )
           ],
         )),
