@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/alayouts/filelists_tabs/1tabslistpage.dart';
+import 'package:sheetviewer/AL/alayouts/_filelists/filelistpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,17 +19,17 @@ class HomeScreen extends StatelessWidget {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TabsListsPage('lastGrid')),
+                      builder: (context) => const FileListPage('lastGrid')),
                 );
               },
             ),
             ElevatedButton(
-              child: const Text('File lists'),
+              child: const Text('By values'),
               onPressed: () async {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TabsListsPage('fileList')),
+                      builder: (context) => const FileListPage('fileList')),
                 );
               },
             )
