@@ -2,31 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sheetviewer/AL/__home/tablist_home/home_help.dart';
+import 'package:sheetviewer/AL/alayouts/filelists_tabs/home_help.dart';
 import 'package:sheetviewer/AL/alayouts/filelist/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastgridpage.dart';
-import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
-import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 
-import 'tablistdrawer.dart';
-
 class TabsListsPage extends StatefulWidget {
-  const TabsListsPage({Key? key}) : super(key: key);
+  final String layout;
+  const TabsListsPage(this.layout, {Key? key}) : super(key: key);
 
   @override
   _TabsListsPageState createState() => _TabsListsPageState();
 }
 
-late FToast fToast;
-
 class _TabsListsPageState extends State<TabsListsPage> {
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(context);
   }
 
   void setStateFunc() {
@@ -42,36 +36,41 @@ class _TabsListsPageState extends State<TabsListsPage> {
 
   String interestTitle = 'Tabs Demo';
 
-  Widget switchPage(String pageLayout, Map tabrow) {
-    pageLayout = 'LastNew1Page';
-    switch (pageLayout) {
+  Widget switchPage(String layout) {
+    switch (layout) {
       case 'lastGrid':
-        return LastGridApp(tabrow['url'], tabrow['sheetName']);
-      case 'LastNew1Page':
-        return const LastNew1Page(
-            'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500',
-            'hledaniList');
+        return tabs(context, 'lastGrid');
+      case 'fileList':
+        return tabs(context, 'fileList');
       default:
-        throw FilelistviewPage(tabrow['url'], tabrow['sheetName']);
+        return tabs(context, 'lastGrid');
     }
   }
 
-  DefaultTabController tabs(BuildContext context) {
+  StatefulWidget tabs(BuildContext context, String layout) {
     List<Tab> tabsList = [];
+
     List<Widget> tabsPages = [];
     for (var i = 0; i < tabsListResponse['rows'].length; i++) {
       Map tabrow = tabsListResponse['rows'][i];
       tabsList.add(Tab(
         text: tabrow['tabName'],
       ));
-      tabsPages.add(switchPage(bl.tablistView, tabrow));
+      if (layout == 'lastGrid') {
+        interestTitle = 'Last N rows';
+        tabsPages.add(LastGridPage(tabrow['url'], tabrow['sheetName']));
+      } else {
+        interestTitle = 'Queries';
+        return FilelistviewPage(tabrow['url'], tabrow['sheetName']);
+      }
     }
 
+    int tabsLen = tabsListResponse['rows'].length; // + 1;
     return DefaultTabController(
-      length: tabsListResponse['rows'].length,
+      length: tabsLen,
       child: Scaffold(
-        drawer: tablistDrawer(setStateFunc),
         appBar: AppBar(
+          leading: al.iconBack(context),
           bottom: TabBar(
             tabs: tabsList,
           ),
@@ -91,7 +90,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
     );
   }
 
-  Widget homeBuilder() {
+  Widget fileListBuilder(String layout) {
     return FutureBuilder<String>(
       future: getData(), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -99,7 +98,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
           case ConnectionState.waiting:
             return Column(
               children: const [
-                Text('Loading tabs....'),
+                Text('Loading home page....'),
                 CircularProgressIndicator()
               ],
             );
@@ -108,7 +107,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return tabs(context);
+              return switchPage(layout);
             }
         }
       },
@@ -120,7 +119,7 @@ class _TabsListsPageState extends State<TabsListsPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: homeBuilder(),
+          body: fileListBuilder(widget.layout),
         ));
   }
 }

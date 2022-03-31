@@ -29,13 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  
   #========================================================AL    
   syncfusion_flutter_datagrid: ^19.4.56  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
   
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
-  page_grid: ^0.0.2             #https://pub.dev/packages/page_grid/example
+  
+ 
   #text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
   fluttertoast: ^8.0.8          #https://pub.dev/packages/fluttertoast
@@ -70,9 +70,9 @@ dependencies:
  
 
 dev_dependencies:
-  # flutter_test:
-  #   sdk: flutter 
-  #ERR : Because every version of flutter_test from sdk depends on collection 1.16.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, flutter_test from sdk is incompatible with syncfusion_flutter_datagrid 19.4.56.
+  flutter_test:
+    sdk: flutter 
+  #vercel build ERR : Because every version of flutter_test from sdk depends on collection 1.16.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, flutter_test from sdk is incompatible with syncfusion_flutter_datagrid 19.4.56.
 
   isar_generator: ^2.2.1            #https://pub.dev/packages/isar_generator
   build_runner: ^2.1.7              #https://pub.dev/packages/build_runner

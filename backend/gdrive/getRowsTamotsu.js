@@ -85,6 +85,10 @@ function url2fileid( url) {
 //----------------------------------------------------------------------------------------
 function getRowsLast1quote(fileId, sheetName) {
   var listRows = getSheetTam(fileId, sheetName);
+  if (colsLastUsed.indexOf('quoteColumn')) {
+    config['state'] = 'err: getRowsLast1quote(fileId, sheetName) - quoteColumn is not defined in filelist';
+    return;
+  }
   var arr = []
   for (var i = 0; i < listRows.length; i++) {
     var row = listRows[i];

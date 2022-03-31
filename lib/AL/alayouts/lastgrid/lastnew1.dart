@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:sheetviewer/AL/elements/load/loadlist.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -20,6 +21,10 @@ class _LastNew1PageState extends State<LastNew1Page> {
   Future<String> getData() async {
     fileListSheet = await getrowslast1quote(widget.url, widget.sheetName);
     return 'ok';
+  }
+
+  void setStateFunc() {
+    setState(() {});
   }
 
   bool isReadmore = false;
