@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elements/getdataviews.dart';
+import 'package:sheetviewer/AL/views/getdataviews.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 ElevatedButton allRowsButton(
@@ -8,7 +8,7 @@ ElevatedButton allRowsButton(
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetDataPage('getSheet', sheetViewConfig),
+          builder: (context) => GetDataViewsPage('getSheet', sheetViewConfig),
         ));
   }
 

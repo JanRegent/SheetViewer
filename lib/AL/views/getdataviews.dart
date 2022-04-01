@@ -7,18 +7,18 @@ import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 /// The home page of the application which hosts the datagrid.
-class GetDataPage extends StatefulWidget {
+class GetDataViewsPage extends StatefulWidget {
   final String action;
   final SheetViewConfig sheetViewConfig;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataPage(this.action, this.sheetViewConfig);
+  const GetDataViewsPage(this.action, this.sheetViewConfig);
 
   @override
-  _GetDataPageState createState() => _GetDataPageState();
+  _GetDataViewsPageState createState() => _GetDataViewsPageState();
 }
 
-class _GetDataPageState extends State<GetDataPage> {
+class _GetDataViewsPageState extends State<GetDataViewsPage> {
   @override
   void initState() {
     super.initState();

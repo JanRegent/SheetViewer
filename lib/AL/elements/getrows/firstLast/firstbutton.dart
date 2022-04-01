@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elements/getdataviews.dart';
+import 'package:sheetviewer/AL/views/getdataviews.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
@@ -10,7 +10,8 @@ IconButton firstButton(BuildContext context, SheetViewConfig sheetViewConfig) {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetDataPage('getRowsFirst', sheetViewConfig),
+          builder: (context) =>
+              GetDataViewsPage('getRowsFirst', sheetViewConfig),
         ));
   }
 
