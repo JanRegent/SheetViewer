@@ -1,7 +1,9 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/homepage.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
@@ -36,16 +38,23 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
 
   Map tabsListResponse = {};
   List<String> interests = [];
-  Future<String> getData() async {
-    tabsListResponse = await getSheet(
-        'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
-        'interestList');
-    for (var i = 0; i < tabsListResponse['rows'].length; i++) {
-      String interestName = tabsListResponse['rows'][i]['interestName'];
-      if (interests.contains(interestName)) continue;
-      interests.add(interestName);
+  Future<String> getData(BuildContext context) async {
+    try {
+      tabsListResponse = await getSheet(
+          'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
+          'interestList');
+      for (var i = 0; i < tabsListResponse['rows'].length; i++) {
+        String interestName = tabsListResponse['rows'][i]['interestName'];
+        if (interests.contains(interestName)) continue;
+        interests.add(interestName);
+      }
+      infoSnack(context, 'Interests list ready', AnimatedSnackBarType.info);
+      return 'ok';
+    } catch (e) {
+      infoSnack(
+          context, 'Interests list NOT ready', AnimatedSnackBarType.error);
+      return 'err: $e';
     }
-    return 'ok';
   }
 
   IconButton jsonViewer() {
@@ -65,7 +74,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder<String>(
-      future: getData(), // async work
+      future: getData(context), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

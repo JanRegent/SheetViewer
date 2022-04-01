@@ -1,8 +1,10 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/alayouts/_filelists/filelistpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
 import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map tabsListResponse;
@@ -39,7 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
           break;
         }
       }
-    } catch (_) {}
+      infoSnack(context, 'interest is ready:' + selectedInterest,
+          AnimatedSnackBarType.info);
+    } catch (_) {
+      infoSnack(context, 'interest is NOT ready:' + selectedInterest,
+          AnimatedSnackBarType.error);
+    }
   }
 
   Row titleRow() {

@@ -34,7 +34,7 @@ dependencies:
   syncfusion_flutter_datagrid: ^19.4.56  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
   
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
-  
+  animated_snack_bar: ^0.2.1    #https://pub.dev/packages/animated_snack_bar
  
   #text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
