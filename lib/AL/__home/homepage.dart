@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/alayouts/_filelists/filelistpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
+import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map tabsListResponse;
@@ -26,18 +27,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String selectedInterest = '';
-
-  Function valsel(value) {
+  Map selectedInterestMap = {};
+  void interestChanged(value) {
     try {
-      print(value);
-      return value;
-    } catch (_) {
-      return value;
-    }
+      selectedInterest = value;
+      selectedInterestMap = widget.tabsListResponse['rows'][0];
+      for (var i = 0; i < widget.tabsListResponse['rows'].length; i++) {
+        if (widget.tabsListResponse['rows'][i]['interestName'] ==
+            selectedInterest) {
+          selectedInterestMap = widget.tabsListResponse['rows'][i];
+          break;
+        }
+      }
+    } catch (_) {}
   }
 
   Row titleRow() {
     selectedInterest = widget.intererests[0];
+    selectedInterestMap = widget.tabsListResponse['rows'][0];
     return Row(
       children: [
         const Icon(Icons.home),
@@ -45,17 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         CustomDropdownMenu(
             defaultValue: widget.intererests[0],
             values: widget.intererests,
-            onItemSelected: valsel),
-        // DropdownButton(
-
-        //   value: selectedInterest,
-        //   items: dropdownItems,
-        //   onChanged: (String? value) {
-        //     setState(() {
-        //       selectedInterest = value!;
-        //     });
-        //   },
-        // ),
+            onItemSelected: interestChanged),
         ElevatedButton(
           child: const Text('Last N'),
           onPressed: () async {
@@ -63,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('lastGrid', widget.tabsListResponse)),
+                      FileListPage('lastGrid', selectedInterestMap)),
             );
           },
         ),
@@ -74,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('fileList', widget.tabsListResponse)),
+                      FileListPage('fileList', selectedInterestMap)),
             );
           },
         )
@@ -89,59 +86,5 @@ class _HomeScreenState extends State<HomeScreen> {
         body: const LastNew1Page(
             'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500',
             'hledaniList'));
-  }
-}
-
-class CustomDropdownMenu extends StatefulWidget {
-  const CustomDropdownMenu(
-      {Key? key,
-      required this.defaultValue,
-      required this.values,
-      required this.onItemSelected})
-      : super(key: key);
-  final dynamic Function(String? selectedValue) onItemSelected;
-  final String defaultValue;
-  final List<String> values;
-  @override
-  _CustomDropdownMenuState createState() => _CustomDropdownMenuState();
-}
-
-class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
-  late String dropdownValue;
-
-  @override
-  void initState() {
-    super.initState();
-    dropdownValue = widget.defaultValue;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          padding: const EdgeInsets.all(5.0),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: dropdownValue,
-              items: widget.values.map((dropValue) {
-                return DropdownMenuItem<String>(
-                  value: dropValue,
-                  child: Text(dropValue),
-                );
-              }).toList(),
-              onChanged: (newDropdownValue) {
-                setState(() {
-                  dropdownValue = newDropdownValue!;
-                });
-                widget.onItemSelected(newDropdownValue);
-              },
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }

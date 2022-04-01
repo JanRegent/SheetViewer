@@ -38,9 +38,10 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
   List<String> interests = [];
   Future<String> getData() async {
     tabsListResponse = await getSheet(
-        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList');
+        'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
+        'interestList');
     for (var i = 0; i < tabsListResponse['rows'].length; i++) {
-      String interestName = tabsListResponse['rows'][i]['tabName'];
+      String interestName = tabsListResponse['rows'][i]['interestName'];
       if (interests.contains(interestName)) continue;
       interests.add(interestName);
     }

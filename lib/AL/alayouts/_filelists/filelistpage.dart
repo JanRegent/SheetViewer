@@ -6,8 +6,8 @@ import 'package:sheetviewer/AL/alayouts/lastgrid/lastgridpage.dart';
 
 class FileListPage extends StatefulWidget {
   final String layout;
-  final Map tabsListResponse;
-  const FileListPage(this.layout, this.tabsListResponse, {Key? key})
+  final Map selectedInterestMap;
+  const FileListPage(this.layout, this.selectedInterestMap, {Key? key})
       : super(key: key);
 
   @override
@@ -32,13 +32,12 @@ class _FileListPageState extends State<FileListPage> {
   String interestTitle = 'Tabs Demo';
 
   Widget fileListBuilder(String layout) {
-    int i = 0;
     if (widget.layout == 'lastGrid') {
-      return LastGridPage(widget.tabsListResponse['rows'][i]['url'],
-          widget.tabsListResponse['rows'][i]['sheetName']);
+      return LastGridPage(widget.selectedInterestMap['url'],
+          widget.selectedInterestMap['sheetName']);
     } else {
-      return ByvaluePage(widget.tabsListResponse['rows'][i]['url'],
-          widget.tabsListResponse['rows'][i]['sheetName']);
+      return ByvaluePage(widget.selectedInterestMap['url'],
+          widget.selectedInterestMap['sheetName']);
     }
   }
 
