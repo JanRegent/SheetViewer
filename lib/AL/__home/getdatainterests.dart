@@ -1,18 +1,26 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/AL/__home/homepage.dart';
+import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+
+class GetDataInterestsApp extends StatelessWidget {
+  const GetDataInterestsApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: GetDataInterestsPage(),
+        ));
+  }
+}
 
 /// The home page of the application which hosts the datagrid.
 class GetDataInterestsPage extends StatefulWidget {
-  final String action;
-  final SheetViewConfig sheetViewConfig;
-
-  // ignore: use_key_in_widget_constructors
-  const GetDataInterestsPage(this.action, this.sheetViewConfig);
+  const GetDataInterestsPage({Key? key}) : super(key: key);
 
   @override
   _GetDataInterestsPageState createState() => _GetDataInterestsPageState();
@@ -26,15 +34,17 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
 
   SheetView sheetView = SheetView()..aStatus = 'info:empty';
 
-  String searchWord = ''; // 'ship';
+  Map tabsListResponse = {};
+  List<String> interests = [];
   Future<String> getData() async {
-    sheetView = (await sheetViewGetData(
-        widget.sheetViewConfig.fileId,
-        widget.sheetViewConfig.sheetName,
-        widget.action,
-        widget.sheetViewConfig))!;
-
-    return 'OK';
+    tabsListResponse = await getSheet(
+        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList');
+    for (var i = 0; i < tabsListResponse['rows'].length; i++) {
+      String interestName = tabsListResponse['rows'][i]['tabName'];
+      if (interests.contains(interestName)) continue;
+      interests.add(interestName);
+    }
+    return 'ok';
   }
 
   IconButton jsonViewer() {
@@ -60,7 +70,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
           case ConnectionState.waiting:
             return Column(
               children: const [
-                Text('Loading....'),
+                Text('Loading interests....'),
                 CircularProgressIndicator()
               ],
             );
@@ -69,9 +79,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              //Navigator.pop(context, dataSheet);
-              return DatagridPage(sheetView,
-                  widget.sheetViewConfig.fileListSheetRow['fileTitle']);
+              return HomeScreen(tabsListResponse, interests);
             }
         }
       },

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:sheetviewer/AL/__home/getdatainterests.dart';
 //import 'package:sheetviewer/DL/loader/posts.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
@@ -11,7 +12,6 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 //import 'AL/__home/tablist_home/1tabslistpage.dart';
 
-import 'AL/__home/homepage.dart';
 import 'BL/bl.dart';
 
 //import 'maintest.dart';
@@ -70,7 +70,7 @@ void main() async {
     //print(sheetConfig.toString());
   }
 
-  runApp(const HomeApp());
+  runApp(const GetDataInterestsApp());
 }
 
 Future<String> post0(String fileId, String sheetName, String column,

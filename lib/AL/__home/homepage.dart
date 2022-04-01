@@ -2,96 +2,60 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/alayouts/_filelists/filelistpage.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
-import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
-
-class HomeApp extends StatelessWidget {
-  const HomeApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: HomeScreen(),
-        ));
-  }
-}
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Map tabsListResponse;
+  final List<String> intererests;
+  const HomeScreen(this.tabsListResponse, this.intererests, {Key? key})
+      : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map tabsListResponse = {};
   List<DropdownMenuItem<String>> menuItems = [];
-  Future<String> getData() async {
-    tabsListResponse = await getSheet(
-        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', 'tabsList');
-    menuItems.clear();
-    for (var i = 0; i < tabsListResponse['rows'].length; i++) {
-      menuItems.add(DropdownMenuItem(
-          child: Text(tabsListResponse['rows'][i]['tabName']),
-          value: i.toString()));
-    }
-    return 'ok';
-  }
-
   List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(child: Text("USA"), value: "USA"),
-      const DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-      const DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-      const DropdownMenuItem(child: Text("England"), value: "England"),
-    ];
+    for (var i = 0; i < widget.intererests.length; i++) {
+      String interestName = '"' + widget.intererests[i].trim() + '"';
+      menuItems.add(
+        DropdownMenuItem(child: Text(interestName), value: interestName),
+      );
+    }
     return menuItems;
   }
 
-  Widget lastQuotesBuilder() {
-    return FutureBuilder<String>(
-      future: getData(), // async work
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Column(
-              children: const [
-                Text('Loading home page....'),
-                CircularProgressIndicator()
-              ],
-            );
+  String selectedInterest = '';
 
-          default:
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              return const LastNew1Page(
-                  'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500',
-                  'hledaniList');
-              //const HomeScreen();
-            }
-        }
-      },
-    );
+  Function valsel(value) {
+    try {
+      print(value);
+      return value;
+    } catch (_) {
+      return value;
+    }
   }
 
-  String selectedInterest = "USA";
-
   Row titleRow() {
+    selectedInterest = widget.intererests[0];
     return Row(
       children: [
         const Icon(Icons.home),
         const Text(' '),
-        DropdownButton(
-          value: selectedInterest,
-          items: dropdownItems,
-          onChanged: (String? value) {
-            setState(() {
-              selectedInterest = value!;
-            });
-          },
-        ),
+        CustomDropdownMenu(
+            defaultValue: widget.intererests[0],
+            values: widget.intererests,
+            onItemSelected: valsel),
+        // DropdownButton(
+
+        //   value: selectedInterest,
+        //   items: dropdownItems,
+        //   onChanged: (String? value) {
+        //     setState(() {
+        //       selectedInterest = value!;
+        //     });
+        //   },
+        // ),
         ElevatedButton(
           child: const Text('Last N'),
           onPressed: () async {
@@ -99,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('lastGrid', tabsListResponse)),
+                      FileListPage('lastGrid', widget.tabsListResponse)),
             );
           },
         ),
@@ -110,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('fileList', tabsListResponse)),
+                      FileListPage('fileList', widget.tabsListResponse)),
             );
           },
         )
@@ -121,9 +85,63 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: titleRow()), body: lastQuotesBuilder());
+        appBar: AppBar(title: titleRow()),
+        body: const LastNew1Page(
+            'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500',
+            'hledaniList'));
   }
 }
 
-// APP
+class CustomDropdownMenu extends StatefulWidget {
+  const CustomDropdownMenu(
+      {Key? key,
+      required this.defaultValue,
+      required this.values,
+      required this.onItemSelected})
+      : super(key: key);
+  final dynamic Function(String? selectedValue) onItemSelected;
+  final String defaultValue;
+  final List<String> values;
+  @override
+  _CustomDropdownMenuState createState() => _CustomDropdownMenuState();
+}
 
+class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = widget.defaultValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.all(5.0),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              items: widget.values.map((dropValue) {
+                return DropdownMenuItem<String>(
+                  value: dropValue,
+                  child: Text(dropValue),
+                );
+              }).toList(),
+              onChanged: (newDropdownValue) {
+                setState(() {
+                  dropdownValue = newDropdownValue!;
+                });
+                widget.onItemSelected(newDropdownValue);
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
