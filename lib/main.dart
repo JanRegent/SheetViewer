@@ -68,8 +68,9 @@ void main() async {
   // }
   if (kDebugMode) {
     //print(sheetConfig.toString());
-  }
 
+  }
+  //toastMain();
   runApp(const GetDataInterestsApp());
 }
 

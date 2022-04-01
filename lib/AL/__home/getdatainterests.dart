@@ -3,6 +3,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/homepage.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/okdialog.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
@@ -49,8 +50,10 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
         interests.add(interestName);
       }
       infoSnack(context, 'Interests list ready', AnimatedSnackBarType.info);
+      //okdialog1(context);
       return 'ok';
     } catch (e) {
+      //okdialog1(context);
       infoSnack(
           context, 'Interests list NOT ready', AnimatedSnackBarType.error);
       return 'err: $e';
