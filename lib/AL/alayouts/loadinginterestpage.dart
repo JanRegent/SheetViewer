@@ -1,8 +1,14 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/alayouts/loadlistpage.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
+
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
+import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class LoadingInterestPage extends StatefulWidget {
   final Map fileListSheet;
@@ -24,28 +30,31 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
     }
   }
 
-  void setStateFunc() {
-    setState(() {});
-  }
-
   String loadingStatus = 'start';
   String loadingText = '';
-  IconButton loadingRun(BuildContext context) {
-    return IconButton(
-        onPressed: () async {
-          loadingStatus = 'loading';
-          for (var index = 0;
-              index < widget.fileListSheet['rows'].length;
-              index++) {
-            await loadFileListSheetRow(widget.fileListSheet, index);
-            setState(() {
-              widget.fileListSheet['rows'][index]['loadingStatus'] = '';
-            });
-          }
-          loadingStatus = '';
-          loadingText = 'done:';
-        },
-        icon: const Icon(Icons.refresh));
+  IconButton loadingAndPop(BuildContext context) {
+    if (loadingText != 'done:') {
+      return IconButton(
+          onPressed: () => loadingRunF(context),
+          icon: const Icon(Icons.refresh));
+    } else {
+      return al.iconBackDialog(context);
+    }
+  }
+
+  Future loadingRunF(BuildContext context) async {
+    loadingStatus = 'loading';
+    for (var index = 0; index < widget.fileListSheet['rows'].length; index++) {
+      await loadFileListSheetRow(widget.fileListSheet, index);
+      await Future.delayed(const Duration(seconds: 1));
+      setState(() {
+        widget.fileListSheet['rows'][index]['loadingStatus'] = '';
+      });
+    }
+    await Future.delayed(const Duration(seconds: 2));
+    loadingStatus = '';
+    loadingText = 'done:';
+    Navigator.pop(context);
   }
 
   Widget listviewBody() {
@@ -73,7 +82,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: loadingRun(context),
+          leading: loadingAndPop(context),
           title: ListTile(
             title: Text('Loading ${widget.interestName}'),
             leading: loadingStatus == 'loading'
@@ -93,5 +102,48 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
 
         //Center(child: filelistGrid()),
         );
+  }
+}
+
+IconButton loadingPageShow(
+    Map fileListSheet, BuildContext context, String interestName) {
+  return IconButton(
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  LoadingInterestPage(fileListSheet, interestName)),
+        );
+      },
+      icon: const Icon(Icons.refresh));
+}
+
+String loadListSheetName = 'space';
+Map loadListFileListSheet = {};
+IconButton loadList(Map fileListSheet, BuildContext context) {
+  return IconButton(
+      onPressed: () async {
+        await loadListByActions(loadListFileListSheet, context);
+      },
+      icon: const Icon(Icons.refresh));
+}
+
+List<String> actions = ['getRowsFirst', 'getRowsLast'];
+
+Future loadListByActions(Map fileListSheet, BuildContext context) async {
+  for (var index = 0; index < fileListSheet['rows'].length; index++) {
+    infoSnack(context, 'Loading ' + fileListSheet['rows'][index]['fileTitle'],
+        AnimatedSnackBarType.info);
+    await loadFileListSheetRow(fileListSheet, index);
+  }
+  infoSnack(context, 'Done', AnimatedSnackBarType.info);
+}
+
+Future loadFileListSheetRow(Map fileListSheet, int index) async {
+  String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+  String sheetName = fileListSheet['rows'][index]['sheetName'];
+  for (var action in actions) {
+    await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
   }
 }
