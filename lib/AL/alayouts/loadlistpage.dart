@@ -1,5 +1,6 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alayouts/loadinginterestpage.dart';
 
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 
@@ -9,6 +10,20 @@ import 'dart:async';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+
+IconButton loadingPageShow(
+    Map selectedInterestRow, BuildContext context, String interestName) {
+  return IconButton(
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  LoadingInterestPage(selectedInterestRow, interestName)),
+        );
+      },
+      icon: const Icon(Icons.refresh));
+}
 
 String loadListSheetName = 'space';
 Map loadListFileListSheet = {};
