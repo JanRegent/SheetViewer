@@ -41,12 +41,15 @@ Future loadListByActions(Map fileListSheet, BuildContext context) async {
   for (var index = 0; index < fileListSheet['rows'].length; index++) {
     infoSnack(context, 'Loading ' + fileListSheet['rows'][index]['fileTitle'],
         AnimatedSnackBarType.info);
-    String fileId =
-        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-    String sheetName = fileListSheet['rows'][index]['sheetName'];
-    for (var action in actions) {
-      await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
-    }
+    await loadFileListSheetRow(fileListSheet, index);
   }
   infoSnack(context, 'Done', AnimatedSnackBarType.info);
+}
+
+Future loadFileListSheetRow(Map fileListSheet, int index) async {
+  String fileId = bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
+  String sheetName = fileListSheet['rows'][index]['sheetName'];
+  for (var action in actions) {
+    await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
+  }
 }

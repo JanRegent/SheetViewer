@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/AL/alayouts/loadlistpage.dart';
 
 class LoadingInterestPage extends StatefulWidget {
   final Map fileListSheet;
@@ -29,22 +28,42 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
     setState(() {});
   }
 
-  List<SheetViewConfig> sheetViewConfigs = [];
+  String loadingStatus = 'start';
+  String loadingText = '';
+  IconButton loadingRun(BuildContext context) {
+    return IconButton(
+        onPressed: () async {
+          loadingStatus = 'loading';
+          for (var index = 0;
+              index < widget.fileListSheet['rows'].length;
+              index++) {
+            await loadFileListSheetRow(widget.fileListSheet, index);
+            setState(() {
+              widget.fileListSheet['rows'][index]['loadingStatus'] = '';
+            });
+          }
+          loadingStatus = '';
+          loadingText = 'done:';
+        },
+        icon: const Icon(Icons.refresh));
+  }
 
-  Widget detailBody() {
+  Widget listviewBody() {
     return Stack(
       children: <Widget>[
         ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-                leading:
-                    Text(widget.fileListSheet['rows'][index]['loadingStatus']),
-                title: Text(widget.fileListSheet['rows'][index]['fileTitle']));
+            return Container(
+                color: index % 2 == 0
+                    ? const Color.fromARGB(255, 110, 108, 108)
+                    : Colors.white,
+                child: ListTile(
+                    leading: Text(
+                        widget.fileListSheet['rows'][index]['loadingStatus']),
+                    title: Text(
+                        widget.fileListSheet['rows'][index]['fileTitle'])));
           },
           itemCount: widget.fileListSheet['rows'].length,
-        ),
-        const Center(
-          child: CircularProgressIndicator(),
         ),
       ],
     );
@@ -54,8 +73,12 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: loadingRun(context),
           title: ListTile(
             title: Text('Loading ${widget.interestName}'),
+            leading: loadingStatus == 'loading'
+                ? const CircularProgressIndicator(color: Colors.red)
+                : Text(loadingText),
           ),
           backgroundColor: Colors.lightBlue,
           actions: [
@@ -66,7 +89,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
             ),
           ],
         ),
-        body: detailBody()
+        body: listviewBody()
 
         //Center(child: filelistGrid()),
         );
