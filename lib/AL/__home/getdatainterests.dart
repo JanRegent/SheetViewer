@@ -49,8 +49,6 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
         if (interests.contains(interestName)) continue;
         interests.add(interestName);
       }
-      infoSnack(context, 'Interests list ready', AnimatedSnackBarType.info);
-      //okdialog1(context);
       return 'ok';
     } catch (e) {
       //okdialog1(context);

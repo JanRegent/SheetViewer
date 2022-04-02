@@ -6,22 +6,23 @@ import 'package:sheetviewer/AL/alayouts/_filelists/home_help.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class LoadingInterestPage extends StatefulWidget {
-  final Map selectedInterestRow;
+  final Map fileListSheet;
   final String interestName;
-  const LoadingInterestPage(this.selectedInterestRow, this.interestName,
-      {Key? key})
+  const LoadingInterestPage(this.fileListSheet, this.interestName, {Key? key})
       : super(key: key);
 
   @override
   _LoadingInterestPageState createState() => _LoadingInterestPageState();
 }
 
-late Map fileListSheet = {};
-
 class _LoadingInterestPageState extends State<LoadingInterestPage> {
   @override
   void initState() {
     super.initState();
+
+    for (var index = 0; index < widget.fileListSheet['rows'].length; index++) {
+      widget.fileListSheet['rows'][index]['loadingStatus'] = 'waiting';
+    }
   }
 
   void setStateFunc() {
@@ -35,9 +36,12 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
       children: <Widget>[
         ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(title: Text(index.toString()));
+            return ListTile(
+                leading:
+                    Text(widget.fileListSheet['rows'][index]['loadingStatus']),
+                title: Text(widget.fileListSheet['rows'][index]['fileTitle']));
           },
-          itemCount: 10,
+          itemCount: widget.fileListSheet['rows'].length,
         ),
         const Center(
           child: CircularProgressIndicator(),

@@ -4,20 +4,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_filelists/home_help.dart';
 import 'package:sheetviewer/AL/elements/cards/firstlastgridcard.dart';
 import 'package:sheetviewer/AL/alayouts/loadlistpage.dart';
-import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class LastGridPage extends StatefulWidget {
   final Map selectedInterestRow;
-  const LastGridPage(this.selectedInterestRow, {Key? key}) : super(key: key);
+  final Map fileListSheet;
+  final List<SheetViewConfig> sheetViewConfigs;
+  const LastGridPage(
+      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
+      {Key? key})
+      : super(key: key);
 
   @override
   _LastGridPageState createState() => _LastGridPageState();
 }
-
-late Map fileListSheet = {};
 
 class _LastGridPageState extends State<LastGridPage> {
   @override
@@ -31,16 +31,6 @@ class _LastGridPageState extends State<LastGridPage> {
   }
 
   late String interestName;
-  List<SheetViewConfig> sheetViewConfigs = [];
-  Future<String> getData() async {
-    fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
-        widget.selectedInterestRow['sheetName']);
-
-    sheetViewConfigs = await fileListSheet2sheetViewConfigs(
-        fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
-
-    return 'ok';
-  }
 
   Widget detailBody() {
     return Container(
@@ -55,10 +45,10 @@ class _LastGridPageState extends State<LastGridPage> {
           ),
           padding: const EdgeInsets.all(8),
           shrinkWrap: true,
-          itemCount: fileListSheet['rows'].length,
+          itemCount: widget.fileListSheet.length,
           itemBuilder: (context, index) {
             return firstlastGridCard(
-                context, setStateFunc, sheetViewConfigs[index]);
+                context, setStateFunc, widget.sheetViewConfigs[index]);
           },
         ));
   }
@@ -68,7 +58,7 @@ class _LastGridPageState extends State<LastGridPage> {
     return Scaffold(
         appBar: AppBar(
           title: ListTile(
-            leading: loadingPageShow(fileListSheet, context,
+            leading: loadingPageShow(widget.fileListSheet, context,
                 widget.selectedInterestRow['interestName']),
             title: Text(interestName),
           ),
@@ -81,36 +71,7 @@ class _LastGridPageState extends State<LastGridPage> {
             ),
           ],
         ),
-        body: FutureBuilder<String>(
-          future: getData(), // async work
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Column(
-                  children: [
-                    const Text('Loading sheet config...'),
-                    const Text(' '),
-                    ValueListenableBuilder(
-                      valueListenable: bl.blGlobal.loadingMessage,
-                      builder: (context, value, child) => Text(
-                        '$value',
-                      ),
-                    ),
-                    const Text(' '),
-                    const CircularProgressIndicator()
-                  ],
-                );
-
-              default:
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  loadListFileListSheet = fileListSheet;
-                  return detailBody();
-                }
-            }
-          },
-        )
+        body: detailBody()
 
         //Center(child: filelistGrid()),
         );

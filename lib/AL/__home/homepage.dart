@@ -41,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           break;
         }
       }
-      infoSnack(context, 'interest is ready: ' + selectedInterest,
-          AnimatedSnackBarType.info);
     } catch (_) {
       infoSnack(context, 'interest is NOT ready: ' + selectedInterest,
           AnimatedSnackBarType.error);

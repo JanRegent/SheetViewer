@@ -12,14 +12,14 @@ import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 IconButton loadingPageShow(
-    Map selectedInterestRow, BuildContext context, String interestName) {
+    Map fileListSheet, BuildContext context, String interestName) {
   return IconButton(
       onPressed: () async {
         await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  LoadingInterestPage(selectedInterestRow, interestName)),
+                  LoadingInterestPage(fileListSheet, interestName)),
         );
       },
       icon: const Icon(Icons.refresh));

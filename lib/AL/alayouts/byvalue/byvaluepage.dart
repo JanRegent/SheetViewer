@@ -14,8 +14,12 @@ import '../loadlistpage.dart';
 
 class ByvaluePage extends StatefulWidget {
   final Map selectedInterestRow;
-
-  const ByvaluePage(this.selectedInterestRow, {Key? key}) : super(key: key);
+  final Map fileListSheet;
+  final List<SheetViewConfig> sheetViewConfigs;
+  const ByvaluePage(
+      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
+      {Key? key})
+      : super(key: key);
 
   @override
   _ByvaluePageState createState() => _ByvaluePageState();
