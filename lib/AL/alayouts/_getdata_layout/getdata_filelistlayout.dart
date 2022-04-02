@@ -7,17 +7,17 @@ import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-class FileListPage extends StatefulWidget {
+class GetdataFileListLayout extends StatefulWidget {
   final String layout;
   final Map selectedInterestRow;
-  const FileListPage(this.layout, this.selectedInterestRow, {Key? key})
+  const GetdataFileListLayout(this.layout, this.selectedInterestRow, {Key? key})
       : super(key: key);
 
   @override
-  _FileListPageState createState() => _FileListPageState();
+  _GetdataFileListLayoutState createState() => _GetdataFileListLayoutState();
 }
 
-class _FileListPageState extends State<FileListPage> {
+class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   @override
   void initState() {
     super.initState();

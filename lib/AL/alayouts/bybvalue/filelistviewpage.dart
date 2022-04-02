@@ -4,49 +4,44 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/cards/filelistcard.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-import '../loadlistpage.dart';
+class FilelistviewPage extends StatefulWidget {
+  final String url;
+  final String sheetName;
 
-class ByvaluePage extends StatefulWidget {
-  final Map selectedInterestRow;
-  final Map fileListSheet;
-  final List<SheetViewConfig> sheetViewConfigs;
-  const ByvaluePage(
-      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
-      {Key? key})
+  const FilelistviewPage(this.url, this.sheetName, {Key? key})
       : super(key: key);
 
   @override
-  _ByvaluePageState createState() => _ByvaluePageState();
+  _FilelistviewPageState createState() => _FilelistviewPageState();
 }
 
 late Map fileListSheet = {};
 
-class _ByvaluePageState extends State<ByvaluePage> {
-  _ByvaluePageState();
+class _FilelistviewPageState extends State<FilelistviewPage> {
+  _FilelistviewPageState();
 
   @override
   void initState() {
     _controller = ScrollController();
 
-    interestName = widget.selectedInterestRow['interestName'];
     super.initState();
   }
 
-  late String interestName;
   void setStateFunc() {
     setState(() {});
   }
 
   List<SheetViewConfig> sheetViewConfigs = [];
   Future<String> getData() async {
-    fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
-        widget.selectedInterestRow['sheetName']);
+    fileListSheet = await getSheet(
+        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
     for (var index = 0; index < fileListSheet['rows'].length; index++) {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String fileId =
@@ -84,8 +79,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: loadList(fileListSheet, context),
-          title: Text(interestName),
+          leading: al.iconBack(context),
+          title: const Text('fileListSheet.filelistTitle'),
           backgroundColor: Colors.lightBlue,
           actions: [
             ElevatedButton(

@@ -1,7 +1,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/alayouts/_filelists/filelistpage.dart';
+import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 import 'package:sheetviewer/AL/alayouts/lastgrid/lastnew1.dart';
 import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('lastGrid', selectedInterestRow)),
+                      GetdataFileListLayout('lastGrid', selectedInterestRow)),
             );
           },
         ),
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('fileList', selectedInterestRow)),
+                      GetdataFileListLayout('fileList', selectedInterestRow)),
             );
           },
         )
