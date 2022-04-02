@@ -29,15 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String selectedInterest = '';
-  Map selectedInterestMap = {};
+  Map selectedInterestRow = {};
   void interestChanged(value) {
     try {
       selectedInterest = value;
-      selectedInterestMap = widget.tabsListResponse['rows'][0];
+      selectedInterestRow = widget.tabsListResponse['rows'][0];
       for (var i = 0; i < widget.tabsListResponse['rows'].length; i++) {
         if (widget.tabsListResponse['rows'][i]['interestName'] ==
             selectedInterest) {
-          selectedInterestMap = widget.tabsListResponse['rows'][i];
+          selectedInterestRow = widget.tabsListResponse['rows'][i];
           break;
         }
       }
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Row titleRow() {
     selectedInterest = widget.intererests[0];
-    selectedInterestMap = widget.tabsListResponse['rows'][0];
+    selectedInterestRow = widget.tabsListResponse['rows'][0];
     return Row(
       children: [
         const Icon(Icons.home),
@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('lastGrid', selectedInterestMap)),
+                      FileListPage('lastGrid', selectedInterestRow)),
             );
           },
         ),
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FileListPage('fileList', selectedInterestMap)),
+                      FileListPage('fileList', selectedInterestRow)),
             );
           },
         )

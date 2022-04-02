@@ -10,11 +10,12 @@ import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-class ByvaluePage extends StatefulWidget {
-  final String url;
-  final String sheetName;
+import '../loadlist.dart';
 
-  const ByvaluePage(this.url, this.sheetName, {Key? key}) : super(key: key);
+class ByvaluePage extends StatefulWidget {
+  final Map selectedInterestRow;
+
+  const ByvaluePage(this.selectedInterestRow, {Key? key}) : super(key: key);
 
   @override
   _ByvaluePageState createState() => _ByvaluePageState();
@@ -29,17 +30,19 @@ class _ByvaluePageState extends State<ByvaluePage> {
   void initState() {
     _controller = ScrollController();
 
+    interestName = widget.selectedInterestRow['interestName'];
     super.initState();
   }
 
+  late String interestName;
   void setStateFunc() {
     setState(() {});
   }
 
   List<SheetViewConfig> sheetViewConfigs = [];
   Future<String> getData() async {
-    fileListSheet = await getSheet(
-        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
+    fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
+        widget.selectedInterestRow['sheetName']);
     for (var index = 0; index < fileListSheet['rows'].length; index++) {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String fileId =
@@ -77,7 +80,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('fileListSheet.filelistTitle'),
+          leading: loadList(fileListSheet, context),
+          title: Text(interestName),
           backgroundColor: Colors.lightBlue,
           actions: [
             ElevatedButton(
