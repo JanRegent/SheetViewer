@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 
-class ListSearch extends StatefulWidget {
-  const ListSearch({Key? key}) : super(key: key);
+class RowsContainsSearch extends StatefulWidget {
+  final List<String> cols;
+  const RowsContainsSearch(this.cols, {Key? key}) : super(key: key);
 
   @override
-  ListSearchState createState() => ListSearchState();
+  RowsContainsSearchState createState() => RowsContainsSearchState();
 }
 
-class ListSearchState extends State<ListSearch> {
+class RowsContainsSearchState extends State<RowsContainsSearch> {
+  List<String> cols = [];
+  @override
+  void initState() {
+    super.initState();
+    cols.clear();
+    cols.addAll(widget.cols);
+    cols.insert(0, '__all__');
+  }
+
   final TextEditingController _textController = TextEditingController();
 
   static List<String> wordsList = ['qq', 'ship'];
@@ -23,14 +34,25 @@ class ListSearchState extends State<ListSearch> {
     });
   }
 
+  String searchInColumn = '__all__';
+  void searchInColumnChanged(value) {
+    searchInColumn = value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select or add search word'),
-      ),
+          title: const ListTile(
+        title: Text('Select or add search word'),
+      )),
       body: Column(
         children: <Widget>[
+          const Text('In column'),
+          CustomDropdownMenu(
+              defaultValue: '__all__',
+              values: cols,
+              onItemSelected: searchInColumnChanged),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
@@ -54,7 +76,8 @@ class ListSearchState extends State<ListSearch> {
             leading: _textController.text.isNotEmpty
                 ? IconButton(
                     onPressed: () {
-                      Navigator.pop(context, _textController.text);
+                      Navigator.pop(
+                          context, [_textController.text, searchInColumn]);
                     },
                     icon: const Icon(Icons.search))
                 : const Text(' '),

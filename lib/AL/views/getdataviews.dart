@@ -26,7 +26,6 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   SheetView sheetView = SheetView()..aStatus = 'info:empty';
 
-  String searchWord = ''; // 'ship';
   Future<String> getData() async {
     sheetView = (await sheetViewGetData(
         widget.sheetViewConfig.fileId,

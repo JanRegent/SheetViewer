@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/views/gridview/listsearch.dart';
+import 'package:sheetviewer/AL/views/gridview/rowscontainssearch.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -29,9 +29,10 @@ class _DatagridPageState extends State<DatagridPage> {
     super.initState();
   }
 
-  String searchWord = ''; // 'ship';
+  List<String> searchWordSearchInColumn = ['', '__all__']; // 'ship';
   Future<String> getData() async {
-    rowsDataSource = RowsDataSource(widget.sheetView, context, searchWord);
+    rowsDataSource = RowsDataSource(widget.sheetView, context,
+        searchWordSearchInColumn[0], searchWordSearchInColumn[1]);
     return rowsDataSource.sheetView.rows.length.toString();
   }
 
@@ -72,14 +73,14 @@ class _DatagridPageState extends State<DatagridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: searchWord.isEmpty
+          title: searchWordSearchInColumn.isEmpty
               ? Text(widget.fileTitle)
-              : Text(widget.fileTitle + ' [$searchWord]'),
+              : Text(widget.fileTitle + ' $searchWordSearchInColumn'),
           actions: [
-            searchWord.isNotEmpty
+            searchWordSearchInColumn.isNotEmpty
                 ? IconButton(
                     onPressed: () async {
-                      searchWord = '';
+                      searchWordSearchInColumn = ['', '__all'];
                       setState(() {});
                     },
                     icon: const Icon(Icons.clear))
@@ -87,11 +88,12 @@ class _DatagridPageState extends State<DatagridPage> {
             // Navigate to the Search Screen
             IconButton(
                 onPressed: () async {
-                  searchWord = '';
-                  searchWord = await Navigator.push(
+                  searchWordSearchInColumn = ['', '__all'];
+                  searchWordSearchInColumn = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ListSearch()));
+                          builder: (context) =>
+                              RowsContainsSearch(widget.sheetView.cols)));
 
                   setState(() {});
                 },

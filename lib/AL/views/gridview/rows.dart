@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -12,8 +13,10 @@ class RowsDataSource extends DataGridSource {
   final SheetView sheetView;
   final BuildContext context;
   final String searchWord;
+  final String searchInColumn;
 
-  RowsDataSource(this.sheetView, this.context, this.searchWord) {
+  RowsDataSource(
+      this.sheetView, this.context, this.searchWord, this.searchInColumn) {
     _stringRowsData = gridRows(sheetView, context);
   }
 
@@ -23,6 +26,13 @@ class RowsDataSource extends DataGridSource {
     for (var rowIx = 0; rowIx < sheetView.rows.length; rowIx++) {
       Map row = jsonDecode(sheetView.rows[rowIx]);
       if (searchWord.isNotEmpty) {
+        if (searchInColumn != '__all__') {
+          if (row[searchInColumn].toString().contains(searchWord)) {
+            gridrows.add(gridRow(row, rowIx));
+          }
+          continue;
+        }
+
         for (var e in row.entries) {
           if (e.value.toString().contains(searchWord)) {
             gridrows.add(gridRow(row, rowIx));
@@ -94,11 +104,12 @@ class RowsDataSource extends DataGridSource {
       trimMode: TrimMode.Line,
       trimCollapsedText: 'Show more',
       trimExpandedText: 'Show less',
+      style: const TextStyle(fontSize: 14, color: Colors.black),
       moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
     );
   }
 
-  Widget getCell(DataGridCell<dynamic> e) {
+  Widget getCell(DataGridCell<dynamic> e, String searchWord) {
     if (e.columnName == '__rowDetail__') {
       return IconButton(
         icon: const Icon(Icons.chevron_right),
@@ -106,7 +117,12 @@ class RowsDataSource extends DataGridSource {
       );
     }
 
-    return readmoreText(e.value.toString());
+    //return readmoreText(e.value.toString());
+    return SubstringHighlight(
+      text:
+          e.value.toString(), // search result string from database or something
+      term: searchWord, // user typed "et"
+    );
   }
 
   Future detailShow() async {
@@ -125,7 +141,7 @@ class RowsDataSource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: getCell(e),
+        child: getCell(e, searchWord),
       );
     }).toList());
   }

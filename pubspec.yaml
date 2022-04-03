@@ -40,8 +40,8 @@ dependencies:
   fluttertoast: ^8.0.8          #https://pub.dev/packages/fluttertoast
   #text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
+  substring_highlight: ^1.0.33  #https://pub.dev/packages/substring_highlight 
   
-  dynamic_text_highlighting: ^2.2.0 #https://pub.dev/packages/dynamic_text_highlighting
 
   #notify observable
   get: ^4.6.1                   #https://pub.dev/packages/get
