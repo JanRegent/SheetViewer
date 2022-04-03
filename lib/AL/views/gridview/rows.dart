@@ -21,13 +21,17 @@ class RowsDataSource extends DataGridSource {
     List<DataGridRow> gridrows = [];
 
     for (var rowIx = 0; rowIx < sheetView.rows.length; rowIx++) {
+      Map row = jsonDecode(sheetView.rows[rowIx]);
       if (searchWord.isNotEmpty) {
-        if (sheetView.rows[rowIx].toString().contains(searchWord)) {
-          gridrows.add(gridRow(sheetView, rowIx));
+        for (var e in row.entries) {
+          if (e.value.toString().contains(searchWord)) {
+            gridrows.add(gridRow(row, rowIx));
+            break;
+          }
         }
-      } else {
-        gridrows.add(gridRow(sheetView, rowIx));
+        continue;
       }
+      gridrows.add(gridRow(row, rowIx));
     }
     return gridrows;
   }
@@ -54,12 +58,12 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  DataGridRow gridRow(SheetView sheetView, int rowIx) {
+  DataGridRow gridRow(Map row, int rowIx) {
     List<DataGridCell> cells = [];
 
     cells.add(DataGridCell<String>(
         columnName: '__leftRowMenu__', value: rowIx.toString()));
-    Map row = jsonDecode(sheetView.rows[rowIx]);
+
     for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       String value = '';
       try {
