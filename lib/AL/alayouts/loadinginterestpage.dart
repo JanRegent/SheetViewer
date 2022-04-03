@@ -2,8 +2,8 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -24,36 +24,21 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   @override
   void initState() {
     super.initState();
-
-    for (var index = 0; index < widget.fileListSheet['rows'].length; index++) {
-      widget.fileListSheet['rows'][index]['loadingStatus'] = 'waiting';
-    }
   }
 
-  String loadingStatus = 'start';
-  String loadingText = '';
-  IconButton loadingAndPop(BuildContext context) {
-    if (loadingText != 'done:') {
-      return IconButton(
-          onPressed: () => loadingRunF(context),
-          icon: const Icon(Icons.refresh));
-    } else {
-      return al.iconBackDialog(context);
-    }
+  @override
+  void dispose() {
+    Get.delete<Controller>();
+    super.dispose();
   }
 
   Future loadingRunF(BuildContext context) async {
-    loadingStatus = 'loading';
     for (var index = 0; index < widget.fileListSheet['rows'].length; index++) {
+      statusCont.ls[index] = 'LOADING';
       await loadFileListSheetRow(widget.fileListSheet, index);
-      await Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        widget.fileListSheet['rows'][index]['loadingStatus'] = '';
-      });
+      statusCont.ls[index] = '';
     }
-    await Future.delayed(const Duration(seconds: 2));
-    loadingStatus = '';
-    loadingText = 'done:';
+
     Navigator.pop(context);
   }
 
@@ -67,8 +52,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
                     ? const Color.fromARGB(255, 110, 108, 108)
                     : Colors.white,
                 child: ListTile(
-                    leading: Text(
-                        widget.fileListSheet['rows'][index]['loadingStatus']),
+                    leading: Obx(() => Text(statusCont.ls[index])),
                     title: Text(
                         widget.fileListSheet['rows'][index]['fileTitle'])));
           },
@@ -78,16 +62,17 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
     );
   }
 
+  late final Controller statusCont;
   @override
   Widget build(BuildContext context) {
+    statusCont = Get.put(Controller());
     return Scaffold(
         appBar: AppBar(
-          leading: loadingAndPop(context),
+          leading: IconButton(
+              onPressed: () => loadingRunF(context),
+              icon: const Icon(Icons.refresh)),
           title: ListTile(
-            title: Text('Loading ${widget.interestName}'),
-            leading: loadingStatus == 'loading'
-                ? const CircularProgressIndicator(color: Colors.red)
-                : Text(loadingText),
+            title: Text('<-- click to: Loading ${widget.interestName}'),
           ),
           backgroundColor: Colors.lightBlue,
           actions: [
@@ -145,5 +130,12 @@ Future loadFileListSheetRow(Map fileListSheet, int index) async {
   String sheetName = fileListSheet['rows'][index]['sheetName'];
   for (var action in actions) {
     await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
+  }
+}
+
+class Controller extends GetxController {
+  var ls = List<String>.generate(100, (counter) => "waiting").obs;
+  lsSet(int index) {
+    ls[index] = '';
   }
 }

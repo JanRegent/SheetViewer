@@ -83,7 +83,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: loadList(fileListSheet, context),
+          leading: loadingPageShow(widget.fileListSheet, context,
+              widget.selectedInterestRow['interestName']),
           title: Text(interestName),
           backgroundColor: Colors.lightBlue,
           actions: [
