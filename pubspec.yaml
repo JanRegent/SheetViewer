@@ -76,8 +76,8 @@ dependencies:
  
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter 
+  # flutter_test:
+  #   sdk: flutter 
   #vercel build ERR : Because every version of flutter_test from sdk depends on collection 1.16.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, flutter_test from sdk is incompatible with syncfusion_flutter_datagrid 19.4.56.
 
   isar_generator: ^2.2.1            #https://pub.dev/packages/isar_generator
