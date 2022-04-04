@@ -31,8 +31,9 @@ dependencies:
     sdk: flutter
   
   #========================================================AL    
-  syncfusion_flutter_datagrid: ^19.4.56  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
-  
+  #syncfusion_flutter_datagrid: ^19.4.56  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
+  syncfusion_flutter_datagrid: ^19.4.47   # Because no versions of syncfusion_flutter_datagrid match >19.4.56 <20.0.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, 
+
   #components
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
   animated_snack_bar: ^0.2.1    #https://pub.dev/packages/animated_snack_bar
