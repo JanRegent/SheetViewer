@@ -17,7 +17,6 @@ Future<SheetView?> sheetViewGetData(
       await actionMapCreate(fileId, sheetName, action, sheetViewConfig);
 
   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-
   SheetView? sheetView;
   try {
     sheetView = await sheetsDb.readSheet(queryStringKey);
@@ -132,6 +131,7 @@ String printMap(Map row) {
 Future<Map> actionMapCreate(String fileId, String sheetName, String action,
     SheetViewConfig sheetViewConfig) async {
   late Map getRowsMap;
+
   if (action == "getRowsFirst") {
     String rowsCount = sheetViewConfig.getRowsFirst.isNotEmpty
         ? sheetViewConfig.getRowsFirst
@@ -144,7 +144,9 @@ Future<Map> actionMapCreate(String fileId, String sheetName, String action,
         : '10';
     getRowsMap = {"action": "getRowsLast", "rowsCount": rowsCount};
   }
-
+  if (action == "getSheet") {
+    getRowsMap = {"action": "getSheet"};
+  }
   return getRowsMap;
 }
 
