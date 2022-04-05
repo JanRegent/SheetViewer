@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
@@ -22,24 +23,13 @@ class _ByValePageState extends State<ByValuePage> {
     return 'ok';
   }
 
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          // await Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
-        },
-        icon: const Icon(Icons.view_agenda));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Filter by value in column'),
           actions: [
-            jsonViewer(),
+            al.jsonViewer(),
           ],
         ),
         body: FutureBuilder<String>(

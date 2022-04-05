@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
@@ -22,6 +24,7 @@ Future<SheetView?> sheetViewGetData(
 
     if (sheetView!.aStatus.startsWith('warn: not exists')) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
+
       await updateSheetToCache(queryString, queryStringKey);
       sheetView = await sheetsDb.readSheet(queryStringKey);
     }
@@ -43,8 +46,21 @@ Future<SheetView?> sheetViewGetData(
   }
 }
 
-Future updateSheetToCache(String queryString, String queryStringKey) async {
-  Dio dio = Dio();
+final dio = Dio(
+  BaseOptions(
+    baseUrl: bl.blGlobal.contentServiceUrl,
+    sendTimeout: const Duration(seconds: 30).inMilliseconds,
+    connectTimeout: const Duration(seconds: 30).inMilliseconds,
+    receiveTimeout: const Duration(seconds: 30).inMilliseconds,
+  ),
+);
+ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
+String interceptorAdded = '';
+
+Future updateSheetToCache(
+  String queryString,
+  String queryStringKey,
+) async {
   // ignore: prefer_typing_uninitialized_variables
   var response;
   try {
@@ -52,7 +68,13 @@ Future updateSheetToCache(String queryString, String queryStringKey) async {
         Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
     interestStore.updateString('updateSheetToCache() 1 urlQuery', urlQuery);
 
-    response = await dio.get(urlQuery);
+    // ignore: unnecessary_null_comparison
+    if (interceptorAdded.isEmpty) {
+      dio.interceptors.add(interceptor);
+      interceptorAdded = 'added';
+    }
+
+    response = await dio.get('?' + queryString);
 
     interestStore.updateString(
         'updateSheetToCache() 2 status', response.statusCode.toString());

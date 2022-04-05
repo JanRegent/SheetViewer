@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/homepage.dart';
 //import 'package:sheetviewer/AL/elementsLib/infodialogs/okdialog.dart';
@@ -13,11 +14,17 @@ class GetDataInterestsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: GetDataInterestsPage(),
-        ));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      navigatorObservers: [ChuckerFlutter.navigatorObserver],
+      home: const Scaffold(
+          body: GetDataInterestsPage()), // ChuckerFlutter.chuckerButton
+    );
+    // return const MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     home: Scaffold(
+    //       body: GetDataInterestsPage(),
+    //     ));
   }
 }
 
@@ -56,19 +63,6 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
           context, 'Interests list NOT ready', AnimatedSnackBarType.error);
       return 'err: $e';
     }
-  }
-
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          //bl.dataSheet4debug = actionSheet;
-          // await Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
-        },
-        icon: const Icon(Icons.view_agenda));
   }
 
   @override

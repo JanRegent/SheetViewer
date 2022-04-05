@@ -36,19 +36,6 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     return 'OK';
   }
 
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          //bl.dataSheet4debug = actionSheet;
-          // await Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
-        },
-        icon: const Icon(Icons.view_agenda));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

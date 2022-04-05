@@ -26,9 +26,6 @@ class SheetView {
   List<String> rows = [];
 
   @Ignore()
-  Map rawDataSheet = {};
-
-  @Ignore()
   SheetViewConfig sheetViewConfig = SheetViewConfig();
 
   @Ignore()
@@ -58,8 +55,7 @@ class SheetView {
     $rows
 
   @Ignore()
-  rawDataSheet
-    $rawDataSheet
+
 
     ''';
   }
@@ -84,7 +80,6 @@ class SheetView {
       sheetView.fileUrl = jsonData["config"]["fileUrl"] ?? '';
       sheetView.copyrightUrl = jsonData["config"]["copyrightUrl"] ?? '';
       sheetView.colsHeader = jsonData["headerCols"] ?? cols;
-      sheetView.rawDataSheet = jsonData;
 
       return sheetView;
     } catch (e) {

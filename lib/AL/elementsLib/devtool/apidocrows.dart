@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
@@ -129,8 +130,7 @@ class RowsDataSource extends DataGridSource {
             //     ));
           },
         ),
-
-        //al.jsonViewer(context, endpointSheet.config),
+        al.jsonViewer(),
       ],
     ));
   }

@@ -28,7 +28,7 @@ class _ByValePageState extends State<ByValuePage> {
         appBar: AppBar(
           title: const Text('Filter by value in column'),
           actions: [
-            al.jsonViewer(context, sheetConfig),
+            al.jsonViewer(),
           ],
         ),
         body: FutureBuilder<String>(

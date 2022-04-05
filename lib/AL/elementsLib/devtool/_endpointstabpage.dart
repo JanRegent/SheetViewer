@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
@@ -34,18 +35,6 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     return 'ok';
   }
 
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          //bl.dataSheet4debug = ;
-          // await Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => JsonViewerPage(sheetConfig.rawConfig)));
-        },
-        icon: const Icon(Icons.view_agenda));
-  }
-
   DefaultTabController tabs() {
     List<Tab> tabsList = [];
     List<Widget> tabsPages = [];
@@ -68,7 +57,9 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsList.add(const Tab(
       text: 'json{}',
     ));
-    //tabsPages.add(JsonViewerPage(sheetConfig.rawConfig));
+    tabsPages.add(
+      al.jsonViewer(),
+    );
 
     return DefaultTabController(
       length: 4,

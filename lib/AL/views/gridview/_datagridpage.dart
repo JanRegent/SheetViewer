@@ -40,19 +40,6 @@ class _DatagridPageState extends State<DatagridPage> {
     setState(() {});
   }
 
-  IconButton jsonViewer() {
-    return IconButton(
-        onPressed: () async {
-          //bl.dataSheet4debug = widget.sheetView;
-          // await Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             JsonViewerPage(bl.dataSheet4debug.rawDataSheet)));
-        },
-        icon: const Icon(Icons.view_agenda));
-  }
-
   final DataGridController _controller = DataGridController();
 
   SfDataGrid sfDataGrid() {
