@@ -36,7 +36,8 @@ function doGet(e) {
 }
 
 function switchEndpoint(e){
- 
+  logi('callback: ' + e.parameter.callback);
+  config.callback = e.parameter.callback;
   var action = e.parameter.action.toString().toLowerCase();
   switch(action) {
     case "getsheet": 
@@ -77,12 +78,21 @@ function responseDataTamotsu(values){
     rows: values,
   });
 
-  return ContentService
-    .createTextOutput(output)
-    .setMimeType(ContentService.MimeType.JSON)
+  if (config.callback == undefined) {
+    return ContentService
+      .createTextOutput(output)
+      .setMimeType(ContentService.MimeType.JSON)
  
+  }
+  return ContentService
+    .createTextOutput(config.callback + "(" + output+ ")")
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+    //?sheetName=hledaniList&action=getsheet&callback=getSheetData&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
   
 }
+
+
+
 
 //---------------------------------------------2del
 

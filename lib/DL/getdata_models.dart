@@ -11,6 +11,20 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'models/sheetview.dart';
 
+///
+///CORS workarround in flutter_tools
+/// 1- Go to flutter\bin\cache and remove a file named: flutter_tools.stamp
+///  2- Go to flutter\packages\flutter_tools\lib\src\web and open the file chrome.dart.
+///c:\Android\flutter\packages\flutter_tools\lib\src\web\
+/// 3- Find '--disable-extensions'
+/// 4- Add '--disable-web-security'
+///
+///--> build
+///Building flutter tool...
+///Running pub upgrade...
+///
+/// e.callback
+
 Future<SheetView?> sheetViewGetData(
     String fileId, String sheetName, String action, sheetViewConfig) async {
   Map queryMap =
@@ -73,6 +87,15 @@ Future updateSheetToCache(
       interceptorAdded = 'added';
     }
 
+    //request.response.headers.add("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS");
+    // response = await dio.get('?' + queryString,
+    //     options: Options(
+    //       headers: {
+    //         //'content-type': 'application/json',
+    //         'Access-Control-Allow-Origin': '*',
+    //         //"Access-Control-Allow-Headers": "*"
+    //       },
+    //     ));
     response = await dio.get('?' + queryString);
 
     interestStore.updateString(
