@@ -40,20 +40,46 @@ class _DatagridPageState extends State<DatagridPage> {
     setState(() {});
   }
 
-  final DataGridController _controller = DataGridController();
+  static const double dataPagerHeight = 60;
+  // final DataGridController _controller = DataGridController();
+  // final int _rowsPerPage = 15;
 
-  SfDataGrid sfDataGrid() {
-    return SfDataGrid(
-      source: rowsDataSource,
-      columnWidthMode: ColumnWidthMode.fill,
-      columns: colsHeader(widget.sheetView, context, setStateFunc),
-      onQueryRowHeight: (RowHeightDetails details) {
-        return details.getIntrinsicRowHeight(details.rowIndex);
-      },
-      controller: _controller,
-      selectionMode: SelectionMode.single,
-      showCheckboxColumn: false,
-    );
+  LayoutBuilder sfDataGrid() {
+    return LayoutBuilder(builder: (context, constraint) {
+      return Column(
+        children: [
+          SizedBox(
+              height: constraint.maxHeight - dataPagerHeight,
+              width: constraint.maxWidth,
+              child: SfDataGrid(
+                source: rowsDataSource,
+                columnWidthMode: ColumnWidthMode.fill,
+                columns: colsHeader(widget.sheetView, context, setStateFunc),
+              )),
+          Container(
+            height: dataPagerHeight,
+            color: Colors.white,
+            child: SfDataPager(
+              delegate: rowsDataSource,
+              direction: Axis.horizontal,
+              pageCount: widget.sheetView.rows.length / 10,
+            ),
+          )
+        ],
+      );
+
+      //  SfDataGrid(
+      //   source: rowsDataSource,
+      //   columnWidthMode: ColumnWidthMode.fill,
+      //   columns: colsHeader(widget.sheetView, context, setStateFunc),
+      //   onQueryRowHeight: (RowHeightDetails details) {
+      //     return details.getIntrinsicRowHeight(details.rowIndex);
+      //   },
+      //   controller: _controller,
+      //   selectionMode: SelectionMode.single,
+      //   showCheckboxColumn: false,
+      // );
+    });
   }
 
   @override

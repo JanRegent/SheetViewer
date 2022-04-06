@@ -265,13 +265,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.18.2+1"
-  flutter_json_viewer:
-    dependency: "direct main"
-    description:
-      name: flutter_json_viewer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
