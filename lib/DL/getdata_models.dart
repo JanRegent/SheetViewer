@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:chucker_flutter/chucker_flutter.dart';
-import 'package:dio/dio.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/get_sheetview.dart';
 
 import 'models/sheetview.dart';
 
@@ -54,61 +51,22 @@ Future<SheetView?> sheetViewGetData(
     sheetView.sheetViewConfig = sheetViewConfig;
     return sheetView;
   } catch (e) {
-    return (SheetView().aStatus = 'getActionSheet() readSheet ' + e.toString())
-        as SheetView?;
+    return (SheetView().aStatus =
+        'error! getActionSheet() readSheet ' + e.toString()) as SheetView?;
   }
 }
-
-final dio = Dio(
-  BaseOptions(
-    baseUrl: bl.blGlobal.contentServiceUrl,
-    sendTimeout: const Duration(seconds: 30).inMilliseconds,
-    connectTimeout: const Duration(seconds: 30).inMilliseconds,
-    receiveTimeout: const Duration(seconds: 30).inMilliseconds,
-  ),
-);
-ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
-String interceptorAdded = '';
 
 Future updateSheetToCache(
   String queryString,
   String queryStringKey,
 ) async {
-  // ignore: prefer_typing_uninitialized_variables
-  var response;
-  try {
-    String urlQuery =
-        Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-    interestStore.updateString('updateSheetToCache() 1 urlQuery', urlQuery);
+  String urlQuery =
+      Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
 
-    // ignore: unnecessary_null_comparison
-    if (interceptorAdded.isEmpty) {
-      dio.interceptors.add(interceptor);
-      interceptorAdded = 'added';
-    }
-
-    //request.response.headers.add("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS");
-    // response = await dio.get('?' + queryString,
-    //     options: Options(
-    //       headers: {
-    //         //'content-type': 'application/json',
-    //         'Access-Control-Allow-Origin': '*',
-    //         //"Access-Control-Allow-Headers": "*"
-    //       },
-    //     ));
-    response = await dio.get('?' + queryString);
-
-    interestStore.updateString(
-        'updateSheetToCache() 2 status', response.statusCode.toString());
-  } catch (e) {
-    interestStore.updateString(
-        'updateSheetToCache() 2 request err', e.toString());
-  }
+  SheetView? sheetView = await getSheetView(url: urlQuery);
 
   try {
-    //List<String> cols = bl.blUti.toListString(response.data['cols']);
-    //await sheetsDb.updateSheets(cacheKey, cols, response.data['rows']);
-    await sheetsDb.updateSheetsFromResponse(response.data, queryStringKey);
+    await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
   } catch (e) {
     if (kDebugMode) {
       print('-------------------------------updateSheetToCache() updateSheets');

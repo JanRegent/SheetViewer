@@ -6,20 +6,16 @@ part of 'sheetviewconfig.dart';
 // IsarCollectionGenerator
 // **************************************************************************
 
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
 
 extension GetSheetViewConfigCollection on Isar {
-  IsarCollection<SheetViewConfig> get sheetViewConfigs {
-    return getCollection('SheetViewConfig');
-  }
+  IsarCollection<SheetViewConfig> get sheetViewConfigs => getCollection();
 }
 
-final SheetViewConfigSchema = CollectionSchema(
+const SheetViewConfigSchema = CollectionSchema(
   name: 'SheetViewConfig',
   schema:
       '{"name":"SheetViewConfig","idName":"id","properties":[{"name":"aQuerystringKey","type":"String"},{"name":"aStatus","type":"String"},{"name":"colsHeader","type":"String"},{"name":"getRowsFirst","type":"String"},{"name":"getRowsFrom","type":"String"},{"name":"getRowsLast","type":"String"},{"name":"getRowsTo","type":"String"}],"indexes":[],"links":[]}',
-  nativeAdapter: const _SheetViewConfigNativeAdapter(),
-  webAdapter: const _SheetViewConfigWebAdapter(),
   idName: 'id',
   propertyIds: {
     'aQuerystringKey': 0,
@@ -32,182 +28,183 @@ final SheetViewConfigSchema = CollectionSchema(
   },
   listProperties: {},
   indexIds: {},
-  indexTypes: {},
+  indexValueTypes: {},
   linkIds: {},
-  backlinkIds: {},
-  linkedCollections: [],
-  getId: (obj) {
-    if (obj.id == Isar.autoIncrement) {
-      return null;
-    } else {
-      return obj.id;
-    }
-  },
-  setId: (obj, id) => obj.id = id,
-  getLinks: (obj) => [],
-  version: 2,
+  backlinkLinkNames: {},
+  getId: _sheetViewConfigGetId,
+  setId: _sheetViewConfigSetId,
+  getLinks: _sheetViewConfigGetLinks,
+  attachLinks: _sheetViewConfigAttachLinks,
+  serializeNative: _sheetViewConfigSerializeNative,
+  deserializeNative: _sheetViewConfigDeserializeNative,
+  deserializePropNative: _sheetViewConfigDeserializePropNative,
+  serializeWeb: _sheetViewConfigSerializeWeb,
+  deserializeWeb: _sheetViewConfigDeserializeWeb,
+  deserializePropWeb: _sheetViewConfigDeserializePropWeb,
+  version: 3,
 );
 
-class _SheetViewConfigWebAdapter extends IsarWebTypeAdapter<SheetViewConfig> {
-  const _SheetViewConfigWebAdapter();
-
-  @override
-  Object serialize(
-      IsarCollection<SheetViewConfig> collection, SheetViewConfig object) {
-    final jsObj = IsarNative.newJsObject();
-    IsarNative.jsObjectSet(jsObj, 'aQuerystringKey', object.aQuerystringKey);
-    IsarNative.jsObjectSet(jsObj, 'aStatus', object.aStatus);
-    IsarNative.jsObjectSet(jsObj, 'colsHeader', object.colsHeader);
-    IsarNative.jsObjectSet(jsObj, 'getRowsFirst', object.getRowsFirst);
-    IsarNative.jsObjectSet(jsObj, 'getRowsFrom', object.getRowsFrom);
-    IsarNative.jsObjectSet(jsObj, 'getRowsLast', object.getRowsLast);
-    IsarNative.jsObjectSet(jsObj, 'getRowsTo', object.getRowsTo);
-    IsarNative.jsObjectSet(jsObj, 'id', object.id);
-    return jsObj;
+int? _sheetViewConfigGetId(SheetViewConfig object) {
+  if (object.id == Isar.autoIncrement) {
+    return null;
+  } else {
+    return object.id;
   }
-
-  @override
-  SheetViewConfig deserialize(
-      IsarCollection<SheetViewConfig> collection, dynamic jsObj) {
-    final object = SheetViewConfig();
-    object.aQuerystringKey =
-        IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '';
-    object.aStatus = IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '';
-    object.colsHeader = IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '';
-    object.getRowsFirst = IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '';
-    object.getRowsFrom = IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '';
-    object.getRowsLast = IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '';
-    object.getRowsTo = IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '';
-    object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(Object jsObj, String propertyName) {
-    switch (propertyName) {
-      case 'aQuerystringKey':
-        return (IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '') as P;
-      case 'aStatus':
-        return (IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '') as P;
-      case 'colsHeader':
-        return (IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '') as P;
-      case 'getRowsFirst':
-        return (IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '') as P;
-      case 'getRowsFrom':
-        return (IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '') as P;
-      case 'getRowsLast':
-        return (IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '') as P;
-      case 'getRowsTo':
-        return (IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '') as P;
-      case 'id':
-        return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
-            as P;
-      default:
-        throw 'Illegal propertyName';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, SheetViewConfig object) {}
 }
 
-class _SheetViewConfigNativeAdapter
-    extends IsarNativeTypeAdapter<SheetViewConfig> {
-  const _SheetViewConfigNativeAdapter();
-
-  @override
-  void serialize(
-      IsarCollection<SheetViewConfig> collection,
-      IsarRawObject rawObj,
-      SheetViewConfig object,
-      int staticSize,
-      List<int> offsets,
-      AdapterAlloc alloc) {
-    var dynamicSize = 0;
-    final value0 = object.aQuerystringKey;
-    final _aQuerystringKey = IsarBinaryWriter.utf8Encoder.convert(value0);
-    dynamicSize += (_aQuerystringKey.length) as int;
-    final value1 = object.aStatus;
-    final _aStatus = IsarBinaryWriter.utf8Encoder.convert(value1);
-    dynamicSize += (_aStatus.length) as int;
-    final value2 = object.colsHeader;
-    final _colsHeader = IsarBinaryWriter.utf8Encoder.convert(value2);
-    dynamicSize += (_colsHeader.length) as int;
-    final value3 = object.getRowsFirst;
-    final _getRowsFirst = IsarBinaryWriter.utf8Encoder.convert(value3);
-    dynamicSize += (_getRowsFirst.length) as int;
-    final value4 = object.getRowsFrom;
-    final _getRowsFrom = IsarBinaryWriter.utf8Encoder.convert(value4);
-    dynamicSize += (_getRowsFrom.length) as int;
-    final value5 = object.getRowsLast;
-    final _getRowsLast = IsarBinaryWriter.utf8Encoder.convert(value5);
-    dynamicSize += (_getRowsLast.length) as int;
-    final value6 = object.getRowsTo;
-    final _getRowsTo = IsarBinaryWriter.utf8Encoder.convert(value6);
-    dynamicSize += (_getRowsTo.length) as int;
-    final size = staticSize + dynamicSize;
-
-    rawObj.buffer = alloc(size);
-    rawObj.buffer_length = size;
-    final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
-    final writer = IsarBinaryWriter(buffer, staticSize);
-    writer.writeBytes(offsets[0], _aQuerystringKey);
-    writer.writeBytes(offsets[1], _aStatus);
-    writer.writeBytes(offsets[2], _colsHeader);
-    writer.writeBytes(offsets[3], _getRowsFirst);
-    writer.writeBytes(offsets[4], _getRowsFrom);
-    writer.writeBytes(offsets[5], _getRowsLast);
-    writer.writeBytes(offsets[6], _getRowsTo);
-  }
-
-  @override
-  SheetViewConfig deserialize(IsarCollection<SheetViewConfig> collection,
-      int id, IsarBinaryReader reader, List<int> offsets) {
-    final object = SheetViewConfig();
-    object.aQuerystringKey = reader.readString(offsets[0]);
-    object.aStatus = reader.readString(offsets[1]);
-    object.colsHeader = reader.readString(offsets[2]);
-    object.getRowsFirst = reader.readString(offsets[3]);
-    object.getRowsFrom = reader.readString(offsets[4]);
-    object.getRowsLast = reader.readString(offsets[5]);
-    object.getRowsTo = reader.readString(offsets[6]);
-    object.id = id;
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(
-      int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-    switch (propertyIndex) {
-      case -1:
-        return id as P;
-      case 0:
-        return (reader.readString(offset)) as P;
-      case 1:
-        return (reader.readString(offset)) as P;
-      case 2:
-        return (reader.readString(offset)) as P;
-      case 3:
-        return (reader.readString(offset)) as P;
-      case 4:
-        return (reader.readString(offset)) as P;
-      case 5:
-        return (reader.readString(offset)) as P;
-      case 6:
-        return (reader.readString(offset)) as P;
-      default:
-        throw 'Illegal propertyIndex';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, SheetViewConfig object) {}
+void _sheetViewConfigSetId(SheetViewConfig object, int id) {
+  object.id = id;
 }
+
+List<IsarLinkBase> _sheetViewConfigGetLinks(SheetViewConfig object) {
+  return [];
+}
+
+void _sheetViewConfigSerializeNative(
+    IsarCollection<SheetViewConfig> collection,
+    IsarRawObject rawObj,
+    SheetViewConfig object,
+    int staticSize,
+    List<int> offsets,
+    AdapterAlloc alloc) {
+  var dynamicSize = 0;
+  final value0 = object.aQuerystringKey;
+  final _aQuerystringKey = IsarBinaryWriter.utf8Encoder.convert(value0);
+  dynamicSize += (_aQuerystringKey.length) as int;
+  final value1 = object.aStatus;
+  final _aStatus = IsarBinaryWriter.utf8Encoder.convert(value1);
+  dynamicSize += (_aStatus.length) as int;
+  final value2 = object.colsHeader;
+  final _colsHeader = IsarBinaryWriter.utf8Encoder.convert(value2);
+  dynamicSize += (_colsHeader.length) as int;
+  final value3 = object.getRowsFirst;
+  final _getRowsFirst = IsarBinaryWriter.utf8Encoder.convert(value3);
+  dynamicSize += (_getRowsFirst.length) as int;
+  final value4 = object.getRowsFrom;
+  final _getRowsFrom = IsarBinaryWriter.utf8Encoder.convert(value4);
+  dynamicSize += (_getRowsFrom.length) as int;
+  final value5 = object.getRowsLast;
+  final _getRowsLast = IsarBinaryWriter.utf8Encoder.convert(value5);
+  dynamicSize += (_getRowsLast.length) as int;
+  final value6 = object.getRowsTo;
+  final _getRowsTo = IsarBinaryWriter.utf8Encoder.convert(value6);
+  dynamicSize += (_getRowsTo.length) as int;
+  final size = staticSize + dynamicSize;
+
+  rawObj.buffer = alloc(size);
+  rawObj.buffer_length = size;
+  final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+  final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeBytes(offsets[0], _aQuerystringKey);
+  writer.writeBytes(offsets[1], _aStatus);
+  writer.writeBytes(offsets[2], _colsHeader);
+  writer.writeBytes(offsets[3], _getRowsFirst);
+  writer.writeBytes(offsets[4], _getRowsFrom);
+  writer.writeBytes(offsets[5], _getRowsLast);
+  writer.writeBytes(offsets[6], _getRowsTo);
+}
+
+SheetViewConfig _sheetViewConfigDeserializeNative(
+    IsarCollection<SheetViewConfig> collection,
+    int id,
+    IsarBinaryReader reader,
+    List<int> offsets) {
+  final object = SheetViewConfig();
+  object.aQuerystringKey = reader.readString(offsets[0]);
+  object.aStatus = reader.readString(offsets[1]);
+  object.colsHeader = reader.readString(offsets[2]);
+  object.getRowsFirst = reader.readString(offsets[3]);
+  object.getRowsFrom = reader.readString(offsets[4]);
+  object.getRowsLast = reader.readString(offsets[5]);
+  object.getRowsTo = reader.readString(offsets[6]);
+  object.id = id;
+  return object;
+}
+
+P _sheetViewConfigDeserializePropNative<P>(
+    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
+  switch (propertyIndex) {
+    case -1:
+      return id as P;
+    case 0:
+      return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readString(offset)) as P;
+    default:
+      throw 'Illegal propertyIndex';
+  }
+}
+
+dynamic _sheetViewConfigSerializeWeb(
+    IsarCollection<SheetViewConfig> collection, SheetViewConfig object) {
+  final jsObj = IsarNative.newJsObject();
+  IsarNative.jsObjectSet(jsObj, 'aQuerystringKey', object.aQuerystringKey);
+  IsarNative.jsObjectSet(jsObj, 'aStatus', object.aStatus);
+  IsarNative.jsObjectSet(jsObj, 'colsHeader', object.colsHeader);
+  IsarNative.jsObjectSet(jsObj, 'getRowsFirst', object.getRowsFirst);
+  IsarNative.jsObjectSet(jsObj, 'getRowsFrom', object.getRowsFrom);
+  IsarNative.jsObjectSet(jsObj, 'getRowsLast', object.getRowsLast);
+  IsarNative.jsObjectSet(jsObj, 'getRowsTo', object.getRowsTo);
+  IsarNative.jsObjectSet(jsObj, 'id', object.id);
+  return jsObj;
+}
+
+SheetViewConfig _sheetViewConfigDeserializeWeb(
+    IsarCollection<SheetViewConfig> collection, dynamic jsObj) {
+  final object = SheetViewConfig();
+  object.aQuerystringKey =
+      IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '';
+  object.aStatus = IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '';
+  object.colsHeader = IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '';
+  object.getRowsFirst = IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '';
+  object.getRowsFrom = IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '';
+  object.getRowsLast = IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '';
+  object.getRowsTo = IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '';
+  object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
+  return object;
+}
+
+P _sheetViewConfigDeserializePropWeb<P>(Object jsObj, String propertyName) {
+  switch (propertyName) {
+    case 'aQuerystringKey':
+      return (IsarNative.jsObjectGet(jsObj, 'aQuerystringKey') ?? '') as P;
+    case 'aStatus':
+      return (IsarNative.jsObjectGet(jsObj, 'aStatus') ?? '') as P;
+    case 'colsHeader':
+      return (IsarNative.jsObjectGet(jsObj, 'colsHeader') ?? '') as P;
+    case 'getRowsFirst':
+      return (IsarNative.jsObjectGet(jsObj, 'getRowsFirst') ?? '') as P;
+    case 'getRowsFrom':
+      return (IsarNative.jsObjectGet(jsObj, 'getRowsFrom') ?? '') as P;
+    case 'getRowsLast':
+      return (IsarNative.jsObjectGet(jsObj, 'getRowsLast') ?? '') as P;
+    case 'getRowsTo':
+      return (IsarNative.jsObjectGet(jsObj, 'getRowsTo') ?? '') as P;
+    case 'id':
+      return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
+          as P;
+    default:
+      throw 'Illegal propertyName';
+  }
+}
+
+void _sheetViewConfigAttachLinks(
+    IsarCollection col, int id, SheetViewConfig object) {}
 
 extension SheetViewConfigQueryWhereSort
     on QueryBuilder<SheetViewConfig, SheetViewConfig, QWhere> {
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhere> anyId() {
-    return addWhereClauseInternal(const WhereClause(indexName: null));
+    return addWhereClauseInternal(const IdWhereClause.any());
   }
 }
 
@@ -215,11 +212,10 @@ extension SheetViewConfigQueryWhere
     on QueryBuilder<SheetViewConfig, SheetViewConfig, QWhereClause> {
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhereClause> idEqualTo(
       int id) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: id,
       includeLower: true,
-      upper: [id],
+      upper: id,
       includeUpper: true,
     ));
   }
@@ -227,49 +223,33 @@ extension SheetViewConfigQueryWhere
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhereClause>
       idNotEqualTo(int id) {
     if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      );
     } else {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      );
     }
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhereClause>
-      idGreaterThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
-      includeLower: include,
-    ));
+      idGreaterThan(int id, {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.greaterThan(lower: id, includeLower: include),
+    );
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhereClause> idLessThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      upper: [id],
-      includeUpper: include,
-    ));
+      int id,
+      {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.lessThan(upper: id, includeUpper: include),
+    );
   }
 
   QueryBuilder<SheetViewConfig, SheetViewConfig, QAfterWhereClause> idBetween(
@@ -278,11 +258,10 @@ extension SheetViewConfigQueryWhere
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [lowerId],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: lowerId,
       includeLower: includeLower,
-      upper: [upperId],
+      upper: upperId,
       includeUpper: includeUpper,
     ));
   }

@@ -6,20 +6,16 @@ part of 'zsheetconfig.dart';
 // IsarCollectionGenerator
 // **************************************************************************
 
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
 
 extension GetSheetConfigCollection on Isar {
-  IsarCollection<SheetConfig> get sheetConfigs {
-    return getCollection('SheetConfig');
-  }
+  IsarCollection<SheetConfig> get sheetConfigs => getCollection();
 }
 
-final SheetConfigSchema = CollectionSchema(
+const SheetConfigSchema = CollectionSchema(
   name: 'SheetConfig',
   schema:
       '{"name":"SheetConfig","idName":"id","properties":[{"name":"byValueColumns","type":"String"},{"name":"copyrightUrl","type":"String"},{"name":"createdBy","type":"String"},{"name":"fileId","type":"String"},{"name":"fileIdConfig","type":"String"},{"name":"fileUrl","type":"String"},{"name":"getRows","type":"String"},{"name":"headerCols","type":"String"},{"name":"headers","type":"String"},{"name":"selects1","type":"String"},{"name":"sheetName","type":"String"},{"name":"sheetNameConfig","type":"String"},{"name":"sheetNameFileIdKey","type":"String"}],"indexes":[{"name":"sheetNameFileIdKey","unique":true,"properties":[{"name":"sheetNameFileIdKey","type":"Hash","caseSensitive":true}]}],"links":[]}',
-  nativeAdapter: const _SheetConfigNativeAdapter(),
-  webAdapter: const _SheetConfigWebAdapter(),
   idName: 'id',
   propertyIds: {
     'byValueColumns': 0,
@@ -38,248 +34,249 @@ final SheetConfigSchema = CollectionSchema(
   },
   listProperties: {},
   indexIds: {'sheetNameFileIdKey': 0},
-  indexTypes: {
+  indexValueTypes: {
     'sheetNameFileIdKey': [
-      NativeIndexType.stringHash,
+      IndexValueType.stringHash,
     ]
   },
   linkIds: {},
-  backlinkIds: {},
-  linkedCollections: [],
-  getId: (obj) {
-    if (obj.id == Isar.autoIncrement) {
-      return null;
-    } else {
-      return obj.id;
-    }
-  },
-  setId: (obj, id) => obj.id = id,
-  getLinks: (obj) => [],
-  version: 2,
+  backlinkLinkNames: {},
+  getId: _sheetConfigGetId,
+  setId: _sheetConfigSetId,
+  getLinks: _sheetConfigGetLinks,
+  attachLinks: _sheetConfigAttachLinks,
+  serializeNative: _sheetConfigSerializeNative,
+  deserializeNative: _sheetConfigDeserializeNative,
+  deserializePropNative: _sheetConfigDeserializePropNative,
+  serializeWeb: _sheetConfigSerializeWeb,
+  deserializeWeb: _sheetConfigDeserializeWeb,
+  deserializePropWeb: _sheetConfigDeserializePropWeb,
+  version: 3,
 );
 
-class _SheetConfigWebAdapter extends IsarWebTypeAdapter<SheetConfig> {
-  const _SheetConfigWebAdapter();
-
-  @override
-  Object serialize(IsarCollection<SheetConfig> collection, SheetConfig object) {
-    final jsObj = IsarNative.newJsObject();
-    IsarNative.jsObjectSet(jsObj, 'byValueColumns', object.byValueColumns);
-    IsarNative.jsObjectSet(jsObj, 'copyrightUrl', object.copyrightUrl);
-    IsarNative.jsObjectSet(jsObj, 'createdBy', object.createdBy);
-    IsarNative.jsObjectSet(jsObj, 'fileId', object.fileId);
-    IsarNative.jsObjectSet(jsObj, 'fileIdConfig', object.fileIdConfig);
-    IsarNative.jsObjectSet(jsObj, 'fileUrl', object.fileUrl);
-    IsarNative.jsObjectSet(jsObj, 'getRows', object.getRows);
-    IsarNative.jsObjectSet(jsObj, 'headerCols', object.headerCols);
-    IsarNative.jsObjectSet(jsObj, 'headers', object.headers);
-    IsarNative.jsObjectSet(jsObj, 'id', object.id);
-    IsarNative.jsObjectSet(jsObj, 'selects1', object.selects1);
-    IsarNative.jsObjectSet(jsObj, 'sheetName', object.sheetName);
-    IsarNative.jsObjectSet(jsObj, 'sheetNameConfig', object.sheetNameConfig);
-    IsarNative.jsObjectSet(
-        jsObj, 'sheetNameFileIdKey', object.sheetNameFileIdKey);
-    return jsObj;
+int? _sheetConfigGetId(SheetConfig object) {
+  if (object.id == Isar.autoIncrement) {
+    return null;
+  } else {
+    return object.id;
   }
-
-  @override
-  SheetConfig deserialize(
-      IsarCollection<SheetConfig> collection, dynamic jsObj) {
-    final object = SheetConfig();
-    object.byValueColumns =
-        IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '';
-    object.copyrightUrl = IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '';
-    object.createdBy = IsarNative.jsObjectGet(jsObj, 'createdBy') ?? '';
-    object.fileId = IsarNative.jsObjectGet(jsObj, 'fileId') ?? '';
-    object.fileIdConfig = IsarNative.jsObjectGet(jsObj, 'fileIdConfig') ?? '';
-    object.fileUrl = IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '';
-    object.getRows = IsarNative.jsObjectGet(jsObj, 'getRows') ?? '';
-    object.headerCols = IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '';
-    object.headers = IsarNative.jsObjectGet(jsObj, 'headers') ?? '';
-    object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-    object.selects1 = IsarNative.jsObjectGet(jsObj, 'selects1') ?? '';
-    object.sheetName = IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '';
-    object.sheetNameConfig =
-        IsarNative.jsObjectGet(jsObj, 'sheetNameConfig') ?? '';
-    object.sheetNameFileIdKey =
-        IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '';
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(Object jsObj, String propertyName) {
-    switch (propertyName) {
-      case 'byValueColumns':
-        return (IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '') as P;
-      case 'copyrightUrl':
-        return (IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '') as P;
-      case 'createdBy':
-        return (IsarNative.jsObjectGet(jsObj, 'createdBy') ?? '') as P;
-      case 'fileId':
-        return (IsarNative.jsObjectGet(jsObj, 'fileId') ?? '') as P;
-      case 'fileIdConfig':
-        return (IsarNative.jsObjectGet(jsObj, 'fileIdConfig') ?? '') as P;
-      case 'fileUrl':
-        return (IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '') as P;
-      case 'getRows':
-        return (IsarNative.jsObjectGet(jsObj, 'getRows') ?? '') as P;
-      case 'headerCols':
-        return (IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '') as P;
-      case 'headers':
-        return (IsarNative.jsObjectGet(jsObj, 'headers') ?? '') as P;
-      case 'id':
-        return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
-            as P;
-      case 'selects1':
-        return (IsarNative.jsObjectGet(jsObj, 'selects1') ?? '') as P;
-      case 'sheetName':
-        return (IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '') as P;
-      case 'sheetNameConfig':
-        return (IsarNative.jsObjectGet(jsObj, 'sheetNameConfig') ?? '') as P;
-      case 'sheetNameFileIdKey':
-        return (IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '') as P;
-      default:
-        throw 'Illegal propertyName';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, SheetConfig object) {}
 }
 
-class _SheetConfigNativeAdapter extends IsarNativeTypeAdapter<SheetConfig> {
-  const _SheetConfigNativeAdapter();
-
-  @override
-  void serialize(
-      IsarCollection<SheetConfig> collection,
-      IsarRawObject rawObj,
-      SheetConfig object,
-      int staticSize,
-      List<int> offsets,
-      AdapterAlloc alloc) {
-    var dynamicSize = 0;
-    final value0 = object.byValueColumns;
-    final _byValueColumns = IsarBinaryWriter.utf8Encoder.convert(value0);
-    dynamicSize += (_byValueColumns.length) as int;
-    final value1 = object.copyrightUrl;
-    final _copyrightUrl = IsarBinaryWriter.utf8Encoder.convert(value1);
-    dynamicSize += (_copyrightUrl.length) as int;
-    final value2 = object.createdBy;
-    final _createdBy = IsarBinaryWriter.utf8Encoder.convert(value2);
-    dynamicSize += (_createdBy.length) as int;
-    final value3 = object.fileId;
-    final _fileId = IsarBinaryWriter.utf8Encoder.convert(value3);
-    dynamicSize += (_fileId.length) as int;
-    final value4 = object.fileIdConfig;
-    final _fileIdConfig = IsarBinaryWriter.utf8Encoder.convert(value4);
-    dynamicSize += (_fileIdConfig.length) as int;
-    final value5 = object.fileUrl;
-    final _fileUrl = IsarBinaryWriter.utf8Encoder.convert(value5);
-    dynamicSize += (_fileUrl.length) as int;
-    final value6 = object.getRows;
-    final _getRows = IsarBinaryWriter.utf8Encoder.convert(value6);
-    dynamicSize += (_getRows.length) as int;
-    final value7 = object.headerCols;
-    final _headerCols = IsarBinaryWriter.utf8Encoder.convert(value7);
-    dynamicSize += (_headerCols.length) as int;
-    final value8 = object.headers;
-    final _headers = IsarBinaryWriter.utf8Encoder.convert(value8);
-    dynamicSize += (_headers.length) as int;
-    final value9 = object.selects1;
-    final _selects1 = IsarBinaryWriter.utf8Encoder.convert(value9);
-    dynamicSize += (_selects1.length) as int;
-    final value10 = object.sheetName;
-    final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value10);
-    dynamicSize += (_sheetName.length) as int;
-    final value11 = object.sheetNameConfig;
-    final _sheetNameConfig = IsarBinaryWriter.utf8Encoder.convert(value11);
-    dynamicSize += (_sheetNameConfig.length) as int;
-    final value12 = object.sheetNameFileIdKey;
-    final _sheetNameFileIdKey = IsarBinaryWriter.utf8Encoder.convert(value12);
-    dynamicSize += (_sheetNameFileIdKey.length) as int;
-    final size = staticSize + dynamicSize;
-
-    rawObj.buffer = alloc(size);
-    rawObj.buffer_length = size;
-    final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
-    final writer = IsarBinaryWriter(buffer, staticSize);
-    writer.writeBytes(offsets[0], _byValueColumns);
-    writer.writeBytes(offsets[1], _copyrightUrl);
-    writer.writeBytes(offsets[2], _createdBy);
-    writer.writeBytes(offsets[3], _fileId);
-    writer.writeBytes(offsets[4], _fileIdConfig);
-    writer.writeBytes(offsets[5], _fileUrl);
-    writer.writeBytes(offsets[6], _getRows);
-    writer.writeBytes(offsets[7], _headerCols);
-    writer.writeBytes(offsets[8], _headers);
-    writer.writeBytes(offsets[9], _selects1);
-    writer.writeBytes(offsets[10], _sheetName);
-    writer.writeBytes(offsets[11], _sheetNameConfig);
-    writer.writeBytes(offsets[12], _sheetNameFileIdKey);
-  }
-
-  @override
-  SheetConfig deserialize(IsarCollection<SheetConfig> collection, int id,
-      IsarBinaryReader reader, List<int> offsets) {
-    final object = SheetConfig();
-    object.byValueColumns = reader.readString(offsets[0]);
-    object.copyrightUrl = reader.readString(offsets[1]);
-    object.createdBy = reader.readString(offsets[2]);
-    object.fileId = reader.readString(offsets[3]);
-    object.fileIdConfig = reader.readString(offsets[4]);
-    object.fileUrl = reader.readString(offsets[5]);
-    object.getRows = reader.readString(offsets[6]);
-    object.headerCols = reader.readString(offsets[7]);
-    object.headers = reader.readString(offsets[8]);
-    object.id = id;
-    object.selects1 = reader.readString(offsets[9]);
-    object.sheetName = reader.readString(offsets[10]);
-    object.sheetNameConfig = reader.readString(offsets[11]);
-    object.sheetNameFileIdKey = reader.readString(offsets[12]);
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(
-      int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-    switch (propertyIndex) {
-      case -1:
-        return id as P;
-      case 0:
-        return (reader.readString(offset)) as P;
-      case 1:
-        return (reader.readString(offset)) as P;
-      case 2:
-        return (reader.readString(offset)) as P;
-      case 3:
-        return (reader.readString(offset)) as P;
-      case 4:
-        return (reader.readString(offset)) as P;
-      case 5:
-        return (reader.readString(offset)) as P;
-      case 6:
-        return (reader.readString(offset)) as P;
-      case 7:
-        return (reader.readString(offset)) as P;
-      case 8:
-        return (reader.readString(offset)) as P;
-      case 9:
-        return (reader.readString(offset)) as P;
-      case 10:
-        return (reader.readString(offset)) as P;
-      case 11:
-        return (reader.readString(offset)) as P;
-      case 12:
-        return (reader.readString(offset)) as P;
-      default:
-        throw 'Illegal propertyIndex';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, SheetConfig object) {}
+void _sheetConfigSetId(SheetConfig object, int id) {
+  object.id = id;
 }
+
+List<IsarLinkBase> _sheetConfigGetLinks(SheetConfig object) {
+  return [];
+}
+
+void _sheetConfigSerializeNative(
+    IsarCollection<SheetConfig> collection,
+    IsarRawObject rawObj,
+    SheetConfig object,
+    int staticSize,
+    List<int> offsets,
+    AdapterAlloc alloc) {
+  var dynamicSize = 0;
+  final value0 = object.byValueColumns;
+  final _byValueColumns = IsarBinaryWriter.utf8Encoder.convert(value0);
+  dynamicSize += (_byValueColumns.length) as int;
+  final value1 = object.copyrightUrl;
+  final _copyrightUrl = IsarBinaryWriter.utf8Encoder.convert(value1);
+  dynamicSize += (_copyrightUrl.length) as int;
+  final value2 = object.createdBy;
+  final _createdBy = IsarBinaryWriter.utf8Encoder.convert(value2);
+  dynamicSize += (_createdBy.length) as int;
+  final value3 = object.fileId;
+  final _fileId = IsarBinaryWriter.utf8Encoder.convert(value3);
+  dynamicSize += (_fileId.length) as int;
+  final value4 = object.fileIdConfig;
+  final _fileIdConfig = IsarBinaryWriter.utf8Encoder.convert(value4);
+  dynamicSize += (_fileIdConfig.length) as int;
+  final value5 = object.fileUrl;
+  final _fileUrl = IsarBinaryWriter.utf8Encoder.convert(value5);
+  dynamicSize += (_fileUrl.length) as int;
+  final value6 = object.getRows;
+  final _getRows = IsarBinaryWriter.utf8Encoder.convert(value6);
+  dynamicSize += (_getRows.length) as int;
+  final value7 = object.headerCols;
+  final _headerCols = IsarBinaryWriter.utf8Encoder.convert(value7);
+  dynamicSize += (_headerCols.length) as int;
+  final value8 = object.headers;
+  final _headers = IsarBinaryWriter.utf8Encoder.convert(value8);
+  dynamicSize += (_headers.length) as int;
+  final value9 = object.selects1;
+  final _selects1 = IsarBinaryWriter.utf8Encoder.convert(value9);
+  dynamicSize += (_selects1.length) as int;
+  final value10 = object.sheetName;
+  final _sheetName = IsarBinaryWriter.utf8Encoder.convert(value10);
+  dynamicSize += (_sheetName.length) as int;
+  final value11 = object.sheetNameConfig;
+  final _sheetNameConfig = IsarBinaryWriter.utf8Encoder.convert(value11);
+  dynamicSize += (_sheetNameConfig.length) as int;
+  final value12 = object.sheetNameFileIdKey;
+  final _sheetNameFileIdKey = IsarBinaryWriter.utf8Encoder.convert(value12);
+  dynamicSize += (_sheetNameFileIdKey.length) as int;
+  final size = staticSize + dynamicSize;
+
+  rawObj.buffer = alloc(size);
+  rawObj.buffer_length = size;
+  final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+  final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeBytes(offsets[0], _byValueColumns);
+  writer.writeBytes(offsets[1], _copyrightUrl);
+  writer.writeBytes(offsets[2], _createdBy);
+  writer.writeBytes(offsets[3], _fileId);
+  writer.writeBytes(offsets[4], _fileIdConfig);
+  writer.writeBytes(offsets[5], _fileUrl);
+  writer.writeBytes(offsets[6], _getRows);
+  writer.writeBytes(offsets[7], _headerCols);
+  writer.writeBytes(offsets[8], _headers);
+  writer.writeBytes(offsets[9], _selects1);
+  writer.writeBytes(offsets[10], _sheetName);
+  writer.writeBytes(offsets[11], _sheetNameConfig);
+  writer.writeBytes(offsets[12], _sheetNameFileIdKey);
+}
+
+SheetConfig _sheetConfigDeserializeNative(
+    IsarCollection<SheetConfig> collection,
+    int id,
+    IsarBinaryReader reader,
+    List<int> offsets) {
+  final object = SheetConfig();
+  object.byValueColumns = reader.readString(offsets[0]);
+  object.copyrightUrl = reader.readString(offsets[1]);
+  object.createdBy = reader.readString(offsets[2]);
+  object.fileId = reader.readString(offsets[3]);
+  object.fileIdConfig = reader.readString(offsets[4]);
+  object.fileUrl = reader.readString(offsets[5]);
+  object.getRows = reader.readString(offsets[6]);
+  object.headerCols = reader.readString(offsets[7]);
+  object.headers = reader.readString(offsets[8]);
+  object.id = id;
+  object.selects1 = reader.readString(offsets[9]);
+  object.sheetName = reader.readString(offsets[10]);
+  object.sheetNameConfig = reader.readString(offsets[11]);
+  object.sheetNameFileIdKey = reader.readString(offsets[12]);
+  return object;
+}
+
+P _sheetConfigDeserializePropNative<P>(
+    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
+  switch (propertyIndex) {
+    case -1:
+      return id as P;
+    case 0:
+      return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readString(offset)) as P;
+    case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
+      return (reader.readString(offset)) as P;
+    case 11:
+      return (reader.readString(offset)) as P;
+    case 12:
+      return (reader.readString(offset)) as P;
+    default:
+      throw 'Illegal propertyIndex';
+  }
+}
+
+dynamic _sheetConfigSerializeWeb(
+    IsarCollection<SheetConfig> collection, SheetConfig object) {
+  final jsObj = IsarNative.newJsObject();
+  IsarNative.jsObjectSet(jsObj, 'byValueColumns', object.byValueColumns);
+  IsarNative.jsObjectSet(jsObj, 'copyrightUrl', object.copyrightUrl);
+  IsarNative.jsObjectSet(jsObj, 'createdBy', object.createdBy);
+  IsarNative.jsObjectSet(jsObj, 'fileId', object.fileId);
+  IsarNative.jsObjectSet(jsObj, 'fileIdConfig', object.fileIdConfig);
+  IsarNative.jsObjectSet(jsObj, 'fileUrl', object.fileUrl);
+  IsarNative.jsObjectSet(jsObj, 'getRows', object.getRows);
+  IsarNative.jsObjectSet(jsObj, 'headerCols', object.headerCols);
+  IsarNative.jsObjectSet(jsObj, 'headers', object.headers);
+  IsarNative.jsObjectSet(jsObj, 'id', object.id);
+  IsarNative.jsObjectSet(jsObj, 'selects1', object.selects1);
+  IsarNative.jsObjectSet(jsObj, 'sheetName', object.sheetName);
+  IsarNative.jsObjectSet(jsObj, 'sheetNameConfig', object.sheetNameConfig);
+  IsarNative.jsObjectSet(
+      jsObj, 'sheetNameFileIdKey', object.sheetNameFileIdKey);
+  return jsObj;
+}
+
+SheetConfig _sheetConfigDeserializeWeb(
+    IsarCollection<SheetConfig> collection, dynamic jsObj) {
+  final object = SheetConfig();
+  object.byValueColumns = IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '';
+  object.copyrightUrl = IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '';
+  object.createdBy = IsarNative.jsObjectGet(jsObj, 'createdBy') ?? '';
+  object.fileId = IsarNative.jsObjectGet(jsObj, 'fileId') ?? '';
+  object.fileIdConfig = IsarNative.jsObjectGet(jsObj, 'fileIdConfig') ?? '';
+  object.fileUrl = IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '';
+  object.getRows = IsarNative.jsObjectGet(jsObj, 'getRows') ?? '';
+  object.headerCols = IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '';
+  object.headers = IsarNative.jsObjectGet(jsObj, 'headers') ?? '';
+  object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
+  object.selects1 = IsarNative.jsObjectGet(jsObj, 'selects1') ?? '';
+  object.sheetName = IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '';
+  object.sheetNameConfig =
+      IsarNative.jsObjectGet(jsObj, 'sheetNameConfig') ?? '';
+  object.sheetNameFileIdKey =
+      IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '';
+  return object;
+}
+
+P _sheetConfigDeserializePropWeb<P>(Object jsObj, String propertyName) {
+  switch (propertyName) {
+    case 'byValueColumns':
+      return (IsarNative.jsObjectGet(jsObj, 'byValueColumns') ?? '') as P;
+    case 'copyrightUrl':
+      return (IsarNative.jsObjectGet(jsObj, 'copyrightUrl') ?? '') as P;
+    case 'createdBy':
+      return (IsarNative.jsObjectGet(jsObj, 'createdBy') ?? '') as P;
+    case 'fileId':
+      return (IsarNative.jsObjectGet(jsObj, 'fileId') ?? '') as P;
+    case 'fileIdConfig':
+      return (IsarNative.jsObjectGet(jsObj, 'fileIdConfig') ?? '') as P;
+    case 'fileUrl':
+      return (IsarNative.jsObjectGet(jsObj, 'fileUrl') ?? '') as P;
+    case 'getRows':
+      return (IsarNative.jsObjectGet(jsObj, 'getRows') ?? '') as P;
+    case 'headerCols':
+      return (IsarNative.jsObjectGet(jsObj, 'headerCols') ?? '') as P;
+    case 'headers':
+      return (IsarNative.jsObjectGet(jsObj, 'headers') ?? '') as P;
+    case 'id':
+      return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
+          as P;
+    case 'selects1':
+      return (IsarNative.jsObjectGet(jsObj, 'selects1') ?? '') as P;
+    case 'sheetName':
+      return (IsarNative.jsObjectGet(jsObj, 'sheetName') ?? '') as P;
+    case 'sheetNameConfig':
+      return (IsarNative.jsObjectGet(jsObj, 'sheetNameConfig') ?? '') as P;
+    case 'sheetNameFileIdKey':
+      return (IsarNative.jsObjectGet(jsObj, 'sheetNameFileIdKey') ?? '') as P;
+    default:
+      throw 'Illegal propertyName';
+  }
+}
+
+void _sheetConfigAttachLinks(IsarCollection col, int id, SheetConfig object) {}
 
 extension SheetConfigByIndex on IsarCollection<SheetConfig> {
   Future<SheetConfig?> getBySheetNameFileIdKey(String sheetNameFileIdKey) {
@@ -325,23 +322,22 @@ extension SheetConfigByIndex on IsarCollection<SheetConfig> {
 extension SheetConfigQueryWhereSort
     on QueryBuilder<SheetConfig, SheetConfig, QWhere> {
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhere> anyId() {
-    return addWhereClauseInternal(const WhereClause(indexName: null));
+    return addWhereClauseInternal(const IdWhereClause.any());
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhere> anySheetNameFileIdKey() {
     return addWhereClauseInternal(
-        const WhereClause(indexName: 'sheetNameFileIdKey'));
+        const IndexWhereClause.any(indexName: 'sheetNameFileIdKey'));
   }
 }
 
 extension SheetConfigQueryWhere
     on QueryBuilder<SheetConfig, SheetConfig, QWhereClause> {
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idEqualTo(int id) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: id,
       includeLower: true,
-      upper: [id],
+      upper: id,
       includeUpper: true,
     ));
   }
@@ -349,48 +345,33 @@ extension SheetConfigQueryWhere
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idNotEqualTo(
       int id) {
     if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      );
     } else {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      );
     }
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idGreaterThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
-      includeLower: include,
-    ));
+      int id,
+      {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.greaterThan(lower: id, includeLower: include),
+    );
   }
 
-  QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idLessThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      upper: [id],
-      includeUpper: include,
-    ));
+  QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idLessThan(int id,
+      {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.lessThan(upper: id, includeUpper: include),
+    );
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause> idBetween(
@@ -399,44 +380,40 @@ extension SheetConfigQueryWhere
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [lowerId],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: lowerId,
       includeLower: includeLower,
-      upper: [upperId],
+      upper: upperId,
       includeUpper: includeUpper,
     ));
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause>
       sheetNameFileIdKeyEqualTo(String sheetNameFileIdKey) {
-    return addWhereClauseInternal(WhereClause(
+    return addWhereClauseInternal(IndexWhereClause.equalTo(
       indexName: 'sheetNameFileIdKey',
-      lower: [sheetNameFileIdKey],
-      includeLower: true,
-      upper: [sheetNameFileIdKey],
-      includeUpper: true,
+      value: [sheetNameFileIdKey],
     ));
   }
 
   QueryBuilder<SheetConfig, SheetConfig, QAfterWhereClause>
       sheetNameFileIdKeyNotEqualTo(String sheetNameFileIdKey) {
     if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(WhereClause(
+      return addWhereClauseInternal(IndexWhereClause.lessThan(
         indexName: 'sheetNameFileIdKey',
         upper: [sheetNameFileIdKey],
         includeUpper: false,
-      )).addWhereClauseInternal(WhereClause(
+      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
         indexName: 'sheetNameFileIdKey',
         lower: [sheetNameFileIdKey],
         includeLower: false,
       ));
     } else {
-      return addWhereClauseInternal(WhereClause(
+      return addWhereClauseInternal(IndexWhereClause.greaterThan(
         indexName: 'sheetNameFileIdKey',
         lower: [sheetNameFileIdKey],
         includeLower: false,
-      )).addWhereClauseInternal(WhereClause(
+      )).addWhereClauseInternal(IndexWhereClause.lessThan(
         indexName: 'sheetNameFileIdKey',
         upper: [sheetNameFileIdKey],
         includeUpper: false,

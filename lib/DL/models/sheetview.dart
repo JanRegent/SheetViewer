@@ -131,8 +131,8 @@ class SheetsDb {
     }
   }
 
-  Future updateSheetsFromResponse(Map jsonData, String queryStringKey) async {
-    SheetView sheetView = SheetView.fromJson(jsonData);
+  Future updateSheetsFromResponse(
+      SheetView sheetView, String queryStringKey) async {
     sheetView.aQuerystringKey = queryStringKey;
     try {
       await isar.writeTxn((isar) async {
