@@ -25,6 +25,7 @@ class RowsDataSource extends DataGridSource {
 
     for (var rowIx = 0; rowIx < sheetView.rows.length; rowIx++) {
       Map row = jsonDecode(sheetView.rows[rowIx]);
+
       if (searchWord.isNotEmpty) {
         if (searchInColumn != '__all__') {
           if (row[searchInColumn].toString().contains(searchWord)) {
@@ -70,9 +71,13 @@ class RowsDataSource extends DataGridSource {
 
   DataGridRow gridRow(Map row, int rowIx) {
     List<DataGridCell> cells = [];
-
-    cells.add(DataGridCell<String>(
-        columnName: '__leftRowMenu__', value: rowIx.toString()));
+    try {
+      cells.add(DataGridCell<String>(
+          columnName: '__leftRowMenu__', value: row['row_'].toString()));
+    } catch (_) {
+      cells.add(DataGridCell<String>(
+          columnName: '__leftRowMenu__', value: rowIx.toString()));
+    }
 
     for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       String value = '';
@@ -109,11 +114,11 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  Widget getCell(DataGridCell<dynamic> e, String searchWord) {
+  Widget getCell(DataGridCell<dynamic> e, String searchWord, DataGridRow row) {
     if (e.columnName == '__rowDetail__') {
       return IconButton(
         icon: const Icon(Icons.chevron_right),
-        onPressed: () => detailShow(),
+        onPressed: () => detailShow(sheetView, e.value),
       );
     }
 
@@ -125,7 +130,8 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  Future detailShow() async {
+  Future detailShow(SheetView sheetView, String rowIx) async {
+    sheetView.currentRowsIndex = int.tryParse(rowIx)!;
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => DetailListViewPage(sheetView)),
@@ -136,12 +142,12 @@ class RowsDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
-      sheetView.currentRowsIndex =
-          int.tryParse(row.getCells().first.value.toString())!;
+      // sheetView.currentRowsIndex =
+      //     int.tryParse(row.getCells().first.value.toString())!;
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: getCell(e, searchWord),
+        child: getCell(e, searchWord, row),
       );
     }).toList());
   }

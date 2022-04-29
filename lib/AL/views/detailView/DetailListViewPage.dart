@@ -70,6 +70,8 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
   }
 
   Row arrowsRow(BuildContext context) {
+    Map row =
+        jsonDecode(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
     return Row(
       children: [
         ElevatedButton(
@@ -99,14 +101,13 @@ class _DetailListViewPageState extends State<DetailListViewPage> {
                   widget.sheetView.rows.length - 1;
               refreshCorrectIndex();
             }),
+        const Text(' row: '),
+        Text(row['row_'].toString()),
       ],
     );
   }
 
   String cellvalueGet(String columnSelected) {
-    // String currentCol =
-    //     widget.sheetView.cols[widget.sheetView.cols.indexOf(columnSelected)];
-
     Map row =
         jsonDecode(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
     String cellValue = '';
