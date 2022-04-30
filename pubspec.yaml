@@ -51,8 +51,8 @@ dependencies:
   #========================================================BL
   cache_manager: ^1.0.0+3       #https://pub.dev/packages/cache_manager
   get_storage: ^2.0.3           #https://pub.dev/packages/get_storage?utm_source=fluttertap
-  isar: ^2.2.1                  #https://pub.dev/packages/isar
-  isar_flutter_libs: ^2.2.1     #https://pub.dev/packages/isar_flutter_libs
+  isar: ^2.4.0                  #https://pub.dev/packages/isar
+  isar_flutter_libs: ^2.4.0     #https://pub.dev/packages/isar_flutter_libs
 
   # flutter_mongo_stitch_web: ^1.0.0-nullsafety.0 #https://pub.dev/packages/flutter_mongo_stitch_web/versions/1.0.0-nullsafety.0 
   # flutter_mongodb_realm: ^2.0.0-nullsafety.0  #https://pub.dev/packages/flutter_mongodb_realm/versions/2.0.0-nullsafety.0

@@ -15,7 +15,7 @@ final dio = Dio(
 ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
 String interceptorAdded = '';
 
-Future<SheetView?> getSheetView({required url}) async {
+Future<SheetView?> getSheetView(String queryStringKey, {required url}) async {
   if (interceptorAdded.isEmpty) {
     dio.interceptors.add(interceptor);
     interceptorAdded = 'added';
@@ -23,8 +23,8 @@ Future<SheetView?> getSheetView({required url}) async {
 
   SheetView? sheetView;
   try {
-    Response userData = await dio.get(url);
-    sheetView = SheetView.fromJson(userData.data);
+    Response response = await dio.get(url);
+    sheetView = SheetView.fromJson(response.data);
   } on DioError catch (e) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx and is also not 304.
@@ -38,5 +38,6 @@ Future<SheetView?> getSheetView({required url}) async {
       sheetView.aStatus = 'error! Response is null \n' + e.message;
     }
   }
+  await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
   return sheetView;
 }

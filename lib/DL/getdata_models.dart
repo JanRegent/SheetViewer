@@ -35,7 +35,11 @@ Future<SheetView?> sheetViewGetData(
     if (sheetView!.aStatus.startsWith('warn: not exists')) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-      await updateSheetToCache(queryString, queryStringKey);
+      String urlQuery =
+          Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
+
+      await getSheetView(queryStringKey, url: urlQuery);
+
       sheetView = await sheetsDb.readSheet(queryStringKey);
     }
   } catch (e) {
@@ -53,25 +57,6 @@ Future<SheetView?> sheetViewGetData(
   } catch (e) {
     return (SheetView().aStatus =
         'error! getActionSheet() readSheet ' + e.toString()) as SheetView?;
-  }
-}
-
-Future updateSheetToCache(
-  String queryString,
-  String queryStringKey,
-) async {
-  String urlQuery =
-      Uri.encodeFull(bl.blGlobal.contentServiceUrl + '?' + queryString);
-
-  SheetView? sheetView = await getSheetView(url: urlQuery);
-
-  try {
-    await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
-  } catch (e) {
-    if (kDebugMode) {
-      print('-------------------------------updateSheetToCache() updateSheets');
-      print(e);
-    }
   }
 }
 
