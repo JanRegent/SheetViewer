@@ -18,7 +18,7 @@ IconButton lastButton(BuildContext context, SheetViewConfig sheetViewConfig) {
   return IconButton(
     icon: Container(
       height: 100,
-      width: 100,
+      width: 200,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,

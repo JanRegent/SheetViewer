@@ -26,7 +26,10 @@ IconButton firstButton(BuildContext context, SheetViewConfig sheetViewConfig) {
         //borderRadius: BorderRadius.circular(10.0),
       ),
       child: const Center(
-        child: Icon(Icons.first_page, color: Colors.black),
+        child: Icon(
+          Icons.first_page,
+          color: Colors.black,
+        ),
       ),
     ),
 
