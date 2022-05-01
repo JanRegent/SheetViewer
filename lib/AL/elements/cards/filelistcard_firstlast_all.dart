@@ -7,8 +7,8 @@ import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../getrows/firstLast/_firstlast_column.dart';
 
-Card filelistCardFirstLastAll(BuildContext context, Function setStateFunc,
-    Map fileListSheet, int index, SheetViewConfig sheetViewConfig) {
+Card filelistCardFirstLastAll(BuildContext context, Map fileListSheet,
+    int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 

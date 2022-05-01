@@ -19,9 +19,6 @@ class LastListviewPage extends StatelessWidget {
       {Key? key})
       : super(key: key);
 
-  void setStateFunc() {
-    //setState(() {});
-  }
   late String interestName = 'interest';
 
   Widget detailBody() {
@@ -34,8 +31,8 @@ class LastListviewPage extends StatelessWidget {
           shrinkWrap: true,
           itemCount: fileListSheet.length,
           itemBuilder: (context, index) {
-            return filelistCardFirstLastAll(context, setStateFunc,
-                fileListSheet, index, sheetViewConfigs[index]);
+            return filelistCardFirstLastAll(
+                context, fileListSheet, index, sheetViewConfigs[index]);
           },
         ));
   }
