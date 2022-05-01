@@ -70,8 +70,8 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
                 ),
             itemCount: fileListSheet['rows'].length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(context, setStateFunc, fileListSheet,
-                      index, sheetViewConfigs[index]),
+                  child: filelistCard(
+                      context, fileListSheet, index, sheetViewConfigs[index]),
                 )));
   }
 

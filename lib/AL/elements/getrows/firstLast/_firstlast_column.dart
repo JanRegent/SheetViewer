@@ -7,14 +7,14 @@ import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastbutton.dart';
 
-Column firstLastColumn(BuildContext context, Function setStateFunc,
-    SheetViewConfig sheetViewConfig) {
+Column firstLastColumn(
+    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
   return Column(
     children: [
       Row(
         children: [
           const Text(' '),
-          firstRowsCount(context, setStateFunc, sheetViewConfig),
+          firstRowsCount(context, index, sheetViewConfig),
           const Text(' '),
           firstButton(context, sheetViewConfig),
         ],
@@ -22,7 +22,7 @@ Column firstLastColumn(BuildContext context, Function setStateFunc,
       Row(
         children: [
           const Text(' '),
-          lastRowsCount(context, setStateFunc, sheetViewConfig),
+          lastRowsCount(context, index, sheetViewConfig),
           const Text(' '),
           lastButton(context, sheetViewConfig),
         ],

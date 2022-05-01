@@ -1,12 +1,15 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluepage.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
-import '../last_first_all/last_listview_page.dart';
+import '../last_first_all/last_listview_page2.dart';
+
+RowsCountController rowsCountController = RowsCountController();
 
 class GetdataFileListLayout extends StatefulWidget {
   final String layout;
@@ -25,8 +28,8 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   }
 
   List<SheetViewConfig> sheetViewConfigs = [];
-
   late Map fileListSheet = {};
+
   Future<String> getData() async {
     fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
         widget.selectedInterestRow['sheetName']);
@@ -57,6 +60,7 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
               return Text('Error: ${snapshot.error}');
             } else {
               if (widget.layout == 'lastGrid') {
+                rowsCountBuild(fileListSheet);
                 return LastListviewPage(widget.selectedInterestRow,
                     fileListSheet, sheetViewConfigs);
               } else {
@@ -76,5 +80,37 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
         home: Scaffold(
           body: fileListBuilder(widget.layout),
         ));
+  }
+}
+
+void rowsCountBuild(Map fileListSheet) {
+  for (var i = 0; i < fileListSheet.length; i++) {
+    rowsCountController.firstRowsCountAdd();
+  }
+}
+
+class RowsCountController extends GetxController {
+  var firstRowsCount = [].obs;
+
+  int firstRowsCountGet(int index) {
+    return firstRowsCount[index];
+  }
+
+  firstRowsCountAdd() {
+    firstRowsCount.add(11);
+  }
+
+  firstRowsCountSet(int index, value) {
+    firstRowsCount[index] = value;
+  }
+
+  var lastRowsCount = [].obs;
+
+  int lastRowsCountGet(int index) {
+    return lastRowsCount[index];
+  }
+
+  lastRowsCountSet(int index, value) {
+    lastRowsCount[index] = value;
   }
 }

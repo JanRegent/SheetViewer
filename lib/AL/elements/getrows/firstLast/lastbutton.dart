@@ -36,8 +36,8 @@ IconButton lastButton(BuildContext context, SheetViewConfig sheetViewConfig) {
   );
 }
 
-ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
-    SheetViewConfig sheetViewConfig) {
+ElevatedButton lastRowsCount(
+    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
   return ElevatedButton(
     child: Text(sheetViewConfig.getRowsLast.isNotEmpty
         ? sheetViewConfig.getRowsLast
@@ -49,8 +49,8 @@ ElevatedButton lastRowsCount(BuildContext context, Function setStateFunc,
       String aQuerystringKey = queryStringKeyBuild(
           sheetViewConfig.fileId, sheetViewConfig.sheetName, queryMap);
 
-      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsLast',
-          sheetViewConfig);
+      await getRowsSet(
+          context, index, aQuerystringKey, 'getRowsLast', sheetViewConfig);
     },
   );
 }

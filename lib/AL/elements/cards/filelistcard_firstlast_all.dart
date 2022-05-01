@@ -33,7 +33,7 @@ Card filelistCardFirstLastAll(BuildContext context, Function setStateFunc,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastColumn(context, setStateFunc, sheetViewConfig),
+        firstLastColumn(context, index, sheetViewConfig),
       ],
     );
   }

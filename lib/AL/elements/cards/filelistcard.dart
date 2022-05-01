@@ -10,8 +10,8 @@ import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 
-Card filelistCard(BuildContext context, Function setStateFunc,
-    Map fileListSheet, int index, SheetViewConfig sheetViewConfig) {
+Card filelistCard(BuildContext context, Map fileListSheet, int index,
+    SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
@@ -36,7 +36,7 @@ Card filelistCard(BuildContext context, Function setStateFunc,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastRow(context, setStateFunc, sheetViewConfig),
+        firstLastRow(context, index, sheetViewConfig),
 
         //-------------------------------------------------------------last/byValues
 

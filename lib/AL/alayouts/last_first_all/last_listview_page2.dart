@@ -9,31 +9,20 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import '../../elements/cards/filelistcard_firstlast_all.dart';
 
-class LastListviewPage extends StatefulWidget {
+// ignore: must_be_immutable
+class LastListviewPage extends StatelessWidget {
   final Map selectedInterestRow;
   final Map fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
-  const LastListviewPage(
+  LastListviewPage(
       this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
       {Key? key})
       : super(key: key);
 
-  @override
-  _LastListviewPageState createState() => _LastListviewPageState();
-}
-
-class _LastListviewPageState extends State<LastListviewPage> {
-  @override
-  void initState() {
-    super.initState();
-    interestName = widget.selectedInterestRow['interestName'];
-  }
-
   void setStateFunc() {
-    setState(() {});
+    //setState(() {});
   }
-
-  late String interestName;
+  late String interestName = 'interest';
 
   Widget detailBody() {
     return Container(
@@ -43,10 +32,10 @@ class _LastListviewPageState extends State<LastListviewPage> {
         child: ListView.builder(
           padding: const EdgeInsets.all(8),
           shrinkWrap: true,
-          itemCount: widget.fileListSheet.length,
+          itemCount: fileListSheet.length,
           itemBuilder: (context, index) {
             return filelistCardFirstLastAll(context, setStateFunc,
-                widget.fileListSheet, index, widget.sheetViewConfigs[index]);
+                fileListSheet, index, sheetViewConfigs[index]);
           },
         ));
   }
@@ -56,8 +45,8 @@ class _LastListviewPageState extends State<LastListviewPage> {
     return Scaffold(
         appBar: AppBar(
           title: ListTile(
-            leading: loadingPageShow(widget.fileListSheet, context,
-                widget.selectedInterestRow['interestName']),
+            leading: loadingPageShow(
+                fileListSheet, context, selectedInterestRow['interestName']),
             title: Text(interestName),
           ),
           backgroundColor: Colors.lightBlue,

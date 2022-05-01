@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 import 'package:sheetviewer/AL/views/getdataviews.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
@@ -45,18 +47,23 @@ IconButton firstButton(BuildContext context, SheetViewConfig sheetViewConfig) {
   );
 }
 
-ElevatedButton firstRowsCount(BuildContext context, Function setStateFunc,
-    SheetViewConfig sheetViewConfig) {
+ElevatedButton firstRowsCount(
+    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
   return ElevatedButton(
-    child: const Text('10'),
+    child: Obx(
+      () => Text(
+        rowsCountController.firstRowsCount[index].toString(),
+      ),
+    ),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
       var queryMap = {'action': 'getRowsFirst', 'rowsCount': '10'};
       String aQuerystringKey = queryStringKeyBuild(
           sheetViewConfig.fileId, sheetViewConfig.sheetName, queryMap);
-      await getRowsSet(context, setStateFunc, aQuerystringKey, 'getRowsFirst',
-          sheetViewConfig);
+
+      await getRowsSet(
+          context, index, aQuerystringKey, 'getRowsFirst', sheetViewConfig);
     },
   );
 }

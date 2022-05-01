@@ -75,8 +75,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
                 ),
             itemCount: fileListSheet['rows'].length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(context, setStateFunc, fileListSheet,
-                      index, sheetViewConfigs[index]),
+                  child: filelistCard(
+                      context, fileListSheet, index, sheetViewConfigs[index]),
                 )));
   }
 

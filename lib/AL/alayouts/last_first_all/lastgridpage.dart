@@ -50,7 +50,7 @@ class _LastGridPageState extends State<LastGridPage> {
           itemCount: widget.fileListSheet.length,
           itemBuilder: (context, index) {
             return firstlastGridCard(
-                context, setStateFunc, widget.sheetViewConfigs[index]);
+                context, index, widget.sheetViewConfigs[index]);
           },
         ));
   }
