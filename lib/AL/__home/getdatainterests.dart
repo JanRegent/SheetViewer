@@ -7,6 +7,7 @@ import 'package:sheetviewer/AL/__home/homepage.dart';
 //import 'package:sheetviewer/AL/elementsLib/infodialogs/okdialog.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 class GetDataInterestsApp extends StatelessWidget {
@@ -44,15 +45,16 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
 
   SheetView sheetView = SheetView()..aStatus = 'info:empty';
 
-  Map tabsListResponse = {};
+  List<dynamic> interestsDynamic = [];
   List<String> interests = [];
   Future<String> getData(BuildContext context) async {
     try {
-      tabsListResponse = await getSheet(
+      await getSheet(
           'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
           'interestList');
-      for (var i = 0; i < tabsListResponse['rows'].length; i++) {
-        String interestName = tabsListResponse['rows'][i]['interestName'];
+      interestsDynamic = await localDb.read('interestList', List);
+      for (var i = 0; i < interestsDynamic.length; i++) {
+        String interestName = interestsDynamic[i]['interestName'];
         if (interests.contains(interestName)) continue;
         interests.add(interestName);
       }
@@ -84,7 +86,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return HomeScreen(tabsListResponse, interests);
+              return HomeScreen(interestsDynamic, interests);
             }
         }
       },

@@ -1,10 +1,20 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDb {
   // Read From Shared Pref
-  read(String key, Type type) async {
+  Future read(String key, Type type) async {
     // Shared Pref instanse
     var sharedPref = await SharedPreferences.getInstance();
+    if (type.toString() == 'List<dynamic>') {
+      List<String> list = sharedPref.getStringList(key) ?? [];
+      List<dynamic> maps = [];
+      for (var i = 0; i < list.length; i++) {
+        maps.add(json.decode(list[i]));
+      }
+      return maps;
+    }
 
     // Read Data
     switch (type) {
@@ -27,6 +37,10 @@ class LocalDb {
       case List:
         // Read a [List of Strings] value from given [key].
         return sharedPref.getStringList(key);
+      case Map:
+        String? encodedMap = sharedPref.getString(key);
+        Map<String, dynamic> decodedMap = json.decode(encodedMap!);
+        return decodedMap;
     }
   }
 
@@ -52,10 +66,18 @@ class LocalDb {
         // Update a [String] value to given [key].
         await sharedPref.setString(key, value);
         break;
-      case List:
-        // Update a [List of Strings] value to given [key].
-        await sharedPref.setStringList(key, value);
-        break;
+    }
+    if (value.runtimeType.toString() == '_JsonMap') {
+      String encodedMap = json.encode(value);
+      await sharedPref.setString(key, encodedMap);
+    }
+    if (value.runtimeType.toString() == 'List<dynamic>') {
+      List<String> encodedList = [];
+      for (var i = 0; i < value.length; i++) {
+        encodedList.add(json.encode(value[i]));
+      }
+      await sharedPref.setStringList(key, encodedList);
+      return;
     }
   }
 

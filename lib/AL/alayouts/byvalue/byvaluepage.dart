@@ -14,7 +14,7 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class ByvaluePage extends StatefulWidget {
   final Map selectedInterestRow;
-  final Map fileListSheet;
+  final List<dynamic> fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
   const ByvaluePage(
       this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,

@@ -16,7 +16,7 @@ class LastNew1Page extends StatefulWidget {
 class _LastNew1PageState extends State<LastNew1Page> {
   // https://protocoderspoint.com/how-to-implement-read-more-read-less-text-in-flutter/
 
-  late Map fileListSheet = {};
+  late List<dynamic> fileListSheet = [];
 
   Future<String> getData() async {
     fileListSheet = await getrowslast1quote(widget.url, widget.sheetName);
@@ -32,11 +32,11 @@ class _LastNew1PageState extends State<LastNew1Page> {
   Column newsColumn(int index) {
     return Column(children: [
       Text(
-        fileListSheet['rows'][index]['sheetName'],
+        fileListSheet[index]['sheetName'],
         style: const TextStyle(fontSize: 30),
       ),
       //text widget to display long text
-      buildText(fileListSheet['rows'][index]['quote']),
+      buildText(fileListSheet[index]['quote']),
       ElevatedButton(
           onPressed: () {
             setState(() {
@@ -50,7 +50,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
 
   ListView newsList() {
     return ListView.builder(
-      itemCount: fileListSheet['rows'].length,
+      itemCount: fileListSheet.length,
       itemBuilder: (context, index) {
         return Container(
           decoration: const BoxDecoration(

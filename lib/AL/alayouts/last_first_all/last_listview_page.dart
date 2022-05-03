@@ -12,7 +12,7 @@ import '../../elements/cards/filelistcard_firstlast_all.dart';
 // ignore: must_be_immutable
 class LastListviewPage extends StatelessWidget {
   final Map selectedInterestRow;
-  final Map fileListSheet;
+  final List<dynamic> fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
   LastListviewPage(
       this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,

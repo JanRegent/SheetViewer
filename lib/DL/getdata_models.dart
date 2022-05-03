@@ -132,17 +132,16 @@ Future<Map> actionMapFind(
 }
 
 Future<List<SheetViewConfig>> fileListSheet2sheetViewConfigs(
-    Map fileListSheet, var queryMap) async {
+    List<dynamic> fileListSheet, var queryMap) async {
   List<SheetViewConfig> sheetViewConfigs = [];
 
-  for (var index = 0; index < fileListSheet['rows'].length; index++) {
-    String fileId =
-        bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-    String sheetName = fileListSheet['rows'][index]['sheetName'];
+  for (var index = 0; index < fileListSheet.length; index++) {
+    String fileId = bl.blUti.url2fileid(fileListSheet[index]['fileUrl']);
+    String sheetName = fileListSheet[index]['sheetName'];
     String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
     SheetViewConfig? sheetViewConfig =
         await sheetViewConfigDb.readSheet(aQuerystringKey);
-    sheetViewConfig?.fileListSheetRow = fileListSheet['rows'][index];
+    sheetViewConfig?.fileListSheetRow = fileListSheet[index];
     sheetViewConfig?.fileId = fileId;
     sheetViewConfig?.sheetName = sheetName;
     sheetViewConfigs.add(sheetViewConfig!);

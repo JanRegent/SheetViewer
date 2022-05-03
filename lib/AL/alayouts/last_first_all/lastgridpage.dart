@@ -10,7 +10,7 @@ import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class LastGridPage extends StatefulWidget {
   final Map selectedInterestRow;
-  final Map fileListSheet;
+  final List<dynamic> fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
   const LastGridPage(
       this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,

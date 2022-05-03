@@ -28,7 +28,7 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   }
 
   List<SheetViewConfig> sheetViewConfigs = [];
-  late Map fileListSheet = {};
+  late List<dynamic> fileListSheet = [];
 
   Future<String> getData() async {
     fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
@@ -83,7 +83,7 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   }
 }
 
-void rowsCountBuild(Map fileListSheet) {
+void rowsCountBuild(List<dynamic> fileListSheet) {
   for (var i = 0; i < fileListSheet.length; i++) {
     rowsCountController.firstRowsCountAdd();
   }

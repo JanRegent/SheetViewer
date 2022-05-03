@@ -8,7 +8,7 @@ import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Map tabsListResponse;
+  final List<dynamic> tabsListResponse;
   final List<String> intererests;
   const HomeScreen(this.tabsListResponse, this.intererests, {Key? key})
       : super(key: key);
@@ -34,11 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void interestChanged(value) {
     try {
       selectedInterest = value;
-      selectedInterestRow = widget.tabsListResponse['rows'][0];
-      for (var i = 0; i < widget.tabsListResponse['rows'].length; i++) {
-        if (widget.tabsListResponse['rows'][i]['interestName'] ==
-            selectedInterest) {
-          selectedInterestRow = widget.tabsListResponse['rows'][i];
+      selectedInterestRow = widget.tabsListResponse[0];
+      for (var i = 0; i < widget.tabsListResponse.length; i++) {
+        if (widget.tabsListResponse[i]['interestName'] == selectedInterest) {
+          selectedInterestRow = widget.tabsListResponse[i];
           break;
         }
       }
@@ -50,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Row titleRow() {
     selectedInterest = widget.intererests[0];
-    selectedInterestRow = widget.tabsListResponse['rows'][0];
+    selectedInterestRow = widget.tabsListResponse[0];
     return Row(
       children: [
         const Icon(Icons.home),

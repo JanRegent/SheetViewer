@@ -7,13 +7,13 @@ import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../getrows/firstLast/_firstlast_column.dart';
 
-Card filelistCardFirstLastAll(BuildContext context, Map fileListSheet,
+Card filelistCardFirstLastAll(BuildContext context, List<dynamic> fileListSheet,
     int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
     createSheetConfigIfNotExists(
-        sheetViewConfig.fileId, fileListSheet['rows'][index]['sheetName']);
+        sheetViewConfig.fileId, fileListSheet[index]['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
@@ -28,7 +28,7 @@ Card filelistCardFirstLastAll(BuildContext context, Map fileListSheet,
           //     fileId, fileListSheet['rows'][index]['sheetName']);
         },
       ),
-      title: Text(fileListSheet['rows'][index]['fileTitle'],
+      title: Text(fileListSheet[index]['fileTitle'],
           style: const TextStyle(fontSize: 20, color: Colors.black)),
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),

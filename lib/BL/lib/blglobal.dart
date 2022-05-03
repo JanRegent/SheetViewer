@@ -12,6 +12,7 @@ GetStorage blGlobalsBox = GetStorage('blGlobalsBox');
 GetStorage debugBox = GetStorage('debugBox');
 
 late LocalStore interestStore;
+late LocalDb localDb;
 
 void logi(String key, String value) {
   debugBox.write(key, value);
@@ -25,7 +26,7 @@ class BlGlobal {
   Future init() async {
     // blGlobalsStore = LocalStore('blGlobalsStore');
     // await blGlobalsStore.init();
-    LocalDb localDb = LocalDb();
+    localDb = LocalDb();
     contentServiceUrl = await loadAssetString('contentServiceUrl');
     localDb.update('contentServiceUrl', contentServiceUrl);
     localDb.update('rowsSelectedIndex', 0);

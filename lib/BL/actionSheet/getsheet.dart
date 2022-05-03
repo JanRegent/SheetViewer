@@ -13,26 +13,23 @@ Future getSheet(String fileId, String sheetName) async {
   late var response;
 
   try {
-    queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
-    Map tabsList = await interestStore.readMap(queryString);
-    if (tabsList.isNotEmpty) return tabsList;
+    List<dynamic> interestList = await localDb.read('interestList', List);
+    if (interestList.isNotEmpty) return interestList;
   } catch (_) {}
 
   try {
+    queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    interestStore.updateString('1_getSheet() urlQuery', urlQuery);
     response = await Dio().get(urlQuery);
-    interestStore.updateString('2_getSheet() response.data length',
-        response.data.toString().length.toString());
   } catch (e) {
-    interestStore.updateString('2_getSheet() error response', e.toString());
+    localDb.update('interestList error 1 response', e.toString());
     return {};
   }
 
   try {
-    interestStore.updateMap(queryString, response.data);
+    localDb.update('interestList', response.data['rows']);
   } catch (e) {
-    interestStore.updateString('3_getListSheet() err2update', e.toString());
+    localDb.update('interestList error 2 update', e.toString());
   }
   return response.data;
 }
