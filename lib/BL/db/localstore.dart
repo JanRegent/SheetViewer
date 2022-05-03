@@ -68,8 +68,20 @@ class LocalStore {
       return 'OK';
     } catch (e) {
       logi('--- LocalStore: ', localStoreName);
-      logi('updateString(String ', key);
-      logi('updateString(String ', e.toString());
+      logi('updateString(key: ', key);
+      logi('updateString(e: ', e.toString());
+      return '';
+    }
+  }
+
+  Future updateInt(String key, int value) async {
+    try {
+      _box.write(key, value);
+      return 'OK';
+    } catch (e) {
+      logi('--- LocalStore: ', localStoreName);
+      logi('updateInt(key: ', key);
+      logi('updateInt(e: ', e.toString());
       return '';
     }
   }

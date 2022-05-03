@@ -53,6 +53,7 @@ dependencies:
   #========================================================BL
   cache_manager: ^1.0.0+3       #https://pub.dev/packages/cache_manager
   get_storage: ^2.0.3           #https://pub.dev/packages/get_storage?utm_source=fluttertap
+  shared_preferences: ^2.0.13   #https://pub.dev/packages/shared_preferences
   isar: ^2.4.0                  #https://pub.dev/packages/isar
   isar_flutter_libs: ^2.4.0     #https://pub.dev/packages/isar_flutter_libs
 

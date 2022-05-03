@@ -50,7 +50,7 @@ class _ApidocGridPageState extends State<ApidocGridPage> {
               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
             rowsSelectedIndex.value =
                 rowsDataSource.rows.indexOf(selectedRows.first);
-            globalsBox.write('rowsSelectedIndex', rowsSelectedIndex.value);
+            blGlobalsBox.write('rowsSelectedIndex', rowsSelectedIndex.value);
           },
           allowSorting: true,
           allowTriStateSorting: true,

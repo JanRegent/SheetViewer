@@ -5,9 +5,10 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sheetviewer/DL/_localstore.dart';
+import 'package:sheetviewer/BL/db/localdb.dart';
+import 'package:sheetviewer/BL/db/localstore.dart';
 
-GetStorage globalsBox = GetStorage('globalsBox');
+GetStorage blGlobalsBox = GetStorage('blGlobalsBox');
 GetStorage debugBox = GetStorage('debugBox');
 
 late LocalStore interestStore;
@@ -22,10 +23,12 @@ class BlGlobal {
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
-    globalsBox.write('bl.globals.querystring', '?');
+    // blGlobalsStore = LocalStore('blGlobalsStore');
+    // await blGlobalsStore.init();
+    LocalDb localDb = LocalDb();
     contentServiceUrl = await loadAssetString('contentServiceUrl');
-    globalsBox.write('bl.globals.contentServiceUrl', contentServiceUrl);
-    globalsBox.write('rowsSelectedIndex', 0);
+    localDb.update('contentServiceUrl', contentServiceUrl);
+    localDb.update('rowsSelectedIndex', 0);
 
     interestStore = LocalStore('interest1');
     await interestStore.init();

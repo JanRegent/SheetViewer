@@ -24,6 +24,7 @@ void main() async {
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
   );
+
   sheetsDb = SheetsDb(isar);
   await sheetsDb.init();
   sheetViewConfigDb = SheetViewConfigDb(isar);
