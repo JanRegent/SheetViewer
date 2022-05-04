@@ -35,7 +35,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   Future loadingRunF(BuildContext context) async {
     for (var index = 0; index < widget.fileListSheet.length; index++) {
       statusCont.ls[index] = 'LOADING';
-      await loadFileListSheetRow(widget.fileListSheet, index);
+      await loadFileListSheetRow(widget.fileListSheet[index]);
       statusCont.ls[index] = '';
     }
 
@@ -104,7 +104,7 @@ IconButton loadingPageShow(
 }
 
 String loadListSheetName = 'space';
-List<dynamic> loadListFileListSheet = [];
+Map loadListFileListSheet = {};
 IconButton loadList(Map fileListSheet, BuildContext context) {
   return IconButton(
       onPressed: () async {
@@ -115,19 +115,18 @@ IconButton loadList(Map fileListSheet, BuildContext context) {
 
 List<String> actions = ['getRowsFirst', 'getRowsLast'];
 
-Future loadListByActions(
-    List<dynamic> fileListSheet, BuildContext context) async {
+Future loadListByActions(Map fileListSheet, BuildContext context) async {
   for (var index = 0; index < fileListSheet.length; index++) {
     infoSnack(context, 'Loading ' + fileListSheet[index]['fileTitle'],
         AnimatedSnackBarType.info);
-    await loadFileListSheetRow(fileListSheet, index);
+    await loadFileListSheetRow(fileListSheet[index]);
   }
   infoSnack(context, 'Done', AnimatedSnackBarType.info);
 }
 
-Future loadFileListSheetRow(List<dynamic> fileListSheet, int index) async {
-  String fileId = bl.blUti.url2fileid(fileListSheet[index]['fileUrl']);
-  String sheetName = fileListSheet[index]['sheetName'];
+Future loadFileListSheetRow(Map fileListSheetRow) async {
+  String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
+  String sheetName = fileListSheetRow['sheetName'];
   for (var action in actions) {
     await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
   }

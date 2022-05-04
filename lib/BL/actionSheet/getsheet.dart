@@ -13,25 +13,14 @@ Future getSheet(String fileId, String sheetName) async {
   late var response;
 
   try {
-    List<dynamic> interestList = await localDb.read('interestList', List);
-    if (interestList.isNotEmpty) return interestList;
-  } catch (_) {}
-
-  try {
     queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
     response = await Dio().get(urlQuery);
+    return response.data;
   } catch (e) {
-    localDb.update('interestList error 1 response', e.toString());
+    localDb.update('getSheet error', '1 response\n' + e.toString());
     return {};
   }
-
-  try {
-    localDb.update('interestList', response.data['rows']);
-  } catch (e) {
-    localDb.update('interestList error 2 update', e.toString());
-  }
-  return response.data;
 }
 
 Future getrowslast1quote(String fileId, String sheetName) async {

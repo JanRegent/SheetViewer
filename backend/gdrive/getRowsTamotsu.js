@@ -85,10 +85,12 @@ function url2fileid( url) {
 //----------------------------------------------------------------------------------------
 function getRowsLast1quote(fileId, sheetName) {
   var listRows = getSheetTam(fileId, sheetName);
-  if (colsLastUsed.indexOf('quoteColumn')) {
-    config['state'] = 'err: getRowsLast1quote(fileId, sheetName) - quoteColumn is not defined in filelist';
-    return;
-  }
+ 
+  // if (colsLastUsed.indexOf('quoteColumn')) {
+  //   config['state'] = 'err: getRowsLast1quote(fileId, sheetName) - quoteColumn is not defined in filelist';
+  //   return;
+  // }
+  // Logger.log(listRows);
   var arr = []
   for (var i = 0; i < listRows.length; i++) {
     var row = listRows[i];
@@ -96,6 +98,10 @@ function getRowsLast1quote(fileId, sheetName) {
     if (Agent == undefined) continue;
     var lastRow = Agent.last()
     if (row['quoteColumn'] == '') continue;
+
+    var fileId = SpreadsheetApp.openByUrl(row['fileUrl']).getId();
+    var lastUpdated = DriveApp.getFileById (fileId).getLastUpdated();  
+    row['lastUpdated'] = lastUpdated;
 
     row['quote'] = lastRow[row['quoteColumn']];
     
@@ -108,7 +114,7 @@ function getRowsLast1quote(fileId, sheetName) {
 
 //----------------------------------------------------------------------------------------test
 function getRowsLast1byList_test() {
-  Logger.log(getRowsLast1quote('https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=179495500', 'hledaniList'));
+  Logger.log(getRowsLast1quote('1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo', 'hledaniList'));
 }
 
 function getTablistTest(){

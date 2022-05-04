@@ -16,10 +16,11 @@ class LastNew1Page extends StatefulWidget {
 class _LastNew1PageState extends State<LastNew1Page> {
   // https://protocoderspoint.com/how-to-implement-read-more-read-less-text-in-flutter/
 
-  late List<dynamic> fileListSheet = [];
+  late Map fileListLastQuote = {};
 
   Future<String> getData() async {
-    fileListSheet = await getrowslast1quote(widget.url, widget.sheetName);
+    fileListLastQuote = await getrowslast1quote(widget.url, widget.sheetName);
+
     return 'ok';
   }
 
@@ -32,11 +33,11 @@ class _LastNew1PageState extends State<LastNew1Page> {
   Column newsColumn(int index) {
     return Column(children: [
       Text(
-        fileListSheet[index]['sheetName'],
+        fileListLastQuote['rows'][index]['sheetName'],
         style: const TextStyle(fontSize: 30),
       ),
       //text widget to display long text
-      buildText(fileListSheet[index]['quote']),
+      buildText(fileListLastQuote['rows'][index]['quote']),
       ElevatedButton(
           onPressed: () {
             setState(() {
@@ -50,7 +51,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
 
   ListView newsList() {
     return ListView.builder(
-      itemCount: fileListSheet.length,
+      itemCount: fileListLastQuote.length,
       itemBuilder: (context, index) {
         return Container(
           decoration: const BoxDecoration(
@@ -94,7 +95,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  loadListFileListSheet = fileListSheet;
+                  loadListFileListSheet = fileListLastQuote;
                   return newsList();
                 }
             }

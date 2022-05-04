@@ -49,9 +49,18 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
   List<String> interests = [];
   Future<String> getData(BuildContext context) async {
     try {
-      await getSheet(
-          'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
-          'interestList');
+      List<dynamic> interestList = await localDb.read('interestList', List);
+      if (interestList.isEmpty) {
+        Map responseData = await getSheet(
+            'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
+            'interestList');
+        if (responseData.isNotEmpty) {
+          await localDb.update('interestList', responseData['rows']);
+        }
+      }
+    } catch (_) {}
+
+    try {
       interestsDynamic = await localDb.read('interestList', List);
       for (var i = 0; i < interestsDynamic.length; i++) {
         String interestName = interestsDynamic[i]['interestName'];
