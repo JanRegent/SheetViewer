@@ -31,8 +31,9 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   late List<dynamic> fileListSheet = [];
 
   Future<String> getData() async {
-    fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
+    Map responseData = await getSheet(widget.selectedInterestRow['fileUrl'],
         widget.selectedInterestRow['sheetName']);
+    fileListSheet = responseData['rows'];
 
     sheetViewConfigs = await fileListSheet2sheetViewConfigs(
         fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
