@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+
 import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/homepage.dart';
@@ -56,6 +57,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
             'interestList');
         if (responseData.isNotEmpty) {
           await localDb.update('interestList', responseData['rows']);
+          await localDb.update('interestList__cols', responseData['cols']);
         }
       }
     } catch (_) {}

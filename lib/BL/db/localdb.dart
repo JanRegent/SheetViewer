@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDb {
@@ -34,13 +35,20 @@ class LocalDb {
         // Read a [String] value from given [key].
         return sharedPref.getString(key);
 
-      case List:
-        // Read a [List of Strings] value from given [key].
-        return sharedPref.getStringList(key);
+      // case List:
+      //   // Read a [List of Strings] value from given [key].
+      //   return sharedPref.getStringList(key);
       case Map:
-        String? encodedMap = sharedPref.getString(key);
-        Map<String, dynamic> decodedMap = json.decode(encodedMap!);
-        return decodedMap;
+        try {
+          String? encodedMap = sharedPref.getString(key);
+          Map<String, dynamic> decodedMap = json.decode(encodedMap!);
+          return decodedMap;
+        } catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+          return {};
+        }
     }
   }
 

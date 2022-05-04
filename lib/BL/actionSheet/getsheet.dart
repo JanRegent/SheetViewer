@@ -31,29 +31,19 @@ Future getrowslast1quote(String fileId, String sheetName) async {
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
-  try {
-    queryString =
-        'sheetName=$sheetName&action=getrowslast1quote&fileId=$fileId';
-    Map tabsList = await interestStore.readMap(queryString);
-    if (tabsList.isNotEmpty) return tabsList;
-  } catch (_) {}
+  queryString = 'sheetName=$sheetName&action=getrowslast1quote&fileId=$fileId';
 
   try {
     String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
-    interestStore.updateString('1_getrowslast1quote() urlQuery', urlQuery);
     response = await Dio().get(urlQuery);
-    interestStore.updateString('2_getrowslast1quote() response.data length',
-        response.data.toString().length.toString());
   } catch (e) {
-    interestStore.updateString(
-        '2_getrowslast1quote() error response', e.toString());
     return {};
   }
 
   try {
-    interestStore.updateMap(queryString, response.data);
+    localDb.update(queryString, response.data['rows']);
   } catch (e) {
-    interestStore.updateString('3_getListSheet() err2update', e.toString());
+    localDb.update(queryString + 'error', e.toString());
   }
   return response.data;
 }

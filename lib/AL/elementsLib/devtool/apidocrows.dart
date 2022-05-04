@@ -75,10 +75,10 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  String getQuerystring(SheetConfig sheetConfig) {
+  Future<String> getQuerystring(SheetConfig sheetConfig) async {
     List<String> columns = columnsGetUsed(sheetConfig, endpointName);
     List<String> configRows = configRowsGet(sheetConfig, endpointName);
-    int rowIx = blGlobalsBox.read('rowsSelectedIndex');
+    int rowIx = await localDb.read('apidoc.rowsSelectedIndex', int);
     Map configRow = jsonDecode(configRows[rowIx]);
 
     String queryString = '?';
@@ -93,8 +93,8 @@ class RowsDataSource extends DataGridSource {
     queryString +=
         '&fileId=' + sheetConfig.fileId + '&sheetName=' + sheetConfig.sheetName;
     backendUrl = bl.blGlobal.contentServiceUrl + queryString;
-    blGlobalsBox.write('bl.globals.querystring', queryString);
-    blGlobalsBox.write('bl.globals.urllaunch', backendUrl);
+    localDb.update('bl.globals.querystring', queryString);
+    localDb.update('bl.globals.urllaunch', backendUrl);
     return queryString;
   }
 
@@ -107,7 +107,7 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.web),
           tooltip: 'In browser',
           onPressed: () async {
-            blGlobalsBox.write(
+            localDb.update(
                 'bl.globals.querystring', getQuerystring(sheetConfig));
             await canLaunch(backendUrl)
                 ? await launch(backendUrl)
@@ -118,7 +118,7 @@ class RowsDataSource extends DataGridSource {
           icon: const Icon(Icons.table_chart),
           tooltip: 'In SheetsViewer',
           onPressed: () async {
-            blGlobalsBox.write(
+            localDb.update(
                 'bl.globals.querystring', getQuerystring(sheetConfig));
             //String fileTitle = globalsBox.read('bl.globals.querystring');
 

@@ -27,12 +27,14 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
+    querystringText_ = await localDb.read('bl.globals.querystring', int);
     setState(() {});
     return 'ok';
   }
 
+  String querystringText_ = '';
   Text querystringText() {
-    return Text(blGlobalsBox.read('bl.globals.querystring'));
+    return Text(querystringText_);
   }
 
   ListView blGlobalsListview() {
@@ -50,21 +52,19 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(blGlobalsBox.read('bl.globals.querystring'))
-                .then((value) {});
+            FlutterClipboard.copy(querystringText_).then((value) {});
           }),
     ));
     myList.add(ListTile(
       leading: const Text('fullUrl'),
-      title: Text(bl.blGlobal.contentServiceUrl +
-          blGlobalsBox.read('bl.globals.querystring')),
+      title: Text(bl.blGlobal.contentServiceUrl + querystringText_),
       trailing: IconButton(
           icon: const Icon(Icons.copy),
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(bl.blGlobal.contentServiceUrl +
-                    blGlobalsBox.read('bl.globals.querystring'))
+            FlutterClipboard.copy(
+                    bl.blGlobal.contentServiceUrl + querystringText_)
                 .then((value) {});
           }),
     ));

@@ -4,18 +4,21 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/services.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:sheetviewer/BL/db/localdb.dart';
-import 'package:sheetviewer/BL/db/localstore.dart';
 
-GetStorage blGlobalsBox = GetStorage('blGlobalsBox');
-GetStorage debugBox = GetStorage('debugBox');
-
-late LocalStore interestStore;
 late LocalDb localDb;
 
+Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
+  Map<String, dynamic> map = {};
+  for (String key in resp.keys) {
+    map[key] = resp[key];
+  }
+  return map;
+}
+
 void logi(String key, String value) {
-  debugBox.write(key, value);
+  //debugBox.write(key, value);
 }
 
 class BlGlobal {
@@ -24,15 +27,11 @@ class BlGlobal {
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
-    // blGlobalsStore = LocalStore('blGlobalsStore');
-    // await blGlobalsStore.init();
+    //await initiateCache();
     localDb = LocalDb();
     contentServiceUrl = await loadAssetString('contentServiceUrl');
     localDb.update('contentServiceUrl', contentServiceUrl);
     localDb.update('rowsSelectedIndex', 0);
-
-    interestStore = LocalStore('interest1');
-    await interestStore.init();
 
     loadingMessage = ValueNotifier<String>('');
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ void main() async {
   sheetViewConfigDb = SheetViewConfigDb(isar);
   sheetConfigDb = SheetConfigDb(isar);
   await sheetConfigDb.init();
-  await GetStorage.init();
+
   await bl.init();
   await logOn();
   //await post1();
