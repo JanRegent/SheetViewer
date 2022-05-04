@@ -88,7 +88,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
           case ConnectionState.waiting:
             return Column(
               children: const [
-                Text('Loading interests....'),
+                Text('Loading interests..'),
                 CircularProgressIndicator()
               ],
             );

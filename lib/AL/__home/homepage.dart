@@ -6,6 +6,7 @@ import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 import 'package:sheetviewer/AL/elements/_interests/intetrests_al.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<dynamic> interestList;
@@ -18,22 +19,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<DropdownMenuItem<String>> menuItems = [];
-  List<DropdownMenuItem<String>> get dropdownItems {
-    for (var i = 0; i < widget.intererests.length; i++) {
-      String interestName = '"' + widget.intererests[i].trim() + '"';
-      menuItems.add(
-        DropdownMenuItem(child: Text(interestName), value: interestName),
-      );
-    }
-    return menuItems;
-  }
-
-  String selectedInterest = '';
+  List<DropdownMenuItem<String>> interestMenuItems = [];
 
   Row titleRow() {
-    selectedInterest = widget.intererests[0];
     bl.blGlobal.interestRowCurrent = widget.interestList[0];
+    localDb.update('interestRowCurrent', bl.blGlobal.interestRowCurrent);
     return Row(
       children: [
         const Icon(Icons.home),

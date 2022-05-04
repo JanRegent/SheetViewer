@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/AL/__home/getdatainterests.dart';
+import 'package:sheetviewer/AL/elements/_interests/getdatainterests.dart';
 //import 'package:sheetviewer/DL/loader/posts.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';

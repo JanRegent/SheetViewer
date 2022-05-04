@@ -78,7 +78,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
               case ConnectionState.waiting:
                 return Column(
                   children: [
-                    const Text('Loading sheet config...'),
+                    const Text('Loading last news..'),
                     const Text(' '),
                     ValueListenableBuilder(
                       valueListenable: bl.blGlobal.loadingMessage,
