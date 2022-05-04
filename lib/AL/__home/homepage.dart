@@ -1,16 +1,16 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
-import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
-import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
+import 'package:sheetviewer/AL/elements/_interests/intetrests_al.dart';
+
+import 'package:sheetviewer/BL/bl.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<dynamic> tabsListResponse;
+  final List<dynamic> interestList;
   final List<String> intererests;
-  const HomeScreen(this.tabsListResponse, this.intererests, {Key? key})
+  const HomeScreen(this.interestList, this.intererests, {Key? key})
       : super(key: key);
 
   @override
@@ -30,42 +30,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String selectedInterest = '';
-  Map selectedInterestRow = {};
-  void interestChanged(value) {
-    try {
-      selectedInterest = value;
-      selectedInterestRow = widget.tabsListResponse[0];
-      for (var i = 0; i < widget.tabsListResponse.length; i++) {
-        if (widget.tabsListResponse[i]['interestName'] == selectedInterest) {
-          selectedInterestRow = widget.tabsListResponse[i];
-          break;
-        }
-      }
-    } catch (_) {
-      infoSnack(context, 'interest is NOT ready: ' + selectedInterest,
-          AnimatedSnackBarType.error);
-    }
-  }
 
   Row titleRow() {
     selectedInterest = widget.intererests[0];
-    selectedInterestRow = widget.tabsListResponse[0];
+    bl.blGlobal.interestRowCurrent = widget.interestList[0];
     return Row(
       children: [
         const Icon(Icons.home),
         const Text(' '),
-        CustomDropdownMenu(
-            defaultValue: widget.intererests[0],
-            values: widget.intererests,
-            onItemSelected: interestChanged),
+        interestsDropdown(widget.intererests, widget.interestList, context),
         ElevatedButton(
           child: const Text('Last N'),
           onPressed: () async {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      GetdataFileListLayout('lastGrid', selectedInterestRow)),
+                  builder: (context) => GetdataFileListLayout(
+                      'lastGrid', bl.blGlobal.interestRowCurrent)),
             );
           },
         ),
@@ -75,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      GetdataFileListLayout('fileList', selectedInterestRow)),
+                  builder: (context) => GetdataFileListLayout(
+                      'fileList', bl.blGlobal.interestRowCurrent)),
             );
           },
         ),
