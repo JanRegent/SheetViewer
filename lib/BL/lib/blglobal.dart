@@ -22,16 +22,14 @@ void logi(String key, String value) {
 }
 
 class BlGlobal {
-  String contentServiceUrl = '';
   String contentServiceUrlLastModified = '';
   late ValueNotifier<String> loadingMessage;
-  //Map interestRowCurrent = {};
 
   Future init() async {
     //await initiateCache();
     localDb = LocalDb();
-    contentServiceUrl = await loadAssetString('contentServiceUrl');
-    localDb.update('contentServiceUrl', contentServiceUrl);
+    String dlContentServiceUrl = await loadAssetString('contentServiceUrl');
+    localDb.update('DL-contentServiceUrl', dlContentServiceUrl);
     localDb.update('rowsSelectedIndex', 0);
 
     loadingMessage = ValueNotifier<String>('');

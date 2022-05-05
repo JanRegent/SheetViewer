@@ -17,7 +17,7 @@ class BlGlobalsPage extends StatefulWidget {
 
 class _BlGlobalsPageState extends State<BlGlobalsPage> {
   late RowsDataSource rowsDataSource;
-
+  late String dlContentServiceUrl;
   @override
   void initState() {
     super.initState();
@@ -27,6 +27,7 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
+    dlContentServiceUrl = await localDb.read('DL-contentServiceUrl', String);
     querystringText_ = await localDb.read('bl.globals.querystring', int);
     setState(() {});
     return 'ok';
@@ -41,7 +42,7 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
     List<Widget> myList = [];
     myList.add(ListTile(
       leading: const Text('contentServiceUrl'),
-      title: Text(bl.blGlobal.contentServiceUrl),
+      title: Text(dlContentServiceUrl),
       trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
     ));
     myList.add(ListTile(
@@ -57,14 +58,13 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
     ));
     myList.add(ListTile(
       leading: const Text('fullUrl'),
-      title: Text(bl.blGlobal.contentServiceUrl + querystringText_),
+      title: Text(dlContentServiceUrl + querystringText_),
       trailing: IconButton(
           icon: const Icon(Icons.copy),
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(
-                    bl.blGlobal.contentServiceUrl + querystringText_)
+            FlutterClipboard.copy(dlContentServiceUrl + querystringText_)
                 .then((value) {});
           }),
     ));

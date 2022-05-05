@@ -213,7 +213,8 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     String queryString =
         'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
 
-    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
+    String urlQuery =
+        await localDb.read('DL-contentServiceUrl', String) + '?' + queryString;
     response = await Dio().get(urlQuery);
   } catch (e) {
     if (kDebugMode) {
@@ -246,8 +247,8 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
 
 Future<String> logOn() async {
   try {
-    var response =
-        await Dio().get(bl.blGlobal.contentServiceUrl + '?action=logon');
+    var response = await Dio().get(
+        await localDb.read('DL-contentServiceUrl', String) + '?action=logon');
     String resp = response.data.toString();
     return resp;
   } catch (e) {

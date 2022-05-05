@@ -14,7 +14,8 @@ Future getSheet(String fileId, String sheetName) async {
 
   try {
     queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
-    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
+    String urlQuery =
+        await localDb.read('DL-contentServiceUrl', String) + '?' + queryString;
     response = await Dio().get(urlQuery);
     return response.data;
   } catch (e) {
@@ -34,7 +35,8 @@ Future getrowslast1quote(String fileId, String sheetName) async {
   queryString = 'sheetName=$sheetName&action=getrowslast1quote&fileId=$fileId';
 
   try {
-    String urlQuery = bl.blGlobal.contentServiceUrl + '?' + queryString;
+    String urlQuery =
+        await localDb.read('DL-contentServiceUrl', String) + '?' + queryString;
     response = await Dio().get(urlQuery);
   } catch (e) {
     return {};

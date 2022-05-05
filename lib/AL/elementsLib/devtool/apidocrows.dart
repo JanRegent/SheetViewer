@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/BL/bl.dart';
+
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
@@ -92,7 +92,8 @@ class RowsDataSource extends DataGridSource {
     queryString = queryString.replaceFirst('endpoint', 'action');
     queryString +=
         '&fileId=' + sheetConfig.fileId + '&sheetName=' + sheetConfig.sheetName;
-    backendUrl = bl.blGlobal.contentServiceUrl + queryString;
+    backendUrl =
+        await localDb.read('DL-contentServiceUrl', String) + queryString;
     localDb.update('bl.globals.querystring', queryString);
     localDb.update('bl.globals.urllaunch', backendUrl);
     return queryString;
