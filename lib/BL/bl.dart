@@ -1,3 +1,6 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html';
+
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
@@ -18,8 +21,11 @@ class BL {
   BlGlobal blGlobal = BlGlobal();
 
   Future init() async {
+    window.sessionStorage.clear();
+    logStartLine('init');
     await blGlobal.init();
     await isarDbInit();
+    logLine();
   }
 }
 
@@ -36,4 +42,6 @@ Future isarDbInit() async {
   sheetViewConfigDb = SheetViewConfigDb(isar);
   sheetConfigDb = SheetConfigDb(isar);
   await sheetConfigDb.init();
+
+  logi('isarDbInit()', 'init end');
 }

@@ -1,5 +1,8 @@
 // ignore_for_file: implementation_imports
 
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 
@@ -18,7 +21,17 @@ Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
 }
 
 void logi(String key, String value) {
-  //debugBox.write(key, value);
+  window.sessionStorage
+      .putIfAbsent(DateTime.now().toIso8601String(), () => '$key =  $value');
+}
+
+void logStartLine(String key) {
+  window.sessionStorage
+      .putIfAbsent('///---$key---///', () => '-----------------');
+}
+
+void logLine() {
+  window.sessionStorage.putIfAbsent('------------', () => '-----------------');
 }
 
 class BlGlobal {
@@ -26,13 +39,14 @@ class BlGlobal {
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
-    //await initiateCache();
     localDb = LocalDb();
     String dlContentServiceUrl = await loadAssetString('contentServiceUrl');
     localDb.update('DL-contentServiceUrl', dlContentServiceUrl);
     localDb.update('rowsSelectedIndex', 0);
 
     loadingMessage = ValueNotifier<String>('');
+
+    logi('blGlobal()', 'init end');
   }
 
   //-------------------------------------------------------------assets

@@ -17,6 +17,7 @@ Future dioInit() async {
       receiveTimeout: const Duration(seconds: 30).inMilliseconds,
     ),
   );
+  logi('dioInit()', 'init end');
 }
 
 ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
