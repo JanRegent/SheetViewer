@@ -11,11 +11,11 @@ import '../../elements/cards/filelistcard_firstlast_all.dart';
 
 // ignore: must_be_immutable
 class LastListviewPage extends StatelessWidget {
-  final Map selectedInterestRow;
+  final Map interestRowCurrent;
   final List<dynamic> fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
   LastListviewPage(
-      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
+      this.interestRowCurrent, this.fileListSheet, this.sheetViewConfigs,
       {Key? key})
       : super(key: key);
 
@@ -43,7 +43,7 @@ class LastListviewPage extends StatelessWidget {
         appBar: AppBar(
           title: ListTile(
             leading: loadingPageShow(
-                fileListSheet, context, selectedInterestRow['interestName']),
+                fileListSheet, context, interestRowCurrent['interestName']),
             title: Text(interestName),
           ),
           backgroundColor: Colors.lightBlue,

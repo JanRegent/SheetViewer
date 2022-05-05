@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluepage.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
@@ -13,9 +14,8 @@ RowsCountController rowsCountController = RowsCountController();
 
 class GetdataFileListLayout extends StatefulWidget {
   final String layout;
-  final Map selectedInterestRow;
-  const GetdataFileListLayout(this.layout, this.selectedInterestRow, {Key? key})
-      : super(key: key);
+
+  const GetdataFileListLayout(this.layout, {Key? key}) : super(key: key);
 
   @override
   _GetdataFileListLayoutState createState() => _GetdataFileListLayoutState();
@@ -29,10 +29,12 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
 
   List<SheetViewConfig> sheetViewConfigs = [];
   late List<dynamic> fileListSheet = [];
+  late Map interestRowCurrent;
 
   Future<String> getData() async {
-    Map responseData = await getSheet(widget.selectedInterestRow['fileUrl'],
-        widget.selectedInterestRow['sheetName']);
+    interestRowCurrent = await localDb.read('interestRowCurrent', Map);
+    Map responseData = await getSheet(
+        interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
     fileListSheet = responseData['rows'];
 
     sheetViewConfigs = await fileListSheet2sheetViewConfigs(
@@ -62,11 +64,11 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
             } else {
               if (widget.layout == 'lastGrid') {
                 rowsCountBuild(fileListSheet);
-                return LastListviewPage(widget.selectedInterestRow,
-                    fileListSheet, sheetViewConfigs);
+                return LastListviewPage(
+                    interestRowCurrent, fileListSheet, sheetViewConfigs);
               } else {
-                return ByvaluePage(widget.selectedInterestRow, fileListSheet,
-                    sheetViewConfigs);
+                return ByvaluePage(
+                    interestRowCurrent, fileListSheet, sheetViewConfigs);
               }
             }
         }

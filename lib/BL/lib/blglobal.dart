@@ -25,7 +25,7 @@ class BlGlobal {
   String contentServiceUrl = '';
   String contentServiceUrlLastModified = '';
   late ValueNotifier<String> loadingMessage;
-  Map interestRowCurrent = {};
+  //Map interestRowCurrent = {};
 
   Future init() async {
     //await initiateCache();

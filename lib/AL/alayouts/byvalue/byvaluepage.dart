@@ -13,11 +13,11 @@ import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class ByvaluePage extends StatefulWidget {
-  final Map selectedInterestRow;
+  final Map interestRowCurrent;
   final List<dynamic> fileListSheet;
   final List<SheetViewConfig> sheetViewConfigs;
   const ByvaluePage(
-      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
+      this.interestRowCurrent, this.fileListSheet, this.sheetViewConfigs,
       {Key? key})
       : super(key: key);
 
@@ -34,7 +34,7 @@ class _ByvaluePageState extends State<ByvaluePage> {
   void initState() {
     _controller = ScrollController();
 
-    interestName = widget.selectedInterestRow['interestName'];
+    interestName = widget.interestRowCurrent['interestName'];
     super.initState();
   }
 
@@ -45,8 +45,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
 
   List<SheetViewConfig> sheetViewConfigs = [];
   Future<String> getData() async {
-    fileListSheet = await getSheet(widget.selectedInterestRow['fileUrl'],
-        widget.selectedInterestRow['sheetName']);
+    fileListSheet = await getSheet(widget.interestRowCurrent['fileUrl'],
+        widget.interestRowCurrent['sheetName']);
     for (var index = 0; index < fileListSheet['rows'].length; index++) {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String fileId =
@@ -85,7 +85,7 @@ class _ByvaluePageState extends State<ByvaluePage> {
     return Scaffold(
         appBar: AppBar(
           leading: loadingPageShow(widget.fileListSheet, context,
-              widget.selectedInterestRow['interestName']),
+              widget.interestRowCurrent['interestName']),
           title: Text(interestName),
           backgroundColor: Colors.lightBlue,
           actions: [

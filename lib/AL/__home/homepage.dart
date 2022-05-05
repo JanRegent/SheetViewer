@@ -5,7 +5,6 @@ import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.d
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 import 'package:sheetviewer/AL/elements/_interests/intetrests_al.dart';
 
-import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,8 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<DropdownMenuItem<String>> interestMenuItems = [];
 
   Row titleRow() {
-    bl.blGlobal.interestRowCurrent = widget.interestList[0];
-    localDb.update('interestRowCurrent', bl.blGlobal.interestRowCurrent);
+    localDb.update('interestRowCurrent', widget.interestList[0]);
     return Row(
       children: [
         const Icon(Icons.home),
@@ -35,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => GetdataFileListLayout(
-                      'lastGrid', bl.blGlobal.interestRowCurrent)),
+                  builder: (context) =>
+                      const GetdataFileListLayout('lastGrid')),
             );
           },
         ),
@@ -46,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => GetdataFileListLayout(
-                      'fileList', bl.blGlobal.interestRowCurrent)),
+                  builder: (context) =>
+                      const GetdataFileListLayout('fileList')),
             );
           },
         ),
