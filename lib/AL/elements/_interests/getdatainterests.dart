@@ -9,6 +9,7 @@ import 'package:sheetviewer/AL/__home/homepage.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 class GetDataInterestsApp extends StatelessWidget {
@@ -48,19 +49,29 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
 
   List<dynamic> interestsDynamic = [];
   List<String> interests = [];
-  Future<String> getData(BuildContext context) async {
+  Future<String> getDataInterests(BuildContext context) async {
+    List<dynamic> interestList = [];
     try {
-      List<dynamic> interestList = await localDb.read('interestList', List);
+      interestList = await localDb.read('interestList', List);
+    } catch (e) {
+      logi('getDataInterests 1', e.toString(), line2: 'loadDb');
+    }
+
+    try {
       if (interestList.isEmpty) {
+        logi('getDataInterests 2a', 'getSheet before', line2: 'getSheet');
         Map responseData = await getSheet(
             'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
             'interestList');
+        logi('getDataInterests 2b', responseData.toString(), line2: 'getSheet');
         if (responseData.isNotEmpty) {
           await localDb.update('interestList', responseData['rows']);
           await localDb.update('interestList__cols', responseData['cols']);
         }
       }
-    } catch (_) {}
+    } catch (e) {
+      logi('getDataInterests 2e', e.toString(), line2: 'getSheet');
+    }
 
     try {
       interestsDynamic = await localDb.read('interestList', List);
@@ -74,7 +85,9 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
       //okdialog1(context);
       infoSnack(
           context, 'Interests list NOT ready', AnimatedSnackBarType.error);
-      return 'err: $e';
+      logi('getDataInterests 3', e.toString(),
+          line2: 'localDb.read(interestList');
+      throw 'err: $e';
     }
   }
 
@@ -82,7 +95,7 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder<String>(
-      future: getData(context), // async work
+      future: getDataInterests(context), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

@@ -20,18 +20,23 @@ Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
   return map;
 }
 
-void logi(String key, String value) {
+void logi(String key, String value, {String? line2, String? line3}) {
+  String log = key + '\n';
+  log += '\n' + (line2 ?? '');
+  log += '\n' + (line3 ?? '');
+  log += '\n' + value;
   window.sessionStorage
-      .putIfAbsent(DateTime.now().toIso8601String(), () => '$key =  $value');
+      .putIfAbsent(DateTime.now().toIso8601String(), () => log);
 }
 
 void logStartLine(String key) {
   window.sessionStorage
-      .putIfAbsent('///---$key---///', () => '-----------------');
+      .putIfAbsent(DateTime.now().toIso8601String(), () => '//---$key---\\');
 }
 
 void logLine() {
-  window.sessionStorage.putIfAbsent('------------', () => '-----------------');
+  window.sessionStorage.putIfAbsent(
+      DateTime.now().toIso8601String(), () => '\\-----------------//');
 }
 
 class BlGlobal {

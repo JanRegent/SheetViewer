@@ -2,19 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 class LocalDb {
   // Read From Shared Pref
   Future read(String key, Type type) async {
-    // Shared Pref instanse
     var sharedPref = await SharedPreferences.getInstance();
+
     if (type.toString() == 'List<dynamic>') {
-      List<String> list = sharedPref.getStringList(key) ?? [];
-      List<dynamic> maps = [];
-      for (var i = 0; i < list.length; i++) {
-        maps.add(json.decode(list[i]));
+      try {
+        List<String> list = sharedPref.getStringList(key) ?? [];
+        List<dynamic> listMaps = [];
+        for (var i = 0; i < list.length; i++) {
+          listMaps.add(json.decode(list[i]));
+        }
+        return listMaps;
+      } catch (e) {
+        logi('LocalDb.read List<dynamic', e.toString(), line2: 'key: $key');
+        return [];
       }
-      return maps;
     }
 
     // Read Data

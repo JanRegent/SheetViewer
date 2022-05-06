@@ -1,24 +1,18 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+
 import 'package:sheetviewer/DL/models/sheetview.dart';
 
 import '../BL/bl.dart';
 
-// ignore: prefer_typing_uninitialized_variables
-late final dio;
-
-Future dioInit() async {
-  dio = Dio(
-    BaseOptions(
-      baseUrl: await localDb.read('DL-contentServiceUrl', String),
-      sendTimeout: const Duration(seconds: 30).inMilliseconds,
-      connectTimeout: const Duration(seconds: 30).inMilliseconds,
-      receiveTimeout: const Duration(seconds: 30).inMilliseconds,
-    ),
-  );
-  logi('dioInit()', 'init end');
-}
+final dio = Dio(
+  BaseOptions(
+    baseUrl: '',
+    sendTimeout: const Duration(seconds: 30).inMilliseconds,
+    connectTimeout: const Duration(seconds: 30).inMilliseconds,
+    receiveTimeout: const Duration(seconds: 30).inMilliseconds,
+  ),
+);
 
 ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
 String interceptorAdded = '';

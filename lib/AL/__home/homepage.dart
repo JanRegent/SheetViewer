@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<DropdownMenuItem<String>> interestMenuItems = [];
+  // List<DropdownMenuItem<String>> interestMenuItems = [];
 
   Row titleRow() {
     localDb.update('interestRowCurrent', widget.interestList[0]);

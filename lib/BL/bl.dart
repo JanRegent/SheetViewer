@@ -3,7 +3,6 @@ import 'dart:html';
 
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
-import 'package:sheetviewer/DL/get_sheetview.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
@@ -23,14 +22,18 @@ class BL {
   Future init() async {
     window.sessionStorage.clear();
     logStartLine('init');
+
     await blGlobal.init();
+
     await isarDbInit();
+
+    // dio.options.baseUrl = await localDb.read('DL-contentServiceUrl', String);
+    // logi('dio.options.baseUrl', dio.options.baseUrl);
     logLine();
   }
 }
 
 Future isarDbInit() async {
-  await dioInit();
   final isar = await Isar.open(
     schemas: [SheetViewSchema, SheetViewConfigSchema, SheetConfigSchema],
     //directory: dir.path,
