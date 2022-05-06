@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
@@ -24,11 +25,9 @@ class BL {
     logStartLine('init');
 
     await blGlobal.init();
+    await dlGlobals.init();
+    await await isarDbInit();
 
-    await isarDbInit();
-
-    // dio.options.baseUrl = await localDb.read('DL-contentServiceUrl', String);
-    // logi('dio.options.baseUrl', dio.options.baseUrl);
     logLine();
   }
 }

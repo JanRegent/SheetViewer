@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
 
 part 'zsheetconfig.g.dart'; // flutter pub run build_runner build
@@ -213,8 +214,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
     String queryString =
         'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
 
-    String urlQuery =
-        await localDb.read('DL-contentServiceUrl', String) + '?' + queryString;
+    String urlQuery = dlGlobals.baseUrl + '?' + queryString;
     response = await dio.get(urlQuery);
   } catch (e) {
     logi('getSheetConfig() dio error:', e.toString());
@@ -244,8 +244,7 @@ Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
 
 Future<String> logOn() async {
   try {
-    var response = await dio.get(
-        await localDb.read('DL-contentServiceUrl', String) + '?action=logon');
+    var response = await dio.get(dlGlobals.baseUrl + '?action=logon');
     String resp = response.data.toString();
     return resp;
   } catch (e) {

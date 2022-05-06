@@ -1,5 +1,6 @@
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
 
 Future getSheet(String fileId, String sheetName) async {
@@ -10,11 +11,11 @@ Future getSheet(String fileId, String sheetName) async {
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
-  String baseUrl = await localDb.read('DL-contentServiceUrl', String);
-  logi('getSheet() baseUrl', baseUrl);
+
+  logi('getSheet() baseUrl', dlGlobals.baseUrl);
   queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
   logi('getSheet() queryString', queryString);
-  String urlQuery = baseUrl + '?' + queryString;
+  String urlQuery = dlGlobals.baseUrl + '?' + queryString;
   logi('getSheet() urlQuery', urlQuery);
   try {
     response = await dio.get(urlQuery);
@@ -36,9 +37,9 @@ Future getrowslast1quote(String fileId, String sheetName) async {
   late var response;
 
   queryString = 'sheetName=$sheetName&action=getrowslast1quote&fileId=$fileId';
-  String baseUrl = await localDb.read('DL-contentServiceUrl', String);
+
   try {
-    String urlQuery = baseUrl + '?' + queryString;
+    String urlQuery = dlGlobals.baseUrl + '?' + queryString;
     response = await dio.get(urlQuery);
   } catch (e) {
     return {};

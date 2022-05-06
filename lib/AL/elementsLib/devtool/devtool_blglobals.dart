@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'apidocrows.dart';
 
@@ -17,7 +18,7 @@ class BlGlobalsPage extends StatefulWidget {
 
 class _BlGlobalsPageState extends State<BlGlobalsPage> {
   late RowsDataSource rowsDataSource;
-  late String dlContentServiceUrl;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,6 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
   Future<String> getData() async {
-    dlContentServiceUrl = await localDb.read('DL-contentServiceUrl', String);
     querystringText_ = await localDb.read('bl.globals.querystring', int);
     setState(() {});
     return 'ok';
@@ -40,9 +40,10 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
 
   ListView blGlobalsListview() {
     List<Widget> myList = [];
+
     myList.add(ListTile(
       leading: const Text('contentServiceUrl'),
-      title: Text(dlContentServiceUrl),
+      title: Text(dlGlobals.baseUrl),
       trailing: Text(bl.blGlobal.contentServiceUrlLastModified),
     ));
     myList.add(ListTile(
@@ -58,13 +59,13 @@ class _BlGlobalsPageState extends State<BlGlobalsPage> {
     ));
     myList.add(ListTile(
       leading: const Text('fullUrl'),
-      title: Text(dlContentServiceUrl + querystringText_),
+      title: Text(dlGlobals.baseUrl + querystringText_),
       trailing: IconButton(
           icon: const Icon(Icons.copy),
           color: Colors.black,
           tooltip: 'Copy columns toi clipboard',
           onPressed: () async {
-            FlutterClipboard.copy(dlContentServiceUrl + querystringText_)
+            FlutterClipboard.copy(dlGlobals.baseUrl + querystringText_)
                 .then((value) {});
           }),
     ));

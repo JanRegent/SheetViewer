@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+
+import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
@@ -36,10 +37,7 @@ Future<SheetView?> sheetViewGetData(
     if (sheetView!.aStatus.startsWith('warn: not exists')) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-      String urlQuery = Uri.encodeFull(
-          await localDb.read('DL-contentServiceUrl', String) +
-              '?' +
-              queryString);
+      String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
 
       await getSheetView(queryStringKey, url: urlQuery);
 
