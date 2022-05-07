@@ -22,7 +22,7 @@ class DashboardApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Store Dashboard',
+      title: 'SheestsViewer',
       theme: ThemeData(
           fontFamily: 'Nunito',
           primaryColor: primary,
