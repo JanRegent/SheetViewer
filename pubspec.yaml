@@ -41,7 +41,8 @@ dependencies:
   fluent_ui: ^3.9.1             #https://pub.dev/packages/fluent_ui
   fluttertoast: ^8.0.8          #https://pub.dev/packages/fluttertoast
   getwidget: ^2.0.5             #https://pub.dev/packages/getwidget
-  
+  flutter_staggered_grid_view: ^0.6.1 #https://pub.dev/packages/flutter_staggered_grid_view
+
   #text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
   substring_highlight: ^1.0.33  #https://pub.dev/packages/substring_highlight 

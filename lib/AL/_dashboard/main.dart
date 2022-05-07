@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/_dashboard/constaints.dart';
+import './pages/dashboard.dart';
+import './constaints.dart';
 
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
-
-import 'AL/_dashboard/pages/dashboard.dart';
-import 'BL/bl.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await bl.init();
-  await logOn();
-  //runApp(const GetDataInterestsApp());
+void main() {
   runApp(const DashboardApp());
 }
 
