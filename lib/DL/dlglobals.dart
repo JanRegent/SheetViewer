@@ -9,7 +9,7 @@ class DlGlobals {
     String dlContentServiceUrl = await loadAssetString('contentServiceUrl');
     localDb.update('DL-contentServiceUrl', dlContentServiceUrl);
     baseUrl = await localDb.read('DL-contentServiceUrl', String);
-    logi('dlGlobals.baseUrl', baseUrl);
+    logi('dlGlobals.baseUrl', baseUrl, '', '');
   }
 }
 

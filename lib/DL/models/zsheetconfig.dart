@@ -188,9 +188,9 @@ class SheetConfigDb {
       }
       return 'OK';
     } catch (e) {
-      logi('--- updateConfig: ', '-----------------isar');
-      logi('updateConfig(String ', sheetConfig.sheetNameFileIdKey);
-      logi('updateConfig(String ', e.toString());
+      logi('SheetConfigDb.updateConfig', 'error', 'aQuerystringKey:',
+          sheetConfig.sheetNameFileIdKey);
+      logi('SheetConfigDb.updateConfig.', 'error', 'e:', e.toString());
       return '';
     }
   }
@@ -209,15 +209,17 @@ Future createSheetConfigIfNotExists(String fileId, String sheetName) async {
 
 Future<SheetConfig> getSheetConfig(String fileId, String sheetName) async {
   // ignore: prefer_typing_uninitialized_variables
+  String queryString =
+      'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
+  // ignore: prefer_typing_uninitialized_variables
   var response;
   try {
-    String queryString =
-        'sheetName=$sheetName&action=getSheetConfig&fileId=$fileId';
-
     String urlQuery = dlGlobals.baseUrl + '?' + queryString;
     response = await dio.get(urlQuery);
   } catch (e) {
-    logi('getSheetConfig() dio error:', e.toString());
+    logi('SheetConfigDb.getSheetConfig', 'error', 'queryStringKey:',
+        queryString);
+    logi('SheetConfigDb.getSheetConfig.', 'error', 'e:', e.toString());
   }
 
   SheetConfig sheetConfig = SheetConfig();

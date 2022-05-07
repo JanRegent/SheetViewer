@@ -18,7 +18,8 @@ class LocalDb {
         }
         return listMaps;
       } catch (e) {
-        logi('LocalDb.read List<dynamic', e.toString(), line2: 'key: $key');
+        logi('LocalDb.read', 'error', 'key:', key);
+        logi('LocalDb.read.', 'error', 'e:', e.toString());
         return [];
       }
     }

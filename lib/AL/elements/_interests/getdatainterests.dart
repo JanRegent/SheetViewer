@@ -54,23 +54,24 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
     try {
       interestList = await localDb.read('interestList', List);
     } catch (e) {
-      logi('getDataInterests 1', e.toString(), line2: 'loadDb');
+      logi('getDataInterests', 'loadDb', '', e.toString());
     }
 
     try {
       if (interestList.isEmpty) {
-        logi('getDataInterests 2a', 'getSheet before', line2: 'getSheet');
+        logi('getDataInterests', '2a getSheet', 'getSheet before', '');
         Map responseData = await getSheet(
             'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
             'interestList');
-        logi('getDataInterests 2b', responseData.toString(), line2: 'getSheet');
+        logi('getDataInterests', '2b getSheet', 'after request',
+            responseData.toString());
         if (responseData.isNotEmpty) {
           await localDb.update('interestList', responseData['rows']);
           await localDb.update('interestList__cols', responseData['cols']);
         }
       }
     } catch (e) {
-      logi('getDataInterests 2e', e.toString(), line2: 'getSheet');
+      logi('getDataInterests', '2e getSheet', 'error', e.toString());
     }
 
     try {
@@ -85,8 +86,9 @@ class _GetDataInterestsPageState extends State<GetDataInterestsPage> {
       //okdialog1(context);
       infoSnack(
           context, 'Interests list NOT ready', AnimatedSnackBarType.error);
-      logi('getDataInterests 3', e.toString(),
-          line2: 'localDb.read(interestList');
+      logi('getDataInterests', '3 localDb.read(interestList', 'error',
+          e.toString());
+
       throw 'err: $e';
     }
   }

@@ -103,9 +103,10 @@ class SheetViewConfigDb {
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheetView(String ', sheetViewConfig.aQuerystringKey);
-      logi('updateSheetView(String ', e.toString());
+      logi('SheetViewConfigDb.updateSheetViewConfig', 'error',
+          'aQuerystringKey:', sheetViewConfig.aQuerystringKey);
+      logi('SheetViewConfigDb.updateSheetViewConfig.', 'error', 'e:',
+          e.toString());
       return '';
     }
   }
@@ -121,9 +122,10 @@ class SheetViewConfigDb {
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', sheetViewConfig.aQuerystringKey);
-      logi('updateSheets(String ', e.toString());
+      logi('SheetViewConfigDb.updateSheetsFromResponse', 'error',
+          'aQuerystringKey:', sheetViewConfig.aQuerystringKey);
+      logi('SheetViewConfigDb.updateSheetsFromResponse.', 'error', 'e:',
+          e.toString());
       return '';
     }
   }

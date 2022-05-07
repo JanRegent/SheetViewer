@@ -124,9 +124,9 @@ class SheetsDb {
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheetView(String ', sheetView.aQuerystringKey);
-      logi('updateSheetView(String ', e.toString());
+      logi('SheetsDb.updateSheetView(String ', 'error', 'aQuerystringKey:',
+          sheetView.aQuerystringKey);
+      logi('SheetsDb.updateSheetView(String ', 'error', 'e:', e.toString());
       return '';
     }
   }
@@ -140,9 +140,11 @@ class SheetsDb {
       });
     } catch (e) {
       if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', sheetView.aQuerystringKey);
-      logi('updateSheets(String ', e.toString());
+
+      logi('SheetsDb.updateSheetsFromResponse.sheetViews.put(String ', 'error',
+          'aQuerystringKey:', sheetView.aQuerystringKey);
+      logi('SheetsDb.updateSheetsFromResponse.sheetViews.put(String ', 'error',
+          'e:', e.toString());
     }
 
     try {
@@ -158,9 +160,10 @@ class SheetsDb {
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);
-      logi('--- LocalStore: ', '-----------------isar');
-      logi('updateSheets(String ', sheetView.aQuerystringKey);
-      logi('updateSheets(String ', e.toString());
+      logi('SheetsDb.updateSheetsFromResponse.sheetViewConfigs.put', 'error',
+          'aQuerystringKey:', sheetView.aQuerystringKey);
+      logi('SheetsDb.updateSheetsFromResponse.sheetViewConfigs.put', 'error',
+          'e:', e.toString());
       return '';
     }
   }

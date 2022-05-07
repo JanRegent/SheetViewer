@@ -4,8 +4,10 @@
 import 'dart:html';
 
 import 'package:flutter/foundation.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/BL/db/localdb.dart';
+import 'package:sheetviewer/DL/models/log.dart';
 
 late LocalDb localDb;
 
@@ -17,13 +19,14 @@ Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
   return map;
 }
 
-void logi(String key, String value, {String? line2, String? line3}) {
-  String log = key + '\n';
-  log += '\n' + (line2 ?? '');
-  log += '\n' + (line3 ?? '');
-  log += '\n' + value;
-  window.sessionStorage
-      .putIfAbsent(DateTime.now().toIso8601String(), () => log);
+void logi(String functionName, String step, description, String message) {
+  Log log = Log()
+    ..aFunc = functionName
+    ..aStep = step
+    ..descr = description
+    ..mess = message;
+
+  logDb.update(log);
 }
 
 void logStartLine(String key) {
@@ -47,6 +50,6 @@ class BlGlobal {
 
     loadingMessage = ValueNotifier<String>('');
 
-    logi('blGlobal()', 'init end');
+    logi('blGlobal()', 'init end', '', '');
   }
 }
