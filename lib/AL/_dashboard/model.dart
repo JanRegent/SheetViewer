@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class MenuItem {
   final String name;
   final IconData icon;
+  final IconButton iconButton;
 
-  MenuItem(this.name, this.icon);
+  MenuItem(this.name, this.icon, this.iconButton);
 }
 
 class Order {

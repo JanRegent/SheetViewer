@@ -6,11 +6,15 @@ import '../widgets/sidebar_menu_item.dart';
 import '../model.dart';
 
 final List<MenuItem> menuItems = [
-  MenuItem('Home', Icons.home_outlined),
-  MenuItem('Dashboard', Icons.dashboard_outlined),
-  MenuItem('User', Icons.person),
-  MenuItem('Contact', Icons.contact_mail),
+  MenuItem('By rows', Icons.table_rows, byRows()),
+  MenuItem('By values', Icons.dashboard_outlined, byRows()),
+  MenuItem('Select1', Icons.filter_alt, byRows()),
+  MenuItem('Contact', Icons.contact_mail, byRows()),
 ];
+
+IconButton byRows() {
+  return IconButton(onPressed: () {}, icon: const Icon(Icons.table_rows));
+}
 
 class SideBar extends StatelessWidget {
   const SideBar({Key? key}) : super(key: key);
