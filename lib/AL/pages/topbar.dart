@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constaints.dart';
+import '../_dashboard/constaints.dart';
 import '../interests/controlers_interests.dart';
-import 'news.dart';
 
 class TopBar extends StatelessWidget {
   final bool _showDesktop;
@@ -65,11 +64,11 @@ class TopBar extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const NewsPage()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const NewsPage()),
+                      // );
                     },
                   )
           ])

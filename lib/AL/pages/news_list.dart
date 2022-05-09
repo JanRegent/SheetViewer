@@ -1,9 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import '../constaints.dart';
-import '../model.dart';
-import '../widgets/news_item.dart';
+import '../_dashboard/constaints.dart';
+import 'model.dart';
+import '../_dashboard/widgets/news_item.dart';
 
 final news = <News>[
   News(

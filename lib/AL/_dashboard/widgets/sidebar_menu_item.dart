@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../constaints.dart';
-import '../model.dart';
+import '../../pages/model.dart';
 
 class SideBarMenuItem extends StatefulWidget {
   final MenuItem item;

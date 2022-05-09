@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/_dashboard/pages/news.dart';
+import 'package:sheetviewer/AL/pages/news.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../_dashboard/pages/topbar.dart';
+import '../pages/topbar.dart';
 
 class SidebarXExampleApp extends StatelessWidget {
   SidebarXExampleApp({Key? key}) : super(key: key);

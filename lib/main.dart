@@ -3,7 +3,7 @@ import 'package:sheetviewer/AL/_dashboard/constaints.dart';
 import 'AL/_sidebar/sidebar.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
-import 'AL/_dashboard/interests/controlers_interests.dart';
+import 'AL/interests/controlers_interests.dart';
 import 'AL/_dashboard/_dashboard.dart';
 import 'BL/bl.dart';
 

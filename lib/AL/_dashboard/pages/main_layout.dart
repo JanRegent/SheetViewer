@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/news_list.dart';
+import 'package:sheetviewer/AL/pages/topbar.dart';
+import '../../pages/news_list.dart';
 import 'sidebar.dart';
-import 'topbar.dart';
+import '../../pages/topbar.dart';
 
 import '../constaints.dart';
 

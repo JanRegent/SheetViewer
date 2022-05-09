@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../interests/controlers_interests.dart';
+import '../../interests/controlers_interests.dart';
 import '../constaints.dart';
-import '../model.dart';
+import '../../pages/model.dart';
 import '../widgets/sidebar_menu_item.dart';
 
 IconButton byRows() {

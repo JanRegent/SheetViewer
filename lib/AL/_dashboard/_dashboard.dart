@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/_dashboard/interests/controlers_interests.dart';
-import 'package:sheetviewer/AL/_dashboard/pages/news.dart';
+import 'package:sheetviewer/AL/interests/controlers_interests.dart';
+import 'package:sheetviewer/AL/pages/news.dart';
 
-import 'components/order_table.dart';
+import '../pages/order_table.dart';
 import 'pages/main_layout.dart';
 
 class Dashboard extends StatefulWidget {
