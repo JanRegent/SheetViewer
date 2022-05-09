@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/pages/news.dart';
+
 import 'package:sidebarx/sidebarx.dart';
 
 import '../pages/order_table.dart';
 import '../pages/topbar.dart';
+
+final List<Map> menu = [
+  {'page': 'byRowsPage', 'title': 'By rows', 'icon': Icons.table_rows},
+  {'page': 'byValues', 'title': 'By values', 'icon': Icons.dashboard},
+  {'page': 'byTags', 'title': 'By tags', 'icon': Icons.tag},
+  {'page': 'Select1', 'title': 'Select1', 'icon': Icons.filter_alt}
+];
 
 class SidebarXExampleApp extends StatelessWidget {
   SidebarXExampleApp({Key? key}) : super(key: key);
@@ -76,37 +83,34 @@ class SidebarXExampleApp extends StatelessWidget {
                 margin: EdgeInsets.only(right: 10),
               ),
               footerDivider: divider,
-              headerBuilder: (context, extended) {
-                return const SizedBox(
-                  height: 100,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text("Image.asset('assets/images/avatar.png')"),
-                  ),
-                );
-              },
               items: [
                 SidebarXItem(
-                  icon: Icons.home,
-                  label: 'Home',
+                  icon: menu[0]['icon'],
+                  label: menu[0]['title'],
                   onTap: () {
-                    debugPrint('Hello');
+                    debugPrint('0');
                   },
                 ),
                 SidebarXItem(
-                  icon: Icons.search,
-                  label: 'Search',
+                  icon: menu[1]['icon'],
+                  label: menu[1]['title'],
                   onTap: () {
-                    debugPrint('Hello');
+                    debugPrint('1');
                   },
                 ),
-                const SidebarXItem(
-                  icon: Icons.people,
-                  label: 'People',
+                SidebarXItem(
+                  icon: menu[2]['icon'],
+                  label: menu[2]['title'],
+                  onTap: () {
+                    debugPrint('2');
+                  },
                 ),
-                const SidebarXItem(
-                  icon: Icons.favorite,
-                  label: 'Favorite',
+                SidebarXItem(
+                  icon: menu[3]['icon'],
+                  label: menu[3]['title'],
+                  onTap: () {
+                    debugPrint('3');
+                  },
                 ),
               ],
             ),
@@ -136,19 +140,25 @@ class _ScreensExample extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        switch (controller.selectedIndex) {
-          case 0:
-            return const Text('0');
-
-          case 1:
-            return const NewsPage();
-          case 2:
+        switch (menu[controller.selectedIndex]['page']) {
+          case 'byRowsPage':
+            return Text(menu[controller.selectedIndex]['page']);
+          case 'byValues':
             return Text(
-              'People',
+              menu[controller.selectedIndex]['page'],
               style: theme.textTheme.headline5,
             );
-          case 3:
-            return const OrderTable();
+          case 'byTags':
+            return Text(
+              menu[controller.selectedIndex]['page'],
+              style: theme.textTheme.headline5,
+            );
+          case 'Select1':
+            return Text(
+              menu[controller.selectedIndex]['page'],
+              style: theme.textTheme.headline5,
+            );
+            ;
           default:
             return Text(
               'Not found page',
