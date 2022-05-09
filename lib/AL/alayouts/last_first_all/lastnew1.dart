@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/_dashboard/components/interests/loadinginterestpage.dart';
+import 'package:sheetviewer/AL/_dashboard/interests/loadinginterestpage.dart';
 
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';

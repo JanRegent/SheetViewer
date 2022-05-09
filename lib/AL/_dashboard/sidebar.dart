@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import '../components/interests/controlers_interests.dart';
-import '../constaints.dart';
-import '../widgets/sidebar_menu_item.dart';
+import './interests/controlers_interests.dart';
+import 'constaints.dart';
+import 'widgets/sidebar_menu_item.dart';
 
-import '../model.dart';
-
-final List<MenuItem> menuItems = [
-  MenuItem('By rows', Icons.table_rows, byRows()),
-  MenuItem('By values', Icons.dashboard_outlined, byRows()),
-  MenuItem('Select1', Icons.filter_alt, byRows()),
-  MenuItem('Contact', Icons.contact_mail, byRows()),
-];
+import 'model.dart';
 
 IconButton byRows() {
   return IconButton(onPressed: () {}, icon: const Icon(Icons.table_rows));
@@ -21,6 +14,13 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<MenuItem> menuItems = [
+      MenuItem('By rows', Icons.table_rows, byRows()),
+      MenuItem('By values', Icons.dashboard_outlined, byRows()),
+      MenuItem('Select1', Icons.filter_alt, byRows()),
+      MenuItem('Contact', Icons.contact_mail, byRows()),
+    ];
+
     final Size _size = MediaQuery.of(context).size;
     final bool _isDesktop = _size.width >= screenLg;
     return Container(

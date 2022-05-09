@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../layout/main_layout.dart';
-import '../components/order_table.dart';
+import 'components/order_table.dart';
+import 'pages/main_layout.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);

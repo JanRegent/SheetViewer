@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constaints.dart';
-import '../pages/news.dart';
+import '../interests/controlers_interests.dart';
+import 'news.dart';
 
 class TopBar extends StatelessWidget {
   final bool _showDesktop;
@@ -19,11 +20,12 @@ class TopBar extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
-                    'Dashboard',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    interestRowCurrent['interestName'] + ' Dashboard',
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w600),
                   ),
                 ),
                 Positioned(

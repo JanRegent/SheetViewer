@@ -4,7 +4,7 @@ import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/_dashboard/components/interests/loadinginterestpage.dart';
+import 'package:sheetviewer/AL/_dashboard/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/elements/cards/filelistcard.dart';
 
 import 'package:sheetviewer/BL/bl.dart';

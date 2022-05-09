@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/news_list.dart';
-import '../layout/sidebar.dart';
-import '../layout/topbar.dart';
+import '../sidebar.dart';
+import 'topbar.dart';
 
 import '../constaints.dart';
 

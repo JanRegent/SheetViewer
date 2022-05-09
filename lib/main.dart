@@ -3,8 +3,8 @@ import 'package:sheetviewer/AL/_dashboard/constaints.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
-import 'AL/_dashboard/components/interests/controlers_interests.dart';
-import 'AL/_dashboard/pages/dashboard.dart';
+import 'AL/_dashboard/interests/controlers_interests.dart';
+import 'AL/_dashboard/dashboard.dart';
 import 'BL/bl.dart';
 
 void main() async {

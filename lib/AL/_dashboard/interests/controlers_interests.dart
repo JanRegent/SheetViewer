@@ -3,6 +3,9 @@ import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 List<dynamic> interestList = [];
 List<String> interestTitles = [];
+
+late Map interestRowCurrent;
+
 Future getDataInterests() async {
   try {
     interestList = await localDb.read('interestList', List);
@@ -14,6 +17,8 @@ Future getDataInterests() async {
     interestList = await localDb.read('interestList', List);
   }
   interestTitlesGet();
+  localDb.update('interestRowCurrent', interestList[0]);
+  interestRowCurrent = await localDb.read('interestRowCurrent', Map);
 }
 
 Future getSheetInterests() async {
