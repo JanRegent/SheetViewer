@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
@@ -5,6 +7,9 @@ List<dynamic> interestList = [];
 List<String> interestTitles = [];
 
 late Map interestRowCurrent;
+
+List<Widget> dashboardPages = [];
+RxString dashboardPageCurrent = ''.obs;
 
 Future getDataInterests() async {
   try {
@@ -43,5 +48,31 @@ void interestTitlesGet() {
     String interestName = interestList[i]['interestName'];
     if (interestTitles.contains(interestName)) continue;
     interestTitles.add(interestName);
+  }
+}
+
+class DashboardPagesController extends GetxController {
+  var firstRowsCount = [].obs;
+
+  int firstRowsCountGet(int index) {
+    return firstRowsCount[index];
+  }
+
+  firstRowsCountAdd() {
+    firstRowsCount.add(11);
+  }
+
+  firstRowsCountSet(int index, value) {
+    firstRowsCount[index] = value;
+  }
+
+  var lastRowsCount = [].obs;
+
+  int lastRowsCountGet(int index) {
+    return lastRowsCount[index];
+  }
+
+  lastRowsCountSet(int index, value) {
+    lastRowsCount[index] = value;
   }
 }

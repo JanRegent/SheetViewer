@@ -78,16 +78,15 @@ class NewsList extends StatelessWidget {
             height: topBarHeight,
             child: Row(
               children: [
-                showDesktop
-                    ? const SizedBox.shrink()
-                    : IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                showDesktop ? const SizedBox.shrink() : const Text(' '),
+                // IconButton(
+                //     icon: const Icon(
+                //       Icons.arrow_back,
+                //     ),
+                //     onPressed: () {
+                //       Navigator.pop(context);
+                //     },
+                //   ),
                 const Expanded(
                     child: Center(
                   child: Text(

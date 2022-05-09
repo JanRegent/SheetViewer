@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../components/news_list.dart';
-import '../sidebar.dart';
+import 'sidebar.dart';
 import 'topbar.dart';
 
 import '../constaints.dart';
 
-class MainLayout extends StatelessWidget {
+class DashboardLayout extends StatelessWidget {
   final Widget child;
-  const MainLayout({Key? key, required this.child}) : super(key: key);
+  const DashboardLayout({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import './interests/controlers_interests.dart';
-import 'constaints.dart';
-import 'widgets/sidebar_menu_item.dart';
 
-import 'model.dart';
+import '../interests/controlers_interests.dart';
+import '../constaints.dart';
+import '../model.dart';
+import '../widgets/sidebar_menu_item.dart';
 
 IconButton byRows() {
-  return IconButton(onPressed: () {}, icon: const Icon(Icons.table_rows));
+  return IconButton(
+      onPressed: () {
+        dashboardPageCurrent.value = 'LastNew1Page';
+      },
+      icon: const Icon(Icons.table_rows));
 }
 
 class SideBar extends StatelessWidget {

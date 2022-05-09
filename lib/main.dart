@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/_dashboard/constaints.dart';
-
+import 'AL/_sidebar/sidebar.dart';
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
 import 'AL/_dashboard/interests/controlers_interests.dart';
-import 'AL/_dashboard/dashboard.dart';
+import 'AL/_dashboard/_dashboard.dart';
 import 'BL/bl.dart';
 
 void main() async {
@@ -14,7 +14,7 @@ void main() async {
   await logOn();
   await getDataInterests();
   //runApp(const GetDataInterestsApp());
-  runApp(const DashboardApp());
+  runApp(SidebarXExampleApp());
 }
 
 class DashboardApp extends StatelessWidget {
