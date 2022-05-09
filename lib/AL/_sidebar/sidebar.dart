@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 
 import 'package:sidebarx/sidebarx.dart';
 
@@ -142,7 +143,7 @@ class _ScreensExample extends StatelessWidget {
       builder: (context, child) {
         switch (menu[controller.selectedIndex]['page']) {
           case 'byRowsPage':
-            return Text(menu[controller.selectedIndex]['page']);
+            return const GetdataFileListLayout('lastGrid');
           case 'byValues':
             return Text(
               menu[controller.selectedIndex]['page'],
