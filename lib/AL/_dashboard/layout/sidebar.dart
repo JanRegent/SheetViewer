@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/interests/controlers_interests.dart';
 import '../constaints.dart';
 import '../widgets/sidebar_menu_item.dart';
 
@@ -30,12 +31,12 @@ class SideBar extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8), color: primaryAncient),
-            width: 45,
+            //width: 45,
             height: 45,
-            child: const Center(
+            child: Center(
               child: Text(
-                'C',
-                style: TextStyle(
+                interestTitles[0],
+                style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),

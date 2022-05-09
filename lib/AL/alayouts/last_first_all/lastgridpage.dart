@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/alayouts/loadinginterestpage.dart';
+import 'package:sheetviewer/AL/_dashboard/components/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/elements/cards/firstlastgridcard.dart';
 
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
