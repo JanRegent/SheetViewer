@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../_dashboard/constaints.dart';
+import '../constaints.dart';
 import '../interests/controlers_interests.dart';
 
 class TopBar extends StatelessWidget {

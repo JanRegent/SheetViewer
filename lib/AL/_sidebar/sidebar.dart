@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/pages/news.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+import '../pages/order_table.dart';
 import '../pages/topbar.dart';
 
 class SidebarXExampleApp extends StatelessWidget {
@@ -92,9 +93,12 @@ class SidebarXExampleApp extends StatelessWidget {
                     debugPrint('Hello');
                   },
                 ),
-                const SidebarXItem(
+                SidebarXItem(
                   icon: Icons.search,
                   label: 'Search',
+                  onTap: () {
+                    debugPrint('Hello');
+                  },
                 ),
                 const SidebarXItem(
                   icon: Icons.people,
@@ -134,35 +138,17 @@ class _ScreensExample extends StatelessWidget {
       builder: (context, child) {
         switch (controller.selectedIndex) {
           case 0:
-            return const NewsPage();
-          // ListView.builder(
-          //   padding: const EdgeInsets.only(top: 10),
-          //   itemBuilder: (context, index) => Container(
-          //     height: 100,
-          //     width: double.infinity,
-          //     margin: const EdgeInsets.only(bottom: 10, right: 10),
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(20),
-          //       color: Theme.of(context).canvasColor,
-          //       boxShadow: const [BoxShadow()],
-          //     ),
-          //   ),
-          // );
+            return const Text('0');
+
           case 1:
-            return Text(
-              'Search',
-              style: theme.textTheme.headline5,
-            );
+            return const NewsPage();
           case 2:
             return Text(
               'People',
               style: theme.textTheme.headline5,
             );
           case 3:
-            return Text(
-              'Favorites',
-              style: theme.textTheme.headline5,
-            );
+            return const OrderTable();
           default:
             return Text(
               'Not found page',
