@@ -21,7 +21,7 @@ class BL {
 
   Future init() async {
     await await isarDbInit();
-    logStartLine('init');
+    logParagraphStart('init');
 
     await blGlobal.init();
     await dlGlobals.init();

@@ -12,6 +12,7 @@ List<Widget> dashboardPages = [];
 RxString dashboardPageCurrent = ''.obs;
 
 Future getDataInterests() async {
+  logParagraphStart('getDataInterests');
   try {
     interestList = await localDb.read('interestList', List);
   } catch (e) {
@@ -22,8 +23,13 @@ Future getDataInterests() async {
     interestList = await localDb.read('interestList', List);
   }
   interestTitlesGet();
+  logi('interestTitles', 'loadDb', 'interestRowCurrent',
+      interestTitles.join(', '));
   localDb.update('interestRowCurrent', interestList[0]);
+
   interestRowCurrent = await localDb.read('interestRowCurrent', Map);
+  logi('getDataInterests', 'loadDb', 'interestRowCurrent',
+      interestRowCurrent.toString());
 }
 
 Future getSheetInterests() async {

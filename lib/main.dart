@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'AL/_sidebar/sidebar.dart';
+import 'AL/__home/homepage2.dart';
+
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
 import 'AL/interests/controlers_interests.dart';
@@ -12,5 +13,9 @@ void main() async {
   await logOn();
   await getDataInterests();
   //runApp(const GetDataInterestsApp());
-  runApp(SidebarXExampleApp());
+  //runApp(const SidebarXExampleApp());
+
+  runApp(MaterialApp(
+    home: HomeApp(),
+  ));
 }

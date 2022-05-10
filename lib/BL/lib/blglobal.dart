@@ -1,8 +1,3 @@
-// ignore_for_file: implementation_imports
-
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
@@ -29,14 +24,19 @@ void logi(String functionName, String step, description, String message) {
   logDb.update(log);
 }
 
-void logStartLine(String key) {
-  window.sessionStorage
-      .putIfAbsent(DateTime.now().toIso8601String(), () => '//---$key---\\');
+void logParagraphStart(String key) {
+  Log log = Log()..aFunc = '//------$key-start\\';
+  logDb.update(log);
+}
+
+void logParagraphEnd(String key) {
+  Log log = Log()..aFunc = '\\------$key---end//';
+  logDb.update(log);
 }
 
 void logLine() {
-  window.sessionStorage.putIfAbsent(
-      DateTime.now().toIso8601String(), () => '\\-----------------//');
+  Log log = Log()..aFunc = '||-----------------||';
+  logDb.update(log);
 }
 
 class BlGlobal {

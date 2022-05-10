@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
-import 'package:sheetviewer/AL/elements/_interests/intetrests_al.dart';
+import 'package:sheetviewer/AL/interests/_interests/intetrests_al.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 

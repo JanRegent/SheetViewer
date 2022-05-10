@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 
-import 'package:sidebarx/sidebarx.dart';
+import 'package:sheetviewer/AL/alayouts/_getdata_layout/getdata_filelistlayout.dart';
 
 import '../pages/topbar.dart';
 
@@ -13,13 +12,10 @@ final List<Map> menu = [
 ];
 
 class SidebarXExampleApp extends StatelessWidget {
-  SidebarXExampleApp({Key? key}) : super(key: key);
-
-  final _controller = SidebarXController(selectedIndex: 0);
+  const SidebarXExampleApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BuildContext ctx = context;
     return MaterialApp(
       title: 'SidebarX Example',
       debugShowCheckedModeBanner: false,
@@ -74,194 +70,70 @@ class SidebarXExampleApp extends StatelessWidget {
               ],
             ),
           ),
-          // drawer: SidebarX(
-          //   controller: SidebarXController(selectedIndex: 0, extended: true),
-          //   items: [
-          //     SidebarXItem(
-          //       icon: menu[0]['icon'],
-          //       label: menu[0]['title'],
-          //       onTap: () async {
-          //         await Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //               builder: (ctx) =>
-          //                   const GetdataFileListLayout('lastGrid'),
-          //             ));
-          //       },
-          //     ),
-          //     SidebarXItem(
-          //       icon: menu[1]['icon'],
-          //       label: menu[1]['title'],
-          //       onTap: () {
-          //         debugPrint('1');
-          //       },
-          //     ),
-          //     SidebarXItem(
-          //       icon: menu[2]['icon'],
-          //       label: menu[2]['title'],
-          //       onTap: () {
-          //         debugPrint('2');
-          //       },
-          //     ),
-          //     SidebarXItem(
-          //       icon: menu[3]['icon'],
-          //       label: menu[3]['title'],
-          //       onTap: () {
-          //         debugPrint('3');
-          //       },
-          //     ),
-          //   ],
-          // ),
-          body: _ScreensExample(controller: _controller)
+          body: const Text('xx')
+          //_ScreensExample(controller: _controller)
 
-          //const Text('ccc')
-          // Row(
-          //   children: [
-          //     SidebarX(
-          //       controller: _controller,
-          //       theme: SidebarXTheme(
-          //         margin: const EdgeInsets.all(10),
-          //         decoration: BoxDecoration(
-          //           color: canvasColor,
-          //           borderRadius: BorderRadius.circular(20),
-          //         ),
-          //         textStyle: const TextStyle(color: Colors.white),
-          //         selectedTextStyle: const TextStyle(color: Colors.white),
-          //         itemTextPadding: const EdgeInsets.only(left: 30),
-          //         selectedItemTextPadding: const EdgeInsets.only(left: 30),
-          //         itemDecoration: BoxDecoration(
-          //           border: Border.all(color: canvasColor),
-          //         ),
-          //         selectedItemDecoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(10),
-          //           border: Border.all(
-          //             color: actionColor.withOpacity(0.37),
-          //           ),
-          //           gradient: const LinearGradient(
-          //             colors: [accentCanvasColor, canvasColor],
-          //           ),
-          //           boxShadow: [
-          //             BoxShadow(
-          //               color: Colors.black.withOpacity(0.28),
-          //               blurRadius: 30,
-          //             )
-          //           ],
-          //         ),
-          //         iconTheme: const IconThemeData(
-          //           color: Colors.white,
-          //           size: 20,
-          //         ),
-          //       ),
-          //       extendedTheme: const SidebarXTheme(
-          //         width: 200,
-          //         decoration: BoxDecoration(
-          //           color: canvasColor,
-          //         ),
-          //         margin: EdgeInsets.only(right: 10),
-          //       ),
-          //       footerDivider: divider,
-          //       items: [
-          //         SidebarXItem(
-          //           icon: menu[0]['icon'],
-          //           label: menu[0]['title'],
-          //           onTap: () async {
-          //             await Navigator.push(
-          //                 context,
-          //                 MaterialPageRoute(
-          //                   builder: (context) =>
-          //                       const GetdataFileListLayout('lastGrid'),
-          //                 ));
-          //           },
-          //         ),
-          //         SidebarXItem(
-          //           icon: menu[1]['icon'],
-          //           label: menu[1]['title'],
-          //           onTap: () {
-          //             debugPrint('1');
-          //           },
-          //         ),
-          //         SidebarXItem(
-          //           icon: menu[2]['icon'],
-          //           label: menu[2]['title'],
-          //           onTap: () {
-          //             debugPrint('2');
-          //           },
-          //         ),
-          //         SidebarXItem(
-          //           icon: menu[3]['icon'],
-          //           label: menu[3]['title'],
-          //           onTap: () {
-          //             debugPrint('3');
-          //           },
-          //         ),
-          //       ],
-          //     ),
-          //     const Expanded(
-          //       child: Center(child: Text('bbody')
-          //           //,
-          //           ),
-          //     ),
-          //   ],
-          // ),
           ),
     );
   }
 }
 
-class _ScreensExample extends StatelessWidget {
-  const _ScreensExample({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+// class _ScreensExample extends StatelessWidget {
+//   const _ScreensExample({
+//     Key? key,
+//     required this.controller,
+//   }) : super(key: key);
 
-  final SidebarXController controller;
+//   final SidebarXController controller;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return IconButton(
-      icon: const Icon(Icons.abc_outlined),
-      onPressed: () async {
-        await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) => const GetdataFileListLayout('lastGrid'),
-            ));
-      },
-    );
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return
+//         // IconButton(
+//         //   icon: const Icon(Icons.abc_outlined),
+//         //   onPressed: () async {
+//         //     await Navigator.push(
+//         //         context,
+//         //         MaterialPageRoute(
+//         //           builder: (ctx) => const GetrowsSelectionPage(),
+//         //           //GetdataFileListLayout('lastGrid'),
+//         //         ));
+//         //   },
+//         // );
 
-    // AnimatedBuilder(
-    //   animation: controller,
-    //   builder: (context, child) {
-    //     switch (menu[controller.selectedIndex]['page']) {
-    //       case 'byRowsPage':
-    //         return const GetdataFileListLayout('lastGrid');
-    //       case 'byValues':
-    //         return Text(
-    //           menu[controller.selectedIndex]['page'],
-    //           style: theme.textTheme.headline5,
-    //         );
-    //       case 'byTags':
-    //         return Text(
-    //           menu[controller.selectedIndex]['page'],
-    //           style: theme.textTheme.headline5,
-    //         );
-    //       case 'Select1':
-    //         return Text(
-    //           menu[controller.selectedIndex]['page'],
-    //           style: theme.textTheme.headline5,
-    //         );
-    //         ;
-    //       default:
-    //         return Text(
-    //           'Not found page',
-    //           style: theme.textTheme.headline5,
-    //         );
-    //     }
-    //   },
-    // );
-  }
-}
+//         AnimatedBuilder(
+//       animation: controller,
+//       builder: (context, child) {
+//         switch (menu[controller.selectedIndex]['page']) {
+//           case 'byRowsPage':
+//             return const GetdataFileListLayout('lastGrid');
+//           case 'byValues':
+//             return Text(
+//               menu[controller.selectedIndex]['page'],
+//               style: theme.textTheme.headline5,
+//             );
+//           case 'byTags':
+//             return Text(
+//               menu[controller.selectedIndex]['page'],
+//               style: theme.textTheme.headline5,
+//             );
+//           case 'Select1':
+//             return Text(
+//               menu[controller.selectedIndex]['page'],
+//               style: theme.textTheme.headline5,
+//             );
+//             ;
+//           default:
+//             return Text(
+//               'Not found page',
+//               style: theme.textTheme.headline5,
+//             );
+//         }
+//       },
+//     );
+//   }
+// }
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
