@@ -15,7 +15,7 @@ void main() async {
   //runApp(const GetDataInterestsApp());
   //runApp(const SidebarXExampleApp());
 
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: HomeApp(),
   ));
 }
