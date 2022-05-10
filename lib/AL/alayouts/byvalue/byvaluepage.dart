@@ -25,7 +25,7 @@ class ByvaluePage extends StatefulWidget {
   _ByvaluePageState createState() => _ByvaluePageState();
 }
 
-late Map fileListSheet = {};
+late Map fileListSheetV2 = {};
 
 class _ByvaluePageState extends State<ByvaluePage> {
   _ByvaluePageState();
@@ -43,19 +43,19 @@ class _ByvaluePageState extends State<ByvaluePage> {
     setState(() {});
   }
 
-  List<SheetViewConfig> sheetViewConfigs = [];
+  List<SheetViewConfig> sheetViewConfigsV2 = [];
   Future<String> getData() async {
-    fileListSheet = await getSheet(widget.interestRowCurrent['fileUrl'],
+    fileListSheetV2 = await getSheet(widget.interestRowCurrent['fileUrl'],
         widget.interestRowCurrent['sheetName']);
-    for (var index = 0; index < fileListSheet['rows'].length; index++) {
+    for (var index = 0; index < fileListSheetV2['rows'].length; index++) {
       var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
       String fileId =
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-      String sheetName = fileListSheet['rows'][index]['sheetName'];
+          bl.blUti.url2fileid(fileListSheetV2['rows'][index]['fileUrl']);
+      String sheetName = fileListSheetV2['rows'][index]['sheetName'];
       String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
       SheetViewConfig? sheetViewConfig =
           await sheetViewConfigDb.readSheet(aQuerystringKey);
-      sheetViewConfigs.add(sheetViewConfig!);
+      sheetViewConfigsV2.add(sheetViewConfig!);
     }
     return 'ok';
   }
@@ -73,10 +73,10 @@ class _ByvaluePageState extends State<ByvaluePage> {
                   color: Colors.red,
                   height: 4.0,
                 ),
-            itemCount: fileListSheet['rows'].length,
+            itemCount: fileListSheetV2['rows'].length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(
-                      context, fileListSheet, index, sheetViewConfigs[index]),
+                  child: filelistCard(context, fileListSheetV2, index,
+                      sheetViewConfigsV2[index]),
                 )));
   }
 

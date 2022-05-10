@@ -7,9 +7,8 @@ import 'package:sheetviewer/AL/elements/cards/filelistcard.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+
+import '../../interests/interests_controlers.dart';
 
 class FilelistviewPage extends StatefulWidget {
   final String url;
@@ -36,23 +35,6 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
 
   void setStateFunc() {
     setState(() {});
-  }
-
-  List<SheetViewConfig> sheetViewConfigs = [];
-  Future<String> getData() async {
-    fileListSheet = await getSheet(
-        '1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis', widget.sheetName);
-    for (var index = 0; index < fileListSheet['rows'].length; index++) {
-      var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
-      String fileId =
-          bl.blUti.url2fileid(fileListSheet['rows'][index]['fileUrl']);
-      String sheetName = fileListSheet['rows'][index]['sheetName'];
-      String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      SheetViewConfig? sheetViewConfig =
-          await sheetViewConfigDb.readSheet(aQuerystringKey);
-      sheetViewConfigs.add(sheetViewConfig!);
-    }
-    return 'ok';
   }
 
   late ScrollController _controller;
@@ -91,7 +73,7 @@ class _FilelistviewPageState extends State<FilelistviewPage> {
           ],
         ),
         body: FutureBuilder<String>(
-          future: getData(), // async work
+          future: getDataFilelistSheet(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

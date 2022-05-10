@@ -3,7 +3,7 @@ import 'AL/__home/homepage2.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 
-import 'AL/interests/controlers_interests.dart';
+import 'AL/interests/interests_controlers.dart';
 import 'BL/bl.dart';
 
 void main() async {

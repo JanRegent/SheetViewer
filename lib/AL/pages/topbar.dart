@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constaints.dart';
-import '../interests/controlers_interests.dart';
+import '../interests/interests_controlers.dart';
 
 class TopBar extends StatelessWidget {
   final bool _showDesktop;

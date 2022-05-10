@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
+import 'package:sheetviewer/AL/interests/interests_controlers.dart';
 
 //import 'menu.dart';
 import 'profile.dart';
 import 'settings.dart';
 import 'about.dart';
 
+//
 final List<Map> menu = [
-  {'page': const About(), 'title': 'By rows', 'icon': Icons.table_rows},
+  {
+    'page': FilelistviewPage('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis',
+        interestRowCurrent['sheetName']),
+    'title': 'By rows',
+    'icon': Icons.table_rows
+  },
   {'page': const Profile(), 'title': 'By values', 'icon': Icons.dashboard},
   {'page': const Settings(), 'title': 'By tags', 'icon': Icons.tag},
   {'page': const About(), 'title': 'Select1', 'icon': Icons.filter_alt}

@@ -1,16 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluepage.dart';
-import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/AL/interests/interests_controlers.dart';
 
 import '../last_first_all/last_listview_page.dart';
-
-RowsCountController rowsCountController = RowsCountController();
 
 class GetdataFileListLayout extends StatefulWidget {
   final String layout;
@@ -27,25 +22,11 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
     super.initState();
   }
 
-  List<SheetViewConfig> sheetViewConfigs = [];
-  late List<dynamic> fileListSheet = [];
   late Map interestRowCurrent;
-
-  Future<String> getData() async {
-    interestRowCurrent = await localDb.read('interestRowCurrent', Map);
-    Map responseData = await getSheet(
-        interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
-    fileListSheet = responseData['rows'];
-
-    sheetViewConfigs = await fileListSheet2sheetViewConfigs(
-        fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
-
-    return 'ok';
-  }
 
   Widget fileListBuilder(String layout) {
     return FutureBuilder<String>(
-      future: getData(), // async work
+      future: getDataFilelistSheet(), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -89,31 +70,5 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
 void rowsCountBuild(List<dynamic> fileListSheet) {
   for (var i = 0; i < fileListSheet.length; i++) {
     rowsCountController.firstRowsCountAdd();
-  }
-}
-
-class RowsCountController extends GetxController {
-  var firstRowsCount = [].obs;
-
-  int firstRowsCountGet(int index) {
-    return firstRowsCount[index];
-  }
-
-  firstRowsCountAdd() {
-    firstRowsCount.add(11);
-  }
-
-  firstRowsCountSet(int index, value) {
-    firstRowsCount[index] = value;
-  }
-
-  var lastRowsCount = [].obs;
-
-  int lastRowsCountGet(int index) {
-    return lastRowsCount[index];
-  }
-
-  lastRowsCountSet(int index, value) {
-    lastRowsCount[index] = value;
   }
 }

@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+
+import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 List<dynamic> interestList = [];
 List<String> interestTitles = [];
@@ -57,11 +60,32 @@ void interestTitlesGet() {
   }
 }
 
-class DashboardPagesController extends GetxController {
+//----------------------------------------------------------filelist
+List<SheetViewConfig> sheetViewConfigs = [];
+late List<dynamic> fileListSheet = [];
+RowsCountController rowsCountController = RowsCountController();
+
+Future<String> getDataFilelistSheet() async {
+  interestRowCurrent = await localDb.read('interestRowCurrent', Map);
+  Map responseData = await getSheet(
+      interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
+  fileListSheet = responseData['rows'];
+
+  for (var i = 0; i < fileListSheet.length; i++) {
+    rowsCountController.firstRowsCount.add(i + 10);
+  }
+
+  sheetViewConfigs = await fileListSheet2sheetViewConfigs(
+      fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
+  return 'ok';
+}
+
+class RowsCountController extends GetxController {
   var firstRowsCount = [].obs;
 
   int firstRowsCountGet(int index) {
-    return firstRowsCount[index];
+    return 11;
+    // firstRowsCount[index];
   }
 
   firstRowsCountAdd() {
