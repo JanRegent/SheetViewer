@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/interests/controlers_interests.dart';
 
 //import 'menu.dart';
 import 'profile.dart';
@@ -6,10 +7,10 @@ import 'settings.dart';
 import 'about.dart';
 
 final List<Map> menu = [
-  {'page': 'byRowsPage', 'title': 'By rows', 'icon': Icons.table_rows},
-  {'page': 'byValues', 'title': 'By values', 'icon': Icons.dashboard},
-  {'page': 'byTags', 'title': 'By tags', 'icon': Icons.tag},
-  {'page': 'Select1', 'title': 'Select1', 'icon': Icons.filter_alt}
+  {'page': About, 'title': 'By rows', 'icon': Icons.table_rows},
+  {'page': Profile, 'title': 'By values', 'icon': Icons.dashboard},
+  {'page': Settings, 'title': 'By tags', 'icon': Icons.tag},
+  {'page': About, 'title': 'Select1', 'icon': Icons.filter_alt}
 ];
 
 // ignore: must_be_immutable
@@ -19,22 +20,16 @@ class HomeApp extends StatelessWidget {
   List<Widget> menuWidgets = [];
   void buildMenu(BuildContext context) {
     for (var i = 0; i < menu.length; i++) {
-      menuWidgets.add(Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MaterialButton(
-            height: 100.0,
-            minWidth: 150.0,
-            color: i.isEven ? Colors.teal[100] : Colors.teal[200],
-            textColor: Colors.black,
-            child: Text(menu[i]['title'].toString()),
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Profile()),
-              )
-            },
-            splashColor: Colors.redAccent,
-          )));
+      menuWidgets.add(ListTile(
+        leading: Icon(menu[i]['icon']),
+        title: Text(menu[i]['title'].toString()),
+        minVerticalPadding: 20.0,
+      ));
+      menuWidgets.add(Container(
+        width: double.infinity,
+        height: 2, // Thickness
+        color: Colors.blue,
+      ));
     }
   }
 
@@ -43,21 +38,22 @@ class HomeApp extends StatelessWidget {
     buildMenu(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("DashBoard"),
+          title: Text(interestRowCurrent['interestName']),
         ),
         drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text('Drawer Header'),
+                child: ElevatedButton(
+                    child: const Text('Select interest'),
+                    onPressed: () {
+                      debugPrint('select interest');
+                    }),
               ),
               ListTile(
                 title: const Text('Profile'),
@@ -95,50 +91,6 @@ class HomeApp extends StatelessWidget {
         body: ListView(
             primary: false,
             padding: const EdgeInsets.all(20),
-            children: menuWidgets
-
-            // <Widget>[
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text("He'd have you all unravel at the"),
-            //     color: Colors.teal[100],
-            //   ),
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('Heed not the rabble'),
-            //     color: Colors.teal[200],
-            //   ),
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('Sound of screams but the'),
-            //     color: Colors.teal[300],
-            //   ),
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('Who scream'),
-            //     color: Colors.teal[400],
-            //   ),
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('Revolution is coming...'),
-            //     color: Colors.teal[500],
-            //   ),
-            //   Container(
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('Revolution, they...'),
-            //     color: Colors.teal[600],
-            //   ),
-            // ],
-            )
-
-        // Center(
-        //     child: Column(
-        //   children: <Widget>[
-        //     Row(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: menuWidgets),
-        //   ],
-        // )),
-        );
+            children: menuWidgets));
   }
 }
