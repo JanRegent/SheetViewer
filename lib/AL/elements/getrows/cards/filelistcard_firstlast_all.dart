@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
-import '../getrows/firstLast/_firstlast_column.dart';
+import '../firstLast/_firstlast_column.dart';
 
 Card filelistCardFirstLastAll(BuildContext context, List<dynamic> fileListSheet,
     int index, SheetViewConfig sheetViewConfig) {
