@@ -25,12 +25,12 @@ void logi(String functionName, String step, description, String message) {
 }
 
 void logParagraphStart(String key) {
-  Log log = Log()..aFunc = '//------$key-start\\';
+  Log log = Log()..aFunc = '//------------------$key-------------start\\';
   logDb.update(log);
 }
 
 void logParagraphEnd(String key) {
-  Log log = Log()..aFunc = '\\------$key---end//';
+  Log log = Log()..aFunc = '\\------------------$key---------------end//';
   logDb.update(log);
 }
 

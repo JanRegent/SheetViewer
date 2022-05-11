@@ -25,8 +25,6 @@ class BL {
 
     await blGlobal.init();
     await dlGlobals.init();
-
-    logLine();
   }
 }
 

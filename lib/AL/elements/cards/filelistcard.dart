@@ -10,13 +10,13 @@ import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../../elements/byvalue/filelistcard_byvalue.dart';
 
-Card filelistCard(BuildContext context, Map fileListSheet, int index,
+Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
     SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
     createSheetConfigIfNotExists(
-        sheetViewConfig.fileId, fileListSheet['rows'][index]['sheetName']);
+        sheetViewConfig.fileId, fileListSheetRow['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
@@ -31,7 +31,7 @@ Card filelistCard(BuildContext context, Map fileListSheet, int index,
           //     fileId, fileListSheet['rows'][index]['sheetName']);
         },
       ),
-      title: Text(fileListSheet['rows'][index]['fileTitle'],
+      title: Text(fileListSheetRow['fileTitle'],
           style: const TextStyle(fontSize: 20, color: Colors.black)),
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
@@ -57,7 +57,7 @@ Card filelistCard(BuildContext context, Map fileListSheet, int index,
                     context,
                     MaterialPageRoute(
                       builder: (context) => ByValuePage(sheetViewConfig.fileId,
-                          fileListSheet['rows'][index]['sheetName']),
+                          fileListSheetRow['sheetName']),
                     ));
               },
             )),
@@ -78,8 +78,7 @@ Card filelistCard(BuildContext context, Map fileListSheet, int index,
               icon: const Icon(Icons.chevron_right),
               onPressed: () async {
                 SheetConfig sheetConfig = await getSheetConfig(
-                    sheetViewConfig.fileId,
-                    fileListSheet['rows'][index]['sheetName']);
+                    sheetViewConfig.fileId, fileListSheetRow['sheetName']);
 
                 await Navigator.push(
                     context,

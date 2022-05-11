@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
-import 'package:sheetviewer/AL/interests/interests_controlers.dart';
 
 //import 'menu.dart';
 import 'profile.dart';
@@ -10,8 +9,7 @@ import 'about.dart';
 //
 final List<Map> menu = [
   {
-    'page': FilelistviewPage('1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis',
-        interestRowCurrent['sheetName']),
+    'page': const FilelistviewPage(),
     'title': 'By rows',
     'icon': Icons.table_rows
   },

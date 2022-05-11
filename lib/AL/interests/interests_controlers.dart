@@ -33,6 +33,8 @@ Future getDataInterests() async {
   interestRowCurrent = await localDb.read('interestRowCurrent', Map);
   logi('getDataInterests', 'loadDb', 'interestRowCurrent',
       interestRowCurrent.toString());
+
+  await getDataFilelistSheet();
 }
 
 Future getSheetInterests() async {
@@ -66,17 +68,27 @@ late List<dynamic> fileListSheet = [];
 RowsCountController rowsCountController = RowsCountController();
 
 Future<String> getDataFilelistSheet() async {
+  logParagraphStart('getDataFilelistSheet');
   interestRowCurrent = await localDb.read('interestRowCurrent', Map);
+  logi('getDataFilelistSheet', 'loadDb', 'interestRowCurrent',
+      interestRowCurrent.toString());
+
   Map responseData = await getSheet(
       interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
   fileListSheet = responseData['rows'];
-
+  logi('getDataFilelistSheet', 'loadDb', 'cols',
+      responseData['cols'].toString());
   for (var i = 0; i < fileListSheet.length; i++) {
     rowsCountController.firstRowsCount.add(i + 10);
   }
+  logi('getDataFilelistSheet', '', 'rowsCountController.firstRowsCount.length',
+      rowsCountController.firstRowsCount.length.toString());
 
   sheetViewConfigs = await fileListSheet2sheetViewConfigs(
       fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
+
+  logi('getDataFilelistSheet', '', 'sheetViewConfigs.length',
+      sheetViewConfigs.length.toString());
   return 'ok';
 }
 
