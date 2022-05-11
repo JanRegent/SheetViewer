@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/multiselect_chip.dart';
 
-List<String> reportList = [
-  "Not relevant",
-  "Illegal",
-  "Spam",
-  "Offensive",
-  "Uncivil"
-];
-
-List<String> interestList = [];
+import '../interests_controlers.dart';
 
 Future<String> selectInterestDialog(BuildContext context) async {
+  int selectedIndex = 0;
   String selectedInterst = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -19,9 +12,9 @@ Future<String> selectInterestDialog(BuildContext context) async {
         return AlertDialog(
           title: const Text("Select interest"),
           content: MultiSelectChip(
-            reportList,
+            interestTitles,
             onSelectionChanged: (selectedList) {
-              interestList = selectedList;
+              selectedIndex = interestTitles.indexOf(selectedList[0]);
             },
             maxSelection: 2,
           ),
@@ -29,7 +22,7 @@ Future<String> selectInterestDialog(BuildContext context) async {
             ElevatedButton(
                 child: const Text("Select interest"),
                 onPressed: () {
-                  Navigator.of(context).pop(interestList.join(" , "));
+                  Navigator.of(context).pop(selectedIndex.toString());
                 })
           ],
         );

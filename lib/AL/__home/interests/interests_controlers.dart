@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/__home/interests/_interests/select_interest_dialog.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
@@ -34,6 +35,19 @@ Future getDataInterests() async {
   logi('getDataInterests', 'loadDb', 'interestRowCurrent',
       interestRowCurrent.toString());
 
+  await getDataFilelistSheet();
+  interestController.interestName.value = interestRowCurrent['interestName'];
+}
+
+Future selectInterest(BuildContext context) async {
+  logParagraphStart('drawer selectInterest');
+  String selectedIndex = await selectInterestDialog(context);
+  int? index = int.tryParse(selectedIndex);
+  interestRowCurrent = interestList[index!];
+  interestController.interestName.value = interestRowCurrent['interestName'];
+  localDb.update('interestRowCurrent', interestRowCurrent);
+  logi('drawer', 'Select interest', 'interestRowCurrent',
+      interestRowCurrent.toString());
   await getDataFilelistSheet();
 }
 
@@ -116,5 +130,15 @@ class RowsCountController extends GetxController {
 
   lastRowsCountSet(int index, value) {
     lastRowsCount[index] = value;
+  }
+}
+
+InterestController interestController = InterestController();
+
+class InterestController extends GetxController {
+  var interestName = ''.obs;
+
+  String interestNameGet() {
+    return interestName.value;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/interests/interests_controlers.dart';
+import 'package:get/get.dart';
+import './interests/interests_controlers.dart';
 
 import 'home_drawer_menu.dart';
 
@@ -12,7 +13,7 @@ class HomeApp extends StatelessWidget {
     buildMenu(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text(interestRowCurrent['interestName']),
+          title: Obx(() => Text(interestController.interestNameGet())),
         ),
         drawer: homeDrawer(context),
         body: ListView(
