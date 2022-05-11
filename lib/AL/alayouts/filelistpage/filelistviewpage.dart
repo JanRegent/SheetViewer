@@ -3,14 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/elements/cards/filelistcard.dart';
+import 'package:sheetviewer/AL/elements/cards/filelistcard_all.dart';
+import 'package:sheetviewer/AL/elements/cards/filelistcard_firstrows.dart';
+import 'package:sheetviewer/AL/elements/cards/filelistcard_lastrows.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import '../../interests/interests_controlers.dart';
 
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
-  const FilelistviewPage({Key? key}) : super(key: key);
+  final String cardType;
+  const FilelistviewPage(this.cardType, {Key? key}) : super(key: key);
 
   Widget detailBody() {
     return Container(
@@ -24,9 +27,17 @@ class FilelistviewPage extends StatelessWidget {
                 ),
             itemCount: fileListSheet.length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(context, fileListSheet[index], index,
-                      sheetViewConfigs[index]),
-                )));
+                child: cardType == 'firstRows'
+                    ? filelistCardFirstRows(context, fileListSheet[index],
+                        index, sheetViewConfigs[index])
+                    : cardType == 'lastRows'
+                        ? filelistCardLastRows(context, fileListSheet[index],
+                            index, sheetViewConfigs[index])
+                        : cardType == 'allRows'
+                            ? filelistCard(context, fileListSheet[index], index,
+                                sheetViewConfigs[index])
+                            : filelistCard(context, fileListSheet[index], index,
+                                sheetViewConfigs[index]))));
   }
 
   @override

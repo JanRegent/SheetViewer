@@ -2,13 +2,12 @@
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/alayouts/byvalue/byvaluecard_byvalue.dart';
 import 'package:sheetviewer/AL/elements/bycond/filelistcard_bycond_select1.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/allrowsbutton.dart';
 
 import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
-import '../../elements/byvalue/filelistcard_byvalue.dart';
 
 Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
     SheetViewConfig sheetViewConfig) {
@@ -64,7 +63,6 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
         //-------------------------------------------------------------All/select1
         ListTile(
             tileColor: Colors.lightBlue[300],
-            leading: allRowsButton(context, sheetViewConfig),
             title: Row(
               children: [
                 const Text('by cond: ', style: TextStyle(fontSize: 20)),

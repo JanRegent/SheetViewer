@@ -9,8 +9,18 @@ import 'about.dart';
 //
 final List<Map> menu = [
   {
-    'page': const FilelistviewPage(),
-    'title': 'By rows',
+    'page': const FilelistviewPage('lastRows'),
+    'title': 'Last rows',
+    'icon': Icons.last_page
+  },
+  {
+    'page': const FilelistviewPage('firstRows'),
+    'title': 'First rows',
+    'icon': Icons.first_page
+  },
+  {
+    'page': const FilelistviewPage('allRows'),
+    'title': 'All rows',
     'icon': Icons.table_rows
   },
   {'page': const Profile(), 'title': 'By values', 'icon': Icons.dashboard},
