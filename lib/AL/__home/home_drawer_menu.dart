@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-//import 'menu.dart';
-import 'interests/_interests/select_interest_dialog.dart';
 import 'interests/interests_controlers.dart';
 import 'profile.dart';
 import 'settings.dart';

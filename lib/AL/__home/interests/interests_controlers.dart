@@ -1,6 +1,8 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/interests/_interests/select_interest_dialog.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
@@ -48,7 +50,11 @@ Future selectInterest(BuildContext context) async {
   localDb.update('interestRowCurrent', interestRowCurrent);
   logi('drawer', 'Select interest', 'interestRowCurrent',
       interestRowCurrent.toString());
+  infoSnack(context, 'Loading interst:  ' + interestRowCurrent['interestName'],
+      AnimatedSnackBarType.info);
   await getDataFilelistSheet();
+  infoSnack(context, 'Loading done:  ' + interestRowCurrent['interestName'],
+      AnimatedSnackBarType.info);
 }
 
 Future getSheetInterests() async {
