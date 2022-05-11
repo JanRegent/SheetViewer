@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 
@@ -15,10 +15,10 @@ class ByValuePage extends StatefulWidget {
 }
 
 class _ByValePageState extends State<ByValuePage> {
-  SheetConfig sheetConfig = SheetConfig();
+  SheetViewConfig sheetConfig = SheetViewConfig();
 
   Future<String> getConfig() async {
-    sheetConfig = await getSheetConfig(widget.fileId, widget.sheetName);
+    //sheetConfig = await getSheetConfig(widget.fileId, widget.sheetName);
     return 'ok';
   }
 

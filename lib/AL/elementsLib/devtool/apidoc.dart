@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/apidocgridpage.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/devtool_blglobals.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 class EndpointsTabPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class EndpointsTabPage extends StatefulWidget {
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
 }
 
-SheetConfig sheetConfig = SheetConfig();
+SheetViewConfig sheetConfig = SheetViewConfig();
 
 class _EndpointsTabPageState extends State<EndpointsTabPage> {
   @override
@@ -21,8 +22,8 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
   }
 
   Future<String> getData() async {
-    sheetConfig = await getSheetConfig(
-        '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    // sheetConfig = await getSheetConfig(
+    //     '1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
 
     return 'ok';
   }

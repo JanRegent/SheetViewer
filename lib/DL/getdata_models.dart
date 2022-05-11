@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
 
@@ -53,7 +51,7 @@ Future<SheetView?> sheetViewGetData(
     SheetViewConfig? sheetViewConfig =
         await sheetViewConfigDb.readSheet(queryStringKey);
     sheetView!.colsHeader = sheetViewConfig!.colsHeader.split('__|__');
-    sheetView.sheetViewConfig = sheetViewConfig;
+
     return sheetView;
   } catch (e) {
     return (SheetView().aStatus =
@@ -119,16 +117,16 @@ Future<Map> actionMapCreate(String fileId, String sheetName, String action,
 
 Future<Map> actionMapFind(
     String fileId, String sheetName, String action) async {
-  String sheetKey = SheetConfig().getKey(sheetName, fileId);
-  SheetConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
+  // String sheetKey = SheetConfig().getKey(sheetName, fileId);
+  // SheetViewConfig? sheetConfig = await sheetConfigDb.readSheet(sheetKey);
   Map getRowsMap = {"action": action, "rowsCount": 10};
-  for (var i = 0; i < sheetConfig!.getRows.length; i++) {
-    Map map = jsonDecode(sheetConfig.getRows[i]);
-    if (map['action'] == action) {
-      getRowsMap = map;
-      break;
-    }
-  }
+  // for (var i = 0; i < sheetConfig!.getRows.length; i++) {
+  //   Map map = jsonDecode(sheetConfig.getRows[i]);
+  //   if (map['action'] == action) {
+  //     getRowsMap = map;
+  //     break;
+  //   }
+  // }
   return getRowsMap;
 }
 

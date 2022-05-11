@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'apidoccols.dart';
@@ -12,7 +12,7 @@ import 'apidocrows.dart';
 
 class ApidocGridPage extends StatefulWidget {
   final String endpointName;
-  final SheetConfig sheetConfig;
+  final SheetViewConfig sheetConfig;
   static String id = 'datagrid';
   ApidocGridPage(this.endpointName, this.sheetConfig, {Key? key})
       : super(key: key);

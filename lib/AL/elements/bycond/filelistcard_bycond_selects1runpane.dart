@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class ByCondSelect1runPane extends StatefulWidget {
-  final SheetConfig sheetConfig;
+  final SheetViewConfig sheetConfig;
   const ByCondSelect1runPane(this.sheetConfig, {Key? key}) : super(key: key);
 
   @override

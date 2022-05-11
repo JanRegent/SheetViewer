@@ -5,16 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
 
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 Card filelistCardFirstRows(BuildContext context, Map fileListSheetRow,
     int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
-    createSheetConfigIfNotExists(
-        sheetViewConfig.fileId, fileListSheetRow['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],

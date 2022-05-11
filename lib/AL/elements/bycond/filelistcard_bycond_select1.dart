@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'filelistcard_bycond_selects1runpane.dart';
 
 class ByCondSelect1 extends StatelessWidget {
-  final SheetConfig sheetConfig;
+  final SheetViewConfig sheetConfig;
 
   const ByCondSelect1(this.sheetConfig, {Key? key}) : super(key: key);
 

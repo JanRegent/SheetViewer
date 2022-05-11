@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 class ByValueColumnsTabs extends StatefulWidget {
-  final SheetConfig sheetConfig;
+  final SheetViewConfig sheetConfig;
   const ByValueColumnsTabs(this.sheetConfig, {Key? key}) : super(key: key);
 
   @override

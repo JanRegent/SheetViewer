@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 PopupMenuButton popup(SheetView sheetView, BuildContext context) {
@@ -46,14 +47,14 @@ PopupMenuButton popup(SheetView sheetView, BuildContext context) {
 
 late Map<String, double> columnWidths = {};
 
-List<String> columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
+List<String> columnsGetUsed(SheetViewConfig sheetConfig, String endpointName) {
   List<String> configRows = [];
-  if (endpointName.contains('getRows')) {
-    configRows = sheetConfig.getRows.split('__|__');
-  }
-  if (endpointName.contains('select1')) {
-    configRows = sheetConfig.selects1.split('__|__');
-  }
+  // if (endpointName.contains('getRows')) {
+  //   configRows = sheetConfig.getRows.split('__|__');
+  // }
+  // if (endpointName.contains('select1')) {
+  //   configRows = sheetConfig.selects1.split('__|__');
+  // }
   Set columns = {};
   for (var rowIx = 0; rowIx < configRows.length; rowIx++) {
     Map map = jsonDecode(configRows[rowIx]);
@@ -67,7 +68,7 @@ List<String> columnsGetUsed(SheetConfig sheetConfig, String endpointName) {
 }
 
 List<GridColumn> colsHeader(
-    SheetConfig sheetConfig, BuildContext context, String endpointName) {
+    SheetViewConfig sheetConfig, BuildContext context, String endpointName) {
   List<String> columnsSelected = columnsGetUsed(sheetConfig, endpointName);
   List<GridColumn> gridCols = [];
   columnWidths['__leftRowMenu__'] = 50;

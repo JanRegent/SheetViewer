@@ -3,7 +3,6 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 import '../firstLast/_firstlast_column.dart';
 
@@ -11,9 +10,6 @@ Card filelistCardFirstLastAll(BuildContext context, List<dynamic> fileListSheet,
     int index, SheetViewConfig sheetViewConfig) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
-    createSheetConfigIfNotExists(
-        sheetViewConfig.fileId, fileListSheet[index]['sheetName']);
 
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],

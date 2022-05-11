@@ -6,7 +6,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
+import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'apidoccols.dart';
 
 class RowsDataSource extends DataGridSource {
-  final SheetConfig sheetConfig;
+  final SheetViewConfig sheetConfig;
   final BuildContext context;
   final String endpointName;
   final String searchWord;
@@ -24,7 +24,8 @@ class RowsDataSource extends DataGridSource {
     _stringRowsData = gridRows(sheetConfig, context);
   }
 
-  List<DataGridRow> gridRows(SheetConfig sheetConfig, BuildContext context) {
+  List<DataGridRow> gridRows(
+      SheetViewConfig sheetConfig, BuildContext context) {
     List<String> columns = columnsGetUsed(sheetConfig, endpointName);
     List<String> configRows = configRowsGet(sheetConfig, endpointName);
 
@@ -35,14 +36,14 @@ class RowsDataSource extends DataGridSource {
     return gridrows;
   }
 
-  List<String> configRowsGet(SheetConfig sheetConfig, String endpointName) {
+  List<String> configRowsGet(SheetViewConfig sheetConfig, String endpointName) {
     List<String> configRows = [];
-    if (endpointName.contains('getRows')) {
-      configRows = sheetConfig.getRows.split('__|__');
-    }
-    if (endpointName.contains('select1')) {
-      configRows = sheetConfig.selects1.split('__|__');
-    }
+    // if (endpointName.contains('getRows')) {
+    //   configRows = sheetConfig.getRows.split('__|__');
+    // }
+    // if (endpointName.contains('select1')) {
+    //   configRows = sheetConfig.selects1.split('__|__');
+    // }
     return configRows;
   }
 
@@ -76,7 +77,7 @@ class RowsDataSource extends DataGridSource {
     return dataGridRow;
   }
 
-  Future<String> getQuerystring(SheetConfig sheetConfig) async {
+  Future<String> getQuerystring(SheetViewConfig sheetConfig) async {
     List<String> columns = columnsGetUsed(sheetConfig, endpointName);
     List<String> configRows = configRowsGet(sheetConfig, endpointName);
     int rowIx = await localDb.read('apidoc.rowsSelectedIndex', int);
@@ -100,7 +101,7 @@ class RowsDataSource extends DataGridSource {
   }
 
   String backendUrl = '';
-  ListTile actionsTile(int rowIx, SheetConfig sheetConfig) {
+  ListTile actionsTile(int rowIx, SheetViewConfig sheetConfig) {
     return ListTile(
         title: Row(
       children: [
@@ -153,7 +154,8 @@ class RowsDataSource extends DataGridSource {
     );
   }
 
-  Widget getCell(DataGridCell<dynamic> e, int rowIx, SheetConfig sheetConfig) {
+  Widget getCell(
+      DataGridCell<dynamic> e, int rowIx, SheetViewConfig sheetConfig) {
     if (e.columnName == '__rowDetail__') {
       return IconButton(
         icon: const Icon(Icons.chevron_right),

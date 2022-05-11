@@ -3,7 +3,6 @@ import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/models/log.dart';
 
-import 'package:sheetviewer/DL/models/zsheetconfig.dart';
 import 'package:sheetviewer/DL/models/sheetview.dart';
 import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
 
@@ -13,7 +12,6 @@ BL bl = BL();
 late LogDb logDb;
 late SheetsDb sheetsDb;
 late SheetViewConfigDb sheetViewConfigDb;
-late SheetConfigDb sheetConfigDb;
 
 class BL {
   BLuti blUti = BLuti();
@@ -34,7 +32,6 @@ Future isarDbInit() async {
       LogSchema,
       SheetViewSchema,
       SheetViewConfigSchema,
-      SheetConfigSchema
     ],
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
@@ -45,8 +42,6 @@ Future isarDbInit() async {
   sheetsDb = SheetsDb(isar);
 
   sheetViewConfigDb = SheetViewConfigDb(isar);
-  sheetConfigDb = SheetConfigDb(isar);
-  await sheetConfigDb.init();
 
   logi('isarDbInit()', 'init end', '', '');
 }

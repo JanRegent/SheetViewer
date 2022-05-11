@@ -18,6 +18,10 @@ class SheetViewConfig {
   String getRowsFrom = '';
   String getRowsTo = '';
 
+  List<String> selects1 = [];
+
+  String byValueColumns = '';
+
   @Ignore()
   Map fileListSheetRow = {};
   @Ignore()
