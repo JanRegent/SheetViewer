@@ -39,6 +39,12 @@ class LocalStore {
     return item['value'];
   }
 
+  Future updateVar(
+      String sheetName, String fileId, String varName, String value) async {
+    await update(
+        'sheetName: ${sheetName}__||__varName:{$varName}__|__$fileId', value);
+  }
+
   Future update(String key, String value) async {
     final items = await db.collection(dbName).get();
     String keyDb2update = '';

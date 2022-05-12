@@ -34,6 +34,10 @@ PopupMenuButton popup(
           sheetView.colsHeader = result;
           await sheetViewConfigDb.colsHeaderSave(
               sheetView.aQuerystringKey, sheetView.colsHeader);
+
+          await interestStore2.updateVar(sheetView.sheetName, sheetView.fileId,
+              'colsHeader', sheetView.colsHeader.join('__|__'));
+
           setState();
         },
       )));
@@ -48,6 +52,9 @@ PopupMenuButton popup(
           sheetView.colsHeader = sheetView.cols;
           await sheetViewConfigDb.colsHeaderSave(
               sheetView.aQuerystringKey, sheetView.colsHeader);
+
+          await interestStore2.updateVar(sheetView.sheetName, sheetView.fileId,
+              'colsHeader', sheetView.colsHeader.join('__|__'));
           setState();
         },
       )));

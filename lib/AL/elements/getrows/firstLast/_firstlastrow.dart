@@ -45,6 +45,12 @@ Future getRowsSet(BuildContext context, int index, String aQuerystringKey,
   sheetViewConfig.getRowsLast = rowsCountController.firstRowsCount[index];
   await sheetViewConfigDb.getRowsSave(
       aQuerystringKey, varName, rowsCountController.firstRowsCount[index]);
+  await interestStore2.updateVar(
+      sheetViewConfig.sheetName,
+      sheetViewConfig.fileId,
+      'firstRowsCount',
+      rowsCountController.firstRowsCount[index]);
+
   await sheetsDb.deleteSheet(aQuerystringKey);
   //setStateFunc();
 }

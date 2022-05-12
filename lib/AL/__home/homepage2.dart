@@ -13,7 +13,11 @@ class HomeApp extends StatelessWidget {
     buildMenu(context);
     return Scaffold(
         appBar: AppBar(
-          title: Obx(() => Text(interestController.interestNameGet())),
+          title: ElevatedButton(
+              child: Obx(() => Text(interestController.interestNameGet())),
+              onPressed: () async {
+                await selectInterest(context);
+              }),
         ),
         drawer: homeDrawer(context),
         body: ListView(

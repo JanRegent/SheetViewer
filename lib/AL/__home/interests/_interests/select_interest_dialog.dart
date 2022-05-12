@@ -5,10 +5,10 @@ import '../interests_controlers.dart';
 
 Future<String> selectInterestDialog(BuildContext context) async {
   int selectedIndex = 0;
+
   String selectedInterst = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        //Here we will build the content of the dialog
         return AlertDialog(
           title: const Text("Select interest"),
           content: MultiSelectChip(

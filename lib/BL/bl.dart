@@ -13,7 +13,8 @@ BL bl = BL();
 late LogDb logDb;
 late SheetsDb sheetsDb;
 late SheetViewConfigDb sheetViewConfigDb;
-LocalStore sheetViewConfigs = LocalStore('SheetViewConfig');
+
+late LocalStore interestStore2; //init in interestController.interestNameSet
 
 class BL {
   BLuti blUti = BLuti();
@@ -22,9 +23,6 @@ class BL {
   Future init() async {
     await await isarDbInit();
     logParagraphStart('init');
-
-    await sheetViewConfigs.init();
-    await sheetViewConfigs.update('zTest', 'zTestValue');
 
     await blGlobal.init();
     await dlGlobals.init();

@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/interests/_interests/select_interest_dialog.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
 import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/localstore/localstore.dart';
 
 List<dynamic> interestList = [];
 List<String> interestTitles = [];
@@ -17,8 +19,11 @@ late Map interestRowCurrent;
 List<Widget> dashboardPages = [];
 RxString dashboardPageCurrent = ''.obs;
 
+late LocalStore interestStore;
+
 Future getDataInterests() async {
   logParagraphStart('getDataInterests');
+
   try {
     interestList = await localDb.read('interestList', List);
   } catch (e) {
@@ -38,7 +43,7 @@ Future getDataInterests() async {
       interestRowCurrent.toString());
 
   await getDataFilelistSheet();
-  interestController.interestName.value = interestRowCurrent['interestName'];
+  interestController.interestNameSet(interestRowCurrent['interestName']);
 }
 
 Future selectInterest(BuildContext context) async {
@@ -46,7 +51,7 @@ Future selectInterest(BuildContext context) async {
   String selectedIndex = await selectInterestDialog(context);
   int? index = int.tryParse(selectedIndex);
   interestRowCurrent = interestList[index!];
-  interestController.interestName.value = interestRowCurrent['interestName'];
+  interestController.interestNameSet(interestRowCurrent['interestName']);
   localDb.update('interestRowCurrent', interestRowCurrent);
   logi('drawer', 'Select interest', 'interestRowCurrent',
       interestRowCurrent.toString());
@@ -143,6 +148,15 @@ InterestController interestController = InterestController();
 
 class InterestController extends GetxController {
   var interestName = ''.obs;
+  void interestNameSet(String value) async {
+    logParagraphStart('interestNameSet');
+    interestName.value = value;
+    interestStore2 = LocalStore('interest: ' + interestName.value);
+    await interestStore2.init();
+
+    logi('interestController.interestNameSet', 'interestStore2.init()',
+        'interestName', interestName.value);
+  }
 
   String interestNameGet() {
     return interestName.value;
