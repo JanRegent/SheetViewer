@@ -8,7 +8,7 @@ import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 class LoadingInterestPage extends StatefulWidget {
   final List<dynamic> fileListSheet;

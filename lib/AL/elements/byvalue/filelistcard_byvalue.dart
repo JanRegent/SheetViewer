@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 

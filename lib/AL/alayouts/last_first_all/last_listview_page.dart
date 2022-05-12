@@ -6,7 +6,7 @@ import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_firstlast_all.dart';
 
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 // ignore: must_be_immutable
 class LastListviewPage extends StatelessWidget {

@@ -10,7 +10,7 @@ import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 class ByvaluePage extends StatefulWidget {
   final Map interestRowCurrent;

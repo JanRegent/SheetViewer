@@ -1,10 +1,11 @@
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/models/log.dart';
+import 'package:sheetviewer/DL/isardb/log.dart';
 
-import 'package:sheetviewer/DL/models/sheetview.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/localstore/localstore.dart';
 
 import 'lib/blglobal.dart';
 
@@ -12,6 +13,7 @@ BL bl = BL();
 late LogDb logDb;
 late SheetsDb sheetsDb;
 late SheetViewConfigDb sheetViewConfigDb;
+LocalStore sheetViewConfigs = LocalStore('SheetViewConfig');
 
 class BL {
   BLuti blUti = BLuti();
@@ -20,6 +22,9 @@ class BL {
   Future init() async {
     await await isarDbInit();
     logParagraphStart('init');
+
+    await sheetViewConfigs.init();
+    await sheetViewConfigs.update('zTest', 'zTestValue');
 
     await blGlobal.init();
     await dlGlobals.init();

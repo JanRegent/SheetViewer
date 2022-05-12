@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
-import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataViewsPage extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 part 'sheetview.g.dart'; // flutter pub run build_runner build
 

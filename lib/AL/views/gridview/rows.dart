@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
-import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../detailView/DetailListViewPage.dart';

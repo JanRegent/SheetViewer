@@ -7,7 +7,7 @@ import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 List<dynamic> interestList = [];
 List<String> interestTitles = [];

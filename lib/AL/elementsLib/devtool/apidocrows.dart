@@ -6,7 +6,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';

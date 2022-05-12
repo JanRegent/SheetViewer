@@ -6,7 +6,7 @@ import 'package:sheetviewer/AL/alayouts/byvalue/byvaluecard_byvalue.dart';
 
 import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
 
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
     SheetViewConfig sheetViewConfig) {

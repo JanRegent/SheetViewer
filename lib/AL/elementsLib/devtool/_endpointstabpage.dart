@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
-import 'package:sheetviewer/DL/models/sheetview.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 import 'apidocgridpage.dart';

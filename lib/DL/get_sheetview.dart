@@ -1,7 +1,7 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
 
-import 'package:sheetviewer/DL/models/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import '../BL/bl.dart';
 

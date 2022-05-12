@@ -4,7 +4,7 @@ import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
 
 import 'package:sheetviewer/AL/views/getdataviews.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import '_firstlastrow.dart';
 

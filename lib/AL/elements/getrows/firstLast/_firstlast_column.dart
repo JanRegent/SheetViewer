@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'allrowsbutton.dart';
 import 'firstbutton.dart';

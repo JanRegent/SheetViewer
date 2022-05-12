@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/apidocgridpage.dart';
 import 'package:sheetviewer/AL/elementsLib/devtool/devtool_blglobals.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 

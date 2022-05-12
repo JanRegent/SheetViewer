@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
 
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 Card filelistCardFirstRows(BuildContext context, Map fileListSheetRow,
     int index, SheetViewConfig sheetViewConfig) {

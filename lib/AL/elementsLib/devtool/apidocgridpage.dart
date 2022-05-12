@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/models/sheetviewconfig.dart';
+import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'apidoccols.dart';
