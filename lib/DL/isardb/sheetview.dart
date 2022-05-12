@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
 import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
+
+import '../../BL/bl.dart';
 
 part 'sheetview.g.dart'; // flutter pub run build_runner build
 
@@ -145,15 +146,9 @@ class SheetsDb {
     }
 
     try {
-      SheetViewConfig sheetViewConfig = SheetViewConfig()
-        ..aQuerystringKey = sheetView.aQuerystringKey;
+      await interestStore2.updateVar(sheetView.sheetName, sheetView.fileId,
+          'colsHeader', sheetView.colsHeader.join('__|__'));
 
-      sheetViewConfig.colsHeader = sheetView.colsHeader.join('__|__');
-
-      await isar.writeTxn((isar) async {
-        sheetView.id =
-            await isar.sheetViewConfigs.put(sheetViewConfig); // insert
-      });
       return 'OK';
     } catch (e) {
       if (kDebugMode) print(e);

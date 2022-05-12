@@ -35,12 +35,9 @@ Future getRowsSet(
     sheetViewConfig.getRowsLast = '10';
     return;
   }
-  sheetViewConfig.getRowsLast = rowsCount;
-  await sheetViewConfigDb.getRowsSave(aQuerystringKey, varName, rowsCount);
 
   await interestStore2.updateVar(sheetViewConfig.sheetName,
-      sheetViewConfig.fileId, 'rowsCount', rowsCount);
+      sheetViewConfig.fileId, 'getRowsLast', rowsCount);
 
-  await sheetsDb.deleteSheet(aQuerystringKey);
   setStateFunc();
 }

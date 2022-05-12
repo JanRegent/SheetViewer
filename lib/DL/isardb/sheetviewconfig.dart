@@ -1,8 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/BL/bl.dart';
-
-import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 part 'sheetviewconfig.g.dart'; // flutter pub run build_runner build
 
@@ -47,25 +43,6 @@ class SheetViewConfig {
                   $fileListSheetRow
     ''';
   }
-
-  factory SheetViewConfig.fromJson(Map jsonData) {
-    try {
-      SheetViewConfig sheetViewConfig = SheetViewConfig()
-        ..aQuerystringKey = jsonData["config"]["queryStringKey"] ?? '';
-
-      sheetViewConfig.colsHeader = jsonData["colsHeader"] ?? '';
-      sheetViewConfig.getRowsFirst = jsonData["getRowsFirst"] ?? 10;
-      sheetViewConfig.getRowsLast = jsonData["getRowsLast"] ?? 10;
-
-      return sheetViewConfig;
-    } catch (e) {
-      return SheetViewConfig()..aStatus = 'err: \n' + e.toString();
-    }
-  }
-
-  Future save() async {
-    await sheetViewConfigDb.updateSheetViewConfig(this);
-  }
 }
 
 class SheetViewConfigDb {
@@ -96,56 +73,5 @@ class SheetViewConfigDb {
     }
     SheetViewConfig? sheetViewConfig = await isar.sheetViewConfigs.get(id);
     return sheetViewConfig;
-  }
-
-  Future updateSheetViewConfig(SheetViewConfig sheetViewConfig) async {
-    try {
-      await isar.writeTxn((isar) async {
-        sheetViewConfig.id =
-            await isar.sheetViewConfigs.put(sheetViewConfig); // insert
-      });
-      return 'OK';
-    } catch (e) {
-      if (kDebugMode) print(e);
-      logi('SheetViewConfigDb.updateSheetViewConfig', 'error',
-          'aQuerystringKey:', sheetViewConfig.aQuerystringKey);
-      logi('SheetViewConfigDb.updateSheetViewConfig.', 'error', 'e:',
-          e.toString());
-      return '';
-    }
-  }
-
-  Future updateSheetsFromResponse(Map jsonData) async {
-    SheetViewConfig sheetViewConfig = SheetViewConfig.fromJson(jsonData);
-
-    try {
-      await isar.writeTxn((isar) async {
-        sheetViewConfig.id =
-            await isar.sheetViewConfigs.put(sheetViewConfig); // insert
-      });
-      return 'OK';
-    } catch (e) {
-      if (kDebugMode) print(e);
-      logi('SheetViewConfigDb.updateSheetsFromResponse', 'error',
-          'aQuerystringKey:', sheetViewConfig.aQuerystringKey);
-      logi('SheetViewConfigDb.updateSheetsFromResponse.', 'error', 'e:',
-          e.toString());
-      return '';
-    }
-  }
-
-  Future colsHeaderSave(String aQuerystringKey, List<String> colsHeader) async {
-    SheetViewConfig? sheetViewConfig = await readSheet(aQuerystringKey);
-    sheetViewConfig?.colsHeader = colsHeader.join('__|__');
-    await sheetViewConfigDb.updateSheetViewConfig(sheetViewConfig!);
-  }
-
-  Future getRowsSave(
-      String aQuerystringKey, String varName, String rowsCount) async {
-    SheetViewConfig? sheetViewConfig =
-        await sheetViewConfigDb.readSheet(aQuerystringKey);
-    if (varName == 'getRowsFirst') sheetViewConfig?.getRowsFirst = rowsCount;
-    if (varName == 'getRowsLast') sheetViewConfig?.getRowsLast = rowsCount;
-    updateSheetViewConfig(sheetViewConfig!);
   }
 }

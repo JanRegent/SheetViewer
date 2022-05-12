@@ -41,7 +41,6 @@ Future getRowsSet(
     return;
   }
   sheetViewConfig.getRowsLast = rowsCount;
-  await sheetViewConfigDb.getRowsSave(aQuerystringKey, varName, rowsCount);
 
   await interestStore2.updateVar(sheetViewConfig.sheetName,
       sheetViewConfig.fileId, 'lastRowsCount', rowsCount);

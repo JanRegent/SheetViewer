@@ -41,5 +41,6 @@ Future<SheetView?> getSheetView(String queryStringKey, {required url}) async {
     }
   }
   await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
+
   return sheetView;
 }

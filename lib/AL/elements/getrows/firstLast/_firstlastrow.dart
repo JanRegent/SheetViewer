@@ -26,8 +26,8 @@ Row firstLastRow(
   );
 }
 
-Future getRowsSet(BuildContext context, int index, String aQuerystringKey,
-    String varName, SheetViewConfig sheetViewConfig) async {
+Future getRowsSet(BuildContext context, int index, String sheetName,
+    String fileId, String varName, SheetViewConfig sheetViewConfig) async {
   List<String> values =
       List<String>.generate(10, (i) => ((i + 1) * 10).toString());
   String rowsCount = await Navigator.push(
@@ -43,14 +43,12 @@ Future getRowsSet(BuildContext context, int index, String aQuerystringKey,
   }
   rowsCountController.firstRowsCountSet(index, rowsCount);
   sheetViewConfig.getRowsLast = rowsCountController.firstRowsCount[index];
-  await sheetViewConfigDb.getRowsSave(
-      aQuerystringKey, varName, rowsCountController.firstRowsCount[index]);
+
   await interestStore2.updateVar(
       sheetViewConfig.sheetName,
       sheetViewConfig.fileId,
       'firstRowsCount',
       rowsCountController.firstRowsCount[index]);
 
-  await sheetsDb.deleteSheet(aQuerystringKey);
   //setStateFunc();
 }

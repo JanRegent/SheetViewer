@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/getdataviews.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
+
 import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import '_firstlastrow.dart';
@@ -45,12 +45,8 @@ ElevatedButton lastRowsCount(
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
-      var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
-      String aQuerystringKey = queryStringKeyBuild(
-          sheetViewConfig.fileId, sheetViewConfig.sheetName, queryMap);
-
-      await getRowsSet(
-          context, index, aQuerystringKey, 'getRowsLast', sheetViewConfig);
+      await getRowsSet(context, index, sheetViewConfig.sheetName,
+          sheetViewConfig.fileId, 'getRowsLast', sheetViewConfig);
     },
   );
 }

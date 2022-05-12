@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
 
 import 'package:sheetviewer/AL/views/getdataviews.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
+
 import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import '_firstlastrow.dart';
@@ -59,12 +59,8 @@ ElevatedButton firstRowsCount(
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
-      var queryMap = {'action': 'getRowsFirst', 'rowsCount': '10'};
-      String aQuerystringKey = queryStringKeyBuild(
-          sheetViewConfig.fileId, sheetViewConfig.sheetName, queryMap);
-
-      await getRowsSet(
-          context, index, aQuerystringKey, 'getRowsFirst', sheetViewConfig);
+      await getRowsSet(context, index, sheetViewConfig.sheetName,
+          sheetViewConfig.fileId, 'getRowsFirst', sheetViewConfig);
     },
   );
 }
