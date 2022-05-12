@@ -45,11 +45,9 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
             } else {
               if (widget.layout == 'lastGrid') {
                 rowsCountBuild(fileListSheet);
-                return LastListviewPage(
-                    interestRowCurrent, fileListSheet, sheetViewConfigs);
+                return LastListviewPage(interestRowCurrent, fileListSheet);
               } else {
-                return ByvaluePage(
-                    interestRowCurrent, fileListSheet, sheetViewConfigs);
+                return ByvaluePage(interestRowCurrent, fileListSheet);
               }
             }
         }

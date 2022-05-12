@@ -10,15 +10,12 @@ import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 class ByvaluePage extends StatefulWidget {
   final Map interestRowCurrent;
   final List<dynamic> fileListSheet;
-  final List<SheetViewConfig> sheetViewConfigs;
-  const ByvaluePage(
-      this.interestRowCurrent, this.fileListSheet, this.sheetViewConfigs,
-      {Key? key})
+
+  const ByvaluePage(this.interestRowCurrent, this.fileListSheet, {Key? key})
       : super(key: key);
 
   @override
@@ -43,7 +40,6 @@ class _ByvaluePageState extends State<ByvaluePage> {
     setState(() {});
   }
 
-  List<SheetViewConfig> sheetViewConfigsV2 = [];
   Future<String> getData() async {
     fileListSheetV2 = await getSheet(widget.interestRowCurrent['fileUrl'],
         widget.interestRowCurrent['sheetName']);
@@ -53,9 +49,7 @@ class _ByvaluePageState extends State<ByvaluePage> {
           bl.blUti.url2fileid(fileListSheetV2['rows'][index]['fileUrl']);
       String sheetName = fileListSheetV2['rows'][index]['sheetName'];
       String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      SheetViewConfig? sheetViewConfig =
-          await sheetViewConfigDb.readSheet(aQuerystringKey);
-      sheetViewConfigsV2.add(sheetViewConfig!);
+      aQuerystringKey = aQuerystringKey;
     }
     return 'ok';
   }
@@ -75,9 +69,11 @@ class _ByvaluePageState extends State<ByvaluePage> {
                 ),
             itemCount: fileListSheetV2['rows'].length,
             itemBuilder: (context, index) => Center(
-                  child: filelistCard(context, fileListSheetV2, index,
-                      sheetViewConfigsV2[index]),
-                )));
+                    child: filelistCard(
+                  context,
+                  fileListSheetV2,
+                  index,
+                ))));
   }
 
   @override

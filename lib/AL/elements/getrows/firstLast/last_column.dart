@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'lastbutton.dart';
 
-Column lastColumn(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+Column lastColumn(BuildContext context, String sheetName, String fileId) {
   return Column(
     children: [
       Row(
         children: [
           const Text(' '),
-          lastRowsCount(context, index, sheetViewConfig),
+          lastRowsCount(context, sheetName, fileId),
           const Text(' '),
-          lastButton(context, sheetViewConfig),
+          lastButton(context, sheetName, fileId),
         ],
       ),
     ],
   );
 }
 
-Future getRowsSet(
-    BuildContext context,
-    Function setStateFunc,
-    String aQuerystringKey,
-    String varName,
-    SheetViewConfig sheetViewConfig) async {
+Future getRowsSet(BuildContext context, Function setStateFunc, String sheetName,
+    String fileId, String varName) async {
   List<String> values =
       List<String>.generate(10, (i) => ((i + 1) * 10).toString());
   String rowsCount = await Navigator.push(
@@ -37,13 +31,10 @@ Future getRowsSet(
 
   // ignore: unnecessary_null_comparison
   if (rowsCount == null) {
-    sheetViewConfig.getRowsLast = '10';
-    return;
+    return '10';
   }
-  sheetViewConfig.getRowsLast = rowsCount;
 
-  await interestStore2.updateVar(sheetViewConfig.sheetName,
-      sheetViewConfig.fileId, 'lastRowsCount', rowsCount);
-  await sheetsDb.deleteSheet(aQuerystringKey);
+  await interestStore2.updateVar(sheetName, fileId, 'lastRowsCount', rowsCount);
+
   setStateFunc();
 }

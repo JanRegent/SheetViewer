@@ -4,12 +4,11 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluecard_byvalue.dart';
 
-import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
-
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
-Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
-    SheetViewConfig sheetViewConfig) {
+Card filelistCard(
+  BuildContext context,
+  Map fileListSheetRow,
+  int index,
+) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
@@ -31,7 +30,7 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastRow(context, index, sheetViewConfig),
+        //firstLastRow(context, index),
 
         //-------------------------------------------------------------last/byValues
 
@@ -51,7 +50,8 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index,
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ByValuePage(sheetViewConfig.fileId,
+                      builder: (context) => ByValuePage(
+                          fileListSheetRow['fileId'],
                           fileListSheetRow['sheetName']),
                     ));
               },

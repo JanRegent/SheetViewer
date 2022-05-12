@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
 import 'firstbutton.dart';
 
-Row firstRows(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+Row firstRows(BuildContext context, String sheetname, String fileId) {
   return Row(
     children: [
-      firstRowsCount(context, index, sheetViewConfig),
+      firstRowsCount(context, sheetname, fileId),
       const Text(' '),
-      firstButton(context, sheetViewConfig),
+      firstButton(context, sheetname, fileId),
     ],
   );
 }

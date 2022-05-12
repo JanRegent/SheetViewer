@@ -1,113 +1,114 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
+// // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+// import 'package:flutter/material.dart';
+// import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
-import 'package:sheetviewer/BL/lib/blglobal.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+// import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-import 'apidoccols.dart';
-import 'apidocrows.dart';
+// import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class ApidocGridPage extends StatefulWidget {
-  final String endpointName;
-  final SheetViewConfig sheetConfig;
-  static String id = 'datagrid';
-  ApidocGridPage(this.endpointName, this.sheetConfig, {Key? key})
-      : super(key: key);
+// import 'apidoccols.dart';
+// import 'apidocrows.dart';
 
-  @override
-  _ApidocGridPageState createState() => _ApidocGridPageState();
-}
+// class ApidocGridPage extends StatefulWidget {
+//   final String endpointName;
+//   final String sheetName;
+//   final String fileId;
+//   static String id = 'datagrid';
+//   ApidocGridPage(this.endpointName, this.sheetName, this.fileId, {Key? key})
+//       : super(key: key);
 
-class _ApidocGridPageState extends State<ApidocGridPage> {
-  late RowsDataSource rowsDataSource;
+//   @override
+//   _ApidocGridPageState createState() => _ApidocGridPageState();
+// }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+// class _ApidocGridPageState extends State<ApidocGridPage> {
+//   late RowsDataSource rowsDataSource;
 
-  List<String> columnsSelected = [];
-  ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
 
-  Future<String> getData() async {
-    columnsSelected = columnsGetUsed(widget.sheetConfig, widget.endpointName);
-    rowsDataSource =
-        RowsDataSource(widget.sheetConfig, context, '', widget.endpointName);
-    return 'ok';
-  }
+//   List<String> columnsSelected = [];
+//   ValueNotifier<int> rowsSelectedIndex = ValueNotifier(0);
 
-  Column apiGrid() {
-    return Column(
-      children: [
-        SfDataGrid(
-          source: rowsDataSource,
-          selectionMode: SelectionMode.single,
-          columns: colsHeader(widget.sheetConfig, context, widget.endpointName),
-          onSelectionChanged:
-              (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
-            rowsSelectedIndex.value =
-                rowsDataSource.rows.indexOf(selectedRows.first);
-            localDb.update('apidoc.rowsSelectedIndex', rowsSelectedIndex.value);
-          },
-          allowSorting: true,
-          allowTriStateSorting: true,
-          allowColumnsResizing: false,
-          columnWidthMode: ColumnWidthMode.auto,
-          columnResizeMode: ColumnResizeMode.onResizeEnd,
-          onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
-            setState(() {
-              columnWidths[details.column.columnName] = details.width;
-            });
-            return true;
-          },
-        ),
-      ],
-    );
-  }
+//   Future<String> getData() async {
+//     columnsSelected = columnsGetUsed(widget.sheetName, widget.endpointName);
+//     rowsDataSource =
+//         RowsDataSource(widget.sheetName, context, '', widget.endpointName);
+//     return 'ok';
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Endpoint: ${widget.endpointName}'),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                List<String> result = await selectListByCheckoxes(
-                    context, columnsSelected, 'Select columns');
-                if (result.isEmpty) return;
+//   Column apiGrid() {
+//     return Column(
+//       children: [
+//         SfDataGrid(
+//           source: rowsDataSource,
+//           selectionMode: SelectionMode.single,
+//           columns: colsHeader(widget.sheetName, context, widget.endpointName),
+//           onSelectionChanged:
+//               (List<DataGridRow> selectedRows, List<DataGridRow> removedRows) {
+//             rowsSelectedIndex.value =
+//                 rowsDataSource.rows.indexOf(selectedRows.first);
+//             localDb.update('apidoc.rowsSelectedIndex', rowsSelectedIndex.value);
+//           },
+//           allowSorting: true,
+//           allowTriStateSorting: true,
+//           allowColumnsResizing: false,
+//           columnWidthMode: ColumnWidthMode.auto,
+//           columnResizeMode: ColumnResizeMode.onResizeEnd,
+//           onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
+//             setState(() {
+//               columnWidths[details.column.columnName] = details.width;
+//             });
+//             return true;
+//           },
+//         ),
+//       ],
+//     );
+//   }
 
-                setState(() {
-                  columnsSelected = result;
-                });
-              },
-              icon: const Icon(Icons.refresh))
-        ],
-      ),
-      body: FutureBuilder<String>(
-        future: getData(), // async work
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Column(
-                children: const [
-                  Text('Loading....'),
-                  CircularProgressIndicator()
-                ],
-              );
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Endpoint: ${widget.endpointName}'),
+//         actions: [
+//           IconButton(
+//               onPressed: () async {
+//                 List<String> result = await selectListByCheckoxes(
+//                     context, columnsSelected, 'Select columns');
+//                 if (result.isEmpty) return;
 
-            default:
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return apiGrid();
-              }
-          }
-        },
-      ),
-    );
-  }
-}
+//                 setState(() {
+//                   columnsSelected = result;
+//                 });
+//               },
+//               icon: const Icon(Icons.refresh))
+//         ],
+//       ),
+//       body: FutureBuilder<String>(
+//         future: getData(), // async work
+//         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+//           switch (snapshot.connectionState) {
+//             case ConnectionState.waiting:
+//               return Column(
+//                 children: const [
+//                   Text('Loading....'),
+//                   CircularProgressIndicator()
+//                 ],
+//               );
+
+//             default:
+//               if (snapshot.hasError) {
+//                 return Text('Error: ${snapshot.error}');
+//               } else {
+//                 return apiGrid();
+//               }
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

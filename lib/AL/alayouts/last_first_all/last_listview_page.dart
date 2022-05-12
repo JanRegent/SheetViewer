@@ -6,16 +6,12 @@ import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_firstlast_all.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
 // ignore: must_be_immutable
 class LastListviewPage extends StatelessWidget {
   final Map interestRowCurrent;
   final List<dynamic> fileListSheet;
-  final List<SheetViewConfig> sheetViewConfigs;
-  LastListviewPage(
-      this.interestRowCurrent, this.fileListSheet, this.sheetViewConfigs,
-      {Key? key})
+
+  LastListviewPage(this.interestRowCurrent, this.fileListSheet, {Key? key})
       : super(key: key);
 
   late String interestName = 'interest';
@@ -30,8 +26,7 @@ class LastListviewPage extends StatelessWidget {
           shrinkWrap: true,
           itemCount: fileListSheet.length,
           itemBuilder: (context, index) {
-            return filelistCardFirstLastAll(
-                context, fileListSheet, index, sheetViewConfigs[index]);
+            return filelistCardFirstLastAll(context, fileListSheet, index);
           },
         ));
   }

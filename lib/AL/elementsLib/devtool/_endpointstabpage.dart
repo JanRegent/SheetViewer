@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
-import 'apidocgridpage.dart';
-import 'devtool_blglobals.dart';
+//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 
 class EndpointsTabPage extends StatefulWidget {
   final SheetView sheetView;
@@ -15,8 +12,6 @@ class EndpointsTabPage extends StatefulWidget {
   @override
   _EndpointsTabPageState createState() => _EndpointsTabPageState();
 }
-
-SheetViewConfig sheetConfig = SheetViewConfig();
 
 class _EndpointsTabPageState extends State<EndpointsTabPage> {
   @override
@@ -42,17 +37,19 @@ class _EndpointsTabPageState extends State<EndpointsTabPage> {
     tabsList.add(const Tab(
       text: 'getRows',
     ));
-    tabsPages.add(ApidocGridPage('getRows', sheetConfig));
+    // tabsPages.add(ApidocGridPage(
+    //     'getRows', widget.sheetView.sheetName, widget.sheetView.fileId));
 
     tabsList.add(const Tab(
       text: 'select1',
     ));
-    tabsPages.add(ApidocGridPage('select1', sheetConfig));
+    // tabsPages.add(ApidocGridPage(
+    //     'select1', widget.sheetView.sheetName, widget.sheetView.fileId));
 
     tabsList.add(const Tab(
       text: 'bl.globals',
     ));
-    tabsPages.add(BlGlobalsPage());
+    //tabsPages.add(BlGlobalsPage());
 
     tabsList.add(const Tab(
       text: 'json{}',

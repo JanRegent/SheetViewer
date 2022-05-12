@@ -7,8 +7,6 @@ import 'package:sheetviewer/BL/actionSheet/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
 
-import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 import 'package:sheetviewer/DL/localstore/localstore.dart';
 
 List<dynamic> interestList = [];
@@ -58,8 +56,6 @@ Future selectInterest(BuildContext context) async {
   infoSnack(context, 'Loading interst:  ' + interestRowCurrent['interestName'],
       AnimatedSnackBarType.info);
   await getDataFilelistSheet();
-  infoSnack(context, 'Loading done:  ' + interestRowCurrent['interestName'],
-      AnimatedSnackBarType.info);
 }
 
 Future getSheetInterests() async {
@@ -88,7 +84,7 @@ void interestTitlesGet() {
 }
 
 //----------------------------------------------------------filelist
-List<SheetViewConfig> sheetViewConfigs = [];
+
 late List<dynamic> fileListSheet = [];
 RowsCountController rowsCountController = RowsCountController();
 
@@ -109,11 +105,6 @@ Future<String> getDataFilelistSheet() async {
   logi('getDataFilelistSheet', '', 'rowsCountController.firstRowsCount.length',
       rowsCountController.firstRowsCount.length.toString());
 
-  sheetViewConfigs = await fileListSheet2sheetViewConfigs(
-      fileListSheet, {'action': 'getRowsLast', 'rowsCount': '10'});
-
-  logi('getDataFilelistSheet', '', 'sheetViewConfigs.length',
-      sheetViewConfigs.length.toString());
   return 'ok';
 }
 

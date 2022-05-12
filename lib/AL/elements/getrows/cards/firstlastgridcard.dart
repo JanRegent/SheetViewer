@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/_firstlastrow.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 SizedBox firstlastGridCard(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+    BuildContext context, int index, String sheetName, String fileId) {
   return SizedBox(
       height: 200,
       child: Card(
@@ -14,8 +13,8 @@ SizedBox firstlastGridCard(
         elevation: 5,
         margin: const EdgeInsets.all(10),
         child: Column(children: [
-          Text(sheetViewConfig.fileListSheetRow['fileTitle']),
-          firstLastRow(context, index, sheetViewConfig),
+          const Text('fileTitle todo'),
+          firstLastRow(context, index, sheetName, fileId),
         ]),
       ));
 }

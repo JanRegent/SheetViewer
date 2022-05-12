@@ -28,16 +28,22 @@ class FilelistviewPage extends StatelessWidget {
             itemCount: fileListSheet.length,
             itemBuilder: (context, index) => Center(
                 child: cardType == 'firstRows'
-                    ? filelistCardFirstRows(context, fileListSheet[index],
-                        index, sheetViewConfigs[index])
+                    ? filelistCardFirstRows(
+                        context, fileListSheet[index], index)
                     : cardType == 'lastRows'
-                        ? filelistCardLastRows(context, fileListSheet[index],
-                            index, sheetViewConfigs[index])
+                        ? filelistCardLastRows(
+                            context, fileListSheet[index], index)
                         : cardType == 'allRows'
-                            ? filelistCard(context, fileListSheet[index], index,
-                                sheetViewConfigs[index])
-                            : filelistCard(context, fileListSheet[index], index,
-                                sheetViewConfigs[index]))));
+                            ? filelistCard(
+                                context,
+                                fileListSheet[index],
+                                index,
+                              )
+                            : filelistCard(
+                                context,
+                                fileListSheet[index],
+                                index,
+                              ))));
   }
 
   @override

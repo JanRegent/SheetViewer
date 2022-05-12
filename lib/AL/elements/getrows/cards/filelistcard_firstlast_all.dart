@@ -3,11 +3,13 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 import '../firstLast/_firstlast_column.dart';
 
-Card filelistCardFirstLastAll(BuildContext context, List<dynamic> fileListSheet,
-    int index, SheetViewConfig sheetViewConfig) {
+Card filelistCardFirstLastAll(
+  BuildContext context,
+  List<dynamic> fileListSheet,
+  int index,
+) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
@@ -29,7 +31,8 @@ Card filelistCardFirstLastAll(BuildContext context, List<dynamic> fileListSheet,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastColumn(context, index, sheetViewConfig),
+        firstLastColumn(context, fileListSheet[index]['sheetName'],
+            fileListSheet[index]['fileId']),
       ],
     );
   }

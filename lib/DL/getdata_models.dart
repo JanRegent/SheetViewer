@@ -3,7 +3,6 @@ import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/dlglobals.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
 
 import 'isardb/sheetview.dart';
@@ -23,9 +22,8 @@ import 'isardb/sheetview.dart';
 /// e.callback
 
 Future<SheetView?> sheetViewGetData(
-    String fileId, String sheetName, String action, sheetViewConfig) async {
-  Map queryMap =
-      await actionMapCreate(fileId, sheetName, action, sheetViewConfig);
+    String fileId, String sheetName, String action) async {
+  Map queryMap = await actionMapCreate(fileId, sheetName, action);
 
   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
   SheetView? sheetView;
@@ -47,16 +45,7 @@ Future<SheetView?> sheetViewGetData(
       print(e);
     }
   }
-  try {
-    SheetViewConfig? sheetViewConfig =
-        await sheetViewConfigDb.readSheet(queryStringKey);
-    sheetView!.colsHeader = sheetViewConfig!.colsHeader.split('__|__');
-
-    return sheetView;
-  } catch (e) {
-    return (SheetView().aStatus =
-        'error! getActionSheet() readSheet ' + e.toString()) as SheetView?;
-  }
+  return null;
 }
 
 String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
@@ -93,21 +82,15 @@ String printMap(Map row) {
   return str;
 }
 
-Future<Map> actionMapCreate(String fileId, String sheetName, String action,
-    SheetViewConfig sheetViewConfig) async {
+Future<Map> actionMapCreate(
+    String fileId, String sheetName, String action) async {
   late Map getRowsMap;
 
   if (action == "getRowsFirst") {
-    String rowsCount = sheetViewConfig.getRowsFirst.isNotEmpty
-        ? sheetViewConfig.getRowsFirst
-        : '10';
-    getRowsMap = {"action": "getRowsFirst", "rowsCount": rowsCount};
+    getRowsMap = {"action": "getRowsFirst", "rowsCount": '10'};
   }
   if (action == "getRowsLast") {
-    String rowsCount = sheetViewConfig.getRowsLast.isNotEmpty
-        ? sheetViewConfig.getRowsLast
-        : '10';
-    getRowsMap = {"action": "getRowsLast", "rowsCount": rowsCount};
+    getRowsMap = {"action": "getRowsLast", "rowsCount": '10'};
   }
   if (action == "getSheet") {
     getRowsMap = {"action": "getSheet"};
@@ -128,22 +111,4 @@ Future<Map> actionMapFind(
   //   }
   // }
   return getRowsMap;
-}
-
-Future<List<SheetViewConfig>> fileListSheet2sheetViewConfigs(
-    List<dynamic> fileListSheet, var queryMap) async {
-  List<SheetViewConfig> sheetViewConfigs = [];
-
-  for (var index = 0; index < fileListSheet.length; index++) {
-    String fileId = bl.blUti.url2fileid(fileListSheet[index]['fileUrl']);
-    String sheetName = fileListSheet[index]['sheetName'];
-    String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-    SheetViewConfig? sheetViewConfig =
-        await sheetViewConfigDb.readSheet(aQuerystringKey);
-    sheetViewConfig?.fileListSheetRow = fileListSheet[index];
-    sheetViewConfig?.fileId = fileId;
-    sheetViewConfig?.sheetName = sheetName;
-    sheetViewConfigs.add(sheetViewConfig!);
-  }
-  return sheetViewConfigs;
 }

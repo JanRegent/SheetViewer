@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
-//import 'package:sheetviewer/uti/viewers/json_viewer.dart';
-
-import '../../elements/byvalue/filelistcard_byvalue_columntabs.dart';
 
 class ByValuePage extends StatefulWidget {
-  final String fileId;
   final String sheetName;
+  final String fileId;
   // ignore: use_key_in_widget_constructors
   const ByValuePage(this.fileId, this.sheetName);
 
@@ -17,8 +12,6 @@ class ByValuePage extends StatefulWidget {
 }
 
 class _ByValePageState extends State<ByValuePage> {
-  SheetViewConfig sheetConfig = SheetViewConfig();
-
   Future<String> getConfig() async {
     //sheetConfig = await getSheetConfig(widget.fileId, widget.sheetName);
     return 'ok';
@@ -50,7 +43,9 @@ class _ByValePageState extends State<ByValuePage> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   //print(fileListSheet.rows);
-                  return ByValueColumnsTabs(sheetConfig);
+                  return const Text('to do');
+
+                  // ByValueColumnsTabs(sheetConfig);
                 }
             }
           },

@@ -3,31 +3,30 @@ import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastbutton.dart';
 
 Row firstLastRow(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+    BuildContext context, int index, String sheetName, String fileId) {
   return Row(
     children: [
-      firstRowsCount(context, index, sheetViewConfig),
+      firstRowsCount(context, sheetName, fileId),
       const Text(' '),
-      firstButton(context, sheetViewConfig),
+      firstButton(context, sheetName, fileId),
       const Text(' '),
-      lastButton(context, sheetViewConfig),
+      lastButton(context, sheetName, fileId),
       const Text(' '),
-      lastRowsCount(context, index, sheetViewConfig),
+      lastRowsCount(context, sheetName, fileId),
       const Text(' '),
-      allRowsButton(context, sheetViewConfig),
+      allRowsButton(context, sheetName, fileId),
     ],
   );
 }
 
 Future getRowsSet(BuildContext context, int index, String sheetName,
-    String fileId, String varName, SheetViewConfig sheetViewConfig) async {
+    String fileId, String varName) async {
   List<String> values =
       List<String>.generate(10, (i) => ((i + 1) * 10).toString());
   String rowsCount = await Navigator.push(
@@ -38,16 +37,11 @@ Future getRowsSet(BuildContext context, int index, String sheetName,
 
   // ignore: unnecessary_null_comparison
   if (rowsCount == null) {
-    sheetViewConfig.getRowsLast = '10';
     return;
   }
   rowsCountController.firstRowsCountSet(index, rowsCount);
-  sheetViewConfig.getRowsLast = rowsCountController.firstRowsCount[index];
 
-  await interestStore2.updateVar(
-      sheetViewConfig.sheetName,
-      sheetViewConfig.fileId,
-      'firstRowsCount',
+  await interestStore2.updateVar(sheetName, fileId, 'firstRowsCount',
       rowsCountController.firstRowsCount[index]);
 
   //setStateFunc();

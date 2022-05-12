@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataViewsPage extends StatefulWidget {
+  final String sheetName;
+  final String fileId;
   final String action;
-  final SheetViewConfig sheetViewConfig;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataViewsPage(this.action, this.sheetViewConfig);
+  const GetDataViewsPage(this.sheetName, this.fileId, this.action);
 
   @override
   _GetDataViewsPageState createState() => _GetDataViewsPageState();
@@ -28,10 +28,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   Future<String> getData() async {
     sheetView = (await sheetViewGetData(
-        widget.sheetViewConfig.fileId,
-        widget.sheetViewConfig.sheetName,
-        widget.action,
-        widget.sheetViewConfig))!;
+        widget.fileId, widget.sheetName, widget.action))!;
 
     return 'OK';
   }
@@ -56,8 +53,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               //Navigator.pop(context, dataSheet);
-              return DatagridPage(sheetView,
-                  widget.sheetViewConfig.fileListSheetRow['fileTitle']);
+              return DatagridPage(sheetView, 'fileTitle');
             }
         }
       },

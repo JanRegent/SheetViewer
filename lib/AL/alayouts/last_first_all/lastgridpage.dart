@@ -5,17 +5,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
 import '../../elements/getrows/cards/firstlastgridcard.dart';
 
 class LastGridPage extends StatefulWidget {
   final Map selectedInterestRow;
   final List<dynamic> fileListSheet;
-  final List<SheetViewConfig> sheetViewConfigs;
-  const LastGridPage(
-      this.selectedInterestRow, this.fileListSheet, this.sheetViewConfigs,
-      {Key? key})
+
+  const LastGridPage(this.selectedInterestRow, this.fileListSheet, {Key? key})
       : super(key: key);
 
   @override
@@ -51,7 +47,10 @@ class _LastGridPageState extends State<LastGridPage> {
           itemCount: widget.fileListSheet.length,
           itemBuilder: (context, index) {
             return firstlastGridCard(
-                context, index, widget.sheetViewConfigs[index]);
+                context,
+                index,
+                widget.selectedInterestRow['sheetName'],
+                widget.selectedInterestRow['fileId']);
           },
         ));
   }

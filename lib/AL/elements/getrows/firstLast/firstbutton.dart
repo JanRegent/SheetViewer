@@ -4,17 +4,15 @@ import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
 
 import 'package:sheetviewer/AL/views/getdataviews.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
 import '_firstlastrow.dart';
 
-IconButton firstButton(BuildContext context, SheetViewConfig sheetViewConfig) {
+IconButton firstButton(BuildContext context, String sheetName, String fileId) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataViewsPage('getRowsFirst', sheetViewConfig),
+              GetDataViewsPage(sheetName, fileId, 'getRowsFirst'),
         ));
   }
 
@@ -49,18 +47,17 @@ IconButton firstButton(BuildContext context, SheetViewConfig sheetViewConfig) {
 }
 
 ElevatedButton firstRowsCount(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+    BuildContext context, String sheetName, String fileId) {
   return ElevatedButton(
     child: Obx(
       () => Text(
-        rowsCountController.firstRowsCount[index].toString(),
+        rowsCountController.firstRowsCount[0].toString(),
       ),
     ),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {
-      await getRowsSet(context, index, sheetViewConfig.sheetName,
-          sheetViewConfig.fileId, 'getRowsFirst', sheetViewConfig);
+      await getRowsSet(context, 0, sheetName, fileId, 'getRowsFirst');
     },
   );
 }

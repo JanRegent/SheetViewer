@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 class ByValueColumnsTabs extends StatefulWidget {
-  final SheetViewConfig sheetConfig;
-  const ByValueColumnsTabs(this.sheetConfig, {Key? key}) : super(key: key);
+  final Map byValueMap;
+  const ByValueColumnsTabs(this.byValueMap, {Key? key}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
@@ -20,7 +19,7 @@ class _ByValueColumnsTabsState extends State<ByValueColumnsTabs>
   @override
   void initState() {
     super.initState();
-    byValueColumns = widget.sheetConfig.byValueColumns.split('__|__');
+    byValueColumns = widget.byValueMap['byValueColumns'].split('__|__');
     tabController = TabController(
         length: byValueColumns.length, vsync: this, initialIndex: 0);
   }

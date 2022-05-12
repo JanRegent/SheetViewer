@@ -8,7 +8,6 @@ import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 class LoadingInterestPage extends StatefulWidget {
   final List<dynamic> fileListSheet;
@@ -121,14 +120,13 @@ Future loadListByActions(Map fileListSheet, BuildContext context) async {
         AnimatedSnackBarType.info);
     await loadFileListSheetRow(fileListSheet[index]);
   }
-  infoSnack(context, 'Done', AnimatedSnackBarType.info);
 }
 
 Future loadFileListSheetRow(Map fileListSheetRow) async {
   String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
   String sheetName = fileListSheetRow['sheetName'];
   for (var action in actions) {
-    await sheetViewGetData(fileId, sheetName, action, SheetViewConfig());
+    await sheetViewGetData(fileId, sheetName, action);
   }
 }
 

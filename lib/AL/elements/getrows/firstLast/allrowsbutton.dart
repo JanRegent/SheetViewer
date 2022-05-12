@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/getdataviews.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 ElevatedButton allRowsButton(
-    BuildContext context, SheetViewConfig sheetViewConfig) {
+    BuildContext context, String sheetName, String fileId) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetDataViewsPage('getSheet', sheetViewConfig),
+          builder: (context) => GetDataViewsPage(sheetName, fileId, 'getSheet'),
         ));
   }
 

@@ -1,64 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
-import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastbutton.dart';
 
-Column firstLastColumn(
-    BuildContext context, int index, SheetViewConfig sheetViewConfig) {
+Column firstLastColumn(BuildContext context, String sheetName, String fileId) {
   return Column(
     children: [
       Row(
         children: [
           const Text(' '),
-          firstRowsCount(context, index, sheetViewConfig),
+          firstRowsCount(context, sheetName, fileId),
           const Text(' '),
-          firstButton(context, sheetViewConfig),
+          firstButton(context, sheetName, fileId),
         ],
       ),
       Row(
         children: [
           const Text(' '),
-          lastRowsCount(context, index, sheetViewConfig),
+          lastRowsCount(context, sheetName, fileId),
           const Text(' '),
-          lastButton(context, sheetViewConfig),
+          lastButton(context, sheetName, fileId),
         ],
       ),
       Row(children: [
         const Text(' '),
-        allRowsButton(context, sheetViewConfig),
+        allRowsButton(context, sheetName, fileId),
         const Text('   All'),
       ])
     ],
   );
-}
-
-Future getRowsSet(
-    BuildContext context,
-    Function setStateFunc,
-    String aQuerystringKey,
-    String varName,
-    SheetViewConfig sheetViewConfig) async {
-  List<String> values =
-      List<String>.generate(10, (i) => ((i + 1) * 10).toString());
-  String rowsCount = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              SelectByRadiobuttonsPage('Select rows count value', values)));
-
-  // ignore: unnecessary_null_comparison
-  if (rowsCount == null) {
-    sheetViewConfig.getRowsLast = '10';
-    return;
-  }
-  sheetViewConfig.getRowsLast = rowsCount;
-
-  await interestStore2.updateVar(sheetViewConfig.sheetName,
-      sheetViewConfig.fileId, 'lastRowsCount', rowsCount);
-  await sheetsDb.deleteSheet(aQuerystringKey);
-  setStateFunc();
 }

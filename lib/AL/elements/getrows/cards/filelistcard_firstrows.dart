@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
-Card filelistCardFirstRows(BuildContext context, Map fileListSheetRow,
-    int index, SheetViewConfig sheetViewConfig) {
+Card filelistCardFirstRows(
+    BuildContext context, Map fileListSheetRow, int index) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
@@ -30,7 +28,8 @@ Card filelistCardFirstRows(BuildContext context, Map fileListSheetRow,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstRows(context, index, sheetViewConfig),
+        firstRows(
+            context, fileListSheetRow['sheetname'], fileListSheetRow['fileId']),
       ],
     );
   }

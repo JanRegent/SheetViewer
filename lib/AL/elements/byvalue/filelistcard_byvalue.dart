@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 
@@ -15,8 +14,6 @@ class ByValuePage extends StatefulWidget {
 }
 
 class _ByValePageState extends State<ByValuePage> {
-  SheetViewConfig sheetConfig = SheetViewConfig();
-
   Future<String> getConfig() async {
     //sheetConfig = await getSheetConfig(widget.fileId, widget.sheetName);
     return 'ok';
@@ -24,6 +21,7 @@ class _ByValePageState extends State<ByValuePage> {
 
   @override
   Widget build(BuildContext context) {
+    Map byValueMap = {'sheetName': widget.sheetName, 'fileId': widget.fileId};
     return Scaffold(
         appBar: AppBar(
           title: const Text('Filter by value in column'),
@@ -48,7 +46,7 @@ class _ByValePageState extends State<ByValuePage> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   //print(fileListSheet.rows);
-                  return ByValueColumnsTabs(sheetConfig);
+                  return ByValueColumnsTabs(byValueMap);
                 }
             }
           },

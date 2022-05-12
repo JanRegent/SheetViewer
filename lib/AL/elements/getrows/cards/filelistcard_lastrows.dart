@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 //import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
 import 'package:sheetviewer/AL/elements/getrows/firstLast/last_column.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetviewconfig.dart';
-
-Card filelistCardLastRows(BuildContext context, Map fileListSheetRow, int index,
-    SheetViewConfig sheetViewConfig) {
+Card filelistCardLastRows(
+    BuildContext context, Map fileListSheetRow, int index) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
@@ -31,7 +29,11 @@ Card filelistCardLastRows(BuildContext context, Map fileListSheetRow, int index,
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        lastColumn(context, index, sheetViewConfig),
+        lastColumn(
+            //fileListSheetRow['sheetName'], fileListSheetRow['fileId']
+            context,
+            '',
+            ''),
       ],
     );
   }
