@@ -46,8 +46,6 @@ class BlGlobal {
   Future init() async {
     localDb = LocalDb();
 
-    localDb.update('rowsSelectedIndex', 0);
-
     loadingMessage = ValueNotifier<String>('');
 
     logi('blGlobal()', 'init end', '', '');

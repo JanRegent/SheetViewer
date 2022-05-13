@@ -40,7 +40,6 @@ Future getDataInterests() async {
   logi('getDataInterests', 'loadDb', 'interestRowCurrent',
       interestRowCurrent.toString());
 
-  await getDataFilelistSheet();
   interestController.interestNameSet(interestRowCurrent['interestName']);
 }
 
@@ -68,9 +67,6 @@ Future getSheetInterests() async {
         responseData.toString());
     if (responseData.isNotEmpty) {
       await localDb.update('interestList', responseData['rows']);
-      await interestStore2
-          .updateList('interestList', '', '', ['responseData', 'cols']);
-      await localDb.update('interestList__cols', ['responseData', 'cols']);
     }
   } catch (e) {
     logi('getSheetInterests', '2e getSheet', 'error', e.toString());
@@ -99,6 +95,8 @@ Future<String> getDataFilelistSheet() async {
   Map responseData = await getSheet(
       interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
   fileListSheet = responseData['rows'];
+
+  await interestStore2.updateListDynamic('', '', 'fileList', fileListSheet);
   logi('getDataFilelistSheet', 'loadDb', 'cols',
       responseData['cols'].toString());
   for (var i = 0; i < fileListSheet.length; i++) {
@@ -149,6 +147,8 @@ class InterestController extends GetxController {
 
     logi('interestController.interestNameSet', 'interestStore2.init()',
         'interestName', interestName.value);
+
+    await getDataFilelistSheet();
   }
 
   String interestNameGet() {

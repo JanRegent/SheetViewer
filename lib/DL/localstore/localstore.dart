@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:localstore/localstore.dart';
 
 class LocalStore {
@@ -65,8 +66,16 @@ class LocalStore {
     await update(varNameKey(sheetName, fileId, varName), value.join('__|__'));
   }
 
+  Future updateListDynamic(String sheetName, String fileId, String varName,
+      List<dynamic> value) async {
+    List<String> encodedList = [];
+    for (var i = 0; i < value.length; i++) {
+      encodedList.add(json.encode(value[i]));
+    }
+    await updateList(sheetName, fileId, varName, encodedList);
+  }
+
   Future update(String key, String value) async {
-    print(key);
     final items = await db.collection(dbName).get();
     String keyDb2update = '';
     try {
