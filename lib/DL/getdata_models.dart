@@ -21,7 +21,7 @@ import 'isardb/sheetview.dart';
 ///
 /// e.callback
 
-Future<SheetView?> sheetViewGetData(
+Future<SheetView> sheetViewGetData(
     String fileId, String sheetName, String action) async {
   Map queryMap = await actionMapCreate(fileId, sheetName, action);
 
@@ -29,23 +29,23 @@ Future<SheetView?> sheetViewGetData(
   SheetView? sheetView;
   try {
     sheetView = await sheetsDb.readSheet(queryStringKey);
-    print(sheetView!.aStatus);
-    if (sheetView.aStatus.startsWith('warn: not exists')) {
-      String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
-      String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
-
-      await getSheetView(queryStringKey, url: urlQuery);
-
-      sheetView = await sheetsDb.readSheet(queryStringKey);
+    if (sheetView!.id >= 1) {
+      return sheetView;
     }
+
+    String queryString = queryStringBuild(fileId, sheetName, queryMap);
+    String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
+
+    sheetView = await getSheetView(queryStringKey, url: urlQuery);
+    return sheetView!;
   } catch (e) {
     if (kDebugMode) {
       print('----------------------getActionSheet readSheet');
       print(e);
     }
+    return (SheetView().aStatus = 'error: \n' + e.toString()) as SheetView;
   }
-  return null;
 }
 
 String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {

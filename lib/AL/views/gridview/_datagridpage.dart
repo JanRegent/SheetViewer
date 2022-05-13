@@ -33,6 +33,7 @@ class _DatagridPageState extends State<DatagridPage> {
   Future<String> getData() async {
     rowsDataSource = RowsDataSource(widget.sheetView, context,
         searchWordSearchInColumn[0], searchWordSearchInColumn[1]);
+
     return rowsDataSource.sheetView.rows.length.toString();
   }
 

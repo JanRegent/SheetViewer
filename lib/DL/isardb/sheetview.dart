@@ -11,7 +11,9 @@ part 'sheetview.g.dart'; // flutter pub run build_runner build
 
 @Collection()
 class SheetView {
+  @Id()
   int id = Isar.autoIncrement;
+
   String aQuerystringKey = '';
   String aStatus = '';
 
@@ -101,19 +103,18 @@ class SheetsDb {
           .findFirst();
       return id;
     } catch (e) {
-      return null;
+      return -1;
     }
   }
 
   Future<SheetView?> readSheet(String aQuerystringKey) async {
-    print('--------------------------------1');
     int? id = await getId_(aQuerystringKey);
-    if (id == null) {
+    if (id == -1) {
       return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
     }
-    print(id);
-    print('--------------------------------2');
-    SheetView? sheet = await isar.sheetViews.get(id);
+
+    SheetView? sheet = await isar.sheetViews.get(id!);
+
     return sheet;
   }
 
