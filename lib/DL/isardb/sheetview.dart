@@ -161,8 +161,8 @@ class SheetsDb {
     }
 
     try {
-      await interestStore2.updateVar(sheetView.sheetName, sheetView.fileId,
-          'colsHeader', sheetView.colsHeader.join('__|__'));
+      await interestStore2.updateList(sheetView.sheetName, sheetView.fileId,
+          'colsHeader', sheetView.colsHeader);
 
       return 'OK';
     } catch (e) {

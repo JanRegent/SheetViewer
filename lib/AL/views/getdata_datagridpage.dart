@@ -30,10 +30,9 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
   Future<String> getData() async {
     sheetView =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
-    String cols = await interestStore2.readVar(widget.sheetName, widget.fileId,
-        'colsHeader', sheetView.cols.join('__|__'));
-    print(cols);
-    sheetView.colsHeader = cols.split('__|__');
+    sheetView.colsHeader = await interestStore2.readList(
+        widget.sheetName, widget.fileId, 'colsHeader', sheetView.cols);
+
     return 'OK';
   }
 
@@ -56,7 +55,6 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              //Navigator.pop(context, dataSheet);
               return DatagridPage(sheetView, 'fileTitle');
             }
         }

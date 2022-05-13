@@ -39,21 +39,34 @@ class LocalStore {
     return item['value'];
   }
 
-  Future<String> readVar(String sheetName, String fileId, String varName,
+  Future<String> readString(String sheetName, String fileId, String varName,
       String defaultValue) async {
     return await read(varNameKey(sheetName, fileId, varName), defaultValue);
+  }
+
+  Future<List<String>> readList(String sheetName, String fileId, String varName,
+      List<String> defaultValue) async {
+    String value = await readString(
+        sheetName, fileId, varName, defaultValue.join('__|__'));
+    return value.split('__|__');
   }
 
   String varNameKey(String sheetName, String fileId, String varName) {
     return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
   }
 
-  Future updateVar(
+  Future updateString(
       String sheetName, String fileId, String varName, String value) async {
     await update(varNameKey(sheetName, fileId, varName), value);
   }
 
+  Future updateList(String sheetName, String fileId, String varName,
+      List<String> value) async {
+    await update(varNameKey(sheetName, fileId, varName), value.join('__|__'));
+  }
+
   Future update(String key, String value) async {
+    print(key);
     final items = await db.collection(dbName).get();
     String keyDb2update = '';
     try {

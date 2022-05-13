@@ -68,7 +68,9 @@ Future getSheetInterests() async {
         responseData.toString());
     if (responseData.isNotEmpty) {
       await localDb.update('interestList', responseData['rows']);
-      await localDb.update('interestList__cols', responseData['cols']);
+      await interestStore2
+          .updateList('interestList', '', '', ['responseData', 'cols']);
+      await localDb.update('interestList__cols', ['responseData', 'cols']);
     }
   } catch (e) {
     logi('getSheetInterests', '2e getSheet', 'error', e.toString());

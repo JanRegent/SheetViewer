@@ -41,7 +41,7 @@ Future getRowsSet(BuildContext context, int index, String sheetName,
   }
   rowsCountController.firstRowsCountSet(index, rowsCount);
 
-  await interestStore2.updateVar(sheetName, fileId, 'firstRowsCount',
+  await interestStore2.updateString(sheetName, fileId, 'firstRowsCount',
       rowsCountController.firstRowsCount[index]);
 
   //setStateFunc();

@@ -29,7 +29,8 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
     return '10';
   }
 
-  await interestStore2.updateVar(sheetName, fileId, 'lastRowsCount', rowsCount);
+  await interestStore2.updateString(
+      sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 
 IconButton lastButton(BuildContext context, String sheetName, String fileId) {
