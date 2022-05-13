@@ -30,8 +30,9 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
   Future<String> getData() async {
     sheetView =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
-    String cols = await interestStore2.readVar(widget.fileId, widget.sheetName,
+    String cols = await interestStore2.readVar(widget.sheetName, widget.fileId,
         'colsHeader', sheetView.cols.join('__|__'));
+    print(cols);
     sheetView.colsHeader = cols.split('__|__');
     return 'OK';
   }

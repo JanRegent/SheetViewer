@@ -101,6 +101,9 @@ class SheetsDb {
           .aQuerystringKeyEqualTo(aQuerystringKey)
           .idProperty()
           .findFirst();
+      if (id == null) {
+        return -1;
+      }
       return id;
     } catch (e) {
       return -1;
@@ -109,13 +112,21 @@ class SheetsDb {
 
   Future<SheetView?> readSheet(String aQuerystringKey) async {
     int? id = await getId_(aQuerystringKey);
+
     if (id == -1) {
-      return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
+      return SheetView()
+        ..aStatus = 'warn: not exists: $aQuerystringKey'
+        ..id = -1;
     }
 
     SheetView? sheet = await isar.sheetViews.get(id!);
 
-    return sheet;
+    if (sheet != null) {
+      return sheet;
+    }
+    SheetView sheetView = SheetView();
+    sheetView.id = -1;
+    return sheetView;
   }
 
   Future updateSheetView(SheetView sheetView) async {
