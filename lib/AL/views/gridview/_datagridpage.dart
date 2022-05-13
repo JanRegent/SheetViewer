@@ -68,18 +68,6 @@ class _DatagridPageState extends State<DatagridPage> {
           )
         ],
       );
-
-      //  SfDataGrid(
-      //   source: rowsDataSource,
-      //   columnWidthMode: ColumnWidthMode.fill,
-      //   columns: colsHeader(widget.sheetView, context, setStateFunc),
-      //   onQueryRowHeight: (RowHeightDetails details) {
-      //     return details.getIntrinsicRowHeight(details.rowIndex);
-      //   },
-      //   controller: _controller,
-      //   selectionMode: SelectionMode.single,
-      //   showCheckboxColumn: false,
-      // );
     });
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
 
-import 'package:sheetviewer/AL/views/getdataviews.dart';
+import 'package:sheetviewer/AL/views/getdata_datagridpage.dart';
 
 import '_firstlastrow.dart';
 
@@ -12,7 +12,7 @@ IconButton firstButton(BuildContext context, String sheetName, String fileId) {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataViewsPage(sheetName, fileId, 'getRowsFirst'),
+              GetDataDatagridPage(sheetName, fileId, 'getRowsFirst'),
         ));
   }
 

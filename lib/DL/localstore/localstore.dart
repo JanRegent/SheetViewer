@@ -39,10 +39,18 @@ class LocalStore {
     return item['value'];
   }
 
+  Future<String> readVar(String sheetName, String fileId, String varName,
+      String defaultValue) async {
+    return await read(varNameKey(sheetName, fileId, varName), defaultValue);
+  }
+
+  String varNameKey(String sheetName, String fileId, String varName) {
+    return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
+  }
+
   Future updateVar(
       String sheetName, String fileId, String varName, String value) async {
-    await update(
-        'sheetName: ${sheetName}__||__varName:{$varName}__|__$fileId', value);
+    await update(varNameKey(sheetName, fileId, varName), value);
   }
 
   Future update(String key, String value) async {

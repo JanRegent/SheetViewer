@@ -2,23 +2,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 
 /// The home page of the application which hosts the datagrid.
-class GetDataViewsPage extends StatefulWidget {
+class GetDataDatagridPage extends StatefulWidget {
   final String sheetName;
   final String fileId;
   final String action;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataViewsPage(this.sheetName, this.fileId, this.action);
+  const GetDataDatagridPage(this.sheetName, this.fileId, this.action);
 
   @override
-  _GetDataViewsPageState createState() => _GetDataViewsPageState();
+  _GetDataDatagridPageState createState() => _GetDataDatagridPageState();
 }
 
-class _GetDataViewsPageState extends State<GetDataViewsPage> {
+class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
   @override
   void initState() {
     super.initState();
@@ -29,7 +30,9 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   Future<String> getData() async {
     sheetView =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
-
+    String cols = await interestStore2.readVar(widget.fileId, widget.sheetName,
+        'colsHeader', sheetView.cols.join('__|__'));
+    sheetView.colsHeader = cols.split('__|__');
     return 'OK';
   }
 

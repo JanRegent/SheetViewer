@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
-import 'package:sheetviewer/AL/views/getdataviews.dart';
+import 'package:sheetviewer/AL/views/getdata_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Row lastRow(BuildContext context, String sheetName, String fileId) {
@@ -38,7 +38,7 @@ IconButton lastButton(BuildContext context, String sheetName, String fileId) {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataViewsPage(sheetName, fileId, 'getRowsLast'),
+              GetDataDatagridPage(sheetName, fileId, 'getRowsLast'),
         ));
   }
 
