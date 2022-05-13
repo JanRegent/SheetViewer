@@ -23,21 +23,23 @@ Future getDataInterests() async {
   logParagraphStart('getDataInterests');
 
   try {
-    interestList = await localDb.read('interestList', List);
+    interestList =
+        await appHome.readListDynamic('', '', 'interestList', ['space']);
   } catch (e) {
     logi('getDataInterests', 'loadDb', 'error', e.toString());
   }
   if (interestList.isEmpty) {
     await getSheetInterests();
-    interestList = await localDb.read('interestList', List);
+
+    interestList =
+        await appHome.readListDynamic('', '', 'interestList', ['space']);
   }
   interestTitlesGet();
   logi('interestTitles', 'loadDb', 'interestRowCurrent',
       interestTitles.join(', '));
-  localDb.update('interestRowCurrent', interestList[0]);
+  interestRowCurrent = interestList[0];
   appHome.updateMap('', '', 'interestRowCurrent', interestList[0]);
 
-  interestRowCurrent = await localDb.read('interestRowCurrent', Map);
   logi('getDataInterests', 'loadDb', 'interestRowCurrent',
       interestRowCurrent.toString());
 
@@ -50,7 +52,7 @@ Future selectInterest(BuildContext context) async {
   int? index = int.tryParse(selectedIndex);
   interestRowCurrent = interestList[index!];
   interestController.interestNameSet(interestRowCurrent['interestName']);
-  localDb.update('interestRowCurrent', interestRowCurrent);
+
   appHome.updateMap('', '', 'interestRowCurrent', interestRowCurrent);
   logi('drawer', 'Select interest', 'interestRowCurrent',
       interestRowCurrent.toString());
@@ -68,7 +70,6 @@ Future getSheetInterests() async {
     logi('getSheetInterests', '1b getSheet', 'after request',
         responseData.toString());
     if (responseData.isNotEmpty) {
-      await localDb.update('interestList', responseData['rows']);
       appHome.updateListDynamic('', '', 'interestList', responseData['rows']);
     }
   } catch (e) {
@@ -91,7 +92,8 @@ RowsCountController rowsCountController = RowsCountController();
 
 Future<String> getDataFilelistSheet() async {
   logParagraphStart('getDataFilelistSheet');
-  interestRowCurrent = await localDb.read('interestRowCurrent', Map);
+
+  interestRowCurrent = await appHome.readMap('', '', 'interestRowCurrent', {});
   logi('getDataFilelistSheet', 'loadDb', 'interestRowCurrent',
       interestRowCurrent.toString());
 

@@ -45,6 +45,13 @@ class LocalStore {
     return await read(varNameKey(sheetName, fileId, varName), defaultValue);
   }
 
+  Future readMap(
+      String sheetName, String fileId, String varName, Map defaultValue) async {
+    String value =
+        await readString(sheetName, fileId, varName, jsonEncode(defaultValue));
+    return jsonDecode(value);
+  }
+
   Future<List<String>> readList(String sheetName, String fileId, String varName,
       List<String> defaultValue) async {
     String value = await readString(
@@ -68,6 +75,7 @@ class LocalStore {
     return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
   }
 
+  //-------------------------------------------------------------------update
   Future updateString(
       String sheetName, String fileId, String varName, String value) async {
     await update(varNameKey(sheetName, fileId, varName), value);

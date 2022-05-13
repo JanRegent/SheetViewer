@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import 'package:sheetviewer/DL/localstore/localdb.dart';
 import 'package:sheetviewer/DL/isardb/log.dart';
-
-late LocalDb localDb;
 
 Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
   Map<String, dynamic> map = {};
@@ -44,8 +41,6 @@ class BlGlobal {
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
-    localDb = LocalDb();
-
     loadingMessage = ValueNotifier<String>('');
 
     logi('blGlobal()', 'init end', '', '');

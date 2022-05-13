@@ -23,7 +23,6 @@ Future getSheet(String fileId, String sheetName) async {
     response = await dio.get(urlQuery);
     return response.data;
   } catch (e) {
-    localDb.update('getSheet error', '1 response\n' + e.toString());
     logi('getSheet()', 'error ', urlQuery, e.toString());
     return {};
   }
@@ -47,9 +46,10 @@ Future getrowslast1quote(String fileId, String sheetName) async {
   }
 
   try {
-    localDb.update(queryString, response.data['rows']);
+    logi('getrowslast1quote', '', 'queryString', queryString);
   } catch (e) {
-    localDb.update(queryString + 'error', e.toString());
+    logi('getrowslast1quote', 'error', 'queryString: $queryString',
+        e.toString());
   }
   return response.data;
 }

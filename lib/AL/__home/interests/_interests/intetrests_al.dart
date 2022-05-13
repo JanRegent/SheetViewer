@@ -2,8 +2,7 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
-
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 CustomDropdownMenu interestsDropdown(List<String> intererests,
     List<dynamic> interestList, BuildContext context) {
@@ -12,10 +11,10 @@ CustomDropdownMenu interestsDropdown(List<String> intererests,
     try {
       selectedInterest = value;
 
-      await localDb.update('interestRowCurrent', interestList[0]);
+      appHome.updateMap('', '', 'interestRowCurrent', interestList[0]);
       for (var i = 0; i < interestList.length; i++) {
         if (interestList[i]['interestName'] == selectedInterest) {
-          await localDb.update('interestRowCurrent', interestList[i]);
+          appHome.updateMap('', '', 'interestRowCurrent', interestList[i]);
           break;
         }
       }

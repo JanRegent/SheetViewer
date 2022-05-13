@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
   
   #================================================================================================AL    
-  syncfusion_flutter_datagrid: ^20.1.47  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
+  syncfusion_flutter_datagrid: ^20.1.55  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
   # Because no versions of syncfusion_flutter_datagrid match >19.4.56 <20.0.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, 
   collection: ^1.15.0
 
@@ -50,10 +50,10 @@ dependencies:
   
 
   #notify observable
-  get: ^4.6.1                   #https://pub.dev/packages/get
+  get: ^4.6.3                   #https://pub.dev/packages/get
   flutter_use: ^0.0.2           #https://pub.dev/packages/flutter_use
   #================================================================================================BL
-  shared_preferences: ^2.0.13   #https://pub.dev/packages/shared_preferences
+  #shared_preferences: ^2.0.13   #https://pub.dev/packages/shared_preferences
   isar: ^2.5.0                  #https://pub.dev/packages/isar
   isar_flutter_libs: ^2.5.0     #https://pub.dev/packages/isar_flutter_libs
   localstore: ^1.2.3            #https://pub.dev/packages/localstore
