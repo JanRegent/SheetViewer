@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 DlGlobals dlGlobals = DlGlobals();
 
@@ -8,6 +9,7 @@ class DlGlobals {
   Future init() async {
     String dlContentServiceUrl = await loadAssetString('contentServiceUrl');
     localDb.update('DL-contentServiceUrl', dlContentServiceUrl);
+    appHome.updateString('', '', 'DL-contentServiceUrl', dlContentServiceUrl);
     baseUrl = await localDb.read('DL-contentServiceUrl', String);
     logi('dlGlobals.baseUrl', baseUrl, '', '');
   }

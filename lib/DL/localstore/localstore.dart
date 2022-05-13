@@ -52,6 +52,18 @@ class LocalStore {
     return value.split('__|__');
   }
 
+  Future<List<dynamic>> readListDynamic(String sheetName, String fileId,
+      String varName, List<String> defaultValue) async {
+    String value = await readString(
+        sheetName, fileId, varName, defaultValue.join('__|__'));
+    List<String> list = value.split('__|__');
+    List<dynamic> listDynamic = [];
+    for (var i = 0; i < list.length; i++) {
+      listDynamic.add(json.decode(list[i]));
+    }
+    return listDynamic;
+  }
+
   String varNameKey(String sheetName, String fileId, String varName) {
     return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
   }
@@ -59,6 +71,11 @@ class LocalStore {
   Future updateString(
       String sheetName, String fileId, String varName, String value) async {
     await update(varNameKey(sheetName, fileId, varName), value);
+  }
+
+  Future updateMap(
+      String sheetName, String fileId, String varName, Map value) async {
+    await update(varNameKey(sheetName, fileId, varName), jsonEncode(value));
   }
 
   Future updateList(String sheetName, String fileId, String varName,

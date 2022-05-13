@@ -35,6 +35,7 @@ Future getDataInterests() async {
   logi('interestTitles', 'loadDb', 'interestRowCurrent',
       interestTitles.join(', '));
   localDb.update('interestRowCurrent', interestList[0]);
+  appHome.updateMap('', '', 'interestRowCurrent', interestList[0]);
 
   interestRowCurrent = await localDb.read('interestRowCurrent', Map);
   logi('getDataInterests', 'loadDb', 'interestRowCurrent',
@@ -50,6 +51,7 @@ Future selectInterest(BuildContext context) async {
   interestRowCurrent = interestList[index!];
   interestController.interestNameSet(interestRowCurrent['interestName']);
   localDb.update('interestRowCurrent', interestRowCurrent);
+  appHome.updateMap('', '', 'interestRowCurrent', interestRowCurrent);
   logi('drawer', 'Select interest', 'interestRowCurrent',
       interestRowCurrent.toString());
   infoSnack(context, 'Loading interst:  ' + interestRowCurrent['interestName'],
@@ -67,6 +69,7 @@ Future getSheetInterests() async {
         responseData.toString());
     if (responseData.isNotEmpty) {
       await localDb.update('interestList', responseData['rows']);
+      appHome.updateListDynamic('', '', 'interestList', responseData['rows']);
     }
   } catch (e) {
     logi('getSheetInterests', '2e getSheet', 'error', e.toString());

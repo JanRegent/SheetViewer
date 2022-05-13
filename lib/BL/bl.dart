@@ -14,6 +14,7 @@ late LogDb logDb;
 late SheetsDb sheetsDb;
 
 late LocalStore interestStore2; //init in interestController.interestNameSet
+late LocalStore appHome = LocalStore('appHome: ');
 
 class BL {
   BLuti blUti = BLuti();
@@ -22,6 +23,8 @@ class BL {
   Future init() async {
     await await isarDbInit();
     logParagraphStart('init');
+
+    await appHome.init();
 
     await blGlobal.init();
     await dlGlobals.init();

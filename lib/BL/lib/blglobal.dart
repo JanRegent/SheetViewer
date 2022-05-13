@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import 'package:sheetviewer/BL/db/localdb.dart';
+import 'package:sheetviewer/DL/localstore/localdb.dart';
 import 'package:sheetviewer/DL/isardb/log.dart';
 
 late LocalDb localDb;
