@@ -32,9 +32,9 @@ class LogDb {
     }
   }
 
-  Future clear() async {
-    await isar.writeTxn((isar) async {
-      await isar.clear();
-    });
-  }
+  // Future clear() async {
+  //   await isar.writeTxn((isar) async {
+  //     await isar.clear();
+  //   });
+  // }
 }

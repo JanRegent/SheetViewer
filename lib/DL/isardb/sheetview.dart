@@ -106,10 +106,13 @@ class SheetsDb {
   }
 
   Future<SheetView?> readSheet(String aQuerystringKey) async {
+    print('--------------------------------1');
     int? id = await getId_(aQuerystringKey);
     if (id == null) {
       return SheetView()..aStatus = 'warn: not exists: $aQuerystringKey';
     }
+    print(id);
+    print('--------------------------------2');
     SheetView? sheet = await isar.sheetViews.get(id);
     return sheet;
   }

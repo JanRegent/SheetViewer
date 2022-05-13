@@ -29,8 +29,8 @@ Future<SheetView?> sheetViewGetData(
   SheetView? sheetView;
   try {
     sheetView = await sheetsDb.readSheet(queryStringKey);
-
-    if (sheetView!.aStatus.startsWith('warn: not exists')) {
+    print(sheetView!.aStatus);
+    if (sheetView.aStatus.startsWith('warn: not exists')) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
 
       String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);

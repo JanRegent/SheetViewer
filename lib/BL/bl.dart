@@ -39,7 +39,7 @@ Future isarDbInit() async {
   );
 
   logDb = LogDb(isar);
-  logDb.clear();
+
   sheetsDb = SheetsDb(isar);
 
   logi('isarDbInit()', 'init end', '', '');

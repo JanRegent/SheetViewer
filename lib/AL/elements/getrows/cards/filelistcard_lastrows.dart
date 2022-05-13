@@ -4,15 +4,14 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 
 //import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/last_column.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstLast/lastrow.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Card filelistCardLastRows(
     BuildContext context, Map fileListSheetRow, int index) {
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-    print(fileListSheetRow);
-    print('------------------');
+
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
       expandedColor: Colors.red[50],
@@ -31,7 +30,7 @@ Card filelistCardLastRows(
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        lastColumn(
+        lastRow(
             //fileListSheetRow['sheetName'], fileListSheetRow['fileId']
             context,
             fileListSheetRow['sheetName'],
