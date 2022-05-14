@@ -67,7 +67,7 @@ Future interestSet(int interestIndex) async {
 
   appHome.updateMap('', '', 'interestRowCurrent', interestRowCurrent);
 
-  await getDataFilelistSheet(interestRowCurrent);
+  await interestFilelistGetData(interestRowCurrent);
 }
 
 Future selectInterestManualy(BuildContext context) async {
@@ -80,5 +80,5 @@ Future selectInterestManualy(BuildContext context) async {
 
   await interestSet(index!);
 
-  await getDataFilelistSheet(interestRowCurrent);
+  await interestFilelistGetData(interestRowCurrent);
 }

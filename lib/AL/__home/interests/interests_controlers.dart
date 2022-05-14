@@ -22,15 +22,23 @@ late LocalStore interestStore;
 late List<dynamic> fileListSheet = [];
 RowsCountController rowsCountController = RowsCountController();
 
-Future<String> getDataFilelistSheet(Map interestRowCurrent) async {
+Future<String> interestFilelistGetData(Map interestRowCurrent) async {
   logParagraphStart('getDataFilelistSheet');
+  List<dynamic> fileListSheet = [];
+  try {
+    fileListSheet = await appHome.readListDynamic('', '', 'interestList', []);
+  } catch (e) {
+    logi('interestFilelistGetData', 'readListDynamic(interestList', 'error',
+        e.toString());
+  }
+  if (fileListSheet.isEmpty) {
+    Map responseData = await getSheet(
+        interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
+    fileListSheet = responseData['rows'];
+    await interestStore2.updateListDynamic('', '', 'fileList', fileListSheet);
+  }
 
-  Map responseData = await getSheet(
-      interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
-  fileListSheet = responseData['rows'];
-
-  await interestStore2.updateListDynamic('', '', 'fileList', fileListSheet);
-
+  rowsCountController.firstRowsCount.clear();
   for (var i = 0; i < fileListSheet.length; i++) {
     rowsCountController.firstRowsCount.add(i + 10);
   }
@@ -72,11 +80,11 @@ class InterestController extends GetxController {
   Future interestNameSet(String value) async {
     logParagraphStart('interestNameSet');
     interestName.value = value;
-    interestStore2 = LocalStore('interest: ' + interestName.value);
-    await interestStore2.init();
-  }
 
-  String interestNameGet() {
-    return interestName.value;
+    // ignore: unnecessary_null_comparison
+    if (interestStore2 == null) {
+      interestStore2 = LocalStore('interest: ' + interestName.value);
+      await interestStore2.init();
+    }
   }
 }

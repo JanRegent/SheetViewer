@@ -15,7 +15,7 @@ class HomeApp extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: ElevatedButton(
-              child: Obx(() => Text(interestController.interestNameGet())),
+              child: Obx(() => Text(interestController.interestName.value)),
               onPressed: () async {
                 await selectInterestManualy(context);
               }),
