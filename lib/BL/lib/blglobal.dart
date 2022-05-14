@@ -42,7 +42,5 @@ class BlGlobal {
 
   Future init() async {
     loadingMessage = ValueNotifier<String>('');
-
-    logi('blGlobal()', 'init end', '', '');
   }
 }

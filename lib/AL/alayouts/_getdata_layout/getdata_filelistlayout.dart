@@ -22,11 +22,9 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
     super.initState();
   }
 
-  late Map interestRowCurrent;
-
   Widget fileListBuilder(String layout) {
     return FutureBuilder<String>(
-      future: getDataFilelistSheet(), // async work
+      future: getDataFilelistSheet(interestRowCurrent), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

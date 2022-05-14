@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+
 import 'package:sheetviewer/BL/bl.dart';
 
 DlGlobals dlGlobals = DlGlobals();
@@ -7,12 +7,8 @@ DlGlobals dlGlobals = DlGlobals();
 class DlGlobals {
   String baseUrl = '';
   Future init() async {
-    String dlContentServiceUrl = await loadAssetString('contentServiceUrl');
-
-    appHome.updateString('', '', 'DL-contentServiceUrl', dlContentServiceUrl);
-    baseUrl = await appHome.readString('', '', 'DL-contentServiceUrl', '');
-
-    logi('dlGlobals.baseUrl', baseUrl, '', '');
+    baseUrl = await loadAssetString('contentServiceUrl');
+    await appHome.updateString('', '', 'DL-contentServiceUrl', baseUrl);
   }
 }
 

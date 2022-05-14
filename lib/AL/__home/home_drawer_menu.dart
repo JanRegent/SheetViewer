@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 
-import 'interests/interests_controlers.dart';
 import 'profile.dart';
 import 'settings.dart';
 import 'about.dart';
@@ -57,16 +56,11 @@ Drawer homeDrawer(BuildContext context) {
       // Important: Remove any padding from the ListView.
       padding: EdgeInsets.zero,
       children: [
-        DrawerHeader(
-          decoration: const BoxDecoration(
-            color: Colors.blue,
-          ),
-          child: ElevatedButton(
-              child: const Text('Select interest'),
-              onPressed: () async {
-                await selectInterest(context);
-              }),
-        ),
+        const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('??')),
         ListTile(
           title: const Text('Profile'),
           onTap: () async {

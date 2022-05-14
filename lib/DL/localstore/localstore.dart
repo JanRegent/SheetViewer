@@ -100,6 +100,15 @@ class LocalStore {
     await updateList(sheetName, fileId, varName, encodedList);
   }
 
+  Future updateListMapDynamicDynamic(String sheetName, String fileId,
+      String varName, Map<dynamic, dynamic> value) async {
+    List<String> encodedList = [];
+    for (var i = 0; i < value.length; i++) {
+      encodedList.add(json.encode(value[i]));
+    }
+    await updateList(sheetName, fileId, varName, encodedList);
+  }
+
   Future update(String key, String value) async {
     final items = await db.collection(dbName).get();
     String keyDb2update = '';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/__home/interests/_interests/interest_selection.dart';
 import './interests/interests_controlers.dart';
 
 import 'home_drawer_menu.dart';
@@ -16,7 +17,7 @@ class HomeApp extends StatelessWidget {
           title: ElevatedButton(
               child: Obx(() => Text(interestController.interestNameGet())),
               onPressed: () async {
-                await selectInterest(context);
+                await selectInterestManualy(context);
               }),
         ),
         drawer: homeDrawer(context),

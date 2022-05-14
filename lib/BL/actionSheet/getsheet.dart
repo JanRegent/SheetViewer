@@ -7,20 +7,18 @@ Future getSheet(String fileId, String sheetName) async {
   if (fileId.toLowerCase().startsWith('https')) {
     fileId = bl.blUti.url2fileid(fileId);
   }
-  logi('getSheet()', 'fileId: ' + fileId, '', '');
 
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
-  logi('getSheet()', 'baseUrl: ' + dlGlobals.baseUrl, '', '');
   queryString = 'sheetName=$sheetName&action=getSheet&fileId=$fileId';
 
-  logi('getSheet()', 'queryString: ' + queryString, '', '');
   String urlQuery = dlGlobals.baseUrl + '?' + queryString;
   logi('getSheet()', 'urlQuery: ', urlQuery, '');
   try {
     response = await dio.get(urlQuery);
+
     return response.data;
   } catch (e) {
     logi('getSheet()', 'error ', urlQuery, e.toString());
