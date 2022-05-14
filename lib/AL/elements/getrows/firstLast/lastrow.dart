@@ -29,7 +29,7 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
     return '10';
   }
 
-  await interestStore2.updateString(
+  await interestStore2.updateStringSheet(
       sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 

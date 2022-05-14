@@ -64,7 +64,7 @@ Future interestSet(int interestIndex) async {
 
   await interestController.interestNameSet(interestRowCurrent['interestName']);
 
-  appHome.updateMap('', '', 'interestRowCurrent', interestRowCurrent);
+  appHome.updateMap('interestRowCurrent', interestRowCurrent);
 
   await interestFilelistGetData(interestRowCurrent);
 }

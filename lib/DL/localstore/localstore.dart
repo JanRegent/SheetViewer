@@ -15,53 +15,23 @@ class LocalStore {
   }
 
   Future<String> read(String key, String defaultValue) async {
-    final items = await db.collection(dbName).get();
-    String keyDb2update = '';
-    try {
-      for (String keyDb in items.keys) {
-        Map row = items[keyDb];
-        if (row['key'] == key) {
-          keyDb2update = keyDb;
-          break;
-        }
-      }
-    } catch (_) {}
+    String docId = await getDocId4read(key);
 
-    if (keyDb2update.isEmpty) {
-      keyDb2update = await db.collection(dbName).doc().id;
-      db
-          .collection(dbName)
-          .doc(keyDb2update)
-          .set({'key': key, 'value': defaultValue});
+    if (docId.isEmpty) {
       return defaultValue;
     }
-    Map item = await db.collection(dbName).doc(keyDb2update).get();
+    Map item = await db.collection(dbName).doc(docId).get();
 
     return item['value'];
   }
 
   Future readListDynamic(String key, List<dynamic> defaultValue) async {
-    final items = await db.collection(dbName).get();
-    String keyDb2update = '';
-    try {
-      for (String keyDb in items.keys) {
-        Map row = items[keyDb];
-        if (row['key'] == key) {
-          keyDb2update = keyDb;
-          break;
-        }
-      }
-    } catch (_) {}
+    String docId = await getDocId4read(key);
 
-    if (keyDb2update.isEmpty) {
-      keyDb2update = await db.collection(dbName).doc().id;
-      db
-          .collection(dbName)
-          .doc(keyDb2update)
-          .set({'key': key, 'value': defaultValue});
+    if (docId.isEmpty) {
       return defaultValue;
     }
-    Map item = await db.collection(dbName).doc(keyDb2update).get();
+    Map item = await db.collection(dbName).doc(docId).get();
 
     return item['value'];
   }
@@ -85,92 +55,85 @@ class LocalStore {
     return value.split('__|__');
   }
 
-  // Future<List<dynamic>> readListDynamic(
-  //     String varName, List<String> defaultValue) async {
-  //   String value = await readString(
-  //       sheetName, fileId, varName, defaultValue.join('__|__'));
-  //   List<String> list = value.split('__|__');
-  //   List<dynamic> listDynamic = [];
-  //   for (var i = 0; i < list.length; i++) {
-  //     listDynamic.add(json.decode(list[i]));
-  //   }
-  //   return listDynamic;
-  // }
-
   String varNameKey(String sheetName, String fileId, String varName) {
     return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
   }
 
   //-------------------------------------------------------------------update
-  Future updateString(
+  //----string
+  Future updateStringSheet(
       String sheetName, String fileId, String varName, String value) async {
-    await update(varNameKey(sheetName, fileId, varName), value);
+    await updateString(varNameKey(sheetName, fileId, varName), value);
   }
 
-  Future updateMap(
-      String sheetName, String fileId, String varName, Map value) async {
-    await update(varNameKey(sheetName, fileId, varName), jsonEncode(value));
+  Future updateString(String key, String value) async {
+    String docId = await getDocId(key);
+    await db.collection(dbName).doc(docId).set({'key': key, 'value': value});
   }
 
-  Future updateList(String sheetName, String fileId, String varName,
+  //----Map
+  Future updateMap(String key, Map value) async {
+    String docId = await getDocId(key);
+    await db.collection(dbName).doc(docId).set({'key': key, 'value': value});
+  }
+
+  //----List<string>
+  Future updateListSring(String key, List<String> value) async {
+    String docId = await getDocId(key);
+    await db.collection(dbName).doc(docId).set({'key': key, 'value': value});
+  }
+
+  Future updateListStringSheet(String sheetName, String fileId, String varName,
       List<String> value) async {
-    await update(varNameKey(sheetName, fileId, varName), value.join('__|__'));
+    String key = varNameKey(sheetName, fileId, varName);
+    String docId = await getDocId(key);
+    await db.collection(dbName).doc(docId).set({'key': key, 'value': value});
   }
 
-  Future updateListMapDynamicDynamic(String sheetName, String fileId,
-      String varName, Map<dynamic, dynamic> value) async {
-    List<String> encodedList = [];
-    for (var i = 0; i < value.length; i++) {
-      encodedList.add(json.encode(value[i]));
-    }
-    await updateList(sheetName, fileId, varName, encodedList);
-  }
-
-  Future update(String key, String value) async {
-    final items = await db.collection(dbName).get();
-    String keyDb2update = '';
-    try {
-      for (String keyDb in items.keys) {
-        Map row = items[keyDb];
-        if (row['key'] == key) {
-          keyDb2update = keyDb;
-          break;
-        }
-      }
-    } catch (_) {}
-
-    if (keyDb2update.isEmpty) {
-      keyDb2update = db.collection(dbName).doc().id;
-    }
-    await db
-        .collection(dbName)
-        .doc(keyDb2update)
-        .set({'key': key, 'value': value});
-  }
-
+  //----List<dynamic>
   Future updateListDynamic(String key, List<dynamic> value) async {
-    final items = await db.collection(dbName).get();
-    String keyDb2update = '';
-    try {
-      for (String keyDb in items.keys) {
-        Map row = items[keyDb];
-        if (row['key'] == key) {
-          keyDb2update = keyDb;
-          break;
-        }
-      }
-    } catch (_) {}
-
-    if (keyDb2update.isEmpty) {
-      keyDb2update = db.collection(dbName).doc().id;
-    }
-    await db
-        .collection(dbName)
-        .doc(keyDb2update)
-        .set({'key': key, 'value': value});
+    String docId = await getDocId(key);
+    await db.collection(dbName).doc(docId).set({'key': key, 'value': value});
   }
 
+  //-------------------------------------------------------------------delete
   Future delete(int id) async {
     db.collection(dbName).doc(id).delete();
+  }
+
+  //------------------------------------------------------------------getDoc key
+  Future<String> getDocId(String key) async {
+    final items = await db.collection(dbName).get();
+    String docId = '';
+    try {
+      for (String keyDb in items.keys) {
+        Map row = items[keyDb];
+        if (row['key'] == key) {
+          docId = keyDb;
+          break;
+        }
+      }
+    } catch (_) {}
+
+    if (docId.isEmpty) {
+      docId = db.collection(dbName).doc().id;
+    }
+    return docId;
+  }
+
+  Future<String> getDocId4read(String key) async {
+    final items = await db.collection(dbName).get();
+    String docId = '';
+    try {
+      for (String keyDb in items.keys) {
+        Map row = items[keyDb];
+        if (row['key'] == key) {
+          docId = keyDb;
+          break;
+        }
+      }
+    } catch (_) {}
+
+    return docId;
   }
 }

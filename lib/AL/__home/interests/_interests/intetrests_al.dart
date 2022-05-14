@@ -11,10 +11,10 @@ CustomDropdownMenu interestsDropdown(List<String> intererests,
     try {
       selectedInterest = value;
 
-      appHome.updateMap('', '', 'interestRowCurrent', interestList[0]);
+      appHome.updateMap('interestRowCurrent', interestList[0]);
       for (var i = 0; i < interestList.length; i++) {
         if (interestList[i]['interestName'] == selectedInterest) {
-          appHome.updateMap('', '', 'interestRowCurrent', interestList[i]);
+          appHome.updateMap('interestRowCurrent', interestList[i]);
           break;
         }
       }

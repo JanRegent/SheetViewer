@@ -32,8 +32,8 @@ PopupMenuButton popup(
               context, sheetView.cols, 'Select columns');
           if (result.isEmpty) return;
           sheetView.colsHeader = result;
-          await interestStore2.updateList(sheetView.sheetName, sheetView.fileId,
-              'colsHeader', sheetView.colsHeader);
+          await interestStore2.updateListStringSheet(sheetView.sheetName,
+              sheetView.fileId, 'colsHeader', sheetView.colsHeader);
 
           setState();
         },
@@ -48,8 +48,8 @@ PopupMenuButton popup(
           Navigator.pop(context);
           sheetView.colsHeader = sheetView.cols;
 
-          await interestStore2.updateList(sheetView.sheetName, sheetView.fileId,
-              'colsHeader', sheetView.colsHeader);
+          await interestStore2.updateListStringSheet(sheetView.sheetName,
+              sheetView.fileId, 'colsHeader', sheetView.colsHeader);
           setState();
         },
       )));

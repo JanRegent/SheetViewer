@@ -8,7 +8,7 @@ class DlGlobals {
   String baseUrl = '';
   Future init() async {
     baseUrl = await loadAssetString('contentServiceUrl');
-    await appHome.updateString('', '', 'DL-contentServiceUrl', baseUrl);
+    await appHome.updateString('DL-contentServiceUrl', baseUrl);
   }
 }
 

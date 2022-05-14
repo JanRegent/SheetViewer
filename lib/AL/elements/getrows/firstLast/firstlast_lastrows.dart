@@ -35,7 +35,7 @@ Future getRowsSet(
     return '10';
   }
 
-  await interestStore2.updateString(
+  await interestStore2.updateStringSheet(
       sheetName, fileId, 'getRowsLast', rowsCount);
 
   setStateFunc();
