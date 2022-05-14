@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:localstore/localstore.dart';
 
 class LocalStore {
@@ -14,7 +14,8 @@ class LocalStore {
     db = Localstore.instance;
   }
 
-  Future<String> read(String key, String defaultValue) async {
+  //---readString
+  Future<String> readString(String key, String defaultValue) async {
     String docId = await getDocId4read(key);
 
     if (docId.isEmpty) {
@@ -25,6 +26,13 @@ class LocalStore {
     return item['value'];
   }
 
+  Future<String> readStringSheet(String sheetName, String fileId,
+      String varName, String defaultValue) async {
+    return await readString(
+        varNameKey(sheetName, fileId, varName), defaultValue);
+  }
+
+  //---List<dynamic>
   Future readListDynamic(String key, List<dynamic> defaultValue) async {
     String docId = await getDocId4read(key);
 
@@ -36,27 +44,28 @@ class LocalStore {
     return item['value'];
   }
 
-  Future<String> readString(String sheetName, String fileId, String varName,
-      String defaultValue) async {
-    return await read(varNameKey(sheetName, fileId, varName), defaultValue);
+  Future readListDynamicSheet(String sheetName, String fileId, String varName,
+      List<dynamic> defaultValue) async {
+    String key = varNameKey(sheetName, fileId, varName);
+    return await readListDynamic(key, defaultValue);
   }
 
-  Future readMap(
+  //---Map
+  Future readMapSheet(
       String sheetName, String fileId, String varName, Map defaultValue) async {
-    String value =
-        await readString(sheetName, fileId, varName, jsonEncode(defaultValue));
-    return jsonDecode(value);
+    String key = varNameKey(sheetName, fileId, varName);
+    return await readMap(key, defaultValue);
   }
 
-  Future<List<String>> readList(String sheetName, String fileId, String varName,
-      List<String> defaultValue) async {
-    String value = await readString(
-        sheetName, fileId, varName, defaultValue.join('__|__'));
-    return value.split('__|__');
-  }
+  Future<Map> readMap(String key, Map defaultValue) async {
+    String docId = await getDocId4read(key);
 
-  String varNameKey(String sheetName, String fileId, String varName) {
-    return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
+    if (docId.isEmpty) {
+      return defaultValue;
+    }
+    Map item = await db.collection(dbName).doc(docId).get();
+
+    return item['value'];
   }
 
   //-------------------------------------------------------------------update
@@ -101,7 +110,7 @@ class LocalStore {
     db.collection(dbName).doc(id).delete();
   }
 
-  //------------------------------------------------------------------getDoc key
+  //-------------------------------------------------------getDocId varNameKey
   Future<String> getDocId(String key) async {
     final items = await db.collection(dbName).get();
     String docId = '';
@@ -136,4 +145,8 @@ class LocalStore {
 
     return docId;
   }
+}
+
+String varNameKey(String sheetName, String fileId, String varName) {
+  return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
 }
