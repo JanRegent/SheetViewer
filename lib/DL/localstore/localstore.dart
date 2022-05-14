@@ -40,6 +40,32 @@ class LocalStore {
     return item['value'];
   }
 
+  Future readListDynamic(String key, List<dynamic> defaultValue) async {
+    final items = await db.collection(dbName).get();
+    String keyDb2update = '';
+    try {
+      for (String keyDb in items.keys) {
+        Map row = items[keyDb];
+        if (row['key'] == key) {
+          keyDb2update = keyDb;
+          break;
+        }
+      }
+    } catch (_) {}
+
+    if (keyDb2update.isEmpty) {
+      keyDb2update = await db.collection(dbName).doc().id;
+      db
+          .collection(dbName)
+          .doc(keyDb2update)
+          .set({'key': key, 'value': defaultValue});
+      return defaultValue;
+    }
+    Map item = await db.collection(dbName).doc(keyDb2update).get();
+
+    return item['value'];
+  }
+
   Future<String> readString(String sheetName, String fileId, String varName,
       String defaultValue) async {
     return await read(varNameKey(sheetName, fileId, varName), defaultValue);
@@ -59,17 +85,17 @@ class LocalStore {
     return value.split('__|__');
   }
 
-  Future<List<dynamic>> readListDynamic(String sheetName, String fileId,
-      String varName, List<String> defaultValue) async {
-    String value = await readString(
-        sheetName, fileId, varName, defaultValue.join('__|__'));
-    List<String> list = value.split('__|__');
-    List<dynamic> listDynamic = [];
-    for (var i = 0; i < list.length; i++) {
-      listDynamic.add(json.decode(list[i]));
-    }
-    return listDynamic;
-  }
+  // Future<List<dynamic>> readListDynamic(
+  //     String varName, List<String> defaultValue) async {
+  //   String value = await readString(
+  //       sheetName, fileId, varName, defaultValue.join('__|__'));
+  //   List<String> list = value.split('__|__');
+  //   List<dynamic> listDynamic = [];
+  //   for (var i = 0; i < list.length; i++) {
+  //     listDynamic.add(json.decode(list[i]));
+  //   }
+  //   return listDynamic;
+  // }
 
   String varNameKey(String sheetName, String fileId, String varName) {
     return 'sheetName: ${sheetName}__||__var:${varName}__|__$fileId';
@@ -91,15 +117,6 @@ class LocalStore {
     await update(varNameKey(sheetName, fileId, varName), value.join('__|__'));
   }
 
-  Future updateListDynamic(String sheetName, String fileId, String varName,
-      List<dynamic> value) async {
-    List<String> encodedList = [];
-    for (var i = 0; i < value.length; i++) {
-      encodedList.add(json.encode(value[i]));
-    }
-    await updateList(sheetName, fileId, varName, encodedList);
-  }
-
   Future updateListMapDynamicDynamic(String sheetName, String fileId,
       String varName, Map<dynamic, dynamic> value) async {
     List<String> encodedList = [];
@@ -110,6 +127,28 @@ class LocalStore {
   }
 
   Future update(String key, String value) async {
+    final items = await db.collection(dbName).get();
+    String keyDb2update = '';
+    try {
+      for (String keyDb in items.keys) {
+        Map row = items[keyDb];
+        if (row['key'] == key) {
+          keyDb2update = keyDb;
+          break;
+        }
+      }
+    } catch (_) {}
+
+    if (keyDb2update.isEmpty) {
+      keyDb2update = db.collection(dbName).doc().id;
+    }
+    await db
+        .collection(dbName)
+        .doc(keyDb2update)
+        .set({'key': key, 'value': value});
+  }
+
+  Future updateListDynamic(String key, List<dynamic> value) async {
     final items = await db.collection(dbName).get();
     String keyDb2update = '';
     try {

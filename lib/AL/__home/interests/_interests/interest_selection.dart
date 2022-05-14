@@ -12,7 +12,7 @@ Future interestsLoad() async {
   logParagraphStart('interestsLoad');
 
   try {
-    interestList = await appHome.readListDynamic('', '', 'interestList', []);
+    interestList = await appHome.readListDynamic('interestList', []);
   } catch (e) {
     if (interestList.isNotEmpty) {
       logi('interestsLoad()', 'appHome.readListDynamic( interestList', 'error',
@@ -20,13 +20,12 @@ Future interestsLoad() async {
     }
   }
   if (interestList.isEmpty) {
-    await getSheetInterests();
-    interestList = await appHome.readListDynamic('', '', 'interestList', []);
+    interestList = await getSheetInterests();
+    await appHome.updateListDynamic('interestList', interestList);
   }
+  interestSet(0);
 
   interestTitlesGet();
-
-  interestSet(0);
 }
 
 Future getSheetInterests() async {
@@ -38,18 +37,15 @@ Future getSheetInterests() async {
   } catch (e) {
     logi('getSheetInterests', '1e request getSheet', 'error', e.toString());
   }
-
+  interestList = [];
   try {
     if (responseData.isNotEmpty) {
-      appHome.updateListDynamic('', '', 'interestList', responseData['rows']);
-    } else {
-      appHome.updateListDynamic('', '', 'interestList', [
-        '{"row_":2,"interestName":"space","fileUrl":"https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017","sheetName":"spaceList"}'
-      ]);
+      interestList = responseData['rows'];
     }
   } catch (e) {
     logi('getSheetInterests', '2e update interests', 'error', e.toString());
   }
+  return interestList;
 }
 
 void interestTitlesGet() {
@@ -62,6 +58,9 @@ void interestTitlesGet() {
 
 Future interestSet(int interestIndex) async {
   interestRowCurrent = interestList[interestIndex];
+
+  logParagraphStart('interestSet');
+  logi('interestSet(', '', 'interestName', interestRowCurrent['interestName']);
 
   await interestController.interestNameSet(interestRowCurrent['interestName']);
 
