@@ -5,7 +5,7 @@ import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/multiselect_chip.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 CustomDropdownMenu interestsDropdown(List<String> intererests,
     List<dynamic> interestList, BuildContext context) {

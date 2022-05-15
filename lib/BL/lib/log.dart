@@ -3,14 +3,6 @@ import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/isardb/log.dart';
 
-Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
-  Map<String, dynamic> map = {};
-  for (String key in resp.keys) {
-    map[key] = resp[key];
-  }
-  return map;
-}
-
 void logi(String functionName, String step, description, String message) {
   Log log = Log()
     ..aFunc = functionName

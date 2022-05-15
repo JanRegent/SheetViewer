@@ -8,7 +8,7 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import 'package:sheetviewer/DL/localstore/localstore.dart';
 
-import 'lib/blglobal.dart';
+import 'lib/log.dart';
 
 BL bl = BL();
 late LogDb logDb;
@@ -44,8 +44,6 @@ Future isarDbInit() async {
   );
 
   logDb = LogDb(isar);
-
+  logDb.clear();
   sheetsDb = SheetsDb(isar);
-
-  logi('isarDbInit()', 'init end', '', '');
 }

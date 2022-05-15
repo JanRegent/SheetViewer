@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
-import 'package:sheetviewer/BL/lib/blglobal.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 import '../../BL/bl.dart';
 

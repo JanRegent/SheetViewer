@@ -56,6 +56,14 @@ class BLuti {
     return list;
   }
 
+  Map<String, dynamic> toMapStringDynamic(Map<dynamic, dynamic> resp) {
+    Map<String, dynamic> map = {};
+    for (String key in resp.keys) {
+      map[key] = resp[key];
+    }
+    return map;
+  }
+
   // date fomatter function
   String getFormattedDateFromFormattedString(
       {required String currentFormat,
