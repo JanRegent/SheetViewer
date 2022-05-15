@@ -1,1 +1,2 @@
-This will be written to the text file-ascii
+DL-buildVersion-4 
+ECHO is off.
