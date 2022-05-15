@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
+import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
 
 import 'package:sheetviewer/AL/views/getdata_datagridpage.dart';
 

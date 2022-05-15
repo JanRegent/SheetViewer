@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/blglobal.dart';
 
 import 'package:sheetviewer/DL/dlglobals.dart';
 
@@ -26,6 +26,7 @@ Future<SheetView> sheetViewGetData(
   Map queryMap = await actionMapCreate(fileId, sheetName, action);
 
   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
+
   SheetView? sheetView;
   try {
     sheetView = await sheetsDb.readSheet(queryStringKey);
@@ -40,10 +41,7 @@ Future<SheetView> sheetViewGetData(
     sheetView = await getSheetView(queryStringKey, url: urlQuery);
     return sheetView!;
   } catch (e) {
-    if (kDebugMode) {
-      print('----------------------getActionSheet readSheet');
-      print(e);
-    }
+    logi('sheetViewGetData(', 'queryStringKey', 'error', ' e.toString()');
     return (SheetView().aStatus = 'error: \n' + e.toString()) as SheetView;
   }
 }

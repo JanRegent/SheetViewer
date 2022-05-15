@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_controlers.dart';
+
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_firstrows.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_lastrows.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
@@ -25,23 +26,23 @@ class FilelistviewPage extends StatelessWidget {
                   color: Colors.red,
                   height: 4.0,
                 ),
-            itemCount: fileListSheet.length,
+            itemCount: interestContr.fileListSheet.length,
             itemBuilder: (context, index) => Center(
                 child: cardType == 'firstRows'
                     ? filelistCardFirstRows(
-                        context, fileListSheet[index], index)
+                        context, interestContr.fileListSheet[index], index)
                     : cardType == 'lastRows'
                         ? filelistCardLastRows(
-                            context, fileListSheet[index], index)
+                            context, interestContr.fileListSheet[index], index)
                         : cardType == 'allRows'
                             ? filelistCard(
                                 context,
-                                fileListSheet[index],
+                                interestContr.fileListSheet[index],
                                 index,
                               )
                             : filelistCard(
                                 context,
-                                fileListSheet[index],
+                                interestContr.fileListSheet[index],
                                 index,
                               ))));
   }

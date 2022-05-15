@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sheetviewer/AL/__home/interests/_interests/interest_selection.dart';
-import './interests/interests_controlers.dart';
+
+import 'package:sheetviewer/BL/bl.dart';
 
 import 'home_drawer_menu.dart';
+import 'interests/interests_al.dart';
 
 // ignore: must_be_immutable
 class HomeApp extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomeApp extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: ElevatedButton(
-              child: Obx(() => Text(interestController.interestName.value)),
+              child: Obx(() => Text(interestContr.interestName.value)),
               onPressed: () async {
                 await selectInterestManualy(context);
               }),

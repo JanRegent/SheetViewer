@@ -50,6 +50,28 @@ class LocalStore {
     return await readListDynamic(key, defaultValue);
   }
 
+  //---List<String>
+  Future readListString(String key, List<String> defaultValue) async {
+    String docId = await getDocId4read(key);
+
+    if (docId.isEmpty) {
+      return defaultValue;
+    }
+    Map item = await db.collection(dbName).doc(docId).get();
+
+    return item['value'];
+  }
+
+  Future readListStringSheet(
+    String sheetName,
+    String fileId,
+    String varName,
+    List<String> defaultValue,
+  ) async {
+    String key = varNameKey(sheetName, fileId, varName);
+    return await readListString(key, defaultValue);
+  }
+
   //---Map
   Future readMapSheet(
       String sheetName, String fileId, String varName, Map defaultValue) async {

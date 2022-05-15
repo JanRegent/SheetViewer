@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/log.dart';
@@ -15,6 +16,7 @@ late SheetsDb sheetsDb;
 
 late LocalStore interestStore2; //init in interestController.interestNameSet
 late LocalStore appHome = LocalStore('appHome: ');
+InterestContr interestContr = InterestContr();
 
 class BL {
   BLuti blUti = BLuti();

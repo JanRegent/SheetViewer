@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/__home/interests/_interests/interest_selection.dart';
 
 import 'AL/__home/homepage2.dart';
 
@@ -10,7 +9,7 @@ void main() async {
 
   await bl.init();
 
-  await interestsLoad();
+  await interestContr.interestsLoad();
 
   runApp(const MaterialApp(
     home: HomeApp(),
