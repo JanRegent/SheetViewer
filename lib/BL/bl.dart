@@ -8,6 +8,7 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import 'package:sheetviewer/DL/localstore/localstore.dart';
 
+import 'buildversion.dart';
 import 'lib/log.dart';
 
 BL bl = BL();
@@ -23,10 +24,11 @@ class BL {
   BlGlobal blGlobal = BlGlobal();
 
   Future init() async {
-    await await isarDbInit();
-    logParagraphStart('init');
-
     await appHome.init();
+    await appHome.updateString('buildVersion', buildVersion);
+
+    await await isarDbInit();
+    logParagraphStart('init buildVersion: $buildVersion');
 
     await blGlobal.init();
     await dlGlobals.init();

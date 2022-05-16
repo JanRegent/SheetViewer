@@ -9,10 +9,6 @@ class DlGlobals {
   Future init() async {
     baseUrl = await loadAssetString('contentServiceUrl');
     await appHome.updateString('DL-contentServiceUrl', baseUrl);
-
-    String buildVersion = await loadAssetString('buildVersion');
-    print(buildVersion);
-    await appHome.updateString('buildVersion', buildVersion);
   }
 }
 
