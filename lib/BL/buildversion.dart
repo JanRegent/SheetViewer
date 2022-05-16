@@ -1,1 +1,1 @@
-"const buildVersion = 'BL-buildVersion-1';"   
+const buildVersion = 'BL-buildVersion-2';   
