@@ -3,7 +3,7 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 PopupMenuButton popup(
     SheetView sheetView, BuildContext context, Function setState) {
@@ -63,36 +63,49 @@ PopupMenuButton popup(
   );
 }
 
-List<GridColumn> colsHeader(
-    SheetView sheetView, BuildContext context, Function setState) {
-  List<GridColumn> gridCols = [];
-  gridCols.add(GridColumn(
-      columnName: '__leftRowMenu__',
-      width: 50,
-      label: Container(
-          padding: const EdgeInsets.all(10.0),
-          alignment: Alignment.center,
-          child: popup(sheetView, context, setState))));
+Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
+  List<PlutoColumn> gridCols = [];
+  gridCols.add(PlutoColumn(
+    title: 'row_',
+    field: '__leftRowMenu__',
+    type: PlutoColumnType.text(),
+  ));
+
+  // GridColumn(
+  //   columnName: '__leftRowMenu__',
+  //   width: 50,
+  //   label: Container(
+  //       padding: const EdgeInsets.all(10.0),
+  //       alignment: Alignment.center,
+  //       child: popup(sheetView, context, setState))));
   for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
     //print(sheetView.colsHeader[colIx]);
-    gridCols.add(GridColumn(
-        columnName: sheetView.colsHeader[colIx],
-        label: Container(
-            padding: const EdgeInsets.all(16.0),
-            alignment: Alignment.center,
-            child: Text(
-              sheetView.colsHeader[colIx],
-            ))));
+    PlutoColumn(
+      title: sheetView.colsHeader[colIx],
+      field: sheetView.colsHeader[colIx],
+      type: PlutoColumnType.text(),
+    );
   }
-  gridCols.add(GridColumn(
-      columnName: '__rowDetail__',
-      width: 50,
-      label: Container(
-          padding: const EdgeInsets.all(10.0),
-          alignment: Alignment.center,
-          child: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ))));
+
+  gridCols.add(PlutoColumn(
+    title: '>',
+    field: '__rowDetail__',
+    type: PlutoColumnType.text(),
+  ));
+  // gridCols.add(IconButton(
+  //   icon: const Icon(Icons.menu),
+  //   onPressed: () {},
+  // ));
+  // gridCols.add(GridColumn(
+  //     columnName: '__rowDetail__',
+  //     width: 50,
+  //     label: Container(
+  //         padding: const EdgeInsets.all(10.0),
+  //         alignment: Alignment.center,
+  //         child: IconButton(
+  //           icon: const Icon(Icons.menu),
+  //           onPressed: () {},
+  //         ))));
+
   return gridCols;
 }

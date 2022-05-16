@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:localstore/localstore.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 class LocalStore {
   final dbName;
@@ -59,7 +60,7 @@ class LocalStore {
     }
     Map item = await db.collection(dbName).doc(docId).get();
 
-    return item['value'];
+    return bl.blUti.toListString(item['value']);
   }
 
   Future readListStringSheet(

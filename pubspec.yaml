@@ -31,7 +31,9 @@ dependencies:
     sdk: flutter
   
   #================================================================================================AL    
-  syncfusion_flutter_datagrid: ^20.1.55  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
+  pluto_grid: ^3.0.0-1.pre      #https://pub.dev/packages/pluto_grid/versions/3.0.0-1.pre/changelog
+  linked_scroll_controller: ^0.2.0 #https://pub.dev/packages/linked_scroll_controller
+  #syncfusion_flutter_datagrid: ^20.1.55  #https://pub.dev/packages/syncfusion_flutter_datagrid/versions
   # Because no versions of syncfusion_flutter_datagrid match >19.4.56 <20.0.0 and syncfusion_flutter_datagrid 19.4.56 depends on collection >=1.9.0 <=1.15.0, 
   collection: ^1.15.0
 

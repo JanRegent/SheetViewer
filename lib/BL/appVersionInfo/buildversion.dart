@@ -1,1 +1,1 @@
-const buildVersion = 'BL-appVersionInfo-1';      
+const buildVersion = 'AL-views-pluto-1';      

@@ -1,10 +1,15 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/views/gridview/_datagridpage.dart';
+import 'package:pluto_grid/pluto_grid.dart';
+
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
+
+import 'plutogrid/_plutogridpage.dart';
+import 'plutogrid/cols.dart';
+import 'plutogrid/rows.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataDatagridPage extends StatefulWidget {
@@ -26,12 +31,16 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
   }
 
   SheetView sheetView = SheetView()..aStatus = 'info:empty';
-
+  List<PlutoColumn> cols = [];
+  List<PlutoRow> gridrows = [];
   Future<String> getData() async {
     sheetView =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
-    sheetView.colsHeader = await interestStore2.readListStringSheet(
-        widget.sheetName, widget.fileId, 'colsHeader', sheetView.cols);
+    // sheetView.colsHeader = await interestStore2.readListStringSheet(
+    //     widget.sheetName, widget.fileId, 'colsHeader', sheetView.cols);
+
+    cols = await colsHeader(sheetView);
+    gridrows = await gridRows(sheetView);
     return 'OK';
   }
 
@@ -54,7 +63,8 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return DatagridPage(sheetView, 'fileTitle');
+              return PlutogridPage(sheetView, 'fileTitle', cols, gridrows);
+              //return DatagridPage(sheetView, 'fileTitle');
             }
         }
       },
