@@ -1,1 +1,1 @@
-const buildVersion = 'BL-buildVersion-2';   
+const buildVersion = 'BL-buildVersion-3-appversion';   
