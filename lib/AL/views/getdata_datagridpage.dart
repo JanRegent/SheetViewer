@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 
@@ -38,9 +37,11 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
     // sheetView.colsHeader = await interestStore2.readListStringSheet(
     //     widget.sheetName, widget.fileId, 'colsHeader', sheetView.cols);
-
+    sheetView.colsHeader = sheetView.cols;
     cols = await colsHeader(sheetView);
+
     gridrows = await gridRows(sheetView);
+
     return 'OK';
   }
 

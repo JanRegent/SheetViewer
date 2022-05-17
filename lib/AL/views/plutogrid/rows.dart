@@ -7,6 +7,8 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
   PlutoRow gridRow(Map row, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
+    plutoRow.cells.putIfAbsent('row_', () => PlutoCell(value: row['row_']));
+
     for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
       // ignore: unused_local_variable
       String value = '';
@@ -19,8 +21,7 @@ Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
       plutoRow.cells
           .putIfAbsent(sheetView.cols[colIx], () => PlutoCell(value: value));
     }
-    plutoRow.cells
-        .putIfAbsent('__rowDetail__', () => PlutoCell(value: rowIx.toString()));
+    plutoRow.cells.putIfAbsent('__rowDetail__', () => PlutoCell(value: '>'));
 
     return plutoRow;
   }

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-pluto-1';      
+const buildVersion = 'AL-views-pluto-2-onRowDoubleTap';      

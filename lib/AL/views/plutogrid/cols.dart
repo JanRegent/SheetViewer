@@ -67,24 +67,17 @@ Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
   List<PlutoColumn> gridCols = [];
   gridCols.add(PlutoColumn(
     title: 'row_',
-    field: '__leftRowMenu__',
+    field: 'row_',
+    width: 60,
     type: PlutoColumnType.text(),
   ));
 
-  // GridColumn(
-  //   columnName: '__leftRowMenu__',
-  //   width: 50,
-  //   label: Container(
-  //       padding: const EdgeInsets.all(10.0),
-  //       alignment: Alignment.center,
-  //       child: popup(sheetView, context, setState))));
   for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
-    //print(sheetView.colsHeader[colIx]);
-    PlutoColumn(
+    gridCols.add(PlutoColumn(
       title: sheetView.colsHeader[colIx],
       field: sheetView.colsHeader[colIx],
       type: PlutoColumnType.text(),
-    );
+    ));
   }
 
   gridCols.add(PlutoColumn(
@@ -92,16 +85,7 @@ Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
     field: '__rowDetail__',
     type: PlutoColumnType.text(),
   ));
-  // gridCols.add(IconButton(
-  //   icon: const Icon(Icons.menu),
-  //   onPressed: () {},
-  // ));
-  // gridCols.add(GridColumn(
-  //     columnName: '__rowDetail__',
-  //     width: 50,
-  //     label: Container(
-  //         padding: const EdgeInsets.all(10.0),
-  //         alignment: Alignment.center,
+
   //         child: IconButton(
   //           icon: const Icon(Icons.menu),
   //           onPressed: () {},
