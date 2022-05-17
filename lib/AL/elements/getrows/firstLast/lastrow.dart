@@ -3,13 +3,14 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.d
 import 'package:sheetviewer/AL/views/getdata_datagridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-Row lastRow(BuildContext context, String sheetName, String fileId) {
+Row lastRow(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
   return Row(
     children: [
       const Text(' '),
       lastRowsCount(context, sheetName, fileId),
       const Text(' '),
-      lastButton(context, sheetName, fileId),
+      lastButton(context, sheetName, fileId, fileTitle),
     ],
   );
 }
@@ -33,13 +34,14 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
       sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 
-IconButton lastButton(BuildContext context, String sheetName, String fileId) {
+IconButton lastButton(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataDatagridPage(sheetName, fileId, 'getRowsLast'),
+              GetDataDatagridPage(sheetName, fileId, 'getRowsLast', fileTitle),
         ));
   }
 

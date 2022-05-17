@@ -4,7 +4,8 @@ import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastrow.dart';
 
-Column firstLastColumn(BuildContext context, String sheetName, String fileId) {
+Column firstLastColumn(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
   return Column(
     children: [
       Row(
@@ -12,7 +13,7 @@ Column firstLastColumn(BuildContext context, String sheetName, String fileId) {
           const Text(' '),
           firstRowsCount(context, sheetName, fileId),
           const Text(' '),
-          firstButton(context, sheetName, fileId),
+          firstButton(context, sheetName, fileId, fileTitle),
         ],
       ),
       Row(
@@ -20,7 +21,7 @@ Column firstLastColumn(BuildContext context, String sheetName, String fileId) {
           const Text(' '),
           lastRowsCount(context, sheetName, fileId),
           const Text(' '),
-          lastButton(context, sheetName, fileId),
+          lastButton(context, sheetName, fileId, fileTitle),
         ],
       ),
       Row(children: [

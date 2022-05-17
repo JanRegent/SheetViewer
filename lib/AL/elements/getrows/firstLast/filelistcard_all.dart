@@ -29,7 +29,7 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
         firstLastRow(context, index, fileListSheetRow['sheetName'],
-            fileListSheetRow['fileId']),
+            fileListSheetRow['fileId'], fileListSheetRow['fileTitle']),
 
         //-------------------------------------------------------------last/byValues
 

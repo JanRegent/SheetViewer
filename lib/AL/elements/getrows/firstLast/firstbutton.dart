@@ -6,13 +6,14 @@ import 'package:sheetviewer/AL/views/getdata_datagridpage.dart';
 
 import '_firstlastrow.dart';
 
-IconButton firstButton(BuildContext context, String sheetName, String fileId) {
+IconButton firstButton(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataDatagridPage(sheetName, fileId, 'getRowsFirst'),
+              GetDataDatagridPage(sheetName, fileId, 'getRowsFirst', fileTitle),
         ));
   }
 

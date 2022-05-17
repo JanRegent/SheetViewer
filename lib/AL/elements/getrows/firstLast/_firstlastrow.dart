@@ -8,15 +8,15 @@ import 'allrowsbutton.dart';
 import 'firstbutton.dart';
 import 'lastrow.dart';
 
-Row firstLastRow(
-    BuildContext context, int index, String sheetName, String fileId) {
+Row firstLastRow(BuildContext context, int index, String sheetName,
+    String fileId, String fileTitle) {
   return Row(
     children: [
       firstRowsCount(context, sheetName, fileId),
       const Text(' '),
-      firstButton(context, sheetName, fileId),
+      firstButton(context, sheetName, fileId, fileTitle),
       const Text(' '),
-      lastButton(context, sheetName, fileId),
+      lastButton(context, sheetName, fileId, fileTitle),
       const Text(' '),
       lastRowsCount(context, sheetName, fileId),
       const Text(' '),

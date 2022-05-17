@@ -34,7 +34,8 @@ Card filelistCardLastRows(
             //fileListSheetRow['sheetName'], fileListSheetRow['fileId']
             context,
             fileListSheetRow['sheetName'],
-            bl.blUti.url2fileid(fileListSheetRow['fileUrl'])),
+            bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+            fileListSheetRow['fileTitle']),
       ],
     );
   }

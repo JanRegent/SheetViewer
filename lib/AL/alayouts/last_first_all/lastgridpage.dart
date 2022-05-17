@@ -50,7 +50,8 @@ class _LastGridPageState extends State<LastGridPage> {
                 context,
                 index,
                 widget.selectedInterestRow['sheetName'],
-                widget.selectedInterestRow['fileId']);
+                widget.selectedInterestRow['fileId'],
+                widget.selectedInterestRow['fileTitle']);
           },
         ));
   }

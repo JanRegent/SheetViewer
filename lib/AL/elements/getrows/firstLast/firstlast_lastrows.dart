@@ -4,13 +4,14 @@ import 'package:sheetviewer/BL/bl.dart';
 
 import 'lastrow.dart';
 
-Row lastRows(BuildContext context, String sheetName, String fileId) {
+Row lastRows(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
   return Row(
     children: [
       const Text(' '),
       lastRowsCount(context, sheetName, fileId),
       const Text(' '),
-      lastButton(context, sheetName, fileId),
+      lastButton(context, sheetName, fileId, fileTitle),
     ],
   );
 }

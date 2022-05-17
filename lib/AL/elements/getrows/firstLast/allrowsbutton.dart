@@ -8,7 +8,7 @@ ElevatedButton allRowsButton(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              GetDataDatagridPage(sheetName, fileId, 'getSheet'),
+              GetDataDatagridPage(sheetName, fileId, 'getSheet', 'txx'),
         ));
   }
 

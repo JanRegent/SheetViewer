@@ -32,7 +32,7 @@ Card filelistCardFirstLastAll(
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
         firstLastColumn(context, fileListSheet[index]['sheetName'],
-            fileListSheet[index]['fileId']),
+            fileListSheet[index]['fileId'], fileListSheet[index]['fileTitle']),
       ],
     );
   }

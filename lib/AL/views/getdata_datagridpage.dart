@@ -16,9 +16,11 @@ class GetDataDatagridPage extends StatefulWidget {
   final String sheetName;
   final String fileId;
   final String action;
+  final String fileTitle;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataDatagridPage(this.sheetName, this.fileId, this.action);
+  const GetDataDatagridPage(
+      this.sheetName, this.fileId, this.action, this.fileTitle);
 
   @override
   _GetDataDatagridPageState createState() => _GetDataDatagridPageState();
@@ -57,7 +59,7 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: plutoDrawer(context, setStateFunc),
-        appBar: AppBar(title: const Text('widget.fileTitle')),
+        appBar: AppBar(title: Text(widget.fileTitle)),
         body: FutureBuilder(
           future: getData(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -74,7 +76,7 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return PlutogridPage('fileTitle', cols, gridrows);
+                  return PlutogridPage(widget.fileTitle, cols, gridrows);
                   //return DatagridPage(sheetView, 'fileTitle');
                 }
             }

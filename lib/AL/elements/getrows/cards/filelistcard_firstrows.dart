@@ -28,8 +28,8 @@ Card filelistCardFirstRows(
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstRows(
-            context, fileListSheetRow['sheetname'], fileListSheetRow['fileId']),
+        firstRows(context, fileListSheetRow['sheetname'],
+            fileListSheetRow['fileId'], fileListSheetRow['fileTitle']),
       ],
     );
   }
