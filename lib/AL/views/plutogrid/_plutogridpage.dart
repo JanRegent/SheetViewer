@@ -62,6 +62,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
       // columnGroups: columnGroups,
       onLoaded: (PlutoGridOnLoadedEvent event) {
         stateManager = event.stateManager;
+        event.stateManager.setShowColumnFilter(true);
       },
       onChanged: (PlutoGridOnChangedEvent event) {},
       onSelected: (PlutoGridOnSelectedEvent event) {},
@@ -71,8 +72,21 @@ class _PlutogridPageState extends State<PlutogridPage> {
           print(event.cell?.row.cells['row_']!.value);
         }
       },
-      configuration: const PlutoGridConfiguration(
+      configuration: PlutoGridConfiguration(
         enableColumnBorder: true,
+        columnFilterConfig: PlutoGridColumnFilterConfig(
+          filters: const [
+            ...FilterHelper.defaultFilters,
+            // custom filter
+          ],
+          resolveDefaultColumnFilter: (column, resolver) {
+            if (column.field == 'text') {
+              return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+            }
+
+            return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+          },
+        ),
       ),
     ));
   }
