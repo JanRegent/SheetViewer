@@ -18,8 +18,8 @@ Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
         value = '?';
       }
 
-      plutoRow.cells
-          .putIfAbsent(sheetView.cols[colIx], () => PlutoCell(value: value));
+      plutoRow.cells.putIfAbsent(
+          sheetView.colsHeader[colIx], () => PlutoCell(value: value));
     }
     plutoRow.cells.putIfAbsent('__rowDetail__', () => PlutoCell(value: '>'));
 

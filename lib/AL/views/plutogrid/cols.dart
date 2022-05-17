@@ -63,7 +63,7 @@ PopupMenuButton popup(
   );
 }
 
-Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
+Future<List<PlutoColumn>> colsHeader(List<String> colsHeader) async {
   List<PlutoColumn> gridCols = [];
   gridCols.add(PlutoColumn(
     title: 'row_',
@@ -72,12 +72,12 @@ Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
     type: PlutoColumnType.text(),
   ));
 
-  for (var colIx = 0; colIx < sheetView.colsHeader.length; colIx++) {
+  for (var colIx = 0; colIx < colsHeader.length; colIx++) {
     gridCols.add(PlutoColumn(
-      title: sheetView.colsHeader[colIx],
-      field: sheetView.colsHeader[colIx],
-      type: PlutoColumnType.text(),
-    ));
+        title: colsHeader[colIx],
+        field: colsHeader[colIx],
+        type: PlutoColumnType.text(),
+        readOnly: true));
   }
 
   gridCols.add(PlutoColumn(
@@ -85,11 +85,6 @@ Future<List<PlutoColumn>> colsHeader(SheetView sheetView) async {
     field: '__rowDetail__',
     type: PlutoColumnType.text(),
   ));
-
-  //         child: IconButton(
-  //           icon: const Icon(Icons.menu),
-  //           onPressed: () {},
-  //         ))));
 
   return gridCols;
 }

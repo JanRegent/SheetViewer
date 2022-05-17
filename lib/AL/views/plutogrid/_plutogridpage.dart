@@ -5,16 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
-
 /// The home page of the application which hosts the datagrid.
 class PlutogridPage extends StatefulWidget {
-  final SheetView sheetView;
   final String fileTitle;
   final List<PlutoColumn> cols;
   final List<PlutoRow> gridrows;
-  const PlutogridPage(this.sheetView, this.fileTitle, this.cols, this.gridrows,
-      {Key? key})
+  const PlutogridPage(this.fileTitle, this.cols, this.gridrows, {Key? key})
       : super(key: key);
 
   @override
@@ -22,7 +18,6 @@ class PlutogridPage extends StatefulWidget {
 }
 
 class _PlutogridPageState extends State<PlutogridPage> {
-  String fileurlId = '';
   @override
   void initState() {
     super.initState();
@@ -53,10 +48,8 @@ class _PlutogridPageState extends State<PlutogridPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: PlutoGrid(
+  PlutoGrid plutoGrid() {
+    return PlutoGrid(
       columns: widget.cols,
       rows: widget.gridrows,
       // columnGroups: columnGroups,
@@ -64,8 +57,8 @@ class _PlutogridPageState extends State<PlutogridPage> {
         stateManager = event.stateManager;
         event.stateManager.setShowColumnFilter(true);
       },
-      onChanged: (PlutoGridOnChangedEvent event) {},
-      onSelected: (PlutoGridOnSelectedEvent event) {},
+      // onChanged: (PlutoGridOnChangedEvent event) {},
+      // onSelected: (PlutoGridOnSelectedEvent event) {},
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) {
         if (kDebugMode) {
           print(event.cell?.column.field);
@@ -88,6 +81,13 @@ class _PlutogridPageState extends State<PlutogridPage> {
           },
         ),
       ),
-    ));
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: plutoGrid(),
+    );
   }
 }
