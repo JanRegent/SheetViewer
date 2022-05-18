@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-appBarTile';      
+const buildVersion = 'AL-lib-infosnack';      

@@ -1,5 +1,3 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/dropdown/customdropdown.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
@@ -22,8 +20,7 @@ CustomDropdownMenu interestsDropdown(List<String> intererests,
         }
       }
     } catch (_) {
-      infoSnack(context, 'interest is NOT ready: ' + selectedInterest,
-          AnimatedSnackBarType.error);
+      infoSnack(context, 'interest is NOT ready: ' + selectedInterest);
     }
   }
 
@@ -38,10 +35,8 @@ Future selectInterestManualy(BuildContext context) async {
   String selectedIndex = await selectInterestDialog(context);
   int? index = int.tryParse(selectedIndex);
 
-  infoSnack(
-      context,
-      'Loading interst:  ' + interestContr.interestRowCurrent['interestName'],
-      AnimatedSnackBarType.info);
+  infoSnack(context,
+      'Loading interst:  ' + interestContr.interestRowCurrent['interestName']);
 
   await interestContr.interestSet(index!);
 

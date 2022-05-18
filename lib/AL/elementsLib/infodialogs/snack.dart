@@ -1,10 +1,12 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-void infoSnack(BuildContext context, String mess, AnimatedSnackBarType type) {
-  //https://flutterawesome.com/a-flutter-package-to-show-beautiful-animated-snackbars-directly-using-overlay/
-  AnimatedSnackBar.material(
-    mess,
-    type: AnimatedSnackBarType.info,
-  ).show(context);
+void infoSnack(BuildContext context, String mess) {
+  showTopSnackBar(
+    context,
+    CustomSnackBar.success(
+      message: mess,
+    ),
+  );
 }

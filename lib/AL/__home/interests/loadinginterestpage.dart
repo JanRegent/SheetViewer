@@ -1,4 +1,3 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -116,8 +115,7 @@ List<String> actions = ['getRowsFirst', 'getRowsLast'];
 
 Future loadListByActions(Map fileListSheet, BuildContext context) async {
   for (var index = 0; index < fileListSheet.length; index++) {
-    infoSnack(context, 'Loading ' + fileListSheet[index]['fileTitle'],
-        AnimatedSnackBarType.info);
+    infoSnack(context, 'Loading ' + fileListSheet[index]['fileTitle']);
     await loadFileListSheetRow(fileListSheet[index]);
   }
 }

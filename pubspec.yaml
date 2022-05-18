@@ -39,7 +39,7 @@ dependencies:
 
   #components
   expansion_tile_card: ^2.0.0   #https://pub.dev/packages/expansion_tile_card#expansion_tile_card
-  animated_snack_bar: ^0.2.1    #https://pub.dev/packages/animated_snack_bar
+  top_snackbar_flutter: ^1.1.0  #https://pub.dev/packages/top_snackbar_flutter
   fluent_ui: ^3.9.1             #https://pub.dev/packages/fluent_ui
   fluttertoast: ^8.0.8          #https://pub.dev/packages/fluttertoast
   getwidget: ^2.0.5             #https://pub.dev/packages/getwidget
