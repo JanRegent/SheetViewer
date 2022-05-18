@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
@@ -12,21 +13,21 @@ import 'plutogrid/drawer.dart';
 import 'plutogrid/rows.dart';
 
 /// The home page of the application which hosts the datagrid.
-class GetDataDatagridPage extends StatefulWidget {
+class GetDataViewsPage extends StatefulWidget {
   final String sheetName;
   final String fileId;
   final String action;
   final String fileTitle;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataDatagridPage(
+  const GetDataViewsPage(
       this.sheetName, this.fileId, this.action, this.fileTitle);
 
   @override
-  _GetDataDatagridPageState createState() => _GetDataDatagridPageState();
+  _GetDataViewsPageState createState() => _GetDataViewsPageState();
 }
 
-class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
+class _GetDataViewsPageState extends State<GetDataViewsPage> {
   @override
   void initState() {
     super.initState();
@@ -55,11 +56,16 @@ class _GetDataDatagridPageState extends State<GetDataDatagridPage> {
     return 'OK';
   }
 
+  ListTile appBarTile(BuildContext context) {
+    return ListTile(
+        leading: al.iconBack(context), title: Text(widget.fileTitle));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: plutoDrawer(context, setStateFunc),
-        appBar: AppBar(title: Text(widget.fileTitle)),
+        appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
           future: getData(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {

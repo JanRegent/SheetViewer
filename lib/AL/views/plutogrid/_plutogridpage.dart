@@ -81,6 +81,10 @@ class _PlutogridPageState extends State<PlutogridPage> {
           },
         ),
       ),
+      createFooter: (stateManager) {
+        stateManager.setPageSize(100, notify: false); // default 40
+        return PlutoPagination(stateManager);
+      },
     );
   }
 
