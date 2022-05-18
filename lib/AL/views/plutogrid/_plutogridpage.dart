@@ -63,7 +63,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
       // onSelected: (PlutoGridOnSelectedEvent event) {},
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         if (event.cell?.column.field == '__rowDetail__') {
-          widget.sheetView.currentRow_ = event.cell?.row.cells['row_']!.value;
+          widget.sheetView.startRow_ = event.cell?.row.cells['row_']!.value;
           await detailShow(widget.sheetView, context);
         }
       },

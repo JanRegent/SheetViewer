@@ -112,6 +112,8 @@ class InterestContr extends GetxController {
 
     return 'ok';
   }
+
+  String cardType = '';
 }
 
 RowsCountController rowsCountController = RowsCountController();

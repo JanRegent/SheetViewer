@@ -45,7 +45,7 @@ Future detailShow(SheetView sheetView, BuildContext context) async {
   sheetView.currentRowsIndex = 0;
   for (var i = 0; i < sheetView.rows.length; i++) {
     Map row = jsonDecode(sheetView.rows[i]);
-    if (sheetView.currentRow_ == row['row_']) {
+    if (sheetView.startRow_ == row['row_']) {
       sheetView.currentRowsIndex = i;
       break;
     }

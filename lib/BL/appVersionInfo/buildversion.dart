@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-detailIcon';      
+const buildVersion = 'AL-FilelistviewPage-cardType';      

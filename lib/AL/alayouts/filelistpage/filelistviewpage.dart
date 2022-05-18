@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
-import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
-import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_firstrows.dart';
-import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_lastrows.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
+import '../../elements/getrows/cards/_filelistcard.dart';
+
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
   final String cardType;
+
   const FilelistviewPage(this.cardType, {Key? key}) : super(key: key);
 
   Widget detailBody() {
@@ -28,23 +28,27 @@ class FilelistviewPage extends StatelessWidget {
                 ),
             itemCount: interestContr.fileListSheet.length,
             itemBuilder: (context, index) => Center(
-                child: cardType == 'firstRows'
-                    ? filelistCardFirstRows(
-                        context, interestContr.fileListSheet[index], index)
-                    : cardType == 'lastRows'
-                        ? filelistCardLastRows(
-                            context, interestContr.fileListSheet[index], index)
-                        : cardType == 'allRows'
-                            ? filelistCard(
-                                context,
-                                interestContr.fileListSheet[index],
-                                index,
-                              )
-                            : filelistCard(
-                                context,
-                                interestContr.fileListSheet[index],
-                                index,
-                              ))));
+                child: filelistCard(cardType, context,
+                    interestContr.fileListSheet[index], index)
+                // cardType == 'firstRows'
+                //     ? filelistCardFirstRows(
+                //         context, interestContr.fileListSheet[index], index)
+                //     : cardType == 'lastRows'
+                //         ? filelistCardLastRows(
+                //             context, interestContr.fileListSheet[index], index)
+                //         : cardType == 'allRows'
+                //             ? filelistCard(
+                //                 context,
+                //                 interestContr.fileListSheet[index],
+                //                 index,
+                //               )
+                //             : filelistCard(
+                //                 context,
+                //                 interestContr.fileListSheet[index],
+                //                 index,
+                //               )
+
+                )));
   }
 
   @override
@@ -52,7 +56,7 @@ class FilelistviewPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: al.iconBack(context),
-          title: const Text('fileListSheet.filelistTitle'),
+          title: Text(interestContr.interestName.value),
           backgroundColor: Colors.lightBlue,
           actions: [
             ElevatedButton(

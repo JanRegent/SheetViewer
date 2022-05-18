@@ -2,15 +2,44 @@
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstLast/allRow.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
 
-Card allRowsCard(
-  BuildContext context,
-  Map fileListSheetRow,
-  int index,
-) {
+//import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstLast/lastrow.dart';
+import 'package:sheetviewer/BL/bl.dart';
+
+Card filelistCard(
+    String cardType, BuildContext context, Map fileListSheetRow, int index) {
+  List<Widget> getLements() {
+    List<Widget> els = [];
+
+    if (cardType == 'lastRows') {
+      els.add(lastRow(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+    }
+    if (cardType == 'firstRows') {
+      els.add(firstRows(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+    }
+    if (cardType == 'allRows') {
+      els.add(allRows(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+    }
+    return els;
+  }
+
   ExpansionTileCard expansionFilelistCard() {
     final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
     return ExpansionTileCard(
       baseColor: Colors.cyan[50],
       expandedColor: Colors.red[50],
@@ -28,33 +57,7 @@ Card allRowsCard(
           style: const TextStyle(fontSize: 20, color: Colors.black)),
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
-      children: <Widget>[
-        //-------------------------------------------------------------All/select1
-        ListTile(
-            tileColor: Colors.lightBlue[300],
-            title: Row(
-              children: [
-                const Text('by cond: ', style: TextStyle(fontSize: 20)),
-                ElevatedButton(
-                    onPressed: () async {},
-                    child:
-                        const Text('filter', style: TextStyle(fontSize: 20))),
-              ],
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.chevron_right),
-              onPressed: () async {
-                // SheetViewConfig sheetConfig = await getSheetConfig(
-                //     sheetViewConfig.fileId, fileListSheetRow['sheetName']);
-
-                // await Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => ByCondSelect1(sheetConfig),
-                //     ));
-              },
-            )),
-      ],
+      children: getLements(),
     );
   }
 

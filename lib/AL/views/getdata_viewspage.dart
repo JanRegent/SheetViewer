@@ -72,9 +72,12 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Column(
-                  children: const [
-                    Text('Loading....'),
-                    CircularProgressIndicator()
+                  children: [
+                    Text('Loading \n interest ' +
+                        interestContr.interestName.value.toString() +
+                        ' \n' +
+                        interestContr.cardType),
+                    const CircularProgressIndicator()
                   ],
                 );
 

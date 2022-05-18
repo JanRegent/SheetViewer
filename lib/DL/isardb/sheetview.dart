@@ -28,10 +28,9 @@ class SheetView {
 
   List<String> rows = [];
 
-  @Ignore()
-  int currentRow_ = 0;
-
-  @Ignore()
+  @Ignore() //for skip from search
+  int startRow_ = 0;
+  @Ignore() //for arrows nagigation
   int currentRowsIndex = 0;
 
   SheetView();
