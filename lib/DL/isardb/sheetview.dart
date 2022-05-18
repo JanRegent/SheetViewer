@@ -29,6 +29,9 @@ class SheetView {
   List<String> rows = [];
 
   @Ignore()
+  int currentRow_ = 0;
+
+  @Ignore()
   int currentRowsIndex = 0;
 
   SheetView();

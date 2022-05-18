@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
@@ -80,11 +81,29 @@ Future<List<PlutoColumn>> colsHeader(List<String> colsHeader) async {
         readOnly: true));
   }
 
+  // gridCols.add(PlutoColumn(
+  //   title: '>',
+  //   field: '__rowDetail__',
+  //   type: PlutoColumnType.text(),
+  // ));
+
   gridCols.add(PlutoColumn(
     title: '>',
     field: '__rowDetail__',
     type: PlutoColumnType.text(),
+    enableEditingMode: false,
+    width: 60,
+    renderer: (rendererContext) {
+      return IconButton(
+        icon: const Icon(
+          Icons.last_page,
+        ),
+        onPressed: () async {},
+        iconSize: 18,
+        color: Colors.green,
+        padding: const EdgeInsets.all(0),
+      );
+    },
   ));
-
   return gridCols;
 }

@@ -41,7 +41,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   //sheetViewDrawer.aStatus =; 'info:empty';
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
-  Future<String> getData() async {
+  Future<String> getData(BuildContext context) async {
     sheetViewDrawer =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
@@ -51,7 +51,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     cols.clear();
     if (cols.isEmpty) cols = await colsHeader(sheetViewDrawer.colsHeader);
     gridrows.clear();
-    if (gridrows.isEmpty) gridrows = await gridRows(sheetViewDrawer);
+    if (gridrows.isEmpty) gridrows = await gridRows(sheetViewDrawer, context);
 
     return 'OK';
   }
@@ -67,7 +67,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
         drawer: plutoDrawer(context, setStateFunc),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
-          future: getData(), // async work
+          future: getData(context), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -82,7 +82,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return PlutogridPage(widget.fileTitle, cols, gridrows);
+                  return PlutogridPage(
+                      widget.fileTitle, cols, gridrows, sheetViewDrawer);
                   //return DatagridPage(sheetView, 'fileTitle');
                 }
             }

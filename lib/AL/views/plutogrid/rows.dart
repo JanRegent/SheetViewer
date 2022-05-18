@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:sheetviewer/AL/views/detailView/DetailListViewPage.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
-Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
+Future<List<PlutoRow>> gridRows(
+    SheetView sheetView, BuildContext context) async {
   PlutoRow gridRow(Map row, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
     plutoRow.cells.putIfAbsent('row_', () => PlutoCell(value: row['row_']));
@@ -21,8 +24,9 @@ Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
       plutoRow.cells.putIfAbsent(
           sheetView.colsHeader[colIx], () => PlutoCell(value: value));
     }
-    plutoRow.cells.putIfAbsent('__rowDetail__', () => PlutoCell(value: '>'));
 
+    plutoRow.cells
+        .putIfAbsent('__rowDetail__', () => PlutoCell(value: detailIcon()));
     return plutoRow;
   }
 
@@ -35,4 +39,26 @@ Future<List<PlutoRow>> gridRows(SheetView sheetView) async {
   }
 
   return gridrows;
+}
+
+Future detailShow(SheetView sheetView, BuildContext context) async {
+  sheetView.currentRowsIndex = 0;
+  for (var i = 0; i < sheetView.rows.length; i++) {
+    Map row = jsonDecode(sheetView.rows[i]);
+    if (sheetView.currentRow_ == row['row_']) {
+      sheetView.currentRowsIndex = i;
+      break;
+    }
+  }
+
+  await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => DetailListViewPage(sheetView)),
+  );
+}
+
+Icon detailIcon() {
+  return const Icon(
+    Icons.last_page,
+  );
 }

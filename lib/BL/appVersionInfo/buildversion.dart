@@ -1,1 +1,1 @@
-const buildVersion = 'AL-lib-infosnack';      
+const buildVersion = 'AL-views-detailIcon';      
