@@ -16,6 +16,7 @@
 //         },
 //       )));
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
@@ -58,6 +59,18 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           },
         ),
         ListTile(
+          title: Obx(() => Text(plutogridContr.multilineDetailLauout.value)),
+          onTap: () async {
+            sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
+            await interestStore2.updateListStringSheet(
+                sheetViewDrawer.sheetName,
+                sheetViewDrawer.fileId,
+                'colsHeader',
+                sheetViewDrawer.colsHeader);
+            setStateFunc();
+          },
+        ),
+        ListTile(
           title: const Text('About'),
           onTap: () async {
             // await Navigator.push(
@@ -70,6 +83,12 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
       ],
     ),
   );
+}
+
+PlutogridController plutogridContr = PlutogridController();
+
+class PlutogridController extends GetxController {
+  var multilineDetailLauout = 'Multiline-details on: '.obs;
 }
 
 

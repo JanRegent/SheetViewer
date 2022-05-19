@@ -1,1 +1,1 @@
-const buildVersion = 'AL-home';      
+const buildVersion = 'AL-views-multilineDetailLauout-1';      

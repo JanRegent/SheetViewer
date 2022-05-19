@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import 'rows.dart';
@@ -54,17 +56,35 @@ class _PlutogridPageState extends State<PlutogridPage> {
     return PlutoGrid(
       columns: widget.cols,
       rows: widget.gridrows,
+      mode: PlutoGridMode.select,
       // columnGroups: columnGroups,
       onLoaded: (PlutoGridOnLoadedEvent event) {
         stateManager = event.stateManager;
         event.stateManager.setShowColumnFilter(true);
       },
       // onChanged: (PlutoGridOnChangedEvent event) {},
-      // onSelected: (PlutoGridOnSelectedEvent event) {},
+      onSelected: (PlutoGridOnSelectedEvent event) {
+        // if (kDebugMode) {
+        //   print('----------------------------onSelected');
+        //   print(event.cell?.column.field);
+        //   print(event.cell?.row);
+        // }
+      },
+
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
+        // if (kDebugMode) {
+        //   print('----------------------------onRowDoubleTap');
+        //   print(event.cell?.column.field);
+        //   print(event.cell?.row);
+        // }
+        plutogridContr.multilineDetailLauout.value = 'Multiline-details on: ';
         if (event.cell?.column.field == '__rowDetail__') {
           widget.sheetView.startRow_ = event.cell?.row.cells['row_']!.value;
           await detailShow(widget.sheetView, context);
+        } else {
+          plutogridContr.multilineDetailLauout.value =
+              'Multiline-details on: ' + event.cell!.column.field;
+          setState(() {});
         }
       },
       configuration: PlutoGridConfiguration(
