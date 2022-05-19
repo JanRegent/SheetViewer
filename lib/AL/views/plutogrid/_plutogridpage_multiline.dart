@@ -112,7 +112,26 @@ class _PlutogridPageState extends State<PlutogridPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: plutoGrid(),
-    );
+        body: Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Column(
+            children: const <Widget>[
+              Text(
+                  "This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is ")
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Column(
+            children: const <Widget>[Text("Hello World")],
+          ),
+        )
+      ],
+    )
+        //plutoGrid(),
+        );
   }
 }

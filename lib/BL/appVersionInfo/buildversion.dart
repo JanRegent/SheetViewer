@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-multilineDetailLauout-1';      
+const buildVersion = 'AL-views-_plutogridpage_multiline-1';      
