@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -63,26 +64,39 @@ class _PlutogridPageState extends State<PlutogridPage> {
       },
       // onChanged: (PlutoGridOnChangedEvent event) {},
       onSelected: (PlutoGridOnSelectedEvent event) {
-        // if (kDebugMode) {
-        //   print('----------------------------onSelected');
-        //   print(event.cell?.column.field);
-        //   print(event.cell?.row);
-        // }
+        //arrow down + Enter
+        lorem = event
+            .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
+        setState(() {});
       },
-
+      onRowSecondaryTap: (PlutoGridOnRowSecondaryTapEvent event) {
+        if (kDebugMode) {
+          print('----------------------------PlutoGridOnRowSecondaryTapEvent');
+          print(event.cell?.column.field);
+          print(event.cell?.row);
+        }
+      },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         // if (kDebugMode) {
         //   print('----------------------------onRowDoubleTap');
         //   print(event.cell?.column.field);
         //   print(event.cell?.row);
         // }
-        plutogridContr.multilineDetailLauout.value = 'Multiline-details on: ';
+
         if (event.cell?.column.field == '__rowDetail__') {
           widget.sheetView.startRow_ = event.cell?.row.cells['row_']!.value;
           await detailShow(widget.sheetView, context);
         } else {
-          plutogridContr.multilineDetailLauout.value =
-              'Multiline-details on: ' + event.cell!.column.field;
+          if (plutogridContr.multilineDetailLayuout.value ==
+              event.cell!.column.field) {
+            plutogridContr.multilineDetailLayuout.value = '';
+          } else {
+            plutogridContr.multilineDetailLayuout.value =
+                event.cell!.column.field;
+
+            lorem = event
+                .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
+          }
           setState(() {});
         }
       },
@@ -109,10 +123,60 @@ class _PlutogridPageState extends State<PlutogridPage> {
     );
   }
 
+  Center loremGrid() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width * 0.99,
+              height: MediaQuery.of(context).size.height * 0.40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Text(lorem), //BoxDecoration
+            ), //Container
+            //SizedBox
+
+            Container(
+              width: MediaQuery.of(context).size.width * 0.99,
+              height: MediaQuery.of(context).size.height * 0.45,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.blue),
+              child: plutoGrid(), //BoxDecoration
+            ), //Container
+          ], //<widget>[]
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        ), //Column
+      ), //Container
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: plutoGrid(),
-    );
+        body: plutogridContr.multilineDetailLayuout.value.isNotEmpty
+            ? loremGrid()
+            : plutoGrid()
+
+        // SingleChildScrollView(
+        //     child: Column(children: [
+        //   plutoGrid(),
+        //   const Text(
+        //       "This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is ")
+        // ])),
+
+        //plutoGrid(),
+        );
   }
 }
+
+String lorem = '''
+What is "Lorem ipsum"?
+In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate the graphic elements of a document or visual presentation, such as web pages, typography, and graphical layout. It is a form of "greeking".
+
+Even though using "lorem ipsum" often arouses curiosity due to its resemblance to classical Latin, it is not intended to have meaning. Where text is visible in a document, people tend to focus on the textual content rather than upon overall presentation, so publishers use lorem ipsum when displaying a typeface or design in order to direct the focus to presentation. "Lorem ipsum" also approximates a typical distribution of letters in English.
+''';

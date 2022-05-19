@@ -59,16 +59,9 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           },
         ),
         ListTile(
-          title: Obx(() => Text(plutogridContr.multilineDetailLauout.value)),
-          onTap: () async {
-            sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
-            await interestStore2.updateListStringSheet(
-                sheetViewDrawer.sheetName,
-                sheetViewDrawer.fileId,
-                'colsHeader',
-                sheetViewDrawer.colsHeader);
-            setStateFunc();
-          },
+          title: Obx(() => Text('Multiline-details on: ' +
+              plutogridContr.multilineDetailLayuout.value)),
+          onTap: () {},
         ),
         ListTile(
           title: const Text('About'),
@@ -88,7 +81,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
 PlutogridController plutogridContr = PlutogridController();
 
 class PlutogridController extends GetxController {
-  var multilineDetailLauout = 'Multiline-details on: '.obs;
+  var multilineDetailLayuout = ''.obs;
 }
 
 
