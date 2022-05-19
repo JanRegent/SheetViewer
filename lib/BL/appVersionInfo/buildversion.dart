@@ -1,1 +1,1 @@
-const buildVersion = 'AL-FilelistviewPage-cardType';      
+const buildVersion = 'AL-home';      

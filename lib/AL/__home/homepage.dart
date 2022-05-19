@@ -12,7 +12,6 @@ class HomeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buildMenu(context);
     return Scaffold(
         appBar: AppBar(
           title: ElevatedButton(
@@ -22,9 +21,6 @@ class HomeApp extends StatelessWidget {
               }),
         ),
         drawer: homeDrawer(context),
-        body: ListView(
-            primary: false,
-            padding: const EdgeInsets.all(20),
-            children: menuWidgets));
+        body: const Text('News'));
   }
 }

@@ -76,7 +76,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                     Text('Loading \n interest ' +
                         interestContr.interestName.value.toString() +
                         ' \n' +
-                        interestContr.cardType),
+                        interestContr.cardType +
+                        '\n\n'),
                     const CircularProgressIndicator()
                   ],
                 );
