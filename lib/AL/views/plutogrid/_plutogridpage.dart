@@ -136,7 +136,10 @@ class _PlutogridPageState extends State<PlutogridPage> {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
-              child: Text(lorem), //BoxDecoration
+              child: Text(
+                lorem,
+                style: const TextStyle(fontSize: 25),
+              ), //BoxDecoration
             ), //Container
             //SizedBox
 
