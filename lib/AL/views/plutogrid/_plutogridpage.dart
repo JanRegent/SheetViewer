@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
@@ -130,19 +131,29 @@ class _PlutogridPageState extends State<PlutogridPage> {
         child: Column(
           children: <Widget>[
             Container(
-              width: MediaQuery.of(context).size.width * 0.98,
-              height: MediaQuery.of(context).size.height * 0.40,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(lorem,
-                  textAlign: TextAlign.start,
+                width: MediaQuery.of(context).size.width * 0.98,
+                height: MediaQuery.of(context).size.height * 0.40,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: AutoSizeText(
+                  lorem,
+                  style: const TextStyle(fontSize: 22),
+                  minFontSize: 14,
+                  maxLines: 8,
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 20,
-                  style: const TextStyle(fontSize: 22)),
-            ),
+                  // overflowReplacement: const Text(
+                  //     'Sorry String too long, use >| button at end of current row'),
+                )
+
+                //  Text(lorem,
+                //     textAlign: TextAlign.start,
+                //     overflow: TextOverflow.ellipsis,
+                //     maxLines: 20,
+                //     style: const TextStyle(fontSize: 22)),
+                ),
 
             //Container
             //SizedBox

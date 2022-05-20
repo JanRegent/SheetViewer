@@ -47,8 +47,10 @@ dependencies:
   flutter_zoom_drawer: ^3.0.1   #https://pub.dev/packages/flutter_zoom_drawer
 
   #text
+  auto_size_text: ^3.0.0        #https://pub.dev/packages/auto_size_text
   readmore: ^2.1.0              #https://pub.dev/packages/readmore
   substring_highlight: ^1.0.33  #https://pub.dev/packages/substring_highlight 
+  custom_text: ^0.5.1           #https://pub.dev/packages/custom_text
   
 
   #notify observable

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-multilineDetailLayuout-3';      
+const buildVersion = 'AL-views-multilineDetailLayuout-AutoSizeText';      
