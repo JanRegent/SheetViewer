@@ -1,1 +1,1 @@
-const buildVersion = 'AL-About-2';      
+const buildVersion = 'AL-About-3-allrows';      
