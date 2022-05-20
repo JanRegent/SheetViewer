@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-multilineDetailLayuout-AutoSizeText';      
+const buildVersion = 'AL-interestsListView';      

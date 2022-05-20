@@ -146,14 +146,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
                   overflow: TextOverflow.ellipsis,
                   // overflowReplacement: const Text(
                   //     'Sorry String too long, use >| button at end of current row'),
-                )
-
-                //  Text(lorem,
-                //     textAlign: TextAlign.start,
-                //     overflow: TextOverflow.ellipsis,
-                //     maxLines: 20,
-                //     style: const TextStyle(fontSize: 22)),
-                ),
+                )),
 
             //Container
             //SizedBox

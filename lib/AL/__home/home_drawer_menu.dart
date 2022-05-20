@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_al.dart';
+
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
@@ -9,6 +9,24 @@ import 'settings.dart';
 import 'about.dart';
 
 Drawer homeDrawer(BuildContext context) {
+  ListView interestsListView() {
+    return ListView.separated(
+        separatorBuilder: (context, index) => const Divider(
+              color: Color.fromARGB(255, 0, 11, 10),
+              thickness: 1.0,
+            ),
+        itemCount: interestContr.titles.length,
+        itemBuilder: (context, index) => ListTile(
+              title: Text(interestContr.titles[index]),
+              onTap: () async {
+                infoSnack(context,
+                    'Loading interst:  ' + interestContr.titles[index]);
+
+                await interestContr.interestSet(index);
+              },
+            ));
+  }
+
   return Drawer(
     child: ListView(
       // Important: Remove any padding from the ListView.
@@ -16,18 +34,21 @@ Drawer homeDrawer(BuildContext context) {
       children: [
         DrawerHeader(
             decoration: const BoxDecoration(
-              color: Colors.lightBlue,
+              color: Color.fromARGB(255, 169, 213, 234),
             ),
-            child: Column(
-              children: [
-                const Text('Selected interest'),
-                ElevatedButton(
-                    child: Obx(() => Text(interestContr.interestName.value)),
-                    onPressed: () async {
-                      await selectInterestManualy(context);
-                    })
-              ],
-            )),
+            child: interestsListView()
+
+            // Column(
+            //   children: [
+            //     const Text('Selected interest'),
+            //     ElevatedButton(
+            //         child: Obx(() => Text(interestContr.interestName.value)),
+            //         onPressed: () async {
+            //           await selectInterestManualy(context);
+            //         })
+            //   ],
+            // )
+            ),
         ListTile(
           leading: const Icon(Icons.last_page),
           title: const Text('lastRows'),
