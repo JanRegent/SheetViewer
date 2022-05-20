@@ -1,1 +1,1 @@
-const buildVersion = 'AL-interestsListView';      
+const buildVersion = 'AL-About';      
