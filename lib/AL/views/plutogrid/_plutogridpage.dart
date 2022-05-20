@@ -130,17 +130,21 @@ class _PlutogridPageState extends State<PlutogridPage> {
         child: Column(
           children: <Widget>[
             Container(
-              width: MediaQuery.of(context).size.width * 0.99,
+              width: MediaQuery.of(context).size.width * 0.98,
               height: MediaQuery.of(context).size.height * 0.40,
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
               ),
-              child: Text(
-                lorem,
-                style: const TextStyle(fontSize: 25),
-              ), //BoxDecoration
-            ), //Container
+              child: Text(lorem,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 20,
+                  style: const TextStyle(fontSize: 30)),
+            ),
+
+            //Container
             //SizedBox
 
             Container(
