@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sheetviewer/AL/__home/interests/interests_al.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
@@ -12,11 +14,20 @@ Drawer homeDrawer(BuildContext context) {
       // Important: Remove any padding from the ListView.
       padding: EdgeInsets.zero,
       children: [
-        const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+        DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.lightBlue,
             ),
-            child: Text('Select interest:')),
+            child: Column(
+              children: [
+                const Text('Selected interest'),
+                ElevatedButton(
+                    child: Obx(() => Text(interestContr.interestName.value)),
+                    onPressed: () async {
+                      await selectInterestManualy(context);
+                    })
+              ],
+            )),
         ListTile(
           leading: const Icon(Icons.last_page),
           title: const Text('lastRows'),

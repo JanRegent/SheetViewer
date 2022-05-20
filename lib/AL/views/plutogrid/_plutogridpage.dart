@@ -141,7 +141,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 20,
-                  style: const TextStyle(fontSize: 30)),
+                  style: const TextStyle(fontSize: 22)),
             ),
 
             //Container
@@ -167,17 +167,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
     return Scaffold(
         body: plutogridContr.multilineDetailLayuout.value.isNotEmpty
             ? loremGrid()
-            : plutoGrid()
-
-        // SingleChildScrollView(
-        //     child: Column(children: [
-        //   plutoGrid(),
-        //   const Text(
-        //       "This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is This is a long text this is a long test this is ")
-        // ])),
-
-        //plutoGrid(),
-        );
+            : plutoGrid());
   }
 }
 

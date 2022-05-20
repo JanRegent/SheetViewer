@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'home_drawer_menu.dart';
-import 'interests/interests_al.dart';
 
 // ignore: must_be_immutable
 class HomeApp extends StatelessWidget {
@@ -13,13 +12,8 @@ class HomeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: ElevatedButton(
-              child: Obx(() => Text(interestContr.interestName.value)),
-              onPressed: () async {
-                await selectInterestManualy(context);
-              }),
-        ),
+        appBar:
+            AppBar(title: Obx(() => Text(interestContr.interestName.value))),
         drawer: homeDrawer(context),
         body: const Text('News'));
   }

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-multilineDetailLayuout-style-2';      
+const buildVersion = 'AL-views-multilineDetailLayuout-3';      
