@@ -26,7 +26,7 @@ Column firstLastColumn(
       ),
       Row(children: [
         const Text(' '),
-        allRowsButton(context, sheetName, fileId),
+        allRowsButton(context, sheetName, fileId, fileTitle),
         const Text('   All'),
       ])
     ],

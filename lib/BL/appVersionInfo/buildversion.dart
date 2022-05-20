@@ -1,1 +1,1 @@
-const buildVersion = 'AL-About';      
+const buildVersion = 'AL-About-2';      

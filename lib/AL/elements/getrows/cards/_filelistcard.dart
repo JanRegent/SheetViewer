@@ -2,11 +2,10 @@
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/allrow.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstlast/allrow.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstlast/firstrows.dart';
 
-//import 'package:sheetviewer/AL/elements/getrows/firstLast/firstrows.dart';
-import 'package:sheetviewer/AL/elements/getrows/firstLast/lastrow.dart';
+import 'package:sheetviewer/AL/elements/getrows/firstlast/lastrow.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Card filelistCard(

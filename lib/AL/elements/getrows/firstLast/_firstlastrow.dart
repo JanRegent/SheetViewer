@@ -20,7 +20,7 @@ Row firstLastRow(BuildContext context, int index, String sheetName,
       const Text(' '),
       lastRowsCount(context, sheetName, fileId),
       const Text(' '),
-      allRowsButton(context, sheetName, fileId),
+      allRowsButton(context, sheetName, fileId, fileTitle),
     ],
   );
 }
