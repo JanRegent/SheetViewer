@@ -39,7 +39,7 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
       sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 
-IconButton lastButton(
+ElevatedButton lastButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
@@ -50,21 +50,9 @@ IconButton lastButton(
         ));
   }
 
-  return IconButton(
-    tooltip: 'Last 10 rows',
-    icon: Container(
-      height: 100,
-      width: 200,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black,
-        ),
-        //borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: const Center(
-        child: Icon(Icons.last_page, color: Colors.black),
-      ),
-    ),
+  return ElevatedButton.icon(
+    label: Text('Last ' + interestContr.rowsCount),
+    icon: const Icon(Icons.last_page, color: Colors.black),
     onPressed: () async {
       await showGrid();
     },
@@ -95,7 +83,7 @@ Row firstRows(
   );
 }
 
-IconButton firstButton(
+ElevatedButton firstButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
   Future showGrid() async {
     await Navigator.push(
@@ -106,26 +94,13 @@ IconButton firstButton(
         ));
   }
 
-  return IconButton(
-    tooltip: 'First 10 rows',
-    icon: Container(
-      height: 100,
-      width: 100,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black,
-        ),
-        //borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: const Center(
-        child: Icon(
-          Icons.first_page,
-          color: Colors.black,
-        ),
-      ),
+  return ElevatedButton.icon(
+    label: Text('First ' + interestContr.rowsCount),
+    icon: const Icon(
+      Icons.first_page,
+      color: Colors.black,
     ),
 
-    //color: Colors.lightBlue,
     onPressed: () async {
       await showGrid();
     },
@@ -173,8 +148,12 @@ ElevatedButton allRowsButton(
         ));
   }
 
-  return ElevatedButton(
-      child: const Icon(Icons.table_rows_outlined),
+  return ElevatedButton.icon(
+      label: const Text('1000'),
+      icon: const Icon(
+        Icons.table_rows_outlined,
+        color: Colors.black,
+      ),
       onPressed: () async {
         await showGrid();
       },

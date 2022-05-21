@@ -51,7 +51,8 @@ Drawer homeDrawer(BuildContext context) {
         ),
         ListTile(
           leading: const Icon(Icons.search),
-          title: const Text('search word'),
+          title: const Text('By words                  By tags'),
+          trailing: const Icon(Icons.tag),
           onTap: () async {
             interestContr.cardType = 'By words search';
             await Navigator.push(
@@ -62,20 +63,8 @@ Drawer homeDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.tag),
-          title: const Text('By tags'),
-          onTap: () async {
-            interestContr.cardType = 'tags';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
-        ListTile(
           leading: const Icon(Icons.filter_alt),
-          title: const Text('Select1'),
+          title: const Text('B y filters'),
           onTap: () async {
             interestContr.cardType = 'Select1';
             await Navigator.push(
