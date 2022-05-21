@@ -51,6 +51,7 @@ IconButton lastButton(
   }
 
   return IconButton(
+    tooltip: 'Last 10 rows',
     icon: Container(
       height: 100,
       width: 200,
@@ -64,7 +65,6 @@ IconButton lastButton(
         child: Icon(Icons.last_page, color: Colors.black),
       ),
     ),
-    tooltip: 'Last rows',
     onPressed: () async {
       await showGrid();
     },
@@ -107,6 +107,7 @@ IconButton firstButton(
   }
 
   return IconButton(
+    tooltip: 'First 10 rows',
     icon: Container(
       height: 100,
       width: 100,
@@ -124,8 +125,6 @@ IconButton firstButton(
       ),
     ),
 
-    //const Icon(Icons.),
-    tooltip: 'First rows',
     //color: Colors.lightBlue,
     onPressed: () async {
       await showGrid();
@@ -175,7 +174,7 @@ ElevatedButton allRowsButton(
   }
 
   return ElevatedButton(
-      child: const Icon(Icons.all_inbox),
+      child: const Icon(Icons.table_rows_outlined),
       onPressed: () async {
         await showGrid();
       },

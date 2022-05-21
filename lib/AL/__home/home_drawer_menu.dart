@@ -41,7 +41,7 @@ Drawer homeDrawer(BuildContext context) {
           leading: const Icon(Icons.table_rows),
           title: const Text('By rows'),
           onTap: () async {
-            interestContr.cardType = 'lastRows';
+            interestContr.cardType = 'byRows';
             await Navigator.push(
                 context,
                 MaterialPageRoute(

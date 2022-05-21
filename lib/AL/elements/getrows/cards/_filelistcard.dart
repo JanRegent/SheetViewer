@@ -11,30 +11,48 @@ import 'package:sheetviewer/BL/bl.dart';
 Card filelistCard(
     String cardType, BuildContext context, Map fileListSheetRow, int index) {
   List<Widget> getLements() {
-    List<Widget> els = [];
+    List<Widget> iconsRow = [];
 
-    if (cardType == 'lastRows') {
-      els.add(lastRow(
+    if (cardType == 'byRows') {
+      iconsRow.add(allRowsButton(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+      iconsRow.add(firstButton(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+      iconsRow.add(lastButton(
           context,
           fileListSheetRow['sheetName'],
           bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
           fileListSheetRow['fileTitle']));
     }
+    if (cardType == 'lastRows') {
+      iconsRow.add(lastRow(
+          context,
+          fileListSheetRow['sheetName'],
+          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+          fileListSheetRow['fileTitle']));
+    }
+
     if (cardType == 'firstRows') {
-      els.add(firstRows(
+      iconsRow.add(firstRows(
           context,
           fileListSheetRow['sheetName'],
           bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
           fileListSheetRow['fileTitle']));
     }
     if (cardType == 'allRows') {
-      els.add(allRows(
+      iconsRow.add(allRows(
           context,
           fileListSheetRow['sheetName'],
           bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
           fileListSheetRow['fileTitle']));
     }
-    return els;
+    return iconsRow;
   }
 
   ExpansionTileCard expansionFilelistCard() {
@@ -56,7 +74,12 @@ Card filelistCard(
           style: const TextStyle(fontSize: 20, color: Colors.black)),
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
-      children: getLements(),
+      children: [
+        const Text('     '),
+        Row(
+          children: getLements(),
+        )
+      ],
     );
   }
 

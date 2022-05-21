@@ -12,6 +12,7 @@ void main() async {
   await interestContr.interestsLoad();
 
   runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: HomeApp(),
   ));
 }

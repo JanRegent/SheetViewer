@@ -7,6 +7,7 @@ GlobalKey globalKey = GlobalKey();
 
 void toastMain() => runApp(
       const MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: MyApp(),
       ),
     );
