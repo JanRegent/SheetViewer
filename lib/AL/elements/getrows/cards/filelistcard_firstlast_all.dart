@@ -2,8 +2,7 @@
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
-
-import '../firstlast/_firstlast_column.dart';
+import 'package:sheetviewer/AL/elements/getrows/getrows.dart';
 
 Card filelistCardFirstLastAll(
   BuildContext context,
@@ -31,7 +30,9 @@ Card filelistCardFirstLastAll(
       subtitle: const Text("FLUTTER DEVELOPMENT COMPANY2",
           style: TextStyle(fontSize: 10, color: Colors.black)),
       children: <Widget>[
-        firstLastColumn(context, fileListSheet[index]['sheetName'],
+        firstButton(context, fileListSheet[index]['sheetName'],
+            fileListSheet[index]['fileId'], fileListSheet[index]['fileTitle']),
+        lastButton(context, fileListSheet[index]['sheetName'],
             fileListSheet[index]['fileId'], fileListSheet[index]['fileTitle']),
       ],
     );

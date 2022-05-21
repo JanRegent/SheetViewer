@@ -36,60 +36,12 @@ Drawer homeDrawer(BuildContext context) {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 169, 213, 234),
             ),
-            child: interestsListView()
-
-            // Column(
-            //   children: [
-            //     const Text('Selected interest'),
-            //     ElevatedButton(
-            //         child: Obx(() => Text(interestContr.interestName.value)),
-            //         onPressed: () async {
-            //           await selectInterestManualy(context);
-            //         })
-            //   ],
-            // )
-            ),
-        ListTile(
-          leading: const Icon(Icons.last_page),
-          title: const Text('lastRows'),
-          onTap: () async {
-            interestContr.cardType = 'lastRows';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.first_page),
-          title: const Text('firstRows'),
-          onTap: () async {
-            interestContr.cardType = 'firstRows';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
+            child: interestsListView()),
         ListTile(
           leading: const Icon(Icons.table_rows),
-          title: const Text('allRows'),
+          title: const Text('By rows'),
           onTap: () async {
-            interestContr.cardType = 'allRows';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.pages),
-          title: const Text('From to rows'),
-          onTap: () async {
-            interestContr.cardType = 'From to rows';
+            interestContr.cardType = 'lastRows';
             await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -101,7 +53,7 @@ Drawer homeDrawer(BuildContext context) {
           leading: const Icon(Icons.search),
           title: const Text('search word'),
           onTap: () async {
-            interestContr.cardType = 'search word';
+            interestContr.cardType = 'By words search';
             await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -111,7 +63,7 @@ Drawer homeDrawer(BuildContext context) {
         ),
         ListTile(
           leading: const Icon(Icons.tag),
-          title: const Text('tags'),
+          title: const Text('By tags'),
           onTap: () async {
             interestContr.cardType = 'tags';
             await Navigator.push(

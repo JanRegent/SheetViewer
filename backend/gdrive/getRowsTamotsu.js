@@ -35,6 +35,7 @@ function getSheetTam(fileId, sheetName) {
   // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 }
 
+
 function getRowsFromTo(fromNo, toNo, Agent){
   
   logi('from-to ' + fromNo + ' -- '+  toNo);
@@ -47,8 +48,12 @@ function getRowsFromTo(fromNo, toNo, Agent){
       if (row == undefined) {continue;} 
 
       if (colsLastUsed.indexOf('dateinsert') > - 1) {
-        var yyyyMMdd = row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate();
-        row['dateinsert'] = yyyyMMdd;
+        try {
+          var yyyyMMdd = row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate();
+          row['dateinsert'] = yyyyMMdd;
+        }catch{
+          row['dateinsert'] = '1900-01-01';
+        }
       }
       arr.push(row);
     }catch(e){
@@ -60,6 +65,32 @@ function getRowsFromTo(fromNo, toNo, Agent){
 var row1 = 0; 
 var rowMax;
 
+function getSheet100(fileId, sheetName) {
+  var Agent = getAgent(fileId, sheetName );
+  colsLastUsed = Agent.columns();
+  
+  var toNo =   0;
+  rowMax = Agent.all().length;
+
+  var parts = rowMax/100;
+   for (var i = 0; i <= parts; i++) {
+    var fromNo = i * 100;
+    var toNo =   (i+1) * 100 -1; 
+    if (toNo > rowMax) toNo = rowMax;
+
+    logi('fromNo ' + fromNo + ' ' +'toNo ' + toNo );
+
+  }  
+  
+
+  //return getRowsFromTo(fromNo, toNo, Agent);
+  // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+}
+
+function getSheet100_TEST(){
+   logClear();
+  getSheet100('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+}
 
 function getAgent(fileId, sheetName) {
   if (fileId == null) return undefined;
