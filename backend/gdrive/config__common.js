@@ -6,6 +6,7 @@ var config = {
   fileUrl: '',
   copyrightUrl: '',
   __ver__: '0',
+  err: ''
 }
 
 function indexOfSectionRow(sectionName, values) {

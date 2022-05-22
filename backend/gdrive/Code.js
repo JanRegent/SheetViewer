@@ -36,14 +36,17 @@ function doGet(e) {
 }
 
 function switchEndpoint(e){
-  logi('callback: ' + e.parameter.callback);
-  config.callback = e.parameter.callback;
+
   var action = e.parameter.action.toString().toLowerCase();
+  logi('action:'+action);
   switch(action) {
+    case "getsheetplan": 
+      return responseDataTamotsu(getSheetPlan(config.fileId, config.sheetName)); 
     case "getsheet": 
       //?sheetName=tabsList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       //?sheetName=hledaniList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       return responseDataTamotsu(getSheetTam(config.fileId, config.sheetName)); 
+      
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "getrowslast":
@@ -78,16 +81,11 @@ function responseDataTamotsu(values){
     rows: values,
   });
 
-  if (config.callback == undefined) {
-    return ContentService
-      .createTextOutput(output)
-      .setMimeType(ContentService.MimeType.JSON)
- 
-  }
   return ContentService
-    .createTextOutput(config.callback + "(" + output+ ")")
-    .setMimeType(ContentService.MimeType.JAVASCRIPT);
-    //?sheetName=hledaniList&action=getsheet&callback=getSheetData&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
+    .createTextOutput(output)
+    .setMimeType(ContentService.MimeType.JSON)
+ 
+
   
 }
 

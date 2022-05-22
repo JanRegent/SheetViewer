@@ -5,6 +5,7 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.d
 
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/getsheet.dart';
 
 //------------------------------------------------------------------------last
 
@@ -45,8 +46,8 @@ ElevatedButton lastButton(
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              GetDataViewsPage(sheetName, fileId, 'getRowsLast', fileTitle),
+          builder: (context) => GetDataViewsPage(
+              sheetName, fileId, 'getRowsLast', fileTitle, const []),
         ));
   }
 
@@ -89,8 +90,8 @@ ElevatedButton firstButton(
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              GetDataViewsPage(sheetName, fileId, 'getRowsFirst', fileTitle),
+          builder: (context) => GetDataViewsPage(
+              sheetName, fileId, 'getRowsFirst', fileTitle, const []),
         ));
   }
 
@@ -139,12 +140,27 @@ Row allRows(
 
 ElevatedButton allRowsButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
+  List<List<int>> getPlanInt = [];
   Future showGrid() async {
+    Map getPlanResponse = await getSheetPlan(fileId, sheetName);
+    List<dynamic> getPlan = getPlanResponse['rows'];
+    if (getPlan.isNotEmpty) {
+      int? rowsCount = int.tryParse(getPlan[getPlan.length - 1][1].toString());
+      if (rowsCount! > 100) {
+        for (var i = 0; i < getPlan.length; i++) {
+          int fromNo = int.tryParse(getPlan[i][0].toString()) ?? 0;
+          int toNo = int.tryParse(getPlan[i][1].toString()) ?? 0;
+
+          getPlanInt.add([fromNo, toNo]);
+        }
+      }
+    }
+
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              GetDataViewsPage(sheetName, fileId, 'getSheet', fileTitle),
+          builder: (context) => GetDataViewsPage(
+              sheetName, fileId, 'getSheet', fileTitle, getPlanInt),
         ));
   }
 

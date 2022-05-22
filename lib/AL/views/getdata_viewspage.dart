@@ -18,10 +18,10 @@ class GetDataViewsPage extends StatefulWidget {
   final String fileId;
   final String action;
   final String fileTitle;
-
+  final List<List<int>> getPlan;
   // ignore: use_key_in_widget_constructors
   const GetDataViewsPage(
-      this.sheetName, this.fileId, this.action, this.fileTitle);
+      this.sheetName, this.fileId, this.action, this.fileTitle, this.getPlan);
 
   @override
   _GetDataViewsPageState createState() => _GetDataViewsPageState();
@@ -42,6 +42,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
   Future<String> getData(BuildContext context) async {
+    print(widget.getPlan);
     sheetViewDrawer =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(

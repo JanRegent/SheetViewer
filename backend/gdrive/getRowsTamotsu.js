@@ -65,45 +65,73 @@ function getRowsFromTo(fromNo, toNo, Agent){
 var row1 = 0; 
 var rowMax;
 
-function getSheet100(fileId, sheetName) {
+function getSheetPlan(fileId, sheetName) {
+  logi('getSheetPlan start ');
   var Agent = getAgent(fileId, sheetName );
-  colsLastUsed = Agent.columns();
-  
+  try {
+   logi(Agent.all().length);
+  }catch(e) {
+    config.err = 'getSheetPlan( Agent open: \n fileId:' + fileId + '\n sheetName:' + sheetName + '\n' + e;
+    return [];
+  }
+
   var toNo =   0;
   rowMax = Agent.all().length;
-
+  logi('rowMax ' + rowMax);
+  var plan = [];
   var parts = rowMax/100;
+  logi('getSheetPlan parts ' + parts);
    for (var i = 0; i <= parts; i++) {
     var fromNo = i * 100;
     var toNo =   (i+1) * 100 -1; 
     if (toNo > rowMax) toNo = rowMax;
 
-    logi('fromNo ' + fromNo + ' ' +'toNo ' + toNo );
+  
+    plan.push([fromNo,toNo]);
 
   }  
-  
+  return plan;
 
-  //return getRowsFromTo(fromNo, toNo, Agent);
-  // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 }
 
-function getSheet100_TEST(){
+function getSheetPlan_TEST(){
    logClear();
-  getSheet100('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+  var plan = getSheetPlan('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw', 'dailyNotes');
+    logi(plan );
 }
+
+// ?action=getSheetPlan&sheetName=dailyNotes&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw
+// ?sheetName=elonX&action=getSheetPlan&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA
+
 
 function getAgent(fileId, sheetName) {
-  if (fileId == null) return undefined;
-  var ss; 
-  if (fileId.substring(0,4) === 'http' )  
-    ss = SpreadsheetApp.openByUrl(fileId);
-  else
-    ss = SpreadsheetApp.openById(fileId);
+  try {
+    if (fileId == null) {
+      config.err = 'fileId is wrong;';
+      return undefined;
+    }
+    if (sheetName == null) {
+      config.err = 'sheetName is wrong;';
+      return undefined;
+    }
 
-  Tamotsu.initialize(ss);
-  var Agent = Tamotsu.Table.define({ sheetName: sheetName  });
-  rowMax = Agent.all().length;
-  return Agent;
+    var ss; 
+    if (fileId.substring(0,4) === 'http' )  
+      ss = SpreadsheetApp.openByUrl(fileId);
+    else
+      ss = SpreadsheetApp.openById(fileId);
+
+    Tamotsu.initialize(ss);
+    var Agent = Tamotsu.Table.define({ sheetName: sheetName  });
+    rowMax = Agent.all().length;
+    return Agent;
+
+  }catch(e){
+
+    config.err = 'Open Agent/sheet: ' + e.toString();
+    return undefined;
+  }
+
 }
 
 function url2fileid( url) {
