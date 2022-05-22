@@ -17,7 +17,8 @@ final dio = Dio(
 ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();
 String interceptorAdded = '';
 
-Future<SheetView?> getSheetView(String queryStringKey, {required url}) async {
+Future<SheetView?> getSheetView(String queryStringKey,
+    {required url, bool? getPlan}) async {
   if (interceptorAdded.isEmpty) {
     dio.interceptors.add(interceptor);
     interceptorAdded = 'added';
@@ -40,7 +41,10 @@ Future<SheetView?> getSheetView(String queryStringKey, {required url}) async {
       sheetView.aStatus = 'error! Response is null \n' + e.message;
     }
   }
-  await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
+  print(getPlan == null);
+  if (getPlan == null) {
+    await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
+  }
 
   return sheetView;
 }

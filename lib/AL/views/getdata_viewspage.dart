@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
+import 'package:sheetviewer/AL/views/getdata_getplan.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
@@ -37,17 +38,22 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     setState(() {});
   }
 
-  int counter = 0;
-  //sheetViewDrawer.aStatus =; 'info:empty';
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
   Future<String> getData(BuildContext context) async {
-    print(widget.getPlan);
+    if (widget.getPlan.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (_) => GetPlanPage(widget.getPlan, widget.fileId,
+                    widget.sheetName, widget.action)));
+      });
+    }
     sheetViewDrawer =
         await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
         widget.sheetName, widget.fileId, 'colsHeader', sheetViewDrawer.cols);
-    counter++;
 
     cols.clear();
     if (cols.isEmpty) cols = await colsHeader(sheetViewDrawer.colsHeader);

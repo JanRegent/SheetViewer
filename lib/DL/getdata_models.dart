@@ -46,6 +46,28 @@ Future<SheetView> sheetViewGetData(
   }
 }
 
+Future<SheetView> sheetViewGetPlanPart(String fileId, String sheetName,
+    String action, int fromNo, int toNo) async {
+  Map queryMap = await actionMapCreate(fileId, sheetName, action);
+  String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
+  SheetView? sheetView;
+  try {
+    String queryString = queryStringBuild(fileId, sheetName, queryMap) +
+        '&fromNo=' +
+        fromNo.toString() +
+        '&toNo=' +
+        toNo.toString();
+    String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
+
+    sheetView =
+        await getSheetView(queryStringKey, url: urlQuery, getPlan: true);
+    return sheetView!;
+  } catch (e) {
+    logi('sheetViewGetPlanPart(', 'queryStringKey', 'error', ' e.toString()');
+    return (SheetView().aStatus = 'error: \n' + e.toString()) as SheetView;
+  }
+}
+
 String queryStringBuild(String fileId, String sheetName, Map getRowsPars) {
   String queryString = 'sheetName=$sheetName';
   for (var key in getRowsPars.keys) {
@@ -72,6 +94,12 @@ String queryStringKeyBuild(String fileId, String sheetName, Map queryPars) {
   return queryStringKey;
 }
 
+String queryStringAll(String fileId, String sheetName) {
+  String queryStringKey = 'sheetName=$sheetName';
+  queryStringKey += '&fileId=' + fileId;
+  return queryStringKey;
+}
+
 String printMap(Map row) {
   String str = '';
   for (var entry in row.entries) {
@@ -92,6 +120,9 @@ Future<Map> actionMapCreate(
   }
   if (action == "getSheet") {
     getRowsMap = {"action": "getSheet"};
+  }
+  if (action == 'getRowsFromTo') {
+    getRowsMap = {"action": 'getRowsFromTo'};
   }
   return getRowsMap;
 }

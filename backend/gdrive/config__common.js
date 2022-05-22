@@ -79,7 +79,19 @@ function getPar(e, parName) {
       if(typeof e.parameter.value === "undefined") { err = ('{error: "Parameter value is not defined"}');  logi(err);  return respond(err);}
       config.value = e.parameter.value;
       logi('value: ' + config.value);
-      return '';              
+      return '';      
+    case "fromNo":
+      if(typeof e.parameter.fromNo === "undefined") { err = ('{error: "Parameter fromNo is not defined"}');  logi(err);  return respond(err);}
+      config.fromNo = e.parameter.fromNo;
+       logi('fromNo: ' + config.fromNo);
+      return '';   
+    case "toNo":
+      if(typeof e.parameter.toNo === "undefined") { err = ('{error: "Parameter toNo is not defined"}');  logi(err);  return respond(err);}
+      config.toNo = e.parameter.toNo;
+       logi('toNo: ' + config.toNo);
+      return '';   
+    case "getAll":
+      return '';               
     case "getLast":
       return '';
     case "getAll":

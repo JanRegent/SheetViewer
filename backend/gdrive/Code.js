@@ -46,7 +46,18 @@ function switchEndpoint(e){
       //?sheetName=tabsList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       //?sheetName=hledaniList&action=getsheet&fileId=1LZlPCCI0TwWutwquZbC8HogIhqNvxqz0AVR1wrgPlis
       return responseDataTamotsu(getSheetTam(config.fileId, config.sheetName)); 
-      
+    
+    case "getrowsfromto":
+ 
+      if(getPar(e, 'fromNo') != '') return paramsErr; 
+      if(getPar(e, 'toNo') != '') return paramsErr; 
+      var Agent = getAgent(config.fileId, config.sheetName);
+      colsLastUsed = Agent.columns();
+      logi(colsLastUsed);
+      var values = getRowsFromTo(config.fromNo, config.toNo, Agent);
+      return responseDataTamotsu(values);  
+      // ?action=getrowsfromto&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&fromNo=0&toNo=55
+
     case "getsheetconfig":
       return respond(getsheetconfig(e.parameters['fileId'][0], e.parameters['sheetName'][0]));            
     case "getrowslast":
@@ -75,6 +86,7 @@ function switchEndpoint(e){
 var colsLastUsed;
 
 function responseDataTamotsu(values){
+  logi('len: ' + values.length);
   var output = JSON.stringify({
     cols: colsLastUsed,
     config: config,
