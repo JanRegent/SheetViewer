@@ -1,9 +1,10 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/getdata_getplan.dart';
+
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
@@ -41,24 +42,15 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
   Future<String> getData(BuildContext context) async {
-    if (widget.getPlan.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (_) => GetPlanPage(widget.getPlan, widget.fileId,
-                    widget.sheetName, widget.action)));
-      });
-    }
-    sheetViewDrawer =
-        await sheetViewGetData(widget.fileId, widget.sheetName, widget.action);
+    sheetViewDrawer = await sheetViewGetData(
+        widget.fileId, widget.sheetName, widget.action, widget.getPlan);
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
         widget.sheetName, widget.fileId, 'colsHeader', sheetViewDrawer.cols);
 
     cols.clear();
-    if (cols.isEmpty) cols = await colsHeader(sheetViewDrawer.colsHeader);
+    cols = await colsHeader(sheetViewDrawer.colsHeader);
     gridrows.clear();
-    if (gridrows.isEmpty) gridrows = await gridRows(sheetViewDrawer, context);
+    gridrows = await gridRows(sheetViewDrawer, context);
 
     return 'OK';
   }
@@ -85,6 +77,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                         ' \n' +
                         interestContr.cardType +
                         '\n\n'),
+                    Obx(() => Text(interestContr.fetshingRows.value)),
                     const CircularProgressIndicator()
                   ],
                 );

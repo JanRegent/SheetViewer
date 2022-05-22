@@ -115,6 +115,7 @@ class InterestContr extends GetxController {
   }
 
   String cardType = '';
+  RxString fetshingRows = ''.obs;
   final String rowsCount = '10';
 }
 

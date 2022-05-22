@@ -41,7 +41,7 @@ Future<SheetView?> getSheetView(String queryStringKey,
       sheetView.aStatus = 'error! Response is null \n' + e.message;
     }
   }
-  print(getPlan == null);
+
   if (getPlan == null) {
     await sheetsDb.updateSheetsFromResponse(sheetView!, queryStringKey);
   }

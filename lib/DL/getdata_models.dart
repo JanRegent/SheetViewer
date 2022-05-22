@@ -21,9 +21,13 @@ import 'isardb/sheetview.dart';
 ///
 /// e.callback
 
-Future<SheetView> sheetViewGetData(
-    String fileId, String sheetName, String action) async {
-  Map queryMap = await actionMapCreate(fileId, sheetName, action);
+Future<SheetView> sheetViewGetData(String fileId, String sheetName,
+    String action, List<List<int>> getPlan) async {
+  Map queryMap = await actionMapCreate(
+    fileId,
+    sheetName,
+    action,
+  );
 
   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
 
@@ -35,15 +39,41 @@ Future<SheetView> sheetViewGetData(
       return sheetView;
     }
 
-    String queryString = queryStringBuild(fileId, sheetName, queryMap);
-    String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
+    if (getPlan.isEmpty) {
+      String queryString = queryStringBuild(fileId, sheetName, queryMap);
+      String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
 
-    sheetView = await getSheetView(queryStringKey, url: urlQuery);
+      sheetView = await getSheetView(queryStringKey, url: urlQuery);
+    } else {
+      sheetView = await getPlanParts(fileId, sheetName, getPlan);
+    }
     return sheetView!;
   } catch (e) {
     logi('sheetViewGetData(', 'queryStringKey', 'error', ' e.toString()');
     return (SheetView().aStatus = 'error: \n' + e.toString()) as SheetView;
   }
+}
+
+Future<SheetView> getPlanParts(
+    String fileId, String sheetName, List<List<int>> getPlan) async {
+  interestContr.fetshingRows.value =
+      '\n fetch parts: ' + getPlan.length.toString();
+  interestContr.fetshingRows.value += '\n part 1: ' + getPlan[0].toString();
+
+  SheetView sheetView = await sheetViewGetPlanPart(
+      fileId, sheetName, 'getRowsFromTo', getPlan[0][0], getPlan[0][1]);
+  for (var i = 1; i < getPlan.length; i++) {
+    interestContr.fetshingRows.value +=
+        '\n part ${(i + 1)}: ' + getPlan[i].toString();
+    SheetView part = await sheetViewGetPlanPart(
+        fileId, sheetName, 'getRowsFromTo', getPlan[i][0], getPlan[i][1]);
+
+    sheetView.rows.addAll(part.rows);
+  }
+  interestContr.fetshingRows.value = '';
+  sheetView.aQuerystringKey = queryStringAll(fileId, sheetName);
+  await sheetsDb.updateSheetView(sheetView);
+  return sheetView;
 }
 
 Future<SheetView> sheetViewGetPlanPart(String fileId, String sheetName,
