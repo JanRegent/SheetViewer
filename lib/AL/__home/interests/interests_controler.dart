@@ -8,6 +8,7 @@ import 'package:sheetviewer/DL/localstore/localstore.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;
+
   Future interestNameSet(String value) async {
     interestName.value = value;
 

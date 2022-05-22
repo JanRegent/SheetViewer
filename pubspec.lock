@@ -291,6 +291,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
+  flutter_text_viewer:
+    dependency: "direct main"
+    description:
+      name: flutter_text_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   flutter_use:
     dependency: "direct main"
     description:

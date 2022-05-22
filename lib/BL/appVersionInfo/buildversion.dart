@@ -1,1 +1,1 @@
-const buildVersion = 'AL-home-drawer-2';      
+const buildVersion = 'AL-home-drawer-3';      
