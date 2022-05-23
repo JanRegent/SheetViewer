@@ -124,7 +124,7 @@ Future loadFileListSheetRow(Map fileListSheetRow) async {
   String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
   String sheetName = fileListSheetRow['sheetName'];
   for (var action in actions) {
-    await sheetViewGetData(fileId, sheetName, action, []);
+    await sheetViewGetData(fileId, sheetName, action, '');
   }
 }
 

@@ -4,6 +4,7 @@ import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/DL/get_sheetview.dart';
+import 'package:sheetviewer/DL/loader/getsheet.dart';
 
 import 'isardb/sheetview.dart';
 
@@ -21,8 +22,8 @@ import 'isardb/sheetview.dart';
 ///
 /// e.callback
 
-Future<SheetView> sheetViewGetData(String fileId, String sheetName,
-    String action, List<List<int>> getPlan) async {
+Future<SheetView> sheetViewGetData(
+    String fileId, String sheetName, String action, String getBatch) async {
   Map queryMap = await actionMapCreate(
     fileId,
     sheetName,
@@ -39,13 +40,30 @@ Future<SheetView> sheetViewGetData(String fileId, String sheetName,
       return sheetView;
     }
 
-    if (getPlan.isEmpty) {
+    if (getBatch.isEmpty) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
       String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
 
       sheetView = await getSheetView(queryStringKey, url: urlQuery);
     } else {
-      sheetView = await getPlanParts(fileId, sheetName, getPlan);
+      interestContr.fetshingRows.value = 'getBatch plan';
+      Map getPlanResponse = await getSheetPlan(fileId, sheetName);
+
+      List<dynamic> getPlan = getPlanResponse['rows'];
+      List<List<int>> getPlanInt = [];
+      if (getPlan.isNotEmpty) {
+        int? rowsCount =
+            int.tryParse(getPlan[getPlan.length - 1][1].toString());
+        if (rowsCount! > 100) {
+          for (var i = 0; i < getPlan.length; i++) {
+            int fromNo = int.tryParse(getPlan[i][0].toString()) ?? 0;
+            int toNo = int.tryParse(getPlan[i][1].toString()) ?? 0;
+
+            getPlanInt.add([fromNo, toNo]);
+          }
+        }
+      }
+      sheetView = await getPlanParts(fileId, sheetName, getPlanInt);
     }
     return sheetView!;
   } catch (e) {

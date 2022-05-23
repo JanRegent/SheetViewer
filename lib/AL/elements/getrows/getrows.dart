@@ -5,7 +5,6 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.d
 
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/loader/getsheet.dart';
 
 //------------------------------------------------------------------------last
 
@@ -40,22 +39,23 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
       sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 
+Future showGrid(BuildContext context, String sheetName, String fileId,
+    String action, String fileTitle, String getBatch) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            GetDataViewsPage(sheetName, fileId, action, fileTitle, getBatch),
+      ));
+}
+
 ElevatedButton lastButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
-  Future showGrid() async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GetDataViewsPage(
-              sheetName, fileId, 'getRowsLast', fileTitle, const []),
-        ));
-  }
-
   return ElevatedButton.icon(
     label: Text('Last ' + interestContr.rowsCount),
     icon: const Icon(Icons.last_page, color: Colors.black),
     onPressed: () async {
-      await showGrid();
+      await showGrid(context, sheetName, fileId, 'getRowsLast', fileTitle, '');
     },
   );
 }
@@ -86,15 +86,6 @@ Row firstRows(
 
 ElevatedButton firstButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
-  Future showGrid() async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GetDataViewsPage(
-              sheetName, fileId, 'getRowsFirst', fileTitle, const []),
-        ));
-  }
-
   return ElevatedButton.icon(
     label: Text('First ' + interestContr.rowsCount),
     icon: const Icon(
@@ -103,7 +94,7 @@ ElevatedButton firstButton(
     ),
 
     onPressed: () async {
-      await showGrid();
+      await showGrid(context, sheetName, fileId, 'getRowsFirst', fileTitle, '');
     },
     // onLongPress: () async {
     //   await getRowsLastDelete(fileId, sheetName);
@@ -140,30 +131,6 @@ Row allRows(
 
 ElevatedButton allRowsButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
-  List<List<int>> getPlanInt = [];
-  Future showGrid() async {
-    Map getPlanResponse = await getSheetPlan(fileId, sheetName);
-    List<dynamic> getPlan = getPlanResponse['rows'];
-    if (getPlan.isNotEmpty) {
-      int? rowsCount = int.tryParse(getPlan[getPlan.length - 1][1].toString());
-      if (rowsCount! > 100) {
-        for (var i = 0; i < getPlan.length; i++) {
-          int fromNo = int.tryParse(getPlan[i][0].toString()) ?? 0;
-          int toNo = int.tryParse(getPlan[i][1].toString()) ?? 0;
-
-          getPlanInt.add([fromNo, toNo]);
-        }
-      }
-    }
-
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GetDataViewsPage(
-              sheetName, fileId, 'getSheet', fileTitle, getPlanInt),
-        ));
-  }
-
   return ElevatedButton.icon(
       label: const Text('1000'),
       icon: const Icon(
@@ -171,7 +138,8 @@ ElevatedButton allRowsButton(
         color: Colors.black,
       ),
       onPressed: () async {
-        await showGrid();
+        await showGrid(
+            context, sheetName, fileId, 'getSheet', fileTitle, 'getBatch');
       },
       onLongPress: () async {});
 }
@@ -187,29 +155,3 @@ Row lastRows(
     ],
   );
 }
-
-// Future getRowsSet(
-//   BuildContext context,
-//   Function setStateFunc,
-//   sheetName,
-//   fileId,
-//   String varName,
-// ) async {
-//   List<String> values =
-//       List<String>.generate(10, (i) => ((i + 1) * 10).toString());
-//   String rowsCount = await Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) =>
-//               SelectByRadiobuttonsPage('Select rows count value', values)));
-
-//   // ignore: unnecessary_null_comparison
-//   if (rowsCount == null) {
-//     return '10';
-//   }
-
-//   await interestStore2.updateStringSheet(
-//       sheetName, fileId, 'getRowsLast', rowsCount);
-
-//   setStateFunc();
-// }
