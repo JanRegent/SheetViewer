@@ -1,20 +1,19 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import '../../elements/getrows/cards/_filelistcard.dart';
+import 'drawer_filelist.dart';
 
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
   final String cardType;
 
   const FilelistviewPage(this.cardType, {Key? key}) : super(key: key);
+  void setStateFunc() {}
 
   Widget detailBody() {
     return Container(
@@ -54,17 +53,14 @@ class FilelistviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: filelistDrawer(context, setStateFunc),
         appBar: AppBar(
           leading: al.iconBack(context),
-          title: Text(interestContr.interestName.value),
+          title: ListTile(
+            leading: al.helpIcon(context),
+            title: Text(interestContr.interestName.value),
+          ),
           backgroundColor: Colors.lightBlue,
-          actions: [
-            ElevatedButton(
-              child: const Icon(Icons.help),
-              onPressed: () => helpToastShow(
-                  "Click ob V icon to open cards bb", ToastGravity.CENTER_LEFT),
-            ),
-          ],
         ),
         body: detailBody());
   }

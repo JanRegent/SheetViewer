@@ -17,6 +17,7 @@
 //       )));
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
@@ -29,6 +30,14 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
       // Important: Remove any padding from the ListView.
       padding: EdgeInsets.zero,
       children: [
+        DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 169, 213, 234),
+            ),
+            child: ListTile(
+              title: const Text('View drawemenu'),
+              trailing: al.helpIcon(context),
+            )),
         ListTile(
           title: const Text('Select columns'),
           onTap: () async {
@@ -62,16 +71,6 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           title: Obx(() => Text('Multiline-details on: ' +
               plutogridContr.multilineDetailLayuout.value)),
           onTap: () {},
-        ),
-        ListTile(
-          title: const Text('About'),
-          onTap: () async {
-            // await Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (ctx) => const About(),
-            //     ));
-          },
         ),
       ],
     ),

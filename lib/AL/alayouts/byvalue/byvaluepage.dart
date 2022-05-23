@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
-import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
-import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
+
+import 'package:sheetviewer/AL/alayouts/byvalue/drawer_byvalue.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
@@ -79,19 +79,12 @@ class _ByvaluePageState extends State<ByvaluePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: byValueDrawer(context, setStateFunc),
         appBar: AppBar(
           leading: loadingPageShow(widget.fileListSheet, context,
               widget.interestRowCurrent['interestName']),
           title: Text(interestName),
           backgroundColor: Colors.lightBlue,
-          actions: [
-            ElevatedButton(
-              child: const Icon(Icons.help),
-              onPressed: () => helpToastShow(
-                  "Click ob V icon to open cards bb", ToastGravity.CENTER_LEFT),
-            ),
-            ChuckerFlutter.chuckerButton
-          ],
         ),
         body: FutureBuilder<String>(
           future: getData(), // async work

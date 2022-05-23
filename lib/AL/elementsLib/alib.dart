@@ -39,6 +39,14 @@ class AL {
     );
   }
 
+  ElevatedButton helpIcon(BuildContext context) {
+    return ElevatedButton(
+      child: const Icon(Icons.help),
+      onPressed: () async {},
+      onLongPress: () async {},
+    );
+  }
+
   Widget jsonViewer() {
     return ChuckerFlutter.chuckerButton;
   }

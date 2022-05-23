@@ -1,1 +1,1 @@
-const buildVersion = 'DL-getData-getBatch';      
+const buildVersion = 'AL-drawers-helpIcon';      

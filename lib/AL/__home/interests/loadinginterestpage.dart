@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
+import 'package:sheetviewer/AL/__home/interests/drawer_interests.dart';
 
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -22,6 +21,10 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void setStateFunc() {
+    setState(() {});
   }
 
   @override
@@ -64,6 +67,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   Widget build(BuildContext context) {
     statusCont = Get.put(Controller());
     return Scaffold(
+        drawer: interestsDrawer(context, setStateFunc),
         appBar: AppBar(
           leading: IconButton(
               onPressed: () => loadingRunF(context),
@@ -72,13 +76,6 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
             title: Text('<-- click to: Loading ${widget.interestName}'),
           ),
           backgroundColor: Colors.lightBlue,
-          actions: [
-            ElevatedButton(
-              child: const Icon(Icons.help),
-              onPressed: () => helpToastShow(
-                  "Click ob V icon to open cards bb", ToastGravity.CENTER_LEFT),
-            ),
-          ],
         ),
         body: listviewBody()
 
