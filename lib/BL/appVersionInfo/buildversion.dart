@@ -1,1 +1,1 @@
-const buildVersion = 'DL-serviceConfig-baseUrl-kredenc-more-secure';      
+const buildVersion = 'DL-serviceConfig-contentservice';      

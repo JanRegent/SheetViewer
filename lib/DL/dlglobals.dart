@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-
-import 'loader/gsheetloader.dart';
+import 'package:sheetviewer/DL/loader/contentservice.dart';
 
 DlGlobals dlGlobals = DlGlobals();
 
