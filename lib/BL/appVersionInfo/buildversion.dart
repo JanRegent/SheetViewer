@@ -1,1 +1,1 @@
-const buildVersion = 'DL-contentservice-2';      
+const buildVersion = 'DL-contentservice-3-service';      
