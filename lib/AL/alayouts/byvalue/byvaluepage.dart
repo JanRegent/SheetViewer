@@ -8,7 +8,7 @@ import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/getsheet.dart';
+import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/DL/getdata_models.dart';
 
 class ByvaluePage extends StatefulWidget {

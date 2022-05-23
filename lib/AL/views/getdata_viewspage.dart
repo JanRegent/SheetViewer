@@ -44,6 +44,10 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   Future<String> getData(BuildContext context) async {
     sheetViewDrawer = await sheetViewGetData(
         widget.fileId, widget.sheetName, widget.action, widget.getPlan);
+
+    if (sheetViewDrawer.aStatus.startsWith('err')) {
+      throw sheetViewDrawer.aStatus;
+    }
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
         widget.sheetName, widget.fileId, 'colsHeader', sheetViewDrawer.cols);
 

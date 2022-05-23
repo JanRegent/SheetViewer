@@ -5,7 +5,7 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.d
 
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/getsheet.dart';
+import 'package:sheetviewer/DL/loader/getsheet.dart';
 
 //------------------------------------------------------------------------last
 

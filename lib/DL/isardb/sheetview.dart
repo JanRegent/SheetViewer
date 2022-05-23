@@ -64,7 +64,12 @@ class SheetView {
 
   factory SheetView.fromJson(Map jsonData) {
     try {
-      List<String> cols = List<String>.from(jsonData["cols"]);
+      List<String> cols = [];
+      try {
+        cols = List<String>.from(jsonData["cols"]);
+      } catch (_) {
+        return SheetView()..aStatus = 'error: ' + jsonData.toString();
+      }
 
       SheetView sheetView = SheetView()..cols = cols;
       sheetView.colsHeader = cols;

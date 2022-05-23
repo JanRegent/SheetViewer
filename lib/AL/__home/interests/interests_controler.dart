@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:sheetviewer/BL/getsheet.dart';
+import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 

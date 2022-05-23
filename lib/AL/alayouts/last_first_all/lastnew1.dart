@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 
-import 'package:sheetviewer/BL/getsheet.dart';
+import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 class LastNew1Page extends StatefulWidget {
