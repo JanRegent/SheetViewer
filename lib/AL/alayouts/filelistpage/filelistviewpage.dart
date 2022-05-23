@@ -6,14 +6,12 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import '../../elements/getrows/cards/_filelistcard.dart';
-import 'drawer_filelist.dart';
 
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
   final String cardType;
 
   const FilelistviewPage(this.cardType, {Key? key}) : super(key: key);
-  void setStateFunc() {}
 
   Widget detailBody() {
     return Container(
@@ -53,7 +51,6 @@ class FilelistviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: filelistDrawer(context, setStateFunc),
         appBar: AppBar(
           leading: al.iconBack(context),
           title: ListTile(

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-drawers-helpIcon';      
+const buildVersion = 'AL-home_drawer-selected-interest-bold';      

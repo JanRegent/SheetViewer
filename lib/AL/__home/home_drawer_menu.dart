@@ -18,12 +18,17 @@ Drawer homeDrawer(BuildContext context) {
             ),
         itemCount: interestContr.titles.length,
         itemBuilder: (context, index) => ListTile(
-              title: Text(interestContr.titles[index]),
+              title: Text(interestContr.titles[index],
+                  style: interestContr.titles[index] ==
+                          interestContr.interestName.value
+                      ? const TextStyle(fontWeight: FontWeight.bold)
+                      : null),
               onTap: () async {
                 infoSnack(context,
                     'Loading interst:  ' + interestContr.titles[index]);
 
                 await interestContr.interestSet(index);
+                Navigator.pop(context);
               },
             ));
   }
