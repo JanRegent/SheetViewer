@@ -6,6 +6,7 @@ import 'BL/bl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await getBaseUrl();
 
   await bl.init();
 
