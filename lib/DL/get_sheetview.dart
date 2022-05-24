@@ -25,6 +25,7 @@ Future<SheetView?> getSheetView(String queryStringKey,
   }
 
   SheetView? sheetView;
+  String responseErr = '';
   try {
     Response response = await dio.get(url);
     sheetView = SheetView.fromJson(response.data);
@@ -40,6 +41,11 @@ Future<SheetView?> getSheetView(String queryStringKey,
       // Error due to setting up or sending the request
       sheetView.aStatus = 'error! Response is null \n' + e.message;
     }
+  } catch (e) {
+    return SheetView()
+      ..aStatus = 'error! \n Future<SheetView?> getSheetView(: \n'
+      ..aStatus += '\n err: ' + e.toString()
+      ..aStatus += '\n\n Response DATA: ' + responseErr;
   }
 
   if (getPlan == null) {

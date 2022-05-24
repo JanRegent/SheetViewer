@@ -1,14 +1,16 @@
 import 'package:flutter/services.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/loader/contentservice.dart';
+
+import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
 DlGlobals dlGlobals = DlGlobals();
 
 class DlGlobals {
   String baseUrl = '';
   Future init() async {
-    baseUrl = await contentServiceUrl();
+    //baseUrl = await contentServiceUrl();
+    baseUrl = await getBaseUrlAtFire();
     //baseUrl = await loadAssetString('contentServiceUrl');
     await appHome.updateString('DL-contentServiceUrl', baseUrl);
   }

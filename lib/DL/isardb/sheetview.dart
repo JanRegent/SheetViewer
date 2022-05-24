@@ -67,8 +67,9 @@ class SheetView {
       List<String> cols = [];
       try {
         cols = List<String>.from(jsonData["cols"]);
-      } catch (_) {
-        return SheetView()..aStatus = 'error: ' + jsonData.toString();
+      } catch (e) {
+        return SheetView()
+          ..aStatus = 'error: actory SheetView.fromJson: ' + e.toString();
       }
 
       SheetView sheetView = SheetView()..cols = cols;

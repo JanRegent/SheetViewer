@@ -22,7 +22,7 @@ import 'isardb/sheetview.dart';
 ///
 /// e.callback
 
-Future<SheetView> sheetViewGetData(
+Future<SheetView?> sheetViewGetData(
     String fileId, String sheetName, String action, String getBatch) async {
   Map queryMap = await actionMapCreate(
     fileId,
@@ -43,12 +43,19 @@ Future<SheetView> sheetViewGetData(
     if (getBatch.isEmpty) {
       String queryString = queryStringBuild(fileId, sheetName, queryMap);
       String urlQuery = Uri.encodeFull(dlGlobals.baseUrl + '?' + queryString);
-
-      sheetView = await getSheetView(queryStringKey, url: urlQuery);
+      try {
+        sheetView = await getSheetView(queryStringKey, url: urlQuery);
+      } catch (_) {
+        return sheetView;
+      }
     } else {
       interestContr.fetshingRows.value = 'getBatch plan';
-      Map getPlanResponse = await getSheetPlan(fileId, sheetName);
-
+      Map getPlanResponse;
+      try {
+        getPlanResponse = await getSheetPlan(fileId, sheetName);
+      } catch (_) {
+        return sheetView;
+      }
       List<dynamic> getPlan = getPlanResponse['rows'];
       List<List<int>> getPlanInt = [];
       if (getPlan.isNotEmpty) {
@@ -63,7 +70,11 @@ Future<SheetView> sheetViewGetData(
           }
         }
       }
-      sheetView = await getPlanParts(fileId, sheetName, getPlanInt);
+      try {
+        sheetView = await getPlanParts(fileId, sheetName, getPlanInt);
+      } catch (_) {
+        return sheetView;
+      }
     }
     return sheetView!;
   } catch (e) {

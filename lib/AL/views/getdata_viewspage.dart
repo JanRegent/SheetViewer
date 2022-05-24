@@ -43,8 +43,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
   Future<String> getData(BuildContext context) async {
-    sheetViewDrawer = await sheetViewGetData(
-        widget.fileId, widget.sheetName, widget.action, widget.getBatch);
+    sheetViewDrawer = (await sheetViewGetData(
+        widget.fileId, widget.sheetName, widget.action, widget.getBatch))!;
 
     if (sheetViewDrawer.aStatus.startsWith('err')) {
       throw sheetViewDrawer.aStatus;
