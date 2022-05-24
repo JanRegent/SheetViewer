@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
 import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -56,6 +57,7 @@ class InterestContr extends GetxController {
   Future getSheetInterests() async {
     Map responseData = {};
     try {
+      String interestsSheetUrl = await interestsSheetUrlAtFire();
       responseData = await getSheet(
           'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
           'interestList');

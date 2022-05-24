@@ -22,3 +22,9 @@ Future<String> getBaseUrlAtFire() async {
       await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
   return coll['baseUrl'];
 }
+
+Future<String> interestsSheetUrlAtFire() async {
+  DocumentSnapshot coll =
+      await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
+  return coll['interestsSheetUrl'];
+}

@@ -23,8 +23,21 @@ function doGet(e) {
   }
   
   logi(e.queryString);
-  if(getPar(e, 'fileId') != '')    return paramsErr; 
+
+  if(typeof e.parameter.sheetUrl === "undefined") {
+    if(getPar(e, 'fileId') != '')    return paramsErr; 
+  }else {
+    config.sheetUrl = e.parameter.sheetUrl;
+    logi(config.sheetUrl)
+    ss = SpreadsheetApp.openByUrl(config.sheetUrl);
+    
+    config.fileId = ss.getId();
+    logi(config.fileId)
+    config.ssName = ss.getName();
+  }
   if(getPar(e, 'sheetName') != '') return paramsErr; 
+
+  //?sheetName=interestList&action=getSheet&sheetUrl=https://docs.google.com/spreadsheets/d/1soitqp8gukkQeITurQYhWC_gD-AgpOA5cxMPE00MI5A/edit#gid=1211959017
 
   try{
     return switchEndpoint(e);

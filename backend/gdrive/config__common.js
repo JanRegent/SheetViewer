@@ -3,7 +3,8 @@ paramsErr = '';
 var config = { 
   sheetName: '',
   fileId: '',
-  fileUrl: '',
+  sheetUrl: '',
+  ssName: '',
   copyrightUrl: '',
   __ver__: '0',
   err: ''
