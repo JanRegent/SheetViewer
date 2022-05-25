@@ -3,12 +3,12 @@ import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/get_sheetview.dart';
 
-Future getSheetUrl(String sheetUrl) async {
+Future getSheetUrl(String sheetUrl, String sheetName) async {
   String queryString = '';
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
-  queryString = 'action=getSheet&sheetUrl=$sheetUrl';
+  queryString = 'sheetName$sheetName&action=getSheet&sheetUrl=$sheetUrl';
 
   String urlQuery = dlGlobals.baseUrl + '?' + queryString;
   logi('getSheetUrl()', 'urlQuery: ', urlQuery, '');

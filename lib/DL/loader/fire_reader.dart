@@ -28,3 +28,9 @@ Future<String> interestsSheetUrlAtFire() async {
       await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
   return coll['interestsSheetUrl'];
 }
+
+Future<String> interestsSheetNameAtFire() async {
+  DocumentSnapshot coll =
+      await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
+  return coll['interestsSheetName'];
+}
