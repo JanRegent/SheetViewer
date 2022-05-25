@@ -25,7 +25,7 @@ Future getSheetUrl(String sheetUrl, String sheetName) async {
     print(e);
     print('//////////////////////////');
     logi('getSheetUrl()', 'error ', urlQuery, e.toString());
-    return {};
+    return {'error': e};
   }
 }
 

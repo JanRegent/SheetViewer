@@ -64,15 +64,13 @@ class InterestContr extends GetxController {
       String interestsSheetUrl = await interestsSheetUrlAtFire();
       String interestsSheetName = await interestsSheetNameAtFire();
       responseData = await getSheetUrl(interestsSheetUrl, interestsSheetName);
-      print(responseData);
-      print('********************');
     } catch (e) {
       logi('getSheetInterests', '1e request getSheet', 'error', e.toString());
       // responseData = await getSheet(
       //     'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
       //     'interestList');
     }
-    return;
+
     interestsList = [];
     try {
       if (responseData.isNotEmpty) {
