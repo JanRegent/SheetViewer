@@ -16,7 +16,7 @@ import 'isardb/sheetview.dart';
 /// 3- Find '--disable-extensions'
 /// 4- Add '--disable-web-security'
 ///
-///--> build
+///--> flutter build web
 ///Building flutter tool...
 ///Running pub upgrade...
 ///

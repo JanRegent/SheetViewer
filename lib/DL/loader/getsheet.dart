@@ -8,15 +8,22 @@ Future getSheetUrl(String sheetUrl, String sheetName) async {
   // ignore: prefer_typing_uninitialized_variables
   late var response;
 
-  queryString = 'sheetName$sheetName&action=getSheet&sheetUrl=$sheetUrl';
+  queryString = 'sheetName=$sheetName&action=getSheet&sheetUrl=$sheetUrl';
 
   String urlQuery = dlGlobals.baseUrl + '?' + queryString;
   logi('getSheetUrl()', 'urlQuery: ', urlQuery, '');
   try {
+    print(urlQuery);
+
     response = await dio.get(urlQuery);
 
-    return response.data;
+    if (response.status == 200) {
+      return response.data;
+    }
+    return {'status': response.status};
   } catch (e) {
+    print(e);
+    print('//////////////////////////');
     logi('getSheetUrl()', 'error ', urlQuery, e.toString());
     return {};
   }
@@ -86,10 +93,12 @@ Future getrowslast1quote(String fileId, String sheetName) async {
   }
 
   try {
-    logi('getrowslast1quote', '', 'queryString', queryString);
+    logi('getrowslast1quote(', '', 'queryString', queryString);
+    await appHome.updateMap('getrowslast1quote(', response.data);
   } catch (e) {
-    logi('getrowslast1quote', 'error', 'queryString: $queryString',
+    logi('getrowslast1quote(', 'error', 'queryString: $queryString',
         e.toString());
   }
+
   return response.data;
 }

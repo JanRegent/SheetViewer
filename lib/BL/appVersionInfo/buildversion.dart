@@ -1,1 +1,1 @@
-const buildVersion = 'ALib-_launchUrl';      
+const buildVersion = 'DL-CORS-1';      

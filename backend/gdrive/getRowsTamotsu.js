@@ -156,7 +156,10 @@ function getRowsLast1quote(fileId, sheetName) {
     var Agent = getAgent(row['fileUrl'], row['sheetName'] );
     if (Agent == undefined) continue;
     var lastRow = Agent.last()
-    if (row['quoteColumn'] == '') continue;
+    if (row['quoteColumn'].toString().trim() == '') {
+      logi(row['row_'] + ' -- quoteColumn is empty, ignored: ' + row['quoteColumn'].toString().trim());
+      continue;
+    }
 
     var fileId = SpreadsheetApp.openByUrl(row['fileUrl']).getId();
     var lastUpdated = DriveApp.getFileById (fileId).getLastUpdated();  

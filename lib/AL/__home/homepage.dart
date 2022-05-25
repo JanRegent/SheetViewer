@@ -15,6 +15,11 @@ class HomeApp extends StatelessWidget {
         appBar:
             AppBar(title: Obx(() => Text(interestContr.interestName.value))),
         drawer: homeDrawer(context),
-        body: const Text('News'));
+        body: ElevatedButton(
+          child: const Text('News'),
+          onPressed: () {
+//LastNew1Page()
+          },
+        ));
   }
 }
