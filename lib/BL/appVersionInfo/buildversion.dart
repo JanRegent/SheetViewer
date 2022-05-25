@@ -1,1 +1,1 @@
-const buildVersion = 'DL-CORS-2-pubspec';      
+const buildVersion = 'DL-CORS-3-allow';      

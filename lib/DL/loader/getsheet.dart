@@ -13,8 +13,6 @@ Future getSheetUrl(String sheetUrl, String sheetName) async {
   String urlQuery = dlGlobals.baseUrl + '?' + queryString;
   logi('getSheetUrl()', 'urlQuery: ', urlQuery, '');
   try {
-    print(urlQuery);
-
     response = await dio.get(urlQuery);
 
     if (response.status == 200) {
@@ -22,8 +20,6 @@ Future getSheetUrl(String sheetUrl, String sheetName) async {
     }
     return {'status': response.status};
   } catch (e) {
-    print(e);
-    print('//////////////////////////');
     logi('getSheetUrl()', 'error ', urlQuery, e.toString());
     return {'error': e};
   }
