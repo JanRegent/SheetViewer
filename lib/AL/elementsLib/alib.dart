@@ -1,5 +1,6 @@
 import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,7 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
 AL al = AL();
 
 class AL {
-  Widget linkIconSheetOnGCloud(String fileid) {
+  Future<void> _launchUrl(Uri url, BuildContext context) async {
+    await canLaunchUrl(url)
+        ? await launchUrl(url)
+        : infoSnack(context, 'could_not_launch_this_url\n $url');
+  }
+
+  Widget linkIconSheetOnGCloud(String fileid, BuildContext context) {
     if (fileid.startsWith('http')) fileid = bl.blUti.url2fileid(fileid);
     // ignore: unnecessary_null_comparison
     if (fileid.trim() == null) return const Text(' ');
@@ -20,9 +27,7 @@ class AL {
       onPressed: () async {
         if (fileid.trim().isEmpty) return;
         String url = 'https://docs.google.com/spreadsheets/d/' + fileid;
-        await canLaunch(url)
-            ? await launch(url)
-            : throw 'Could not launch $url';
+        await _launchUrl(Uri.parse(url), context);
       },
     );
   }
