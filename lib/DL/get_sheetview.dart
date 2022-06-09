@@ -7,18 +7,20 @@ import '../BL/bl.dart';
 
 final dio = Dio(
   BaseOptions(
-      baseUrl: '',
-      sendTimeout: const Duration(seconds: 30).inMilliseconds,
-      connectTimeout: const Duration(seconds: 30).inMilliseconds,
-      receiveTimeout: const Duration(seconds: 30).inMilliseconds,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Max-Age'": "3600",
-        "Access-Control-Allow-Credentials":
-            true, // Required for cookies, authorization headers with HTTPS
-      }),
+    baseUrl: '',
+    sendTimeout: const Duration(seconds: 30).inMilliseconds,
+    connectTimeout: const Duration(seconds: 30).inMilliseconds,
+    receiveTimeout: const Duration(seconds: 30).inMilliseconds,
+    //CORS
+    // headers: {
+    //   "Access-Control-Allow-Origin": "*",
+    //   "Access-Control-Allow-Methods": "*",
+    //   "Access-Control-Allow-Headers": "*",
+    //   "Access-Control-Max-Age'": "3600",
+    //   "Access-Control-Allow-Credentials":
+    //       true, // Required for cookies, authorization headers with HTTPS
+    // }
+  ),
 );
 
 ChuckerDioInterceptor interceptor = ChuckerDioInterceptor();

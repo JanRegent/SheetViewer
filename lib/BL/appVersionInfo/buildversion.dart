@@ -1,1 +1,1 @@
-const buildVersion = 'DL-CORS-3-allow-1';      
+const buildVersion = 'DL-CORS-hesders-disabled';      
