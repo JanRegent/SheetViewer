@@ -21,6 +21,14 @@ import 'isardb/sheetview.dart';
 ///Running pub upgrade...
 ///
 /// e.callback
+///
+///
+///
+///
+/// C:\Users\janre\AppData\Local\Pub\Cache\bin\fluttercors --disable
+/// Patching C:\Android\flutter/packages/flutter_tools/lib/src/web/chrome.dart
+///Deleting C:\Android\flutter/bin/cache/flutter_tools.stamp
+///CORS checks are now disabled for Flutter's Chrome instance
 
 Future<SheetView?> sheetViewGetData(
     String fileId, String sheetName, String action, String getBatch) async {
