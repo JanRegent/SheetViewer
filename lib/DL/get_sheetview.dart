@@ -63,4 +63,3 @@ Future<SheetView?> getSheetView(String queryStringKey,
 
   return sheetView;
 }
-

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
@@ -59,27 +61,29 @@ class InterestContr extends GetxController {
   }
 
   Future getSheetInterests() async {
-    Map responseData = {};
-    try {
-      String interestsSheetUrl = await interestsSheetUrlAtFire();
-      String interestsSheetName = await interestsSheetNameAtFire();
-      responseData = await getSheetUrl(interestsSheetUrl, interestsSheetName);
-    } catch (e) {
-      logi('getSheetInterests', '1e request getSheet', 'error', e.toString());
-      // responseData = await getSheet(
-      //     'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
-      //     'interestList');
-    }
+    //try {
+    String interestsSheetUrl = await interestsSheetUrlAtFire();
+    String interestsSheetName = await interestsSheetNameAtFire();
+    var response = await getSheetUrl(interestsSheetUrl, interestsSheetName);
+
+    Map<String, dynamic> res = jsonDecode(response.toString());
+    // } catch (e) {
+    //   print(response.body);
+    //   logi('getSheetInterests', '1e request getSheet', 'error', e.toString());
+    //   // responseData = await getSheet(
+    //   //     'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
+    //   //     'interestList');
+    // }
 
     interestsList = [];
-    try {
-      if (responseData.isNotEmpty) {
-        interestsList = responseData['rows'];
-      }
-    } catch (e) {
-      logi('getSheetInterests', '2e update interests', 'error', e.toString());
+
+    if (res.containsKey("rows")) {
+      interestsList = res['rows'];
+
+      return interestsList;
     }
-    return interestsList;
+    logi('getSheetInterests', '2e update interests', 'error', '');
+    return [];
   }
 
   //----------------------------------------------------------------titles

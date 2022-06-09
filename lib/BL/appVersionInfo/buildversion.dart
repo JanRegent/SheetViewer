@@ -1,1 +1,1 @@
-const buildVersion = 'DL-CORS-hesders-disabled-2';      
+const buildVersion = 'AL-interests-1';      
