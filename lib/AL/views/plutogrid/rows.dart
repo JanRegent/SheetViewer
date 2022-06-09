@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:sheetviewer/AL/views/detailView/DetailListViewPage.dart';
+import 'package:sheetviewer/AL/views/detailView/rowdetailpage.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
@@ -53,7 +53,7 @@ Future detailShow(SheetView sheetView, BuildContext context) async {
 
   await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => DetailListViewPage(sheetView)),
+    MaterialPageRoute(builder: (context) => RowDetailPage(sheetView)),
   );
 }
 

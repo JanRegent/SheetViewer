@@ -16,17 +16,17 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 ///   * Styling text with RichText Widget
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
-class DetailListViewPage extends StatefulWidget {
+class RowDetailPage extends StatefulWidget {
   final SheetView sheetView;
 
   // ignore: prefer_const_constructors_in_immutables
-  DetailListViewPage(this.sheetView, {Key? key}) : super(key: key);
+  RowDetailPage(this.sheetView, {Key? key}) : super(key: key);
 
   @override
-  _DetailListViewPageState createState() => _DetailListViewPageState();
+  _RowDetailPageState createState() => _RowDetailPageState();
 }
 
-class _DetailListViewPageState extends State<DetailListViewPage> {
+class _RowDetailPageState extends State<RowDetailPage> {
   TextEditingController highlighControler = TextEditingController();
 
   late String cellValue;

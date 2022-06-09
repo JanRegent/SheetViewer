@@ -32,7 +32,7 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   late String cellValue;
   List<String> columnsSelected = [];
   late int colIx;
-  late double fontSize = 20;
+  late double fontSize = 25;
 
   //Map<String, HighlightedWord> words = {};
   List<String> wordsStr = [];
@@ -68,19 +68,26 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
         color: Colors.blueGrey[50],
         child: ListView.separated(
           controller: _controller,
-          separatorBuilder: (context, index) => const Divider(
-            color: Colors.blue,
-          ),
+          separatorBuilder: (context, index) {
+            return const Divider(height: 2);
+          },
           itemCount: sheetView.rows.length,
           itemBuilder: (context, index) {
             Map row = jsonDecode(widget.sheetView.rows[index]);
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: ListTile(
-                leading: Text(row['row_'].toString()),
-                title: getText(row),
-              )),
+            return Column(
+              children: <Widget>[
+                ListTile(
+                  leading: Text(row['row_'].toString()),
+                  title: getText(row),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.last_page),
+                    onPressed: () {},
+                  ),
+                ),
+                const Divider(
+                    color:
+                        Colors.blue), //                           <-- Divider
+              ],
             );
           },
         ));

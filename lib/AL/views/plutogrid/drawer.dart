@@ -42,11 +42,19 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           leading: const Icon(Icons.view_column),
           title: const Text('Columns select'),
           onTap: () async {
+            if (sheetViewDrawer.colsHeader == sheetViewDrawer.cols) {
+              return;
+            }
+
             Navigator.pop(context);
             List<String> result = await selectListByCheckoxes(
                 context, sheetViewDrawer.cols, 'Columns select');
-            if (result.isEmpty) return;
-            sheetViewDrawer.colsHeader = result;
+            if (result.isEmpty) {
+              //reset to all cols
+              sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
+            } else {
+              sheetViewDrawer.colsHeader = result;
+            }
             await interestStore2.updateListStringSheet(
                 sheetViewDrawer.sheetName,
                 sheetViewDrawer.fileId,
@@ -57,30 +65,10 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.view_column),
-          title: const Text('               reset'),
-          onTap: () async {
-            sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
-            await interestStore2.updateListStringSheet(
-                sheetViewDrawer.sheetName,
-                sheetViewDrawer.fileId,
-                'colsHeader',
-                sheetViewDrawer.colsHeader);
-            setStateFunc();
-          },
-        ),
-        ListTile(
           leading: const Icon(Icons.multiline_chart),
-          title: const Text('Multiline-details on: '),
-          trailing:
+          title: const Text('Multiline-details on'),
+          subtitle:
               Obx(() => Text(plutogridContr.multilineDetailLayuout.value)),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.multiline_chart),
-          title: const Text(
-            '                            off',
-          ),
           onTap: () {
             plutogridContr.multilineDetailLayuout.value = '';
             setStateFunc();
