@@ -39,11 +39,12 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
               trailing: al.helpIcon(context),
             )),
         ListTile(
-          title: const Text('Select columns'),
+          leading: const Icon(Icons.view_column),
+          title: const Text('Columns select'),
           onTap: () async {
             Navigator.pop(context);
             List<String> result = await selectListByCheckoxes(
-                context, sheetViewDrawer.cols, 'Select columns');
+                context, sheetViewDrawer.cols, 'Columns select');
             if (result.isEmpty) return;
             sheetViewDrawer.colsHeader = result;
             await interestStore2.updateListStringSheet(
@@ -56,7 +57,8 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           },
         ),
         ListTile(
-          title: const Text('Reset columns'),
+          leading: const Icon(Icons.view_column),
+          title: const Text('               reset'),
           onTap: () async {
             sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
             await interestStore2.updateListStringSheet(
@@ -68,9 +70,21 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           },
         ),
         ListTile(
-          title: Obx(() => Text('Multiline-details on: ' +
-              plutogridContr.multilineDetailLayuout.value)),
+          leading: const Icon(Icons.multiline_chart),
+          title: const Text('Multiline-details on: '),
+          trailing:
+              Obx(() => Text(plutogridContr.multilineDetailLayuout.value)),
           onTap: () {},
+        ),
+        ListTile(
+          leading: const Icon(Icons.multiline_chart),
+          title: const Text(
+            '                            off',
+          ),
+          onTap: () {
+            plutogridContr.multilineDetailLayuout.value = '';
+            setStateFunc();
+          },
         ),
       ],
     ),

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-viewa-columnView';      
+const buildVersion = 'AL-viewa-columnView-2';      
