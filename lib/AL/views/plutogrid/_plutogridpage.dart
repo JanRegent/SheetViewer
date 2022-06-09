@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
+import '../detailView/columnviewpage.dart';
 import 'rows.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -170,7 +171,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: plutogridContr.multilineDetailLayuout.value.isNotEmpty
-            ? loremGrid()
+            ? ColumnViewPage(widget.sheetView) //loremGrid()
             : plutoGrid());
   }
 }

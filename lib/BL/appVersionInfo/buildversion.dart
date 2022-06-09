@@ -1,1 +1,1 @@
-const buildVersion = 'AL-interests-1';      
+const buildVersion = 'AL-viewa-columnView';      
