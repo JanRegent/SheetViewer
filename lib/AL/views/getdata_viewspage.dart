@@ -62,7 +62,10 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   ListTile appBarTile(BuildContext context) {
     return ListTile(
-        leading: al.iconBack(context), title: Text(widget.fileTitle));
+        leading: al.iconBack(context),
+        title: plutogridContr.multilineDetailLayuout.value.isNotEmpty
+            ? Text(widget.fileTitle + ' column wiew')
+            : Text(widget.fileTitle));
   }
 
   @override
@@ -91,8 +94,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return PlutogridPage(
-                      widget.fileTitle, cols, gridrows, sheetViewDrawer);
+                  return PlutogridPage(cols, gridrows, sheetViewDrawer);
                 }
             }
           },

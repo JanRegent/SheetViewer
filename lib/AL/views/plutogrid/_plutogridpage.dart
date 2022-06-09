@@ -11,12 +11,10 @@ import 'rows.dart';
 
 /// The home page of the application which hosts the datagrid.
 class PlutogridPage extends StatefulWidget {
-  final String fileTitle;
   final List<PlutoColumn> cols;
   final List<PlutoRow> gridrows;
   final SheetView sheetView;
-  const PlutogridPage(this.fileTitle, this.cols, this.gridrows, this.sheetView,
-      {Key? key})
+  const PlutogridPage(this.cols, this.gridrows, this.sheetView, {Key? key})
       : super(key: key);
 
   @override

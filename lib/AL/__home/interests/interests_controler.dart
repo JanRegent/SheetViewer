@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
 import 'package:sheetviewer/DL/loader/getsheet.dart';
@@ -47,6 +48,8 @@ class InterestContr extends GetxController {
 
   late Map interestRowCurrent;
   Future interestSet(int interestIndex) async {
+    plutogridContr.multilineDetailLayuout.value = '';
+
     interestRowCurrent = interestsList[interestIndex];
 
     logParagraphStart('interestSet');
