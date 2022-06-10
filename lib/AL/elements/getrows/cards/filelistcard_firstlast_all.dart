@@ -21,8 +21,8 @@ Card filelistCardFirstLastAll(
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          // await getRowsLastDelete(
-          //     fileId, fileListSheet['rows'][index]['sheetName']);
+          await getrowsRefresh(fileListSheet[index]['fileId'],
+              fileListSheet[index]['sheetName']);
         },
       ),
       title: Text(fileListSheet[index]['fileTitle'],

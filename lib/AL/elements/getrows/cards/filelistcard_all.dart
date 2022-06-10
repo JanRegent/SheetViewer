@@ -3,6 +3,7 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluecard_byvalue.dart';
+import 'package:sheetviewer/AL/elements/getrows/getrows.dart';
 
 Card allRowsCard(
   BuildContext context,
@@ -21,8 +22,8 @@ Card allRowsCard(
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          // await getRowsLastDelete(
-          //     fileId, fileListSheet['rows'][index]['sheetName']);
+          await getrowsRefresh(
+              fileListSheetRow['fileId'], fileListSheetRow['sheetName']);
         },
       ),
       title: Text(fileListSheetRow['fileTitle'],
@@ -90,8 +91,8 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          // await getRowsLastDelete(
-          //     fileId, fileListSheet['rows'][index]['sheetName']);
+          await getrowsRefresh(
+              fileListSheetRow['fileId'], fileListSheetRow['sheetName']);
         },
       ),
       title: Text(fileListSheetRow['fileTitle'],

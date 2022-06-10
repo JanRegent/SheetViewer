@@ -1,1 +1,1 @@
-const buildVersion = 'AL-layouts--LastNew1Page';      
+const buildVersion = 'AL-getrows-getrowsRefresh';      

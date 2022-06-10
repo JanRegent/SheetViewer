@@ -20,8 +20,8 @@ Card filelistCardLastRows(
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          // await getRowsLastDelete(
-          //     fileId, fileListSheet['rows'][index]['sheetName']);
+          await getrowsRefresh(
+              fileListSheetRow['fileId'], fileListSheetRow['sheetName']);
         },
       ),
       title: Text(fileListSheetRow['fileTitle'],
