@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 
@@ -44,43 +43,6 @@ Drawer homeDrawer(BuildContext context) {
               color: Color.fromARGB(255, 169, 213, 234),
             ),
             child: interestsListView()),
-        ListTile(
-          leading: const Icon(Icons.table_rows),
-          title: const Text('By rows'),
-          onTap: () async {
-            interestContr.cardType = 'byRows';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.search),
-          title: const Text('By words                  By tags'),
-          trailing: const Icon(Icons.tag),
-          onTap: () async {
-            interestContr.cardType = 'By words search';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.filter_alt),
-          title: const Text('B y filters'),
-          onTap: () async {
-            interestContr.cardType = 'Select1';
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => FilelistviewPage(interestContr.cardType),
-                ));
-          },
-        ),
         ListTile(
           title: const Text('Settings'),
           onTap: () async {

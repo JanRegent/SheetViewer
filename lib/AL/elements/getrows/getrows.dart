@@ -11,11 +11,7 @@ import 'package:sheetviewer/DL/getdata_models.dart';
 Future getrowsRefresh(String fileUrl, String sheetName) async {
   String fileId = bl.blUti.url2fileid(fileUrl);
   for (var action in ['getRowsFirst', 'getRowsLast']) {
-    Map queryMap = await actionMapCreate(
-      fileId,
-      sheetName,
-      action,
-    );
+    Map queryMap = await actionMapCreate(fileId, sheetName, action);
 
     String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
     await sheetsDb.deleteSheet(queryStringKey);
