@@ -34,9 +34,6 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   late int colIx;
   late double fontSize = 25;
 
-  //Map<String, HighlightedWord> words = {};
-  List<String> wordsStr = [];
-
   late ScrollController _controller;
 
   @override
@@ -93,7 +90,6 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
         ));
   }
 
-  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return detailBody(widget.sheetView);

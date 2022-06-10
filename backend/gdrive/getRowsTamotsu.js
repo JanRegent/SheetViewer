@@ -156,7 +156,9 @@ function getRowsLast1quote(fileId, sheetName) {
     var Agent = getAgent(row['fileUrl'], row['sheetName'] );
     if (Agent == undefined) continue;
     var lastRow = Agent.last()
+    logi('quoteColumn: ' + row['quoteColumn']);
     if (row['quoteColumn'].toString().trim() == '') {
+
       logi(row['row_'] + ' -- quoteColumn is empty, ignored: ' + row['quoteColumn'].toString().trim());
       continue;
     }
@@ -166,7 +168,7 @@ function getRowsLast1quote(fileId, sheetName) {
     row['lastUpdated'] = lastUpdated;
 
     row['quote'] = lastRow[row['quoteColumn']];
-    
+    row['row_'] =   lastRow['row_'];
     arr.push(row);
   }
   colsLastUsed.push('quote');

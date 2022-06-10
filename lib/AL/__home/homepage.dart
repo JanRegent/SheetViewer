@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
@@ -17,8 +18,12 @@ class HomeApp extends StatelessWidget {
         drawer: homeDrawer(context),
         body: ElevatedButton(
           child: const Text('News'),
-          onPressed: () {
-//LastNew1Page()
+          onPressed: () async {
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const LastNew1Page(),
+                ));
           },
         ));
   }
