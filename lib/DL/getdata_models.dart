@@ -65,11 +65,12 @@ Future<SheetView?> sheetViewGetData(
         return sheetView;
       }
       List<dynamic> getPlan = getPlanResponse['rows'];
+
       List<List<int>> getPlanInt = [];
       if (getPlan.isNotEmpty) {
         int? rowsCount =
             int.tryParse(getPlan[getPlan.length - 1][1].toString());
-        if (rowsCount! > 100) {
+        if (rowsCount! > 0) {
           for (var i = 0; i < getPlan.length; i++) {
             int fromNo = int.tryParse(getPlan[i][0].toString()) ?? 0;
             int toNo = int.tryParse(getPlan[i][1].toString()) ?? 0;

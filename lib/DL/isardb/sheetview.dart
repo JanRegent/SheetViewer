@@ -137,6 +137,37 @@ class SheetsDb {
     return sheetView;
   }
 
+  Future<SheetView?> readSheetSearchRowContains(
+      String aQuerystringKey, String word4search) async {
+    int? id = await getId_(aQuerystringKey);
+    if (id == -1) {
+      return SheetView()
+        ..aStatus = 'warn: not exists: $aQuerystringKey'
+        ..id = -1;
+    }
+
+    QueryBuilder<SheetView, SheetView, QAfterFilterCondition> scoll =
+        isar.sheetViews.where().filter().rowsAnyContains(word4search);
+    SheetView? sheet = await scoll.findFirst();
+    if (sheet != null) {
+      List<String> rows1 = [];
+      for (var i = 0; i < sheet.rows.length; i++) {
+        if (sheet.rows[i].toString().contains(word4search)) {
+          rows1.add(sheet.rows[i]);
+        }
+      }
+      sheet.rows.clear();
+      sheet.rows.addAll(rows1);
+
+      return sheet;
+    }
+    SheetView sheetView = SheetView();
+    sheetView.id = -1;
+    sheetView.aStatus =
+        'warn: not exists: $aQuerystringKey \n readSheetSearchRowContains(';
+    return sheetView;
+  }
+
   Future updateSheetView(SheetView sheetView) async {
     try {
       await isar.writeTxn((isar) async {

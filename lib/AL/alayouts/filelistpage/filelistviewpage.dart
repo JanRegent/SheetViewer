@@ -6,6 +6,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import '../../elements/getrows/cards/_filelistcard.dart';
+import '../../elements/getrows/cards/searchbywords.dart';
 
 // ignore: must_be_immutable
 class FilelistviewPage extends StatelessWidget {
@@ -25,27 +26,13 @@ class FilelistviewPage extends StatelessWidget {
                 ),
             itemCount: interestContr.fileListSheet.length,
             itemBuilder: (context, index) => Center(
-                child: filelistCard(cardType, context,
-                    interestContr.fileListSheet[index], index)
-                // cardType == 'firstRows'
-                //     ? filelistCardFirstRows(
-                //         context, interestContr.fileListSheet[index], index)
-                //     : cardType == 'lastRows'
-                //         ? filelistCardLastRows(
-                //             context, interestContr.fileListSheet[index], index)
-                //         : cardType == 'allRows'
-                //             ? filelistCard(
-                //                 context,
-                //                 interestContr.fileListSheet[index],
-                //                 index,
-                //               )
-                //             : filelistCard(
-                //                 context,
-                //                 interestContr.fileListSheet[index],
-                //                 index,
-                //               )
-
-                )));
+                child: cardType == 'byRows'
+                    ? filelistCard(cardType, context,
+                        interestContr.fileListSheet[index], index)
+                    : cardType == 'By words'
+                        ? searchByWordsCard(cardType, context,
+                            interestContr.fileListSheet[index], index, 'ego')
+                        : const Text('not implemented'))));
   }
 
   @override

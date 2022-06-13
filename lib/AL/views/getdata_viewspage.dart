@@ -8,6 +8,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/getdata_models.dart';
+import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import 'plutogrid/_plutogridpage.dart';
 import 'plutogrid/cols.dart';
@@ -23,8 +24,14 @@ class GetDataViewsPage extends StatefulWidget {
   final String getBatch;
 
   // ignore: use_key_in_widget_constructors
-  const GetDataViewsPage(
-      this.sheetName, this.fileId, this.action, this.fileTitle, this.getBatch);
+  GetDataViewsPage(
+      this.sheetName, this.fileId, this.action, this.fileTitle, this.getBatch,
+      {SheetView? sheetview}) {
+    if (sheetview != null) {
+      sheetViewFromSearch = true;
+      sheetViewDrawer = sheetview;
+    }
+  }
 
   @override
   _GetDataViewsPageState createState() => _GetDataViewsPageState();
@@ -43,11 +50,13 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoColumn> cols = [];
   List<PlutoRow> gridrows = [];
   Future<String> getData(BuildContext context) async {
-    sheetViewDrawer = (await sheetViewGetData(
-        widget.fileId, widget.sheetName, widget.action, widget.getBatch))!;
+    if (!sheetViewFromSearch) {
+      sheetViewDrawer = (await sheetViewGetData(
+          widget.fileId, widget.sheetName, widget.action, widget.getBatch))!;
 
-    if (sheetViewDrawer.aStatus.startsWith('err')) {
-      throw sheetViewDrawer.aStatus;
+      if (sheetViewDrawer.aStatus.startsWith('err')) {
+        throw sheetViewDrawer.aStatus;
+      }
     }
     sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
         widget.sheetName, widget.fileId, 'colsHeader', sheetViewDrawer.cols);

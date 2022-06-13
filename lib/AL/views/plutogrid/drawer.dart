@@ -23,6 +23,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 SheetView sheetViewDrawer = SheetView();
+bool sheetViewFromSearch = false;
 
 Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
   return Drawer(

@@ -48,7 +48,7 @@ class HomeApp extends StatelessWidget {
             ),
             color: Colors.white,
             textStyle: textStyle.copyWith(color: Colors.black),
-            shape: const BorderSide(width: 4),
+            shape: const BorderSide(width: 3, color: Colors.blue),
             borderRadius: 30),
         GridButtonItem(
             value: buttRow[1]["value"],
@@ -61,7 +61,7 @@ class HomeApp extends StatelessWidget {
             ),
             color: Colors.white,
             textStyle: textStyle.copyWith(color: Colors.black),
-            shape: const BorderSide(width: 4),
+            shape: const BorderSide(width: 3, color: Colors.blue),
             borderRadius: 30)
       ];
     }
@@ -97,8 +97,8 @@ class HomeApp extends StatelessWidget {
                             FilelistviewPage(interestContr.cardType),
                       ));
                   break;
-                case "By words":
-                  interestContr.cardType = 'By words search';
+                case 'By words':
+                  interestContr.cardType = 'By words';
                   await Navigator.push(
                       context,
                       MaterialPageRoute(

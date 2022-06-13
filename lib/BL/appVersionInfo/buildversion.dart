@@ -1,1 +1,1 @@
-const buildVersion = 'AL-home--flutter_grid_button-initMenu';      
+const buildVersion = 'DL-getPlan---------------------------22.06----';      
