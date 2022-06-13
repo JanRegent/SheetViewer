@@ -96,13 +96,12 @@ Future<SheetView> getPlanParts(
     String fileId, String sheetName, List<List<int>> getPlan) async {
   interestContr.fetshingRows.value =
       '\n fetch parts: ' + getPlan.length.toString();
-  interestContr.fetshingRows.value += '\n part 1: ' + getPlan[0].toString();
+  interestContr.fetshingRows.value += '\n' + getPlan[0].toString();
 
   SheetView sheetView = await sheetViewGetPlanPart(
       fileId, sheetName, 'getRowsFromTo', getPlan[0][0], getPlan[0][1]);
   for (var i = 1; i < getPlan.length; i++) {
-    interestContr.fetshingRows.value +=
-        '\n part ${(i + 1)}: ' + getPlan[i].toString();
+    interestContr.fetshingRows.value += '\n' + getPlan[i].toString();
     SheetView part = await sheetViewGetPlanPart(
         fileId, sheetName, 'getRowsFromTo', getPlan[i][0], getPlan[i][1]);
 
