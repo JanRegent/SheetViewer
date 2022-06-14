@@ -4,6 +4,7 @@ import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/DL/isardb/log.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
@@ -17,6 +18,7 @@ import 'lib/log.dart';
 BL bl = BL();
 late LogDb logDb;
 late SheetsDb sheetsDb;
+late SheetrowsDb sheetRowsDb;
 
 late LocalStore interestStore2; //init in interestController.interestNameSet
 late LocalStore appHome = LocalStore('appHome: ');
@@ -44,10 +46,7 @@ class BL {
 
 Future isarDbInit() async {
   final isar = await Isar.open(
-    schemas: [
-      LogSchema,
-      SheetViewSchema,
-    ],
+    schemas: [LogSchema, SheetViewSchema, SheetRowSchema],
     //directory: dir.path,
     inspector: false, // if you want to enable the inspector for debug builds
   );
@@ -55,4 +54,5 @@ Future isarDbInit() async {
   logDb = LogDb(isar);
   logDb.clear();
   sheetsDb = SheetsDb(isar);
+  sheetRowsDb = SheetrowsDb(isar);
 }

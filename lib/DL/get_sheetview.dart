@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import '../BL/bl.dart';
+import 'isardb/sheetrows.dart';
 
 final dio = Dio(
   BaseOptions(
@@ -38,6 +39,8 @@ Future<SheetView?> getSheetView(String queryStringKey,
   try {
     Response response = await dio.get(url);
     sheetView = SheetView.fromJson(response.data);
+
+    await SheetRow().sheetRowsFromJson(response.data);
   } on DioError catch (e) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx and is also not 304.
