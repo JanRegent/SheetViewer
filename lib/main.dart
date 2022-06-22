@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/DL/loader/contentservice.dart';
 
 import 'AL/__home/homepage.dart';
 
@@ -12,8 +11,8 @@ void main() async {
 
   await interestContr.interestsLoad();
 
-  String cell = await gsheetTest();
-  print(cell);
+  // String cell = await gsheetTest();
+  // print(cell);
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
