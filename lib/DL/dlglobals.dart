@@ -8,11 +8,12 @@ DlGlobals dlGlobals = DlGlobals();
 
 class DlGlobals {
   String baseUrl = '';
+  String kredenc = '';
   Future init() async {
-    //baseUrl = await contentServiceUrl();
     baseUrl = await getBaseUrlAtFire();
-    //baseUrl = await loadAssetString('contentServiceUrl');
     await appHome.updateString('DL-contentServiceUrl', baseUrl);
+
+    kredenc = await getKredencAtFire();
   }
 }
 

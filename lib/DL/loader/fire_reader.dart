@@ -23,6 +23,14 @@ Future<String> getBaseUrlAtFire() async {
   return coll['baseUrl'];
 }
 
+Future getKredencAtFire() async {
+  DocumentSnapshot coll =
+      await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
+  String servKey = coll['serviceAccount'];
+
+  return servKey;
+}
+
 Future<String> interestsSheetUrlAtFire() async {
   DocumentSnapshot coll =
       await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');

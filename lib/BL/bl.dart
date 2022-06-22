@@ -48,7 +48,7 @@ Future isarDbInit() async {
   final isar = await Isar.open(
     schemas: [LogSchema, SheetViewSchema, SheetRowSchema],
     //directory: dir.path,
-    inspector: false, // if you want to enable the inspector for debug builds
+    //inspector: false, // if you want to enable the inspector for debug builds
   );
 
   logDb = LogDb(isar);

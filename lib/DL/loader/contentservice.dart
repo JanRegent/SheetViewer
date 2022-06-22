@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_adjacent_string_concatenation
 
 import 'package:gsheets/gsheets.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 
 /// Your google auth credentials //sheets2mob-223110@appspot.gserviceaccount.com
 ///
 /// how to get credentials - https://medium.com/@a.marenkov/how-to-get-credentials-for-google-sheets-456b7e88c430
 //
-
+//serviceAccount credentials https://console.cloud.google.com/apis/credentials?project=sheets2mob-223110
 /// Your spreadsheet id
 ///
 /// It can be found in the link to your spreadsheet -
@@ -14,17 +15,10 @@ import 'package:gsheets/gsheets.dart';
 /// [YOUR_SPREADSHEET_ID] in the path is the id your need
 const _spreadsheetId = '1soitqp8gukkQeITurQYhWC_gD-AgpOA5cxMPE00MI5A';
 
-Future<String> contentServiceUrl() async {
+Future<String> gsheetTest() async {
   // init GSheets
-  String _kredenc = kredenc.replaceAll('__|__', '_');
-  _kredenc = _kredenc.replaceAll('__-__', '-');
-  _kredenc =
-      _kredenc.replaceAll('__BEG__', 'BEGIN ' + 'PR' + 'IVATE ' + 'K' + 'EY');
-  _kredenc =
-      _kredenc.replaceAll('__END__', 'END ' + 'PR' + 'IVATE ' + 'K' + 'EY');
-  _kredenc = _kredenc.replaceAll('__CL__', '2135195');
-  _kredenc = _kredenc.replaceAll('-*-*-', 'ice_ac');
-  final gsheets = GSheets(_kredenc);
+
+  final gsheets = GSheets(dlGlobals.kredenc);
   // fetch spreadsheet by its id
   final ss = await gsheets.spreadsheet(_spreadsheetId);
 
@@ -38,9 +32,3 @@ Future<String> contentServiceUrl() async {
   // prints 'new'
   return cell.value;
 }
-
-const kredenc = r'''
-{
-https://console.cloud.google.com/apis/credentials?project=sheets2mob-223110 
-}
-''';
