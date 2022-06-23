@@ -63,7 +63,7 @@ class GetSheetsService {
       SheetRow sheetRow = SheetRow()
         ..aSheetName = sheetName
         ..zfileId = fileId
-        ..row_ = rowIx.toString()
+        ..row_ = row['row_'].toString()
         ..row = jsonEncode(row);
       await sheetRowsDb.update(sheetRow);
     }
