@@ -52,7 +52,7 @@ class GetSheetsService {
     cols = await columnsTitles(sheet);
 
     for (var rowIx = 1; rowIx < rawRows.length; rowIx++) {
-      Map row = {'row_': rowIx};
+      Map row = {'row_': rowIx + 1}; //excel
       for (var colIx = 0; colIx < cols.length; colIx++) {
         try {
           row[cols[colIx]] = rawRows[rowIx][colIx];
