@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:gsheets/gsheets.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 class GetSheetsService {
   late GSheets gsheets;
@@ -34,22 +38,21 @@ class GetSheetsService {
     return cols;
   }
 
-  Future<List<String>> getAllRows(
-    String fileid,
-    String sheetname,
+  Future getAllRows(
+    String fileId,
+    String sheetName,
   ) async {
-    Spreadsheet? ss = await getSpreadSheet(fileid);
+    Spreadsheet? ss = await getSpreadSheet(fileId);
     // ignore: unnecessary_null_comparison
     if (ss == null) return [];
-    Worksheet? sheet = ss.worksheetByTitle(sheetname);
+    Worksheet? sheet = ss.worksheetByTitle(sheetName);
     if (sheet == null) return [];
     List<List<String>> rawRows = await sheet.values.allRows();
 
     cols = await columnsTitles(sheet);
-    List<String> rows = [];
 
     for (var rowIx = 1; rowIx < rawRows.length; rowIx++) {
-      Map row = {};
+      Map row = {'row_': rowIx};
       for (var colIx = 0; colIx < cols.length; colIx++) {
         try {
           row[cols[colIx]] = rawRows[rowIx][colIx];
@@ -57,7 +60,12 @@ class GetSheetsService {
           row[cols[colIx]] = '';
         }
       }
+      SheetRow sheetRow = SheetRow()
+        ..aSheetName = sheetName
+        ..zfileId = fileId
+        ..row_ = rowIx.toString()
+        ..row = jsonEncode(row);
+      await sheetRowsDb.update(sheetRow);
     }
-    return rows;
   }
 }

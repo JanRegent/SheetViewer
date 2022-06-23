@@ -56,8 +56,6 @@ class SheetRow {
       }
     }
   }
-
-  Future saveRow(SheetRow sheetRow) async {}
 }
 
 class SheetrowsDb {
