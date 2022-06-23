@@ -5,7 +5,6 @@ import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'home_drawer_menu.dart';
 
@@ -133,10 +132,7 @@ class HomeApp extends StatelessWidget {
     });
   }
 
-  Future gs() async {
-    await dlGlobals.getSheetsService
-        .getSheetRow('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
-  }
+  Future gs() async {}
 
   @override
   Widget build(BuildContext context) {

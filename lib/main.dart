@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'AL/__home/homepage.dart';
 
@@ -13,6 +14,8 @@ void main() async {
 
   // String cell = await gsheetTest();
   // print(cell);
+  await dlGlobals.getSheetsService
+      .getAllRows('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,

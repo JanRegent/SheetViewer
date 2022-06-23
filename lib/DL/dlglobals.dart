@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'package:sheetviewer/DL/loader/fire_reader.dart';
-import 'package:sheetviewer/DL/loader/getsheets_service.dart';
+import 'package:sheetviewer/DL/loader/GSheets/getsheets_service.dart';
 
 DlGlobals dlGlobals = DlGlobals();
 
