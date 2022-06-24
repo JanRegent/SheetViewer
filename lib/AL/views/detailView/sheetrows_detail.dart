@@ -3,7 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/bl.dart';
+
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 //import './../views_common.dart';
 
@@ -17,10 +18,10 @@ import 'package:sheetviewer/BL/bl.dart';
 
 class ShetRowsDetailPage extends StatefulWidget {
   final List<String> cols;
-  final List<String> rows_;
+  final List<SheetRow?> rows;
 
   // ignore: prefer_const_constructors_in_immutables
-  ShetRowsDetailPage(this.cols, this.rows_, {Key? key}) : super(key: key);
+  ShetRowsDetailPage(this.cols, this.rows, {Key? key}) : super(key: key);
 
   @override
   _ShetRowsDetailPageState createState() => _ShetRowsDetailPageState();
@@ -53,8 +54,8 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
     if (currentRowsIndex < 0) {
       currentRowsIndex = 0;
     }
-    if (currentRowsIndex >= widget.rows_.length) {
-      currentRowsIndex = widget.rows_.length - 1;
+    if (currentRowsIndex >= widget.rows.length) {
+      currentRowsIndex = widget.rows.length - 1;
     }
     setState(() {});
   }
@@ -70,10 +71,7 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
   }
 
   Row arrowsRow(BuildContext context) {
-    Map row = {'row_': "2"};
-    sheetRowsDb
-        .readRowNo(widget.rows_[currentRowsIndex])
-        .then((value) => {row = jsonDecode("2")});
+    Map row = jsonDecode(widget.rows[currentRowsIndex]!.row);
 
     return Row(
       children: [
@@ -100,7 +98,7 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
             child: const Icon(Icons.last_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              currentRowsIndex = widget.rows_.length - 1;
+              currentRowsIndex = widget.rows.length - 1;
               refreshCorrectIndex();
             }),
         const Text(' row: '),
@@ -110,7 +108,7 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
   }
 
   String cellvalueGet(String columnSelected) {
-    Map row = jsonDecode(widget.rows_[currentRowsIndex]);
+    Map row = jsonDecode(widget.rows[currentRowsIndex]!.row);
     String cellValue = '';
     try {
       cellValue = row[columnSelected].toString();

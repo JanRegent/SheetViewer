@@ -1,1 +1,1 @@
-const buildVersion = 'DL-GetSheetsService--assets-config-3';      
+const buildVersion = 'DL-gsheets-ShetRowsDetailPage-1';      

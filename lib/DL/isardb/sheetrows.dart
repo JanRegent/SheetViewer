@@ -74,14 +74,9 @@ class SheetrowsDb {
     return cols;
   }
 
-  Future<List<String>> readRowNos() async {
+  Future<List<SheetRow?>> readRowNos() async {
     List<SheetRow?> rows = await isar.sheetRows.where().findAll();
-    List<String> rows_ = [];
-    for (var i = 0; i < rows.length; i++) {
-      rows_.add(rows[i]!.row_);
-    }
-
-    return rows_;
+    return rows;
   }
 
   Future<SheetRow?> readRowNo(String row_) async {

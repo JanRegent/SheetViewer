@@ -6,6 +6,7 @@ import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 import 'package:sheetviewer/AL/views/detailView/sheetrows_detail.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'home_drawer_menu.dart';
 
@@ -135,10 +136,10 @@ class HomeApp extends StatelessWidget {
 
   Future gs(BuildContext context) async {
     List<String> cols = await sheetRowsDb.readCols();
-    List<String> rows_ = await sheetRowsDb.readRowNos();
+    List<SheetRow?> rows = await sheetRowsDb.readRowNos();
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(cols, rows_)),
+      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(cols, rows)),
     );
   }
 
