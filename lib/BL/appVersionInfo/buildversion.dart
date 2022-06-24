@@ -1,1 +1,1 @@
-const buildVersion = 'DL-GetSheetsService--getAllRows-4-row_';      
+const buildVersion = 'DL-GetSheetsService--assets-config';      

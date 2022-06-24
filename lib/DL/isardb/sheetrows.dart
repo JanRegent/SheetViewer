@@ -64,6 +64,31 @@ class SheetrowsDb {
 
   bool sync = false;
 
+  Future<List<String>> readCols() async {
+    SheetRow? testRow = await isar.sheetRows.where().findFirst();
+    Map row = jsonDecode(testRow!.row);
+    List<String> cols = [];
+    for (var key in row.keys) {
+      cols.add(key);
+    }
+    return cols;
+  }
+
+  Future<List<String>> readRowNos() async {
+    List<SheetRow?> rows = await isar.sheetRows.where().findAll();
+    List<String> rows_ = [];
+    for (var i = 0; i < rows.length; i++) {
+      rows_.add(rows[i]!.row_);
+    }
+
+    return rows_;
+  }
+
+  Future<SheetRow?> readRowNo(String row_) async {
+    SheetRow? row = await isar.sheetRows.filter().row_EqualTo(row_).findFirst();
+    return row;
+  }
+
   Future update(SheetRow sheetRow) async {
     if (!isar.isOpen) {
       return Future<void>(() {});

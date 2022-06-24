@@ -3,6 +3,7 @@ import 'package:flutter_grid_button/flutter_grid_button.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
+import 'package:sheetviewer/AL/views/detailView/sheetrows_detail.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
@@ -132,7 +133,14 @@ class HomeApp extends StatelessWidget {
     });
   }
 
-  Future gs() async {}
+  Future gs(BuildContext context) async {
+    List<String> cols = await sheetRowsDb.readCols();
+    List<String> rows_ = await sheetRowsDb.readRowNos();
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(cols, rows_)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +152,7 @@ class HomeApp extends StatelessWidget {
             //await gs();
             IconButton(
               onPressed: () async {
-                await gs();
+                await gs(context);
               },
               icon: const Icon(Icons.abc),
             )
