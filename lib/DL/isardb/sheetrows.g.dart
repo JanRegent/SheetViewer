@@ -15,9 +15,9 @@ extension GetSheetRowCollection on Isar {
 const SheetRowSchema = CollectionSchema(
   name: 'SheetRow',
   schema:
-      '{"name":"SheetRow","idName":"id","properties":[{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"row_","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+      '{"name":"SheetRow","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
   idName: 'id',
-  propertyIds: {'aSheetName': 0, 'row': 1, 'row_': 2, 'zfileId': 3},
+  propertyIds: {'aRowNo': 0, 'aSheetName': 1, 'row': 2, 'zfileId': 3},
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
@@ -60,15 +60,15 @@ void _sheetRowSerializeNative(
     List<int> offsets,
     AdapterAlloc alloc) {
   var dynamicSize = 0;
-  final value0 = object.aSheetName;
-  final _aSheetName = IsarBinaryWriter.utf8Encoder.convert(value0);
+  final value0 = object.aRowNo;
+  final _aRowNo = IsarBinaryWriter.utf8Encoder.convert(value0);
+  dynamicSize += (_aRowNo.length) as int;
+  final value1 = object.aSheetName;
+  final _aSheetName = IsarBinaryWriter.utf8Encoder.convert(value1);
   dynamicSize += (_aSheetName.length) as int;
-  final value1 = object.row;
-  final _row = IsarBinaryWriter.utf8Encoder.convert(value1);
+  final value2 = object.row;
+  final _row = IsarBinaryWriter.utf8Encoder.convert(value2);
   dynamicSize += (_row.length) as int;
-  final value2 = object.row_;
-  final _row_ = IsarBinaryWriter.utf8Encoder.convert(value2);
-  dynamicSize += (_row_.length) as int;
   final value3 = object.zfileId;
   final _zfileId = IsarBinaryWriter.utf8Encoder.convert(value3);
   dynamicSize += (_zfileId.length) as int;
@@ -78,19 +78,19 @@ void _sheetRowSerializeNative(
   rawObj.buffer_length = size;
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeBytes(offsets[0], _aSheetName);
-  writer.writeBytes(offsets[1], _row);
-  writer.writeBytes(offsets[2], _row_);
+  writer.writeBytes(offsets[0], _aRowNo);
+  writer.writeBytes(offsets[1], _aSheetName);
+  writer.writeBytes(offsets[2], _row);
   writer.writeBytes(offsets[3], _zfileId);
 }
 
 SheetRow _sheetRowDeserializeNative(IsarCollection<SheetRow> collection, int id,
     IsarBinaryReader reader, List<int> offsets) {
   final object = SheetRow();
-  object.aSheetName = reader.readString(offsets[0]);
+  object.aRowNo = reader.readString(offsets[0]);
+  object.aSheetName = reader.readString(offsets[1]);
   object.id = id;
-  object.row = reader.readString(offsets[1]);
-  object.row_ = reader.readString(offsets[2]);
+  object.row = reader.readString(offsets[2]);
   object.zfileId = reader.readString(offsets[3]);
   return object;
 }
@@ -116,10 +116,10 @@ P _sheetRowDeserializePropNative<P>(
 dynamic _sheetRowSerializeWeb(
     IsarCollection<SheetRow> collection, SheetRow object) {
   final jsObj = IsarNative.newJsObject();
+  IsarNative.jsObjectSet(jsObj, 'aRowNo', object.aRowNo);
   IsarNative.jsObjectSet(jsObj, 'aSheetName', object.aSheetName);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
   IsarNative.jsObjectSet(jsObj, 'row', object.row);
-  IsarNative.jsObjectSet(jsObj, 'row_', object.row_);
   IsarNative.jsObjectSet(jsObj, 'zfileId', object.zfileId);
   return jsObj;
 }
@@ -127,16 +127,18 @@ dynamic _sheetRowSerializeWeb(
 SheetRow _sheetRowDeserializeWeb(
     IsarCollection<SheetRow> collection, dynamic jsObj) {
   final object = SheetRow();
+  object.aRowNo = IsarNative.jsObjectGet(jsObj, 'aRowNo') ?? '';
   object.aSheetName = IsarNative.jsObjectGet(jsObj, 'aSheetName') ?? '';
   object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
   object.row = IsarNative.jsObjectGet(jsObj, 'row') ?? '';
-  object.row_ = IsarNative.jsObjectGet(jsObj, 'row_') ?? '';
   object.zfileId = IsarNative.jsObjectGet(jsObj, 'zfileId') ?? '';
   return object;
 }
 
 P _sheetRowDeserializePropWeb<P>(Object jsObj, String propertyName) {
   switch (propertyName) {
+    case 'aRowNo':
+      return (IsarNative.jsObjectGet(jsObj, 'aRowNo') ?? '') as P;
     case 'aSheetName':
       return (IsarNative.jsObjectGet(jsObj, 'aSheetName') ?? '') as P;
     case 'id':
@@ -144,8 +146,6 @@ P _sheetRowDeserializePropWeb<P>(Object jsObj, String propertyName) {
           as P;
     case 'row':
       return (IsarNative.jsObjectGet(jsObj, 'row') ?? '') as P;
-    case 'row_':
-      return (IsarNative.jsObjectGet(jsObj, 'row_') ?? '') as P;
     case 'zfileId':
       return (IsarNative.jsObjectGet(jsObj, 'zfileId') ?? '') as P;
     default:
@@ -218,6 +218,109 @@ extension SheetRowQueryWhere on QueryBuilder<SheetRow, SheetRow, QWhereClause> {
 
 extension SheetRowQueryFilter
     on QueryBuilder<SheetRow, SheetRow, QFilterCondition> {
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'aRowNo',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'aRowNo',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'aRowNo',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -471,109 +574,6 @@ extension SheetRowQueryFilter
     ));
   }
 
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_EqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_GreaterThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_LessThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_Between(
-    String lower,
-    String upper, {
-    bool caseSensitive = true,
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'row_',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_StartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_EndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_Contains(
-      String value,
-      {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'row_',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> row_Matches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'row_',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -683,6 +683,14 @@ extension SheetRowQueryLinks
 
 extension SheetRowQueryWhereSortBy
     on QueryBuilder<SheetRow, SheetRow, QSortBy> {
+  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByARowNo() {
+    return addSortByInternal('aRowNo', Sort.asc);
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByARowNoDesc() {
+    return addSortByInternal('aRowNo', Sort.desc);
+  }
+
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByASheetName() {
     return addSortByInternal('aSheetName', Sort.asc);
   }
@@ -707,14 +715,6 @@ extension SheetRowQueryWhereSortBy
     return addSortByInternal('row', Sort.desc);
   }
 
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByRow_() {
-    return addSortByInternal('row_', Sort.asc);
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByRow_Desc() {
-    return addSortByInternal('row_', Sort.desc);
-  }
-
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByZfileId() {
     return addSortByInternal('zfileId', Sort.asc);
   }
@@ -726,6 +726,14 @@ extension SheetRowQueryWhereSortBy
 
 extension SheetRowQueryWhereSortThenBy
     on QueryBuilder<SheetRow, SheetRow, QSortThenBy> {
+  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByARowNo() {
+    return addSortByInternal('aRowNo', Sort.asc);
+  }
+
+  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByARowNoDesc() {
+    return addSortByInternal('aRowNo', Sort.desc);
+  }
+
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByASheetName() {
     return addSortByInternal('aSheetName', Sort.asc);
   }
@@ -750,14 +758,6 @@ extension SheetRowQueryWhereSortThenBy
     return addSortByInternal('row', Sort.desc);
   }
 
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByRow_() {
-    return addSortByInternal('row_', Sort.asc);
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByRow_Desc() {
-    return addSortByInternal('row_', Sort.desc);
-  }
-
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByZfileId() {
     return addSortByInternal('zfileId', Sort.asc);
   }
@@ -769,6 +769,11 @@ extension SheetRowQueryWhereSortThenBy
 
 extension SheetRowQueryWhereDistinct
     on QueryBuilder<SheetRow, SheetRow, QDistinct> {
+  QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByARowNo(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('aRowNo', caseSensitive: caseSensitive);
+  }
+
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByASheetName(
       {bool caseSensitive = true}) {
     return addDistinctByInternal('aSheetName', caseSensitive: caseSensitive);
@@ -783,11 +788,6 @@ extension SheetRowQueryWhereDistinct
     return addDistinctByInternal('row', caseSensitive: caseSensitive);
   }
 
-  QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByRow_(
-      {bool caseSensitive = true}) {
-    return addDistinctByInternal('row_', caseSensitive: caseSensitive);
-  }
-
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByZfileId(
       {bool caseSensitive = true}) {
     return addDistinctByInternal('zfileId', caseSensitive: caseSensitive);
@@ -796,6 +796,10 @@ extension SheetRowQueryWhereDistinct
 
 extension SheetRowQueryProperty
     on QueryBuilder<SheetRow, SheetRow, QQueryProperty> {
+  QueryBuilder<SheetRow, String, QQueryOperations> aRowNoProperty() {
+    return addPropertyNameInternal('aRowNo');
+  }
+
   QueryBuilder<SheetRow, String, QQueryOperations> aSheetNameProperty() {
     return addPropertyNameInternal('aSheetName');
   }
@@ -806,10 +810,6 @@ extension SheetRowQueryProperty
 
   QueryBuilder<SheetRow, String, QQueryOperations> rowProperty() {
     return addPropertyNameInternal('row');
-  }
-
-  QueryBuilder<SheetRow, String, QQueryOperations> row_Property() {
-    return addPropertyNameInternal('row_');
   }
 
   QueryBuilder<SheetRow, String, QQueryOperations> zfileIdProperty() {

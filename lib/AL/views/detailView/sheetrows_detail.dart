@@ -17,11 +17,10 @@ import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class ShetRowsDetailPage extends StatefulWidget {
-  final List<String> cols;
   final List<SheetRow?> rows;
 
   // ignore: prefer_const_constructors_in_immutables
-  ShetRowsDetailPage(this.cols, this.rows, {Key? key}) : super(key: key);
+  ShetRowsDetailPage(this.rows, {Key? key}) : super(key: key);
 
   @override
   _ShetRowsDetailPageState createState() => _ShetRowsDetailPageState();
@@ -30,8 +29,6 @@ class ShetRowsDetailPage extends StatefulWidget {
 class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
   TextEditingController highlighControler = TextEditingController();
 
-  late String cellValue;
-  List<String> columnsSelected = [];
   late int colIx;
   late double fontSize = 20;
 
@@ -40,11 +37,11 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
 
   late ScrollController _controller;
   int currentRowsIndex = 0;
+  late Map row;
   @override
   void initState() {
+    row = jsonDecode(widget.rows[currentRowsIndex]!.row);
     _controller = ScrollController();
-
-    columnsSelected = widget.cols;
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
@@ -71,8 +68,6 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
   }
 
   Row arrowsRow(BuildContext context) {
-    Map row = jsonDecode(widget.rows[currentRowsIndex]!.row);
-
     return Row(
       children: [
         ElevatedButton(
@@ -118,11 +113,11 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
     return cellValue;
   }
 
-  Widget getText(int index) {
+  Widget getText(String columnName) {
     TextStyle style = TextStyle(
       fontSize: fontSize,
     );
-    String text = cellvalueGet(columnsSelected[index]);
+    String text = cellvalueGet(columnName);
 
     // ignore: unused_local_variable
     bool containsWord = false;
@@ -139,7 +134,16 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
     );
   }
 
+  List<String> getCols() {
+    List<String> cols = [];
+    for (var key in row.keys) {
+      cols.add(key.toString());
+    }
+    return cols;
+  }
+
   Widget detailBody() {
+    List<String> cols = getCols();
     return Container(
         height: double.infinity,
         width: double.infinity,
@@ -149,13 +153,13 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
           separatorBuilder: (context, index) => const Divider(
             color: Colors.blue,
           ),
-          itemCount: columnsSelected.length,
+          itemCount: cols.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
                 child: ListTile(
-              leading: Text(columnsSelected[index]),
-              title: getText(index),
+              leading: Text(cols[index]),
+              title: getText(cols[index]),
             )),
           ),
         ));

@@ -13,11 +13,10 @@ part 'sheetrows.g.dart'; // flutter pub run build_runner build
 class SheetRow {
   @Id()
   int id = Isar.autoIncrement;
-
   String aSheetName = '';
-  String zfileId = '';
-  String row_ = '';
+  String aRowNo = '';
   String row = '';
+  String zfileId = '';
 
   SheetRow();
 
@@ -26,7 +25,7 @@ class SheetRow {
     return '''
   ----------------------------------------------------------------------shetView
   id $id
-  rov_ $row_
+  rowNo_ $aRowNo
  
     $aSheetName
     $row
@@ -45,7 +44,7 @@ class SheetRow {
         SheetRow sheetRow = SheetRow()
           ..aSheetName = sheetName
           ..zfileId = fileId
-          ..row_ = rows[i]['row_'].toString()
+          ..aRowNo = rows[i]['row_'].toString()
           ..row = jsonEncode(rows[i]); //map to String workarround of Isar
 
         await sheetRowsDb.update(sheetRow);
@@ -79,8 +78,9 @@ class SheetrowsDb {
     return rows;
   }
 
-  Future<SheetRow?> readRowNo(String row_) async {
-    SheetRow? row = await isar.sheetRows.filter().row_EqualTo(row_).findFirst();
+  Future<SheetRow?> readRowNo(String aRowNo) async {
+    SheetRow? row =
+        await isar.sheetRows.filter().aRowNoEqualTo(aRowNo).findFirst();
     return row;
   }
 
@@ -95,7 +95,7 @@ class SheetrowsDb {
         .and()
         .aSheetNameEqualTo(sheetRow.aSheetName)
         .and()
-        .row_EqualTo(sheetRow.row_)
+        .aRowNoEqualTo(sheetRow.aRowNo)
         .findFirst();
     try {
       // ignore: unnecessary_null_comparison

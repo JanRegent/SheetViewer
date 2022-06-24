@@ -52,7 +52,7 @@ class GetSheetsService {
     cols = await columnsTitles(sheet);
 
     for (var rowIx = 1; rowIx < rawRows.length; rowIx++) {
-      Map row = {'row_': rowIx + 1}; //excel
+      Map row = {}; //excel
       for (var colIx = 0; colIx < cols.length; colIx++) {
         try {
           row[cols[colIx]] = rawRows[rowIx][colIx];
@@ -63,7 +63,7 @@ class GetSheetsService {
       SheetRow sheetRow = SheetRow()
         ..aSheetName = sheetName
         ..zfileId = fileId
-        ..row_ = row['row_'].toString()
+        ..aRowNo = (rowIx + 1).toString() //excel start at 1
         ..row = jsonEncode(row);
       await sheetRowsDb.update(sheetRow);
     }

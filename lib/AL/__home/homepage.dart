@@ -135,11 +135,10 @@ class HomeApp extends StatelessWidget {
   }
 
   Future gs(BuildContext context) async {
-    List<String> cols = await sheetRowsDb.readCols();
     List<SheetRow?> rows = await sheetRowsDb.readRowNos();
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(cols, rows)),
+      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(rows)),
     );
   }
 
