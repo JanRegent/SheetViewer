@@ -67,6 +67,13 @@ class InterestContr extends GetxController {
     //try {
     String interestsSheetUrl = await loadAssetString('interestsSheetUrl');
     String interestsSheetName = await loadAssetString('interestsSheetName');
+    if (dlGlobals.domain.toString().contains('vercel.app')) {
+      interestsSheetUrl = remoteConfig.getString('interestsSheetUrl');
+      interestsSheetName = remoteConfig.getString('interestsSheetName');
+    }
+    await appHome.updateString('interestsSheetUrl', interestsSheetUrl);
+    await appHome.updateString('interestsSheetName', interestsSheetName);
+
     var response = await getSheetUrl(interestsSheetUrl, interestsSheetName);
 
     Map<String, dynamic> res = jsonDecode(response.toString());

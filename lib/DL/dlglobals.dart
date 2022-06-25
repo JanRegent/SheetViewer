@@ -1,3 +1,4 @@
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -30,6 +31,8 @@ class DlGlobals {
         .split('#')[0];
 
     if (domain.toString().contains('vercel.app')) {
+      baseUrl = remoteConfig.getString('baseUrl');
+      await appHome.updateString('DL-contentServiceUrl', baseUrl);
       kredenc = remoteConfig.getString('service_account');
     } else {
       kredenc = await loadAssetJson('service_account.json');
