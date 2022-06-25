@@ -51,8 +51,8 @@ class GetSheetsService {
 
     cols = await columnsTitles(sheet);
 
-    for (var rowIx = 1; rowIx < rawRows.length; rowIx++) {
-      Map row = {}; //excel
+    for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
+      Map row = {}; //excel 1 cols, 2.. data
       for (var colIx = 0; colIx < cols.length; colIx++) {
         try {
           row[cols[colIx]] = rawRows[rowIx][colIx];

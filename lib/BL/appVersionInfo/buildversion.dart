@@ -1,1 +1,1 @@
-const buildVersion = 'DL-gsheets-remoteConfig-localConfig-2';      
+const buildVersion = 'AL-view-RowmapViewer';      

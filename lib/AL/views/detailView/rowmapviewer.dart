@@ -16,17 +16,17 @@ import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 ///   * Styling text with RichText Widget
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
-class ShetRowsDetailPage extends StatefulWidget {
+class RowmapViewer extends StatefulWidget {
   final List<SheetRow?> rows;
 
   // ignore: prefer_const_constructors_in_immutables
-  ShetRowsDetailPage(this.rows, {Key? key}) : super(key: key);
+  RowmapViewer(this.rows, {Key? key}) : super(key: key);
 
   @override
-  _ShetRowsDetailPageState createState() => _ShetRowsDetailPageState();
+  _RowmapViewerState createState() => _RowmapViewerState();
 }
 
-class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
+class _RowmapViewerState extends State<RowmapViewer> {
   TextEditingController highlighControler = TextEditingController();
 
   late int colIx;

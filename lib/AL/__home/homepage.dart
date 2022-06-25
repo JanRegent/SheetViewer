@@ -3,7 +3,7 @@ import 'package:flutter_grid_button/flutter_grid_button.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
-import 'package:sheetviewer/AL/views/detailView/sheetrows_detail.dart';
+import 'package:sheetviewer/AL/views/detailView/rowmapviewer.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
@@ -138,7 +138,7 @@ class HomeApp extends StatelessWidget {
     List<SheetRow?> rows = await sheetRowsDb.readRowNos();
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ShetRowsDetailPage(rows)),
+      MaterialPageRoute(builder: (context) => RowmapViewer(rows)),
     );
   }
 
