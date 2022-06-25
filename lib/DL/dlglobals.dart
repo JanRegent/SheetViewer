@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 
@@ -14,7 +16,15 @@ class DlGlobals {
 
   String kredenc = '';
   GetSheetsService getSheetsService = GetSheetsService();
+  var domain = '';
   Future init() async {
+    var url = window.location.href;
+    domain = url
+        .toString()
+        .replaceAll('http://', '')
+        .replaceAll('https://', '')
+        .split('#')[0];
+    print(domain);
     await fireInit();
     baseUrl = remoteConfig.getString('baseUrl');
     await appHome.updateString('DL-contentServiceUrl', baseUrl);

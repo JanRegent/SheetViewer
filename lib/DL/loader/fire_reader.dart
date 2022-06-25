@@ -20,7 +20,6 @@ Future fireInit() async {
 
 Future<DocumentSnapshot<Object?>> getContentServiceCollection(
     String documentId) async {
-  ;
   CollectionReference users =
       FirebaseFirestore.instance.collection('contentSerciceConfig');
   return await users.doc(documentId).get();

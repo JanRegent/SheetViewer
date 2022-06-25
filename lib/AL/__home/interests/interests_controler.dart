@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
 import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
