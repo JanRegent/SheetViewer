@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-RowmapViewer';      
+const buildVersion = 'AL-view-RowsgridPage';      

@@ -3,26 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:sheetviewer/AL/views/detailView/columnviewpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
-import '../detailView/columnviewpage.dart';
 import 'rows.dart';
 
 /// The home page of the application which hosts the datagrid.
-class PlutogridPage extends StatefulWidget {
+class RowsgridPage extends StatefulWidget {
   final List<PlutoColumn> cols;
   final List<PlutoRow> gridrows;
   final List<SheetRow?> rows;
-  const PlutogridPage(this.cols, this.gridrows, this.rows, {Key? key})
+  const RowsgridPage(this.cols, this.gridrows, this.rows, {Key? key})
       : super(key: key);
 
   @override
-  _PlutogridPageState createState() => _PlutogridPageState();
+  _RowsgridPageState createState() => _RowsgridPageState();
 }
 
-class _PlutogridPageState extends State<PlutogridPage> {
+class _RowsgridPageState extends State<RowsgridPage> {
   @override
   void initState() {
     super.initState();

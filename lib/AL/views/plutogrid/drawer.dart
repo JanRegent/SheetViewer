@@ -20,9 +20,11 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 SheetView sheetViewDrawer = SheetView();
+List<SheetRow?> rows = [];
 bool sheetViewFromSearch = false;
 
 Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
