@@ -65,10 +65,8 @@ class InterestContr extends GetxController {
 
   Future getSheetInterests() async {
     //try {
-    String interestsSheetUrl = remoteConfig.getString('interestsSheetUrl');
-    //await interestsSheetUrlAtFire();
-    String interestsSheetName = remoteConfig.getString('interestsSheetName');
-    //await interestsSheetNameAtFire();
+    String interestsSheetUrl = await loadAssetString('interestsSheetUrl');
+    String interestsSheetName = await loadAssetString('interestsSheetName');
     var response = await getSheetUrl(interestsSheetUrl, interestsSheetName);
 
     Map<String, dynamic> res = jsonDecode(response.toString());

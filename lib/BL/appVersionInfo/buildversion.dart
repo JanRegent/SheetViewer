@@ -1,1 +1,1 @@
-const buildVersion = 'DL-gsheets-remoteConfig-about-domain-2';      
+const buildVersion = 'DL-gsheets-remoteConfig-localConfig';      

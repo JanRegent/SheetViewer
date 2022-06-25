@@ -16,22 +16,25 @@ class DlGlobals {
 
   String kredenc = '';
   GetSheetsService getSheetsService = GetSheetsService();
-  var domain = '';
+  String domain = '';
   Future init() async {
+    await fireInit();
+    baseUrl = await loadAssetString('baseUrl');
+    await appHome.updateString('DL-contentServiceUrl', baseUrl);
+
     var url = window.location.href;
     domain = url
         .toString()
         .replaceAll('http://', '')
         .replaceAll('https://', '')
         .split('#')[0];
-    print(domain);
-    await fireInit();
-    baseUrl = remoteConfig.getString('baseUrl');
-    await appHome.updateString('DL-contentServiceUrl', baseUrl);
 
-    kredenc = remoteConfig.getString('service_account');
-    //await getKredencAtFire();
-    //kredenc = await loadAssetJson('service_account.json');
+    if (domain.toString().contains('vercel.app')) {
+      kredenc = remoteConfig.getString('service_account');
+    } else {
+      kredenc = await loadAssetJson('service_account.json');
+    }
+
     await getSheetsService.init();
 
     await dlGlobals.getSheetsService
