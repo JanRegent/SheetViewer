@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
@@ -6,21 +7,25 @@ import 'package:sheetviewer/DL/loader/fire_reader.dart';
 import 'package:sheetviewer/DL/loader/GSheets/getsheets_service.dart';
 
 DlGlobals dlGlobals = DlGlobals();
+final remoteConfig = FirebaseRemoteConfig.instance;
 
 class DlGlobals {
   String baseUrl = '';
+
   String kredenc = '';
   GetSheetsService getSheetsService = GetSheetsService();
   Future init() async {
-    baseUrl = await getBaseUrlAtFire();
+    await fireInit();
+    baseUrl = remoteConfig.getString('baseUrl');
     await appHome.updateString('DL-contentServiceUrl', baseUrl);
 
-    //kredenc = await getKredencAtFire();
-    kredenc = await loadAssetJson('service_account.json');
+    kredenc = remoteConfig.getString('service_account');
+    //await getKredencAtFire();
+    //kredenc = await loadAssetJson('service_account.json');
     await getSheetsService.init();
 
-    // await dlGlobals.getSheetsService
-    //     .getAllRows('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
+    await dlGlobals.getSheetsService
+        .getAllRows('1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA', 'elonX');
   }
 }
 

@@ -1,1 +1,1 @@
-const buildVersion = 'DL-gsheets-ShetRowsDetailPage-2-cols';      
+const buildVersion = 'DL-gsheets-remoteConfig';      

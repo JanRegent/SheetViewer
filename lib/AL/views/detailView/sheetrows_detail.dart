@@ -97,7 +97,7 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
               refreshCorrectIndex();
             }),
         const Text(' row: '),
-        Text(row['row_'].toString()),
+        Text(widget.rows[currentRowsIndex]!.aRowNo.toString()),
       ],
     );
   }
@@ -165,7 +165,6 @@ class _ShetRowsDetailPageState extends State<ShetRowsDetailPage> {
         ));
   }
 
-  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

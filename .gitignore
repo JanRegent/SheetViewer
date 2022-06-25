@@ -31,8 +31,10 @@
 .pub/
 /build/
 
+
 # Web related
 lib/generated_plugin_registrant.dart
+##secure-manually2web
 assets/config/service_account.json
 # Symbolication related
 app.*.symbols

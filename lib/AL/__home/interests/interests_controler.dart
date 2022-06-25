@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/loader/fire_reader.dart';
 
 import 'package:sheetviewer/DL/loader/getsheet.dart';
@@ -65,8 +66,10 @@ class InterestContr extends GetxController {
 
   Future getSheetInterests() async {
     //try {
-    String interestsSheetUrl = await interestsSheetUrlAtFire();
-    String interestsSheetName = await interestsSheetNameAtFire();
+    String interestsSheetUrl = remoteConfig.getString('interestsSheetUrl');
+    //await interestsSheetUrlAtFire();
+    String interestsSheetName = remoteConfig.getString('interestsSheetName');
+    //await interestsSheetNameAtFire();
     var response = await getSheetUrl(interestsSheetUrl, interestsSheetName);
 
     Map<String, dynamic> res = jsonDecode(response.toString());
