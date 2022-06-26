@@ -108,7 +108,7 @@ class InterestContr extends GetxController {
       fileListSheet.add(jsonDecode(filelistRows[i]!.row));
     }
 
-    await getSheetsOfFilelist(fileListSheet);
+    //await getSheetsOfFilelist(fileListSheet);
 
     return 'ok';
   }
@@ -123,7 +123,7 @@ Future getSheetsOfFilelist(List<dynamic> fileListSheet) async {
   for (var i = 0; i < fileListSheet.length; i++) {
     String fileId = bl.blUti.url2fileid(fileListSheet[i]['fileUrl']);
     String sheetName = fileListSheet[i]['sheetName'];
-    print(sheetName);
+
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     if (rowsCount > 1) continue;
     try {

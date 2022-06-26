@@ -137,4 +137,20 @@ class SheetrowsDb {
       }
     }
   }
+
+  Future updateAll(List<SheetRow> sheetRows) async {
+    if (!isar.isOpen) {
+      return Future<void>(() {});
+    }
+
+    if (sync) {
+      isar.writeTxnSync<void>((isar) {
+        isar.sheetRows.putAllSync(sheetRows);
+      });
+    } else {
+      return isar.writeTxn((isar) async {
+        await isar.sheetRows.putAll(sheetRows);
+      });
+    }
+  }
 }

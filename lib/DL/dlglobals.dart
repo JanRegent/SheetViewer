@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
@@ -18,6 +19,8 @@ class DlGlobals {
   String kredenc = '';
   GetSheetsService getSheetsService = GetSheetsService();
   String domain = '';
+  var loadingMess = ''.obs;
+
   Future init() async {
     await fireInit();
     baseUrl = await loadAssetString('baseUrl');

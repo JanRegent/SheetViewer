@@ -54,15 +54,18 @@ class GetSheetsService {
         ..aSheetName = sheetName
         ..zfileId = fileId
         ..aRowNo = (1).toString() //excel start at 1
-        ..row = jsonEncode('{"warning": "${e.toString()}"}');
+        ..row = jsonEncode('{"warning":"$e"}');
+
       await sheetRowsDb.update(sheetRow);
       return [];
     }
     List<List<String>> rawRows = await sheet.values.allRows();
 
     cols = await columnsTitles(sheet);
-
+    List<SheetRow> sheetRows = [];
     for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
+      interestContr.fetshingRows.value =
+          sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
       Map row = {}; //excel 1 cols, 2.. data
       for (var colIx = 0; colIx < cols.length; colIx++) {
         try {
@@ -76,7 +79,8 @@ class GetSheetsService {
         ..zfileId = fileId
         ..aRowNo = (rowIx + 1).toString() //excel start at 1
         ..row = jsonEncode(row);
-      await sheetRowsDb.update(sheetRow);
+      sheetRows.add(sheetRow);
     }
+    await sheetRowsDb.updateAll(sheetRows);
   }
 }

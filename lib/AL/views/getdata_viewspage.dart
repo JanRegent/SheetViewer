@@ -9,6 +9,7 @@ import 'package:sheetviewer/AL/views/plutogrid/rowsgridpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/rowsmap.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetview.dart';
@@ -51,6 +52,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData(BuildContext context) async {
+    await rowsCountCheck(widget.fileId, widget.sheetName);
+
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     List<String> cols =
@@ -63,6 +66,17 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     gridrows = await gridRowsMap(sheetRows, cols, context);
 
     return 'OK';
+  }
+
+  Future<String> rowsCountCheck(String fileId, String sheetName) async {
+    int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+    if (rowsCount > 1) return 'ok';
+
+    try {
+      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+    } catch (_) {}
+
+    return 'ok';
   }
 
   ListTile appBarTile(BuildContext context) {
@@ -91,6 +105,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                         interestContr.cardType +
                         '\n\n'),
                     Obx(() => Text(interestContr.fetshingRows.value)),
+                    const Text(' '),
                     const CircularProgressIndicator()
                   ],
                 );
