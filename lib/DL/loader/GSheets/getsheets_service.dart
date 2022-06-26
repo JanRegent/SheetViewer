@@ -42,11 +42,22 @@ class GetSheetsService {
     String fileId,
     String sheetName,
   ) async {
-    Spreadsheet? ss = await getSpreadSheet(fileId);
-    // ignore: unnecessary_null_comparison
-    if (ss == null) return [];
-    Worksheet? sheet = ss.worksheetByTitle(sheetName);
-    if (sheet == null) return [];
+    late Worksheet? sheet;
+    try {
+      Spreadsheet? ss = await getSpreadSheet(fileId);
+      // ignore: unnecessary_null_comparison
+      if (ss == null) return [];
+      sheet = ss.worksheetByTitle(sheetName);
+      if (sheet == null) return [];
+    } catch (e) {
+      SheetRow sheetRow = SheetRow()
+        ..aSheetName = sheetName
+        ..zfileId = fileId
+        ..aRowNo = (1).toString() //excel start at 1
+        ..row = jsonEncode('{"warning": "${e.toString()}"}');
+      await sheetRowsDb.update(sheetRow);
+      return [];
+    }
     List<List<String>> rawRows = await sheet.values.allRows();
 
     cols = await columnsTitles(sheet);

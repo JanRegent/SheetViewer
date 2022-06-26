@@ -120,12 +120,14 @@ class InterestContr extends GetxController {
 
 //---------------------------------------------------------------------filelist
 Future getSheetsOfFilelist(List<dynamic> fileListSheet) async {
-  for (var i = 1; i < fileListSheet.length; i++) {
+  for (var i = 0; i < fileListSheet.length; i++) {
     String fileId = bl.blUti.url2fileid(fileListSheet[i]['fileUrl']);
     String sheetName = fileListSheet[i]['sheetName'];
+    print(sheetName);
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     if (rowsCount > 1) continue;
-
-    await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+    try {
+      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+    } catch (_) {}
   }
 }

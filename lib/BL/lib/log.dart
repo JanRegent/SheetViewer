@@ -29,7 +29,6 @@ void logLine() {
 }
 
 class BlGlobal {
-  String contentServiceUrlLastModified = '';
   late ValueNotifier<String> loadingMessage;
 
   Future init() async {
