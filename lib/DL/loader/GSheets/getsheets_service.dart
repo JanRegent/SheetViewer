@@ -51,8 +51,15 @@ class GetSheetsService {
         ..aSheetName = sheetName
         ..zfileId = fileId
         ..aRowNo = (1).toString() //excel start at 1
-        ..row = jsonEncode('{"warning":"$e"}');
+        ..row = jsonEncode({"warning": "warning"});
 
+      await sheetRowsDb.update(sheetRow);
+
+      sheetRow = SheetRow()
+        ..aSheetName = sheetName
+        ..zfileId = fileId
+        ..aRowNo = (2).toString() //excel start at 1
+        ..row = jsonEncode({"warning": "$e"});
       await sheetRowsDb.update(sheetRow);
       return [];
     }

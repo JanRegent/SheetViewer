@@ -1,1 +1,1 @@
-const buildVersion = 'DL-updateAll-putAll-check';      
+const buildVersion = 'DL-getsheet--permission';      

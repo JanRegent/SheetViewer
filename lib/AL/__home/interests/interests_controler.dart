@@ -103,11 +103,13 @@ class InterestContr extends GetxController {
 
     List<SheetRow?> filelistRows =
         await sheetRowsDb.readRowsSheet(fileId, sheetName);
+
     fileListSheet.clear();
     for (var i = 1; i < filelistRows.length; i++) {
       fileListSheet.add(jsonDecode(filelistRows[i]!.row));
     }
-
+    // print(fileListSheet);
+    // print('--' + fileListSheet.length.toString());
     //await getSheetsOfFilelist(fileListSheet);
 
     return 'ok';
