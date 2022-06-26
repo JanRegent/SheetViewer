@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 
-import 'package:sheetviewer/DL/loader/getsheet.dart';
-
 class LastNew1Page extends StatefulWidget {
   const LastNew1Page({Key? key}) : super(key: key);
 
@@ -27,7 +25,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
   final String sheetName =
       'hledaniList'; //interestContr.interestsList[1]['sheetName']
   Future<String> getData() async {
-    fileListLastQuote = await getrowslast1quote(url, sheetName);
+    // fileListLastQuote = await getrowslast1quote(url, sheetName);
     return 'ok';
   }
 

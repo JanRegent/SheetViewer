@@ -8,8 +8,6 @@ import 'package:sheetviewer/AL/alayouts/byvalue/drawer_byvalue.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/loader/getsheet.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
 
 class ByvaluePage extends StatefulWidget {
   final Map interestRowCurrent;
@@ -41,16 +39,16 @@ class _ByvaluePageState extends State<ByvaluePage> {
   }
 
   Future<String> getData() async {
-    fileListSheetV2 = await getSheet(widget.interestRowCurrent['fileUrl'],
-        widget.interestRowCurrent['sheetName']);
-    for (var index = 0; index < fileListSheetV2['rows'].length; index++) {
-      var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
-      String fileId =
-          bl.blUti.url2fileid(fileListSheetV2['rows'][index]['fileUrl']);
-      String sheetName = fileListSheetV2['rows'][index]['sheetName'];
-      String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-      aQuerystringKey = aQuerystringKey;
-    }
+    // fileListSheetV2 = await getSheet(widget.interestRowCurrent['fileUrl'],
+    //     widget.interestRowCurrent['sheetName']);
+    // for (var index = 0; index < fileListSheetV2['rows'].length; index++) {
+    //   var queryMap = {'action': 'getRowsLast', 'rowsCount': '10'};
+    //   String fileId =
+    //       bl.blUti.url2fileid(fileListSheetV2['rows'][index]['fileUrl']);
+    //   String sheetName = fileListSheetV2['rows'][index]['sheetName'];
+    //   String aQuerystringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
+    //   aQuerystringKey = aQuerystringKey;
+    // }
     return 'ok';
   }
 

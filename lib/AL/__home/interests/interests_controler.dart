@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
-import 'package:sheetviewer/DL/loader/getsheet.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'package:sheetviewer/DL/localstore/localstore.dart';
 
@@ -24,18 +24,6 @@ class InterestContr extends GetxController {
   List<dynamic> interestsList = [];
   Future interestsLoad() async {
     logParagraphStart('interestsLoad');
-
-    // try {
-    //   interestsList = await appHome.readListDynamic('interestList', []);
-    // } catch (e) {
-    //   if (interestsList.isNotEmpty) {
-    //     logi('interestsLoad()', 'appHome.readListDynamic( interestList',
-    //         'error', e.toString());
-    //   } else {
-    //     logi('interestsLoad()', 'appHome.readListDynamic( interestList', '',
-    //         'interestsList.isEmpty');
-    //   }
-    // }
 
     if (interestsList.isEmpty) {
       interestsList = await getSheetInterests();
@@ -59,7 +47,7 @@ class InterestContr extends GetxController {
     await interestContr.interestNameSet(interestRowCurrent['interestName']);
 
     appHome.updateMap('interestRowCurrent', interestRowCurrent);
-
+    print('--------------------');
     await filelistGetData(interestRowCurrent);
   }
 
@@ -74,22 +62,19 @@ class InterestContr extends GetxController {
     await appHome.updateString('interestsSheetUrl', interestsSheetUrl);
     await appHome.updateString('interestsSheetName', interestsSheetName);
 
-    var response = await getSheetUrl(interestsSheetUrl, interestsSheetName);
+    String interestFileId = bl.blUti.url2fileid(interestsSheetUrl);
+    await dlGlobals.getSheetsService
+        .getSheetAllRows(interestFileId, interestsSheetName);
 
-    Map<String, dynamic> res = jsonDecode(response.toString());
-    // } catch (e) {
-    //   print(response.body);
-    //   logi('getSheetInterests', '1e request getSheet', 'error', e.toString());
-    //   // responseData = await getSheet(
-    //   //     'https://docs.google.com/spreadsheets/d/1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo/edit#gid=1211959017',
-    //   //     'interestList');
-    // }
+    List<SheetRow?> interestRows =
+        await sheetRowsDb.readRowsSheet(interestFileId, interestsSheetName);
 
     interestsList = [];
+    for (var i = 1; i < interestRows.length; i++) {
+      interestsList.add(jsonDecode(interestRows[i]!.row));
+    }
 
-    if (res.containsKey("rows")) {
-      interestsList = res['rows'];
-
+    if (interestsList.isNotEmpty) {
       return interestsList;
     }
     logi('getSheetInterests', '2e update interests', 'error', '');
@@ -123,9 +108,16 @@ class InterestContr extends GetxController {
     }
 
     if (fileListSheet.isEmpty) {
-      Map responseData = await getSheet(
-          interestRowCurrent['fileUrl'], interestRowCurrent['sheetName']);
-      fileListSheet = responseData['rows'];
+      String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
+      String sheetName = interestRowCurrent['sheetName'];
+      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+      List<SheetRow?> filelistRows =
+          await sheetRowsDb.readRowsSheet(fileId, sheetName);
+      fileListSheet.clear();
+      for (var i = 1; i < filelistRows.length; i++) {
+        fileListSheet.add(jsonDecode(filelistRows[i]!.row));
+      }
+
       await interestStore2.updateListDynamic('fileList', fileListSheet);
     }
 
@@ -145,10 +137,10 @@ class InterestContr extends GetxController {
 }
 
 Future getSheetsAll(List<dynamic> fileListSheet) async {
-  for (var file in fileListSheet) {
-    String fileId = bl.blUti.url2fileid(file['fileUrl']);
-    String sheetName = file['sheetName'];
-
+  for (var i = 1; i < fileListSheet.length; i++) {
+    String fileId = bl.blUti.url2fileid(fileListSheet[i]['fileUrl']);
+    String sheetName = fileListSheet[i]['sheetName'];
+    print('$sheetName  $fileId');
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     if (rowsCount > 1) continue;
 

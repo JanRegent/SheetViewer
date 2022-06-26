@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/interests/drawer_interests.dart';
 
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
-import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/getdata_models.dart';
 
 class LoadingInterestPage extends StatefulWidget {
   final List<dynamic> fileListSheet;
@@ -118,11 +116,11 @@ Future loadListByActions(Map fileListSheet, BuildContext context) async {
 }
 
 Future loadFileListSheetRow(Map fileListSheetRow) async {
-  String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
-  String sheetName = fileListSheetRow['sheetName'];
-  for (var action in actions) {
-    await sheetViewGetData(fileId, sheetName, action, '');
-  }
+  // String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
+  // String sheetName = fileListSheetRow['sheetName'];
+  // for (var action in actions) {
+  //   await sheetViewGetData(fileId, sheetName, action, '');
+  // }
 }
 
 class Controller extends GetxController {
