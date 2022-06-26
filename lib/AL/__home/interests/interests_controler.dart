@@ -47,8 +47,7 @@ class InterestContr extends GetxController {
     await interestContr.interestNameSet(interestRowCurrent['interestName']);
 
     appHome.updateMap('interestRowCurrent', interestRowCurrent);
-    print('--------------------');
-    await filelistGetData(interestRowCurrent);
+    await getFilelist(interestRowCurrent);
   }
 
   Future getSheetInterests() async {
@@ -95,38 +94,21 @@ class InterestContr extends GetxController {
   //----------------------------------------------------------intertest FileList
 
   late List<dynamic> fileListSheet = [];
-  Future<String> filelistGetData(Map interestRowCurrent) async {
-    logParagraphStart('getDataFilelistSheet');
+  Future<String> getFilelist(Map interestRowCurrent) async {
+    logParagraphStart('getFilelist');
 
-    try {
-      fileListSheet = await interestStore2.readListDynamic('fileList', []);
-    } catch (e) {
-      logi('interestFilelistGetData', 'readListDynamic(fileList', 'error',
-          e.toString());
-      logi('interestFilelistGetData', 'data:', 'fileListSheet',
-          fileListSheet.toString());
+    String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
+    String sheetName = interestRowCurrent['sheetName'];
+    await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+
+    List<SheetRow?> filelistRows =
+        await sheetRowsDb.readRowsSheet(fileId, sheetName);
+    fileListSheet.clear();
+    for (var i = 1; i < filelistRows.length; i++) {
+      fileListSheet.add(jsonDecode(filelistRows[i]!.row));
     }
 
-    if (fileListSheet.isEmpty) {
-      String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
-      String sheetName = interestRowCurrent['sheetName'];
-      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
-      List<SheetRow?> filelistRows =
-          await sheetRowsDb.readRowsSheet(fileId, sheetName);
-      fileListSheet.clear();
-      for (var i = 1; i < filelistRows.length; i++) {
-        fileListSheet.add(jsonDecode(filelistRows[i]!.row));
-      }
-
-      await interestStore2.updateListDynamic('fileList', fileListSheet);
-    }
-
-    rowsCountController.firstRowsCount.clear();
-    for (var i = 0; i < fileListSheet.length; i++) {
-      rowsCountController.firstRowsCount.add(i + 10);
-    }
-
-    await getSheetsAll(fileListSheet);
+    await getSheetsOfFilelist(fileListSheet);
 
     return 'ok';
   }
@@ -136,43 +118,14 @@ class InterestContr extends GetxController {
   final String rowsCount = '10';
 }
 
-Future getSheetsAll(List<dynamic> fileListSheet) async {
+//---------------------------------------------------------------------filelist
+Future getSheetsOfFilelist(List<dynamic> fileListSheet) async {
   for (var i = 1; i < fileListSheet.length; i++) {
     String fileId = bl.blUti.url2fileid(fileListSheet[i]['fileUrl']);
     String sheetName = fileListSheet[i]['sheetName'];
-    print('$sheetName  $fileId');
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     if (rowsCount > 1) continue;
 
     await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
-  }
-}
-
-RowsCountController rowsCountController = RowsCountController();
-
-class RowsCountController extends GetxController {
-  var firstRowsCount = [].obs;
-
-  int firstRowsCountGet(int index) {
-    return 11;
-    // firstRowsCount[index];
-  }
-
-  firstRowsCountAdd() {
-    firstRowsCount.add(11);
-  }
-
-  firstRowsCountSet(int index, value) {
-    firstRowsCount[index] = value;
-  }
-
-  var lastRowsCount = [].obs;
-
-  int lastRowsCountGet(int index) {
-    return lastRowsCount[index];
-  }
-
-  lastRowsCountSet(int index, value) {
-    lastRowsCount[index] = value;
   }
 }

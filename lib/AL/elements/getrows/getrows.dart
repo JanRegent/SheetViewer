@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
+
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbyradiobuttons.dart';
 
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
@@ -115,11 +114,7 @@ ElevatedButton firstButton(
 ElevatedButton firstRowsCount(
     BuildContext context, String sheetName, String fileId) {
   return ElevatedButton(
-    child: Obx(
-      () => Text(
-        rowsCountController.firstRowsCount[0].toString(),
-      ),
-    ),
+    child: const Text('10'),
     style: ElevatedButton.styleFrom(
         primary: const Color.fromARGB(255, 3, 244, 212)),
     onPressed: () async {

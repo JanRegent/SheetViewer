@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
 
 import 'package:sheetviewer/AL/alayouts/byvalue/byvaluepage.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -26,7 +25,7 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
   Widget fileListBuilder(String layout) {
     return FutureBuilder<String>(
       future: interestContr
-          .filelistGetData(interestContr.interestRowCurrent), // async work
+          .getFilelist(interestContr.interestRowCurrent), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -44,7 +43,6 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
               return Text('Error: ${snapshot.error}');
             } else {
               if (widget.layout == 'lastGrid') {
-                rowsCountBuild(interestContr.fileListSheet);
                 return LastListviewPage(interestContr.interestRowCurrent,
                     interestContr.fileListSheet);
               } else {
@@ -64,11 +62,5 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
         home: Scaffold(
           body: fileListBuilder(widget.layout),
         ));
-  }
-}
-
-void rowsCountBuild(List<dynamic> fileListSheet) {
-  for (var i = 0; i < fileListSheet.length; i++) {
-    rowsCountController.firstRowsCountAdd();
   }
 }
