@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'filelistcard_byvalue_columntabs.dart';
 
@@ -25,9 +24,6 @@ class _ByValePageState extends State<ByValuePage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Filter by value in column'),
-          actions: [
-            al.jsonViewer(),
-          ],
         ),
         body: FutureBuilder<String>(
           future: getConfig(), // async work

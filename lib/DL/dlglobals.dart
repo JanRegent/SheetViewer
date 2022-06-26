@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
-import 'package:sheetviewer/DL/loader/fire_reader.dart';
+import 'package:sheetviewer/DL/loader/fire/fire_reader.dart';
 import 'package:sheetviewer/DL/loader/GSheets/getsheets_service.dart';
 
 DlGlobals dlGlobals = DlGlobals();

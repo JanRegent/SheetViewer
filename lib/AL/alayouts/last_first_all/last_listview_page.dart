@@ -1,4 +1,3 @@
-import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -47,7 +46,6 @@ class LastListviewPage extends StatelessWidget {
               onPressed: () => helpToastShow(
                   "Click ob V icon to open cards bb", ToastGravity.CENTER_LEFT),
             ),
-            ChuckerFlutter.chuckerButton
           ],
         ),
         body: detailBody()

@@ -1,4 +1,3 @@
-import 'package:chucker_flutter_ui/chucker_flutter_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -50,10 +49,6 @@ class AL {
       onPressed: () async {},
       onLongPress: () async {},
     );
-  }
-
-  Widget jsonViewer() {
-    return ChuckerFlutter.chuckerButton;
   }
 
   iconBackDialog(BuildContext context) {
