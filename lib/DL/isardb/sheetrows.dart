@@ -109,6 +109,24 @@ class SheetrowsDb {
     return row;
   }
 
+  Future<bool> rowExists(SheetRow sheetRow) async {
+    SheetRow? testRow = await isar.sheetRows
+        .filter()
+        .zfileIdEqualTo(sheetRow.zfileId)
+        .and()
+        .aSheetNameEqualTo(sheetRow.aSheetName)
+        .and()
+        .aRowNoEqualTo(sheetRow.aRowNo)
+        .findFirst();
+    try {
+      // ignore: unnecessary_null_comparison
+      if (testRow!.id != null) return true;
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future update(SheetRow sheetRow) async {
     if (!isar.isOpen) {
       return Future<void>(() {});

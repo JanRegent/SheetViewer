@@ -38,10 +38,7 @@ class GetSheetsService {
     return cols;
   }
 
-  Future getSheetAllRows(
-    String fileId,
-    String sheetName,
-  ) async {
+  Future getSheetAllRows(String fileId, String sheetName, bool putAll) async {
     late Worksheet? sheet;
     try {
       Spreadsheet? ss = await getSpreadSheet(fileId);
@@ -79,8 +76,16 @@ class GetSheetsService {
         ..zfileId = fileId
         ..aRowNo = (rowIx + 1).toString() //excel start at 1
         ..row = jsonEncode(row);
-      sheetRows.add(sheetRow);
+      String key = row.keys.first.toString();
+      if (row[key].toString().trim().isNotEmpty) {
+        if (putAll) {
+          //>1000 rows
+          sheetRows.add(sheetRow); //empty rows //workarround
+        } else {
+          sheetRowsDb.update(sheetRow);
+        }
+      }
     }
-    await sheetRowsDb.updateAll(sheetRows);
+    if (putAll) await sheetRowsDb.updateAll(sheetRows);
   }
 }

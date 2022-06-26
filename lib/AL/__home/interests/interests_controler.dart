@@ -63,7 +63,7 @@ class InterestContr extends GetxController {
 
     String interestFileId = bl.blUti.url2fileid(interestsSheetUrl);
     await dlGlobals.getSheetsService
-        .getSheetAllRows(interestFileId, interestsSheetName);
+        .getSheetAllRows(interestFileId, interestsSheetName, false);
 
     List<SheetRow?> interestRows =
         await sheetRowsDb.readRowsSheet(interestFileId, interestsSheetName);
@@ -99,7 +99,7 @@ class InterestContr extends GetxController {
 
     String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
     String sheetName = interestRowCurrent['sheetName'];
-    await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+    await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName, false);
 
     List<SheetRow?> filelistRows =
         await sheetRowsDb.readRowsSheet(fileId, sheetName);
@@ -127,7 +127,7 @@ Future getSheetsOfFilelist(List<dynamic> fileListSheet) async {
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     if (rowsCount > 1) continue;
     try {
-      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName, true);
     } catch (_) {}
   }
 }

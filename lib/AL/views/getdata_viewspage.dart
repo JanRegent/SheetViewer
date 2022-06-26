@@ -73,7 +73,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     if (rowsCount > 1) return 'ok';
 
     try {
-      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+      await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName, true);
     } catch (_) {}
 
     return 'ok';
