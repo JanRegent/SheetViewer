@@ -150,9 +150,8 @@ Future getSheetsAll(List<dynamic> fileListSheet) async {
     String sheetName = file['sheetName'];
 
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-    print('$sheetName $rowsCount');
-
     if (rowsCount > 1) continue;
+
     await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
   }
 }

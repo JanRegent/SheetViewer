@@ -51,18 +51,10 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData(BuildContext context) async {
-    // if (!sheetViewFromSearch) {
-    //   sheetViewDrawer = (await sheetViewGetData(
-    //       widget.fileId, widget.sheetName, widget.action, widget.getBatch))!;
-
-    //   if (sheetViewDrawer.aStatus.startsWith('err')) {
-    //     throw sheetViewDrawer.aStatus;
-    //   }
-    // }
-    // sheetViewDrawer.colsHeader = await interestStore2.readListStringSheet(
-    //     widget.sheetName, widget.fileId, 'colsHeader', sheetViewDrawer.cols);
-    sheetRows = await sheetRowsDb.readRowsAll();
-    List<String> cols = await sheetRowsDb.readCols();
+    sheetRows =
+        await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
+    List<String> cols =
+        await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
 
     gridCols.clear();
     gridCols = await colsHeaderMap(cols);

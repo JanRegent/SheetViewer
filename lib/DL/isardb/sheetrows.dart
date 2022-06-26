@@ -63,8 +63,13 @@ class SheetrowsDb {
 
   bool sync = false;
 
-  Future<List<String>> readCols() async {
-    SheetRow? testRow = await isar.sheetRows.where().findFirst();
+  Future<List<String>> readCols(String fileId, String sheetName) async {
+    SheetRow? testRow = await isar.sheetRows
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .findFirst();
     Map row = jsonDecode(testRow!.row);
     List<String> cols = [];
     for (var key in row.keys) {
@@ -83,9 +88,19 @@ class SheetrowsDb {
     return testRows.length;
   }
 
-  Future<List<SheetRow?>> readRowsAll() async {
+  Future<List<SheetRow?>> readRowsAllSheets() async {
     List<SheetRow?> rows = await isar.sheetRows.where().findAll();
     return rows;
+  }
+
+  Future<List<SheetRow?>> readRowsSheet(String fileId, String sheetName) async {
+    List<SheetRow?> testRows = await isar.sheetRows
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .findAll();
+    return testRows;
   }
 
   Future<SheetRow?> readRowNo(String aRowNo) async {

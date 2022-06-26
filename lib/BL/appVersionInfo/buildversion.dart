@@ -1,1 +1,1 @@
-const buildVersion = '---2207---GSheets-only---';      
+const buildVersion = 'AL--GetDataViewsPage';      
