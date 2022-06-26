@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-RowsgridPage';      
+const buildVersion = '---2207---GSheets-only---';      

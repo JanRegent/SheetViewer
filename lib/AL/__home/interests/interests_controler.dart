@@ -134,12 +134,27 @@ class InterestContr extends GetxController {
       rowsCountController.firstRowsCount.add(i + 10);
     }
 
+    await getSheetsAll(fileListSheet);
+
     return 'ok';
   }
 
   String cardType = '';
   RxString fetshingRows = ''.obs;
   final String rowsCount = '10';
+}
+
+Future getSheetsAll(List<dynamic> fileListSheet) async {
+  for (var file in fileListSheet) {
+    String fileId = bl.blUti.url2fileid(file['fileUrl']);
+    String sheetName = file['sheetName'];
+
+    int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+    print('$sheetName $rowsCount');
+
+    if (rowsCount > 1) continue;
+    await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName);
+  }
 }
 
 RowsCountController rowsCountController = RowsCountController();

@@ -38,7 +38,7 @@ class GetSheetsService {
     return cols;
   }
 
-  Future getAllRows(
+  Future getSheetAllRows(
     String fileId,
     String sheetName,
   ) async {
