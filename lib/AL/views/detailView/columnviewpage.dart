@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import '../plutogrid/drawer.dart';
 
@@ -17,10 +16,12 @@ import '../plutogrid/drawer.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class ColumnViewPage extends StatefulWidget {
-  final SheetView sheetView;
-
+  final String currentRow_;
+  final List<String> cols;
+  final List<SheetRow?> sheetRows;
   // ignore: prefer_const_constructors_in_immutables
-  ColumnViewPage(this.sheetView, {Key? key}) : super(key: key);
+  ColumnViewPage(this.currentRow_, this.cols, this.sheetRows, {Key? key})
+      : super(key: key);
 
   @override
   _ColumnViewPageState createState() => _ColumnViewPageState();
@@ -40,7 +41,7 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   void initState() {
     _controller = ScrollController();
 
-    columnsSelected = widget.sheetView.cols;
+    columnsSelected = widget.cols;
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
@@ -58,7 +59,7 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
     );
   }
 
-  Widget detailBody(SheetView sheetView) {
+  Widget detailBody() {
     return Container(
         height: double.infinity,
         width: double.infinity,
@@ -68,13 +69,13 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
           separatorBuilder: (context, index) {
             return const Divider(height: 2);
           },
-          itemCount: sheetView.rows.length,
+          itemCount: widget.sheetRows.length,
           itemBuilder: (context, index) {
-            Map row = jsonDecode(widget.sheetView.rows[index]);
+            Map row = jsonDecode(widget.sheetRows[index]!.row);
             return Column(
               children: <Widget>[
                 ListTile(
-                  leading: Text(row['row_'].toString()),
+                  leading: Text(widget.sheetRows[index]!.aRowNo.toString()),
                   title: getText(row),
                   trailing: IconButton(
                     icon: const Icon(Icons.last_page),
@@ -92,6 +93,6 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return detailBody(widget.sheetView);
+    return detailBody();
   }
 }

@@ -138,7 +138,7 @@ class HomeApp extends StatelessWidget {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => GetDataViewsPage('', '', '', '', '')),
+          builder: (context) => const GetDataViewsPage('', '', '', '')),
     );
   }
 

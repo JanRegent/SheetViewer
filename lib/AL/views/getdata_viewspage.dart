@@ -5,14 +5,12 @@ import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/views/plutogrid/colsmap.dart';
-import 'package:sheetviewer/AL/views/plutogrid/rowsgridpage.dart';
+import 'package:sheetviewer/AL/views/plutogrid/_rowsgridpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/rowsmap.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 import 'plutogrid/drawer.dart';
 
@@ -22,17 +20,10 @@ class GetDataViewsPage extends StatefulWidget {
   final String fileId;
   final String action;
   final String fileTitle;
-  final String getBatch;
 
   // ignore: use_key_in_widget_constructors
-  GetDataViewsPage(
-      this.sheetName, this.fileId, this.action, this.fileTitle, this.getBatch,
-      {SheetView? sheetview}) {
-    if (sheetview != null) {
-      sheetViewFromSearch = true;
-      sheetViewDrawer = sheetview;
-    }
-  }
+  const GetDataViewsPage(
+      this.sheetName, this.fileId, this.action, this.fileTitle);
 
   @override
   _GetDataViewsPageState createState() => _GetDataViewsPageState();
@@ -58,9 +49,10 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
+    if (colsHeader.isEmpty) colsHeader.addAll(cols);
 
     gridCols.clear();
-    gridCols = await colsHeaderMap(cols);
+    gridCols = await colsHeaderMap(colsHeader);
 
     gridrows.clear();
     gridrows = await gridRowsMap(sheetRows, cols, context);
@@ -116,7 +108,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return RowsgridPage(gridCols, gridrows, sheetRows);
+                  return RowsgridPage(gridCols, gridrows, sheetRows, cols);
                 }
             }
           },

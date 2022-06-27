@@ -1,32 +1,20 @@
-//   menus.add(PopupMenuItem(
-//       value: 'Select columns',
-//       child: IconButton(
-//         icon: const Icon(Icons.view_column_sharp),
-//         tooltip: 'Select columns',
-//         onPressed: () async {
-//           Navigator.pop(context);
-//           List<String> result = await selectListByCheckoxes(
-//               context, sheetView.cols, 'Select columns');
-//           if (result.isEmpty) return;
-//           sheetView.colsHeader = result;
-//           await interestStore2.updateListStringSheet(sheetView.sheetName,
-//               sheetView.fileId, 'colsHeader', sheetView.colsHeader);
-
-//           setState();
-//         },
-//       )));
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
-SheetView sheetViewDrawer = SheetView();
 List<SheetRow?> rows = [];
+List<String> colsHeader = [];
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
+
+PlutogridController plutogridContr = PlutogridController();
+
+class PlutogridController extends GetxController {
+  var multilineDetailLayuout = ''.obs;
+}
 
 Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
     String sheetName) {
@@ -48,26 +36,20 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           title: const Text('Columns select'),
           onTap: () async {
             List<String> cols = await sheetRowsDb.readCols(fileId, sheetName);
-            if (sheetViewDrawer.colsHeader == cols) {
+            if (colsHeader == cols) {
               return;
             }
 
             Navigator.pop(context);
             List<String> result =
                 await selectListByCheckoxes(context, cols, 'Columns select');
-            print(result);
+
             if (result.isEmpty) {
               //reset to all cols
-              sheetViewDrawer.colsHeader = cols;
+              colsHeader = cols;
             } else {
-              sheetViewDrawer.colsHeader = result;
+              colsHeader = result;
             }
-            await interestStore2.updateListStringSheet(
-                sheetViewDrawer.sheetName,
-                sheetViewDrawer.fileId,
-                'colsHeader',
-                sheetViewDrawer.colsHeader);
-
             setStateFunc();
           },
         ),
@@ -85,52 +67,3 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
     ),
   );
 }
-
-PlutogridController plutogridContr = PlutogridController();
-
-class PlutogridController extends GetxController {
-  var multilineDetailLayuout = ''.obs;
-}
-
-
-// PopupMenuButton popup(
-//     SheetView sheetView, BuildContext context, Function setState) {
-//   List<PopupMenuItem> menus = [];
-//   menus.add(PopupMenuItem(
-//     value: 'Origin data source show',
-//     child: InkWell(
-//       onTap: () async {
-//         Navigator.pop(context);
-//         // await canLaunch(dataSheet.config.sheetIds.fileIdUrl)
-//         //     ? await launch(dataSheet.config.sheetIds.fileIdUrl)
-//         //     : throw 'Could not launch ${dataSheet.config.sheetIds.fileIdUrl}';
-//       },
-//       child: const Text('Origin data source show1'),
-//     ),
-//   ));
-
-
-
-//   menus.add(PopupMenuItem(
-//       value: 'Reset columns',
-//       child: IconButton(
-//         icon: const Icon(Icons.view_column_outlined),
-//         tooltip: 'Reset columns',
-//         onPressed: () async {
-//           Navigator.pop(context);
-//           sheetView.colsHeader = sheetView.cols;
-
-//           await interestStore2.updateListStringSheet(sheetView.sheetName,
-//               sheetView.fileId, 'colsHeader', sheetView.colsHeader);
-//           setState();
-//         },
-//       )));
-
-//   return PopupMenuButton(
-//     initialValue: 2,
-//     child: const Center(child: Icon(Icons.ac_unit)),
-//     itemBuilder: (context) {
-//       return menus;
-//     },
-//   );
-// }

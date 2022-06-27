@@ -3,26 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:sheetviewer/AL/views/detailView/columnviewpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
-import '../detailView/columnviewpage.dart';
-import 'rows.dart';
+String currentRow_ = '2';
 
 /// The home page of the application which hosts the datagrid.
-class PlutogridPage extends StatefulWidget {
-  final List<PlutoColumn> cols;
+class RowsgridPage extends StatefulWidget {
+  final List<PlutoColumn> plutoCols;
   final List<PlutoRow> gridrows;
-  final List<SheetRow?> rows;
-  const PlutogridPage(this.cols, this.gridrows, this.rows, {Key? key})
+  final List<SheetRow?> sheetRows;
+  final List<String> cols;
+
+  const RowsgridPage(this.plutoCols, this.gridrows, this.sheetRows, this.cols,
+      {Key? key})
       : super(key: key);
 
   @override
-  _PlutogridPageState createState() => _PlutogridPageState();
+  _RowsgridPageState createState() => _RowsgridPageState();
 }
 
-class _PlutogridPageState extends State<PlutogridPage> {
+class _RowsgridPageState extends State<RowsgridPage> {
   @override
   void initState() {
     super.initState();
@@ -37,7 +39,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
 
   void initStateManager() {
     stateManager = PlutoGridStateManager(
-      columns: widget.cols,
+      columns: widget.plutoCols,
       rows: widget.gridrows,
       gridFocusNode: gridFocusNode,
       scroll: PlutoGridScrollController(
@@ -55,7 +57,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
 
   PlutoGrid plutoGrid() {
     return PlutoGrid(
-      columns: widget.cols,
+      columns: widget.plutoCols,
       rows: widget.gridrows,
       mode: PlutoGridMode.select,
       // columnGroups: columnGroups,
@@ -66,7 +68,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
       // onChanged: (PlutoGridOnChangedEvent event) {},
       onSelected: (PlutoGridOnSelectedEvent event) {
         //arrow down + Enter
-        lorem = event
+        cellText = event
             .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
         setState(() {});
       },
@@ -84,22 +86,23 @@ class _PlutogridPageState extends State<PlutogridPage> {
         //   print(event.cell?.row);
         // }
 
-        if (event.cell?.column.field == '__rowDetail__') {
-          await detailShow(
-              widget.rows, event.cell?.row.cells['row_']!.value, context);
-        } else {
-          if (plutogridContr.multilineDetailLayuout.value ==
-              event.cell!.column.field) {
-            plutogridContr.multilineDetailLayuout.value = '';
-          } else {
-            plutogridContr.multilineDetailLayuout.value =
-                event.cell!.column.field;
+        // if (event.cell?.column.field == '__rowDetail__') {
+        //   await detailShow(
+        //       widget.rows, event.cell?.row.cells['row_']!.value, context);
+        // } else {
+        //   if (plutogridContr.multilineDetailLayuout.value ==
+        //       event.cell!.column.field) {
+        //     plutogridContr.multilineDetailLayuout.value = '';
+        //   } else {
+        currentRow_ = event.cell?.row.cells['row_']!.value;
+        plutogridContr.multilineDetailLayuout.value = event.cell!.column.field;
 
-            lorem = event
-                .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
-          }
-          setState(() {});
-        }
+        cellText = event
+            .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
+        //}
+
+        setState(() {});
+        //}
       },
       configuration: PlutoGridConfiguration(
         enableColumnBorder: true,
@@ -139,7 +142,7 @@ class _PlutogridPageState extends State<PlutogridPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: AutoSizeText(
-                  lorem,
+                  cellText,
                   style: const TextStyle(fontSize: 22),
                   minFontSize: 14,
                   maxLines: 8,
@@ -170,12 +173,12 @@ class _PlutogridPageState extends State<PlutogridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: plutogridContr.multilineDetailLayuout.value.isNotEmpty
-            ? ColumnViewPage(SheetView())
+            ? ColumnViewPage(currentRow_, widget.cols, widget.sheetRows)
             : plutoGrid());
   }
 }
 
-String lorem = '''
+String cellText = '''
 What is "Lorem ipsum"?
 In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate the graphic elements of a document or visual presentation, such as web pages, typography, and graphical layout. It is a form of "greeking".
 

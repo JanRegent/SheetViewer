@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elements/getrows/getrows.dart';
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
 
 Card searchByWordsCard(String cardType, BuildContext context,
     Map fileListSheetRow, int index, String word4search) {
@@ -21,20 +20,12 @@ Card searchByWordsCard(String cardType, BuildContext context,
         onPressed: () async {
           String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
           String sheetName = fileListSheetRow['sheetName'];
-          String aQuerystringKey = "sheetName=$sheetName&fileId=$fileId";
 
-          SheetView? sheetViewSearch = await sheetsDb
-              .readSheetSearchRowContains(aQuerystringKey, word4search);
           await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => GetDataViewsPage(
-                    fileListSheetRow['sheetName'],
-                    fileId,
-                    'search',
-                    'search title',
-                    '',
-                    sheetview: sheetViewSearch),
+                    sheetName, fileId, 'search', 'search title'),
               ));
         },
         icon: const Icon(Icons.search));

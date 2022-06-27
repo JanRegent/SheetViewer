@@ -49,12 +49,12 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
 }
 
 Future showGrid(BuildContext context, String sheetName, String fileId,
-    String action, String fileTitle, String getBatch) async {
+    String action, String fileTitle) async {
   await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            GetDataViewsPage(sheetName, fileId, action, fileTitle, getBatch),
+            GetDataViewsPage(sheetName, fileId, action, fileTitle),
       ));
 }
 
@@ -64,7 +64,7 @@ ElevatedButton lastButton(
     label: Text('Last ' + interestContr.rowsCount),
     icon: const Icon(Icons.last_page, color: Colors.black),
     onPressed: () async {
-      await showGrid(context, sheetName, fileId, 'getRowsLast', fileTitle, '');
+      await showGrid(context, sheetName, fileId, 'getRowsLast', fileTitle);
     },
   );
 }
@@ -103,7 +103,7 @@ ElevatedButton firstButton(
     ),
 
     onPressed: () async {
-      await showGrid(context, sheetName, fileId, 'getRowsFirst', fileTitle, '');
+      await showGrid(context, sheetName, fileId, 'getRowsFirst', fileTitle);
     },
     // onLongPress: () async {
     //   await getRowsLastDelete(fileId, sheetName);
@@ -143,8 +143,7 @@ ElevatedButton allRowsButton(
         color: Colors.black,
       ),
       onPressed: () async {
-        await showGrid(
-            context, sheetName, fileId, 'getSheet', fileTitle, 'getBatch');
+        await showGrid(context, sheetName, fileId, 'getSheet', fileTitle);
       },
       onLongPress: () async {});
 }
