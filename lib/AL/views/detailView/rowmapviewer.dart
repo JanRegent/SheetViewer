@@ -18,9 +18,10 @@ import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 class RowmapViewer extends StatefulWidget {
   final List<SheetRow?> rows;
-
+  final String currentRowsIndexStart;
   // ignore: prefer_const_constructors_in_immutables
-  RowmapViewer(this.rows, {Key? key}) : super(key: key);
+  RowmapViewer(this.rows, this.currentRowsIndexStart, {Key? key})
+      : super(key: key);
 
   @override
   _RowmapViewerState createState() => _RowmapViewerState();
@@ -40,6 +41,7 @@ class _RowmapViewerState extends State<RowmapViewer> {
   late Map row;
   @override
   void initState() {
+    currentRowsIndex = int.tryParse(widget.currentRowsIndexStart)!;
     row = jsonDecode(widget.rows[currentRowsIndex]!.row);
     _controller = ScrollController();
     //fontSize = bl.appVars.fontSize;

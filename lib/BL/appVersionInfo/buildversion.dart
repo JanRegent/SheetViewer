@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-detailShow';      
+const buildVersion = 'AL-view-detailShow-currentRowsIndex';      

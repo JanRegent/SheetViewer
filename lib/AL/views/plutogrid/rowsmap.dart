@@ -43,7 +43,7 @@ Future detailShow(
     List<SheetRow?> sheetRows, String rowNo, BuildContext context) async {
   await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => RowmapViewer(sheetRows)),
+    MaterialPageRoute(builder: (context) => RowmapViewer(sheetRows, rowNo)),
   );
 }
 
