@@ -28,7 +28,8 @@ List<SheetRow?> rows = [];
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 
-Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
+Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
+    String sheetName) {
   return Drawer(
     child: ListView(
       // Important: Remove any padding from the ListView.
@@ -46,16 +47,18 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
           leading: const Icon(Icons.view_column),
           title: const Text('Columns select'),
           onTap: () async {
-            if (sheetViewDrawer.colsHeader == sheetViewDrawer.cols) {
+            List<String> cols = await sheetRowsDb.readCols(fileId, sheetName);
+            if (sheetViewDrawer.colsHeader == cols) {
               return;
             }
 
             Navigator.pop(context);
-            List<String> result = await selectListByCheckoxes(
-                context, sheetViewDrawer.cols, 'Columns select');
+            List<String> result =
+                await selectListByCheckoxes(context, cols, 'Columns select');
+            print(result);
             if (result.isEmpty) {
               //reset to all cols
-              sheetViewDrawer.colsHeader = sheetViewDrawer.cols;
+              sheetViewDrawer.colsHeader = cols;
             } else {
               sheetViewDrawer.colsHeader = result;
             }

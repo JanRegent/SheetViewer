@@ -12,10 +12,10 @@ import 'rows.dart';
 
 /// The home page of the application which hosts the datagrid.
 class RowsgridPage extends StatefulWidget {
-  final List<PlutoColumn> cols;
+  final List<PlutoColumn> plutoCols;
   final List<PlutoRow> gridrows;
   final List<SheetRow?> rows;
-  const RowsgridPage(this.cols, this.gridrows, this.rows, {Key? key})
+  const RowsgridPage(this.plutoCols, this.gridrows, this.rows, {Key? key})
       : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   void initStateManager() {
     stateManager = PlutoGridStateManager(
-      columns: widget.cols,
+      columns: widget.plutoCols,
       rows: widget.gridrows,
       gridFocusNode: gridFocusNode,
       scroll: PlutoGridScrollController(
@@ -55,7 +55,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   PlutoGrid plutoGrid() {
     return PlutoGrid(
-      columns: widget.cols,
+      columns: widget.plutoCols,
       rows: widget.gridrows,
       mode: PlutoGridMode.select,
       // columnGroups: columnGroups,

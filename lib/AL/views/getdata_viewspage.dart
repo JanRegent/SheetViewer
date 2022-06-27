@@ -49,6 +49,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   }
 
   List<PlutoColumn> gridCols = [];
+  List<String> cols = [];
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData(BuildContext context) async {
@@ -56,8 +57,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
-    List<String> cols =
-        await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
+    cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
 
     gridCols.clear();
     gridCols = await colsHeaderMap(cols);
@@ -91,7 +91,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: plutoDrawer(context, setStateFunc),
+        drawer:
+            plutoDrawer(context, setStateFunc, widget.fileId, widget.sheetName),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
           future: getData(context), // async work

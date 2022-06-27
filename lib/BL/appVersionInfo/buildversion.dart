@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-rowsCount';      
+const buildVersion = 'AL-view-colsHeader-1';      
