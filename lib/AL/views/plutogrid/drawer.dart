@@ -26,6 +26,7 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 SheetView sheetViewDrawer = SheetView();
 List<SheetRow?> rows = [];
 bool sheetViewFromSearch = false;
+RxInt rowsCount = 0.obs;
 
 Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
   return Drawer(
@@ -38,7 +39,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc) {
               color: Color.fromARGB(255, 169, 213, 234),
             ),
             child: ListTile(
-              title: const Text('View drawemenu'),
+              title: Obx(() => Text('Rows count: ${rowsCount.value}')),
               trailing: al.helpIcon(context),
             )),
         ListTile(

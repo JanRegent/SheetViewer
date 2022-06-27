@@ -65,6 +65,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     gridrows.clear();
     gridrows = await gridRowsMap(sheetRows, cols, context);
 
+    rowsCount.value = sheetRows.length;
+
     return 'OK';
   }
 
@@ -75,7 +77,6 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     try {
       await dlGlobals.getSheetsService.getSheetAllRows(fileId, sheetName, true);
     } catch (_) {}
-
     return 'ok';
   }
 
