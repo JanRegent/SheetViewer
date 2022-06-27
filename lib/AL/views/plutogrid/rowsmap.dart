@@ -25,8 +25,8 @@ Future<List<PlutoRow>> gridRowsMap(
       plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
     }
 
-    // plutoRow.cells
-    //     .putIfAbsent('__rowDetail__', () => PlutoCell(value: detailIcon()));
+    plutoRow.cells
+        .putIfAbsent('__rowDetail__', () => PlutoCell(value: detailIcon()));
     return plutoRow;
   }
 
@@ -40,10 +40,10 @@ Future<List<PlutoRow>> gridRowsMap(
 }
 
 Future detailShow(
-    List<SheetRow?> rows, String rowNo, BuildContext context) async {
+    List<SheetRow?> sheetRows, String rowNo, BuildContext context) async {
   await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => RowmapViewer(rows)),
+    MaterialPageRoute(builder: (context) => RowmapViewer(sheetRows)),
   );
 }
 

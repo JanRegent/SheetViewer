@@ -5,6 +5,7 @@ import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/detailView/columnviewpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
+import 'package:sheetviewer/AL/views/plutogrid/rowsmap.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 String currentRow_ = '2';
@@ -86,9 +87,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
         //   print(event.cell?.row);
         // }
 
-        // if (event.cell?.column.field == '__rowDetail__') {
-        //   await detailShow(
-        //       widget.rows, event.cell?.row.cells['row_']!.value, context);
+        if (event.cell?.column.field == '__rowDetail__') {
+          await detailShow(
+              widget.sheetRows, event.cell?.row.cells['row_']!.value, context);
+        }
         // } else {
         //   if (plutogridContr.multilineDetailLayuout.value ==
         //       event.cell!.column.field) {

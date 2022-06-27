@@ -67,7 +67,7 @@ PopupMenuButton popup(
 Future<List<PlutoColumn>> colsHeaderMap(List<String> colsHeader) async {
   List<PlutoColumn> gridCols = [];
   gridCols.add(PlutoColumn(
-    title: 'row_',
+    title: 'RowNo',
     field: 'row_',
     width: 60,
     type: PlutoColumnType.text(),
@@ -87,23 +87,23 @@ Future<List<PlutoColumn>> colsHeaderMap(List<String> colsHeader) async {
   //   type: PlutoColumnType.text(),
   // ));
 
-  // gridCols.add(PlutoColumn(
-  //   title: '>',
-  //   field: '__rowDetail__',
-  //   type: PlutoColumnType.text(),
-  //   enableEditingMode: false,
-  //   width: 60,
-  //   renderer: (rendererContext) {
-  //     return IconButton(
-  //       icon: const Icon(
-  //         Icons.last_page,
-  //       ),
-  //       onPressed: () async {},
-  //       iconSize: 18,
-  //       color: Colors.green,
-  //       padding: const EdgeInsets.all(0),
-  //     );
-  //   },
-  // ));
+  gridCols.add(PlutoColumn(
+    title: '>',
+    field: '__rowDetail__',
+    type: PlutoColumnType.text(),
+    enableEditingMode: false,
+    width: 60,
+    renderer: (rendererContext) {
+      return IconButton(
+        icon: const Icon(
+          Icons.last_page,
+        ),
+        onPressed: () async {},
+        iconSize: 18,
+        color: Colors.green,
+        padding: const EdgeInsets.all(0),
+      );
+    },
+  ));
   return gridCols;
 }
