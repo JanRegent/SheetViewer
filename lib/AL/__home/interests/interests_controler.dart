@@ -6,7 +6,7 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/DL/isardb/filelist.dart';
 
 import 'package:sheetviewer/DL/localstore/localstore.dart';
 
@@ -51,10 +51,12 @@ class InterestContr extends GetxController {
   }
 
   Future getSheetInterests() async {
-    //try {
-    String interestsSheetUrl = await loadAssetString('interestsSheetUrl');
-    String interestsSheetName = await loadAssetString('interestsSheetName');
-    if (dlGlobals.domain.toString().contains('vercel.app')) {
+    String interestsSheetUrl = '';
+    String interestsSheetName = '';
+    if (!dlGlobals.domain.toString().contains('vercel.app')) {
+      interestsSheetUrl = await loadAssetString('interestsSheetUrl');
+      interestsSheetName = await loadAssetString('interestsSheetName');
+    } else {
       interestsSheetUrl = remoteConfig.getString('interestsSheetUrl');
       interestsSheetName = remoteConfig.getString('interestsSheetName');
     }
@@ -63,10 +65,10 @@ class InterestContr extends GetxController {
 
     String interestFileId = bl.blUti.url2fileid(interestsSheetUrl);
     await dlGlobals.getSheetsService.getSheetAllRows(
-        interestFileId, interestsSheetName, false, 'fileLists');
+        interestFileId, interestsSheetName, false, 'filelistDb');
 
-    List<SheetRow?> interestRows =
-        await sheetRowsDb.readRowsSheet(interestFileId, interestsSheetName);
+    List<FileList?> interestRows =
+        await filelistDb.readRowsSheet(interestFileId, interestsSheetName);
 
     interestsList = [];
     for (var i = 1; i < interestRows.length; i++) {
@@ -101,10 +103,10 @@ class InterestContr extends GetxController {
     String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
     String sheetName = interestRowCurrent['sheetName'];
     await dlGlobals.getSheetsService
-        .getSheetAllRows(fileId, sheetName, false, 'fileLists');
+        .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
 
-    List<SheetRow?> filelistRows =
-        await sheetRowsDb.readRowsSheet(fileId, sheetName);
+    List<FileList?> filelistRows =
+        await filelistDb.readRowsSheet(fileId, sheetName);
 
     fileListSheet.clear();
     for (var i = 1; i < filelistRows.length; i++) {
