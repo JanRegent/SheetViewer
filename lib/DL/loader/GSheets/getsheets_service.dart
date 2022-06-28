@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
+import 'package:sheetviewer/DL/isardb/filelist.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 class GetSheetsService {
@@ -38,7 +39,8 @@ class GetSheetsService {
     return cols;
   }
 
-  Future getSheetAllRows(String fileId, String sheetName, bool putAll) async {
+  Future getSheetAllRows(
+      String fileId, String sheetName, bool putAll, String db) async {
     late Worksheet? sheet;
     try {
       Spreadsheet? ss = await getSpreadSheet(fileId);
@@ -47,52 +49,83 @@ class GetSheetsService {
       sheet = ss.worksheetByTitle(sheetName);
       if (sheet == null) return [];
     } catch (e) {
-      SheetRow sheetRow = SheetRow()
-        ..aSheetName = sheetName
-        ..zfileId = fileId
-        ..aRowNo = (1).toString() //excel start at 1
-        ..row = jsonEncode({"warning": "warning"});
-
-      await sheetRowsDb.update(sheetRow);
-
-      sheetRow = SheetRow()
-        ..aSheetName = sheetName
-        ..zfileId = fileId
-        ..aRowNo = (2).toString() //excel start at 1
-        ..row = jsonEncode({"warning": "$e"});
-      await sheetRowsDb.update(sheetRow);
+      if (db == 'sheetRowsDb') {
+        SheetRow sheetRow = SheetRow()
+          ..aSheetName = sheetName
+          ..zfileId = fileId
+          ..aRowNo = (1).toString() //excel start at 1
+          ..row = jsonEncode({"warning": "warning"});
+        await sheetRowsDb.update(sheetRow);
+      } else {
+        FileList fileListRow = FileList()
+          ..aSheetName = sheetName
+          ..zfileId = fileId
+          ..aRowNo = (1).toString() //excel start at 1
+          ..row = jsonEncode({"warning": "warning"});
+        await filelistDb.update(fileListRow);
+      }
       return [];
     }
     List<List<String>> rawRows = await sheet.values.allRows();
 
     cols = await columnsTitles(sheet);
-    List<SheetRow> sheetRows = [];
-    for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
-      interestContr.fetshingRows.value =
-          sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
-      Map row = {}; //excel 1 cols, 2.. data
-      for (var colIx = 0; colIx < cols.length; colIx++) {
-        try {
-          row[cols[colIx]] = rawRows[rowIx][colIx];
-        } catch (_) {
-          row[cols[colIx]] = '';
+    if (db == 'sheetRowsDb') {
+      List<SheetRow> sheetRows = [];
+      for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
+        interestContr.fetshingRows.value = sheetName +
+            ': ' +
+            rowIx.toString() +
+            '/' +
+            rawRows.length.toString();
+        Map row = {}; //excel 1 cols, 2.. data
+        for (var colIx = 0; colIx < cols.length; colIx++) {
+          try {
+            row[cols[colIx]] = rawRows[rowIx][colIx];
+          } catch (_) {
+            row[cols[colIx]] = '';
+          }
+        }
+        SheetRow sheetRow = SheetRow()
+          ..aSheetName = sheetName
+          ..zfileId = fileId
+          ..aRowNo = (rowIx + 1).toString() //excel start at 1
+          ..row = jsonEncode(row);
+        String key = row.keys.first.toString();
+        if (row[key].toString().trim().isNotEmpty) {
+          if (putAll) {
+            //>1000 rows
+            sheetRows.add(sheetRow); //empty rows //workarround
+          } else {
+            sheetRowsDb.update(sheetRow);
+          }
         }
       }
-      SheetRow sheetRow = SheetRow()
-        ..aSheetName = sheetName
-        ..zfileId = fileId
-        ..aRowNo = (rowIx + 1).toString() //excel start at 1
-        ..row = jsonEncode(row);
-      String key = row.keys.first.toString();
-      if (row[key].toString().trim().isNotEmpty) {
-        if (putAll) {
-          //>1000 rows
-          sheetRows.add(sheetRow); //empty rows //workarround
-        } else {
-          sheetRowsDb.update(sheetRow);
+      if (putAll) await sheetRowsDb.updateAll(sheetRows);
+    } else {
+      for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
+        interestContr.fetshingRows.value = sheetName +
+            ': ' +
+            rowIx.toString() +
+            '/' +
+            rawRows.length.toString();
+        Map row = {}; //excel 1 cols, 2.. data
+        for (var colIx = 0; colIx < cols.length; colIx++) {
+          try {
+            row[cols[colIx]] = rawRows[rowIx][colIx];
+          } catch (_) {
+            row[cols[colIx]] = '';
+          }
+        }
+        FileList fileListRow = FileList()
+          ..aSheetName = sheetName
+          ..zfileId = fileId
+          ..aRowNo = (rowIx + 1).toString() //excel start at 1
+          ..row = jsonEncode(row);
+        String key = row.keys.first.toString();
+        if (row[key].toString().trim().isNotEmpty) {
+          filelistDb.update(fileListRow);
         }
       }
     }
-    if (putAll) await sheetRowsDb.updateAll(sheetRows);
   }
 }
