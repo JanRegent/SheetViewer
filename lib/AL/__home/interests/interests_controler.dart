@@ -47,7 +47,6 @@ class InterestContr extends GetxController {
     await interestContr.interestNameSet(interestRowCurrent['interestName']);
 
     appHome.updateMap('interestRowCurrent', interestRowCurrent);
-    await getFilelist(interestRowCurrent);
   }
 
   Future getSheetInterests() async {
@@ -102,9 +101,10 @@ class InterestContr extends GetxController {
 
     String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
     String sheetName = interestRowCurrent['sheetName'];
-    await dlGlobals.getSheetsService
-        .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
-
+    if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
+      await dlGlobals.getSheetsService
+          .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+    }
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(fileId, sheetName);
 
@@ -112,9 +112,6 @@ class InterestContr extends GetxController {
     for (var i = 1; i < filelistRows.length; i++) {
       fileListSheet.add(jsonDecode(filelistRows[i]!.row));
     }
-    // print(fileListSheet);
-    // print('--' + fileListSheet.length.toString());
-    //await getSheetsOfFilelist(fileListSheet);
 
     return 'ok';
   }

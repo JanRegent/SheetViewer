@@ -78,8 +78,6 @@ class GetSheetsService {
   Future filelistSave(
       List<List<String>> rawRows, String fileId, String sheetName) async {
     {
-      print(rawRows);
-      print('--------------------filelistSave');
       for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
         interestContr.fetshingRows.value = sheetName +
             ': ' +

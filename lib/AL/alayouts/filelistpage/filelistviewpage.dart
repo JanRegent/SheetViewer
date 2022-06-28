@@ -46,6 +46,27 @@ class FilelistviewPage extends StatelessWidget {
           ),
           backgroundColor: Colors.lightBlue,
         ),
-        body: detailBody());
+        body: FutureBuilder<String>(
+          future: interestContr
+              .getFilelist(interestContr.interestRowCurrent), // async work
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Column(
+                  children: const [
+                    Text('Loading....'),
+                    CircularProgressIndicator()
+                  ],
+                );
+
+              default:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return detailBody();
+                }
+            }
+          },
+        ));
   }
 }
