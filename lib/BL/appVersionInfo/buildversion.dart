@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-dualMode-1';      
+const buildVersion = 'AL-view-dualMode-2-obs';      
