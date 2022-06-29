@@ -3,8 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
-import 'package:sheetviewer/DL/isardb/sheetview.dart';
+import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 //import './../views_common.dart';
 
@@ -17,10 +16,14 @@ import 'package:sheetviewer/DL/isardb/sheetview.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class RowDetailPage extends StatefulWidget {
-  final SheetView sheetView;
+  final String currentRowsIndexStart;
+  final List<String> cols;
+  final List<SheetRow?> sheetRows;
 
   // ignore: prefer_const_constructors_in_immutables
-  RowDetailPage(this.sheetView, {Key? key}) : super(key: key);
+  RowDetailPage(this.currentRowsIndexStart, this.cols, this.sheetRows,
+      {Key? key})
+      : super(key: key);
 
   @override
   _RowDetailPageState createState() => _RowDetailPageState();
@@ -38,47 +41,47 @@ class _RowDetailPageState extends State<RowDetailPage> {
   List<String> wordsStr = [];
 
   late ScrollController _controller;
-
+  int currentRowsIndex = 0;
   @override
   void initState() {
+    currentRowsIndex = int.tryParse(widget.currentRowsIndexStart)!;
     _controller = ScrollController();
 
-    columnsSelected = widget.sheetView.cols;
+    columnsSelected = widget.cols;
     //fontSize = bl.appVars.fontSize;
     //highlighControler = new TextEditingController(text: '');
     super.initState();
   }
 
   void refreshCorrectIndex() {
-    if (widget.sheetView.currentRowsIndex < 0) {
-      widget.sheetView.currentRowsIndex = 0;
+    if (currentRowsIndex < 0) {
+      currentRowsIndex = 0;
     }
-    if (widget.sheetView.currentRowsIndex >= widget.sheetView.rows.length) {
-      widget.sheetView.currentRowsIndex = widget.sheetView.rows.length - 1;
+    if (currentRowsIndex >= widget.sheetRows.length) {
+      currentRowsIndex = widget.sheetRows.length - 1;
     }
     setState(() {});
   }
 
   void arrowLeft() {
-    widget.sheetView.currentRowsIndex -= 1;
+    currentRowsIndex -= 1;
     refreshCorrectIndex();
   }
 
   void arrowRight() {
-    widget.sheetView.currentRowsIndex += 1;
+    currentRowsIndex += 1;
     refreshCorrectIndex();
   }
 
   Row arrowsRow(BuildContext context) {
-    Map row =
-        jsonDecode(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
+    Map row = jsonDecode(widget.sheetRows[currentRowsIndex]!.row);
     return Row(
       children: [
         ElevatedButton(
             child: const Icon(Icons.first_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              widget.sheetView.currentRowsIndex = 0;
+              currentRowsIndex = 0;
               refreshCorrectIndex();
             }),
         ElevatedButton(
@@ -97,8 +100,7 @@ class _RowDetailPageState extends State<RowDetailPage> {
             child: const Icon(Icons.last_page),
             style: ElevatedButton.styleFrom(primary: Colors.teal),
             onPressed: () {
-              widget.sheetView.currentRowsIndex =
-                  widget.sheetView.rows.length - 1;
+              currentRowsIndex = widget.sheetRows.length - 1;
               refreshCorrectIndex();
             }),
         const Text(' row: '),
@@ -108,8 +110,7 @@ class _RowDetailPageState extends State<RowDetailPage> {
   }
 
   String cellvalueGet(String columnSelected) {
-    Map row =
-        jsonDecode(widget.sheetView.rows[widget.sheetView.currentRowsIndex]);
+    Map row = jsonDecode(widget.sheetRows[currentRowsIndex]!.row);
     String cellValue = '';
     try {
       cellValue = row[columnSelected].toString();
@@ -140,7 +141,7 @@ class _RowDetailPageState extends State<RowDetailPage> {
     );
   }
 
-  Widget detailBody(SheetView sheetView) {
+  Widget detailBody() {
     return Container(
         height: double.infinity,
         width: double.infinity,
@@ -169,7 +170,7 @@ class _RowDetailPageState extends State<RowDetailPage> {
       appBar: AppBar(
         title: arrowsRow(context),
       ),
-      body: detailBody(widget.sheetView),
+      body: detailBody(),
     );
   }
 }

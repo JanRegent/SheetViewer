@@ -16,11 +16,12 @@ import '../plutogrid/drawer.dart';
 ///     https://hum11farheen.medium.com/styling-text-with-richtext-widget-4d4e881bb0e5
 
 class ColumnViewPage extends StatefulWidget {
-  final String currentRow_;
+  final String currentRowsIndexStart;
   final List<String> cols;
   final List<SheetRow?> sheetRows;
   // ignore: prefer_const_constructors_in_immutables
-  ColumnViewPage(this.currentRow_, this.cols, this.sheetRows, {Key? key})
+  ColumnViewPage(this.currentRowsIndexStart, this.cols, this.sheetRows,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -36,9 +37,10 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   late double fontSize = 25;
 
   late ScrollController _controller;
-
+  int currentRowsIndex = 0;
   @override
   void initState() {
+    currentRowsIndex = int.tryParse(widget.currentRowsIndexStart)!;
     _controller = ScrollController();
 
     columnsSelected = widget.cols;
@@ -60,6 +62,7 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   }
 
   Widget detailBody() {
+    print(currentRowsIndex);
     return Container(
         height: double.infinity,
         width: double.infinity,
