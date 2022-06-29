@@ -1,1 +1,1 @@
-const buildVersion = 'DL-getsheet--fileList-4';      
+const buildVersion = 'AL-view-dualMode-1';      

@@ -25,8 +25,6 @@ Future<List<PlutoRow>> gridRowsMap(
       plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
     }
 
-    plutoRow.cells
-        .putIfAbsent('__rowDetail__', () => PlutoCell(value: detailIcon()));
     return plutoRow;
   }
 

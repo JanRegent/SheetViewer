@@ -5,7 +5,7 @@ import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/detailView/columnviewpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
-import 'package:sheetviewer/AL/views/plutogrid/rowsmap.dart';
+
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 String currentRow_ = '2';
@@ -32,14 +32,19 @@ class _RowsgridPageState extends State<RowsgridPage> {
     initStateManager();
   }
 
-  late PlutoGridStateManager stateManager;
+  late PlutoGridStateManager gridAStateManager;
+  late PlutoGridStateManager gridBStateManager;
+  final List<PlutoColumn> gridBColumns = [];
+  final List<PlutoRow> gridBRows = [];
+  Key? currentRowKey;
+
   FocusNode gridFocusNode = FocusNode();
   LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
 
   LinkedScrollControllerGroup horizontalScroll = LinkedScrollControllerGroup();
 
   void initStateManager() {
-    stateManager = PlutoGridStateManager(
+    gridAStateManager = PlutoGridStateManager(
       columns: widget.plutoCols,
       rows: widget.gridrows,
       gridFocusNode: gridFocusNode,
@@ -56,14 +61,53 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  PlutoGrid plutoGrid() {
+  double fontSize = 25;
+  Widget getText(String text) {
+    TextStyle style = TextStyle(
+      fontSize: fontSize,
+    );
+
+    return Text(
+      text,
+      style: style,
+    );
+  }
+
+  void doubleColumnAdd(String cellText, String columnTitle) {
+    gridBColumns.clear();
+    gridBColumns.add(PlutoColumn(
+      title: columnTitle,
+      field: 'dualColumn',
+      type: PlutoColumnType.text(),
+    ));
+
+    gridBRows.clear();
+    PlutoRow plutoRow = PlutoRow(cells: {});
+    plutoRow.cells
+        .putIfAbsent('dualColumn', () => PlutoCell(value: getText(cellText)));
+    gridBRows.add(plutoRow);
+  }
+
+  IconButton detailIcon() {
+    return IconButton(
+        onPressed: () {
+          gridBColumns.clear();
+          gridBRows.clear();
+          setState(() {});
+        },
+        icon: const Icon(
+          Icons.close,
+        ));
+  }
+
+  PlutoGrid singleGrid() {
     return PlutoGrid(
       columns: widget.plutoCols,
       rows: widget.gridrows,
       mode: PlutoGridMode.select,
       // columnGroups: columnGroups,
       onLoaded: (PlutoGridOnLoadedEvent event) {
-        stateManager = event.stateManager;
+        gridAStateManager = event.stateManager;
         event.stateManager.setShowColumnFilter(true);
       },
       // onChanged: (PlutoGridOnChangedEvent event) {},
@@ -81,30 +125,13 @@ class _RowsgridPageState extends State<RowsgridPage> {
         }
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        // if (kDebugMode) {
-        //   print('----------------------------onRowDoubleTap');
-        //   print(event.cell?.column.field);
-        //   print(event.cell?.row);
-        // }
-
-        if (event.cell?.column.field == '__rowDetail__') {
-          await detailShow(
-              widget.sheetRows, event.cell?.row.cells['row_']!.value, context);
-        }
-        // } else {
-        //   if (plutogridContr.multilineDetailLayuout.value ==
-        //       event.cell!.column.field) {
-        //     plutogridContr.multilineDetailLayuout.value = '';
-        //   } else {
         currentRow_ = event.cell?.row.cells['row_']!.value;
-        plutogridContr.multilineDetailLayuout.value = event.cell!.column.field;
 
-        cellText = event
-            .row!.cells[plutogridContr.multilineDetailLayuout.value]!.value;
-        //}
+        String dualColumn = event.cell!.column.field;
+        cellText = event.row!.cells[dualColumn]!.value;
 
+        doubleColumnAdd(cellText, dualColumn);
         setState(() {});
-        //}
       },
       configuration: PlutoGridConfiguration(
         enableColumnBorder: true,
@@ -126,6 +153,50 @@ class _RowsgridPageState extends State<RowsgridPage> {
         stateManager.setPageSize(100, notify: false); // default 40
         return PlutoPagination(stateManager);
       },
+    );
+  }
+
+  void gridAHandler() {
+    if (gridAStateManager.currentRow == null) {
+      return;
+    }
+
+    if (gridAStateManager.currentRow!.key != currentRowKey) {
+      currentRowKey = gridAStateManager.currentRow!.key;
+
+      gridBStateManager.setShowLoading(true);
+
+      //fetchUserActivity();
+    }
+  }
+
+  PlutoDualGrid dualGrid() {
+    return PlutoDualGrid(
+      gridPropsA: PlutoDualGridProps(
+        columns: widget.plutoCols,
+        rows: widget.gridrows,
+        onChanged: (PlutoGridOnChangedEvent event) {
+          //print(event);
+        },
+        onLoaded: (PlutoGridOnLoadedEvent event) {
+          gridAStateManager = event.stateManager;
+          //stateManager = event.stateManager;
+          event.stateManager.setShowColumnFilter(true);
+          event.stateManager.addListener(gridAHandler);
+        },
+      ),
+      gridPropsB: PlutoDualGridProps(
+        columns: gridBColumns,
+        rows: gridBRows,
+        onChanged: (PlutoGridOnChangedEvent event) {
+          //print(event);
+        },
+        onLoaded: (PlutoGridOnLoadedEvent event) {
+          gridBStateManager = event.stateManager;
+        },
+        configuration: const PlutoGridConfiguration(),
+      ),
+      display: const PlutoDualGridDisplayRatio(ratio: 0.5),
     );
   }
 
@@ -161,7 +232,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
               height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), color: Colors.blue),
-              child: plutoGrid(), //BoxDecoration
+              child: singleGrid(), //BoxDecoration
             ), //Container
           ], //<widget>[]
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,9 +245,19 @@ class _RowsgridPageState extends State<RowsgridPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: gridBColumns.isNotEmpty
+            ? AppBar(
+                title: ListTile(
+                  leading: const Text('Dual mode'),
+                  trailing: detailIcon(),
+                ),
+              )
+            : null,
         body: plutogridContr.multilineDetailLayuout.value.isNotEmpty
             ? ColumnViewPage(currentRow_, widget.cols, widget.sheetRows)
-            : plutoGrid());
+            : gridBColumns.isEmpty
+                ? singleGrid()
+                : dualGrid());
   }
 }
 

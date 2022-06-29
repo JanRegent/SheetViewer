@@ -62,8 +62,7 @@
 //       cells.add(DataGridCell<String>(
 //           columnName: sheetView.cols[colIx], value: value));
 //     }
-//     cells.add(DataGridCell<String>(
-//         columnName: '__rowDetail__', value: rowIx.toString()));
+
 //     DataGridRow dataGridRow = DataGridRow(cells: cells);
 
 //     return dataGridRow;
@@ -89,8 +88,7 @@
 //       cells.add(DataGridCell<String>(
 //           columnName: sheetView.cols[colIx], value: value));
 //     }
-//     cells.add(DataGridCell<String>(
-//         columnName: '__rowDetail__', value: rowIx.toString()));
+
 //     DataGridRow dataGridRow = DataGridRow(cells: cells);
 
 //     return dataGridRow;
@@ -114,13 +112,6 @@
 //     );
 //   }
 
-//   Widget getCell(DataGridCell<dynamic> e, String searchWord, DataGridRow row) {
-//     if (e.columnName == '__rowDetail__') {
-//       return IconButton(
-//         icon: const Icon(Icons.chevron_right),
-//         onPressed: () => detailShow(sheetView, e.value),
-//       );
-//     }
 
 //     //return readmoreText(e.value.toString());
 //     return SubstringHighlight(

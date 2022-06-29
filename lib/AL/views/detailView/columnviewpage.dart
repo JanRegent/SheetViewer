@@ -34,7 +34,7 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   late String cellValue;
   List<String> columnsSelected = [];
   late int colIx;
-  late double fontSize = 25;
+  double fontSize = 25;
 
   late ScrollController _controller;
   int currentRowsIndex = 0;
@@ -62,7 +62,6 @@ class _ColumnViewPageState extends State<ColumnViewPage> {
   }
 
   Widget detailBody() {
-    print(currentRowsIndex);
     return Container(
         height: double.infinity,
         width: double.infinity,
