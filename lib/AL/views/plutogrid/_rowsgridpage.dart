@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -33,19 +33,8 @@ class _RowsgridPageState extends State<RowsgridPage> {
   }
 
   late PlutoGridStateManager gridAStateManager;
-  late PlutoGridStateManager gridBStateManager;
   final List<PlutoColumn> gridBColumns = [];
   final List<PlutoRow> gridBRows = [];
-  Key? currentRowKey;
-
-  Timer? _debounce;
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-
-    super.dispose();
-  }
 
   FocusNode gridFocusNode = FocusNode();
   LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
@@ -61,31 +50,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
         vertical: verticalScroll,
         horizontal: horizontalScroll,
       ),
-      // mode: widget.mode,
-      // onChangedEventCallback: widget.onChanged,
-      // onSelectedEventCallback: widget.onSelected,
-      // createHeader: widget.createHeader,
-      // createFooter: widget.createFooter,
-      // configuration: widget.configuration,
     );
-  }
-
-  double fontSize = 25;
-  Widget getText(String text) {
-    return AutoSizeText(
-      text,
-      style: TextStyle(fontSize: fontSize),
-      maxLines: 50,
-    );
-
-    // TextStyle style = TextStyle(
-    //   fontSize: fontSize,
-    // );
-
-    // return Text(
-    //   text,
-    //   style: style,
-    // );
   }
 
   void doubleColumnAdd() {
@@ -99,12 +64,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
         return Obx(() => AutoSizeText(dualGridContent.value));
       },
     ));
-
-    gridBRows.clear();
-    PlutoRow plutoRow = PlutoRow(cells: {});
-    plutoRow.cells
-        .putIfAbsent('dualColumn', () => PlutoCell(value: getText(cellText)));
-    gridBRows.add(plutoRow);
   }
 
   IconButton detailIcon() {
@@ -161,120 +120,35 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  void gridAHandler() {
-    if (gridAStateManager.currentRow == null) {
-      return;
-    }
-
-    if (gridAStateManager.currentRow!.key != currentRowKey) {
-      currentRowKey = gridAStateManager.currentRow!.key;
-
-      //gridBStateManager.setShowLoading(true);
-
-      fetchUserActivity();
-    }
-  }
-
-  void fetchUserActivity() {
-    // This is just an example to reproduce the server load time.
-    if (_debounce?.isActive ?? false) {
-      _debounce!.cancel();
-    }
-
-    _debounce = Timer(const Duration(milliseconds: 300), () {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        setState(() {
-          // final rows = DummyData.rowsByColumns(
-          //   length: faker.randomGenerator.integer(10, min: 1),
-          //   columns: gridBColumns,
-          // );
-
-          //gridBStateManager.removeRows(gridBStateManager.rows);
-          gridBStateManager.resetCurrentState();
-          //gridBStateManager.appendRows(rows);
-        });
-
-        gridBStateManager.setShowLoading(false);
-      });
-    });
-  }
-
   RxString dualGridContent = ''.obs;
-  PlutoDualGrid dualGrid() {
-    return PlutoDualGrid(
-      //---------------------------------------------------A
-      mode: PlutoGridMode.select,
-      gridPropsA: PlutoDualGridProps(
-        columns: widget.plutoCols,
-        rows: widget.gridrows,
-        onChanged: (PlutoGridOnChangedEvent event) {
-          //print(event);
-        },
-        onLoaded: (PlutoGridOnLoadedEvent event) {
-          gridAStateManager = event.stateManager;
-          event.stateManager.addListener(gridAHandler);
-          event.stateManager.setShowColumnFilter(true);
-        },
+  double fontSize = 25;
+  final minWidth = 500.0;
+
+  SingleChildScrollView dualWin() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: max(screenWidth, minWidth),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: singleGrid(),
+            ),
+            const SizedBox(width: 30.0),
+            Expanded(
+              flex: 1,
+              child: Obx(() => Text(
+                    dualGridContent.value,
+                    style: TextStyle(fontSize: fontSize),
+                  )),
+            ),
+          ],
+        ),
       ),
-      onSelected: (PlutoDualOnSelectedEvent event) {
-        String dualColumn = event.gridA!.cell!.column.field;
-        dualGridContent.value = event.gridA!.row!.cells[dualColumn]!.value;
-      },
-      //---------------------------------------------------B
-      gridPropsB: PlutoDualGridProps(
-        columns: gridBColumns,
-        rows: gridBRows,
-        onChanged: (PlutoGridOnChangedEvent event) {
-          //print(event);
-        },
-        onLoaded: (PlutoGridOnLoadedEvent event) {
-          gridBStateManager = event.stateManager;
-        },
-        configuration: const PlutoGridConfiguration(),
-      ),
-      display: const PlutoDualGridDisplayRatio(ratio: 0.5),
-    );
-  }
-
-  Center loremGrid() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-                width: MediaQuery.of(context).size.width * 0.98,
-                height: MediaQuery.of(context).size.height * 0.40,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: AutoSizeText(
-                  cellText,
-                  style: const TextStyle(fontSize: 22),
-                  minFontSize: 14,
-                  maxLines: 8,
-                  overflow: TextOverflow.ellipsis,
-                  // overflowReplacement: const Text(
-                  //     'Sorry String too long, use >| button at end of current row'),
-                )),
-
-            //Container
-            //SizedBox
-
-            Container(
-              width: MediaQuery.of(context).size.width * 0.99,
-              height: MediaQuery.of(context).size.height * 0.45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.blue),
-              child: singleGrid(), //BoxDecoration
-            ), //Container
-          ], //<widget>[]
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-        ), //Column
-      ), //Container
     );
   }
 
@@ -289,13 +163,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
                 ),
               )
             : null,
-        body: gridBColumns.isEmpty ? singleGrid() : dualGrid());
+        body: gridBColumns.isEmpty ? singleGrid() : dualWin());
   }
 }
-
-String cellText = '''
-What is "Lorem ipsum"?
-In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate the graphic elements of a document or visual presentation, such as web pages, typography, and graphical layout. It is a form of "greeking".
-
-Even though using "lorem ipsum" often arouses curiosity due to its resemblance to classical Latin, it is not intended to have meaning. Where text is visible in a document, people tend to focus on the textual content rather than upon overall presentation, so publishers use lorem ipsum when displaying a typeface or design in order to direct the focus to presentation. "Lorem ipsum" also approximates a typical distribution of letters in English.
-''';
