@@ -53,16 +53,6 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
             setStateFunc();
           },
         ),
-        ListTile(
-          leading: const Icon(Icons.multiline_chart),
-          title: const Text('Multiline-details on'),
-          subtitle:
-              Obx(() => Text(plutogridContr.multilineDetailLayuout.value)),
-          onTap: () {
-            plutogridContr.multilineDetailLayuout.value = '';
-            setStateFunc();
-          },
-        ),
       ],
     ),
   );

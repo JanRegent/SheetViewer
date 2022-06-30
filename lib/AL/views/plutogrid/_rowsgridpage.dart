@@ -1,14 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:get/get.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-
-String currentRow_ = '2';
 
 /// The home page of the application which hosts the datagrid.
 class RowsgridPage extends StatefulWidget {
@@ -26,15 +24,21 @@ class RowsgridPage extends StatefulWidget {
 }
 
 class _RowsgridPageState extends State<RowsgridPage> {
+  late ScrollController _controller;
+
+  late Map<String, PlutoCell> currentRow_;
+  String currentColumnField = '';
+  bool detailMode = false;
+
   @override
   void initState() {
+    _controller = ScrollController();
     super.initState();
     initStateManager();
+    currentRow_ = widget.gridrows.first.cells;
   }
 
   late PlutoGridStateManager gridAStateManager;
-  final List<PlutoColumn> gridBColumns = [];
-  final List<PlutoRow> gridBRows = [];
 
   FocusNode gridFocusNode = FocusNode();
   LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
@@ -53,24 +57,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  void doubleColumnAdd() {
-    gridBColumns.clear();
-    gridBColumns.add(PlutoColumn(
-      title: 'Longer text',
-      field: 'dualColumn',
-      type: PlutoColumnType.text(),
-      enableEditingMode: false,
-      renderer: (rendererContext) {
-        return Obx(() => AutoSizeText(dualGridContent.value));
-      },
-    ));
-  }
-
   IconButton detailIcon() {
     return IconButton(
         onPressed: () {
-          gridBColumns.clear();
-          gridBRows.clear();
+          detailMode = false;
           setState(() {});
         },
         icon: const Icon(
@@ -83,18 +73,19 @@ class _RowsgridPageState extends State<RowsgridPage> {
       columns: widget.plutoCols,
       rows: widget.gridrows,
       mode: PlutoGridMode.select,
+
       // columnGroups: columnGroups,
       onLoaded: (PlutoGridOnLoadedEvent event) {
         gridAStateManager = event.stateManager;
         event.stateManager.setShowColumnFilter(true);
       },
-
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        currentRow_ = event.cell?.row.cells['row_']!.value;
+        currentRow_ = event.cell!.row.cells;
 
-        String dualColumn = event.cell!.column.field;
-        dualGridContent.value = event.row!.cells[dualColumn]!.value;
-        doubleColumnAdd();
+        currentColumnField = event.cell!.column.field;
+        print(currentColumnField);
+        detailContent.value = event.row!.cells[currentColumnField]!.value;
+        detailMode = true;
         setState(() {});
       },
       configuration: PlutoGridConfiguration(
@@ -120,11 +111,40 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  RxString dualGridContent = ''.obs;
+  Widget detailBody() {
+    List<Widget> colItems() {
+      List<Widget> items = [];
+      items.add(Obx(() => Text(
+            detailContent.value,
+            style: TextStyle(fontSize: fontSize),
+          )));
+      items.add(const Divider(color: Colors.blue));
+      for (var entry in currentRow_.entries) {
+        if (currentColumnField == entry.value.column.title) continue;
+        items.add(ListTile(
+          leading: Text(entry.value.column.title + ': '),
+          title: Text(entry.value.value.toString()),
+        ));
+        items.add(const Divider(color: Colors.blue));
+      }
+      return items;
+    }
+
+    return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: ListView(
+          controller: _controller,
+          children: colItems(),
+        ));
+  }
+
+  RxString detailContent = ''.obs;
   double fontSize = 25;
   final minWidth = 500.0;
 
-  SingleChildScrollView dualWin() {
+  SingleChildScrollView detailWin() {
     final screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -139,13 +159,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
               child: singleGrid(),
             ),
             const SizedBox(width: 30.0),
-            Expanded(
-              flex: 1,
-              child: Obx(() => Text(
-                    dualGridContent.value,
-                    style: TextStyle(fontSize: fontSize),
-                  )),
-            ),
+            Expanded(flex: 1, child: detailBody()),
           ],
         ),
       ),
@@ -155,14 +169,14 @@ class _RowsgridPageState extends State<RowsgridPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: gridBColumns.isNotEmpty
+        appBar: detailMode
             ? AppBar(
                 title: ListTile(
-                  leading: const Text('Dual mode'),
+                  leading: const Text('Detail view'),
                   trailing: detailIcon(),
                 ),
               )
             : null,
-        body: gridBColumns.isEmpty ? singleGrid() : dualWin());
+        body: detailMode ? detailWin() : singleGrid());
   }
 }

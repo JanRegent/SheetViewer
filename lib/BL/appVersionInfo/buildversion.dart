@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-dualWin-1';      
+const buildVersion = 'AL-view-detailMode';      

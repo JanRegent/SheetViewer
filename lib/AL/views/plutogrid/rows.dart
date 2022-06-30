@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:sheetviewer/AL/views/detailView/rowmapviewer.dart';
+
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 Future<List<PlutoRow>> gridRowsMap(
@@ -35,14 +35,6 @@ Future<List<PlutoRow>> gridRowsMap(
   }
 
   return gridrows;
-}
-
-Future detailShow(
-    List<SheetRow?> sheetRows, String rowNo, BuildContext context) async {
-  await Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => RowmapViewer(sheetRows, rowNo)),
-  );
 }
 
 Icon detailIcon() {

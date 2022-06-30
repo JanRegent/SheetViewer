@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/colsmap.dart';
+import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
 import 'package:sheetviewer/AL/views/plutogrid/_rowsgridpage.dart';
-import 'package:sheetviewer/AL/views/plutogrid/rowsmap.dart';
+import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
