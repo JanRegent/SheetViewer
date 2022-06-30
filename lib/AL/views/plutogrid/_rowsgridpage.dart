@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -26,8 +27,7 @@ class RowsgridPage extends StatefulWidget {
 class _RowsgridPageState extends State<RowsgridPage> {
   late ScrollController _controller;
 
-  late Map<String, PlutoCell> currentRow_;
-  String currentColumnField = '';
+  String detailColumnField = '';
   bool detailMode = false;
 
   @override
@@ -35,7 +35,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
     _controller = ScrollController();
     super.initState();
     initStateManager();
-    currentRow_ = widget.gridrows.first.cells;
   }
 
   late PlutoGridStateManager gridAStateManager;
@@ -80,11 +79,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
         event.stateManager.setShowColumnFilter(true);
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        currentRow_ = event.cell!.row.cells;
+        detailRowNo = event.cell!.row.cells.values.first.value.toString();
+        detailColumnField = event.cell!.column.field;
 
-        currentColumnField = event.cell!.column.field;
-        print(currentColumnField);
-        detailContent.value = event.row!.cells[currentColumnField]!.value;
+        detailContent.value = event.row!.cells[detailColumnField]!.value;
         detailMode = true;
         setState(() {});
       },
@@ -111,6 +109,13 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
+  SheetRow? getRow(String rowNo) {
+    for (var i = 0; i < widget.sheetRows.length; i++) {
+      if (widget.sheetRows[i]!.aRowNo == rowNo) return widget.sheetRows[i];
+    }
+    return widget.sheetRows[1];
+  }
+
   Widget detailBody() {
     List<Widget> colItems() {
       List<Widget> items = [];
@@ -119,11 +124,17 @@ class _RowsgridPageState extends State<RowsgridPage> {
             style: TextStyle(fontSize: fontSize),
           )));
       items.add(const Divider(color: Colors.blue));
-      for (var entry in currentRow_.entries) {
-        if (currentColumnField == entry.value.column.title) continue;
+      SheetRow? sheetRow = getRow(detailRowNo);
+      Map row = jsonDecode(sheetRow!.row);
+      items.add(ListTile(
+        leading: const Text('RowNo: '),
+        title: Text(sheetRow.aRowNo),
+      ));
+      for (var key in row.keys) {
+        if (detailColumnField == key) continue; //is at first position yet
         items.add(ListTile(
-          leading: Text(entry.value.column.title + ': '),
-          title: Text(entry.value.value.toString()),
+          leading: Text(key + ': '),
+          title: Text(row[key].toString()),
         ));
         items.add(const Divider(color: Colors.blue));
       }
@@ -141,6 +152,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
   }
 
   RxString detailContent = ''.obs;
+  String detailRowNo = '2';
   double fontSize = 25;
   final minWidth = 500.0;
 
