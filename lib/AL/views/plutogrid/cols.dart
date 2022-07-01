@@ -74,12 +74,16 @@ Future<List<PlutoColumn>> colsHeaderMap(List<String> colsHeader) async {
   ));
 
   for (var colIx = 0; colIx < colsHeader.length; colIx++) {
-    gridCols.add(PlutoColumn(
+    PlutoColumn col = PlutoColumn(
         title: colsHeader[colIx],
         field: colsHeader[colIx],
         type: PlutoColumnType.text(),
-        readOnly: true));
+        readOnly: true);
+
+    gridCols.add(col);
   }
 
   return gridCols;
 }
+
+class PlutoFilterTypeExt extends PlutoFilterType {}

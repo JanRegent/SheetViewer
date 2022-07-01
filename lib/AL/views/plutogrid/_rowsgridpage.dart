@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -58,6 +59,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   IconButton detailIcon() {
     return IconButton(
+        tooltip: 'Close detail',
         onPressed: () {
           detailMode = false;
           setState(() {});
@@ -65,6 +67,12 @@ class _RowsgridPageState extends State<RowsgridPage> {
         icon: const Icon(
           Icons.close,
         ));
+  }
+
+  List<PlutoColumn> getFilteredColumns() {
+    return gridAStateManager.refColumns.where((e) {
+      return gridAStateManager.isFilteredColumn(e);
+    }).toList();
   }
 
   PlutoGrid singleGrid() {
@@ -77,6 +85,24 @@ class _RowsgridPageState extends State<RowsgridPage> {
       onLoaded: (PlutoGridOnLoadedEvent event) {
         gridAStateManager = event.stateManager;
         event.stateManager.setShowColumnFilter(true);
+
+        gridAStateManager.eventManager!.listener((event) {
+          if (event is PlutoGridChangeColumnFilterEvent) {}
+        });
+
+        PlutoRow filter = PlutoRow(cells: {
+          FilterHelper.filterFieldColumn: PlutoCell(
+            value: 'Mise',
+          ),
+          FilterHelper.filterFieldType: PlutoCell(
+            value: const PlutoFilterTypeContains(),
+          ),
+          FilterHelper.filterFieldValue: PlutoCell(
+            value: 'ax',
+          ),
+        });
+        filterRows.add(filter);
+        handleLoadFilter();
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         detailRowNo = event.cell!.row.cells.values.first.value.toString();
@@ -84,7 +110,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
         detailContent.value = event.row!.cells[detailColumnField]!.value;
         detailMode = true;
+        gridAStateManager.notifyListeners();
+        handleSaveFilter();
         setState(() {});
+        handleLoadFilter();
       },
       configuration: PlutoGridConfiguration(
         enableColumnBorder: true,
@@ -96,6 +125,12 @@ class _RowsgridPageState extends State<RowsgridPage> {
           resolveDefaultColumnFilter: (column, resolver) {
             if (column.field == 'text') {
               return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+            } else if (column.field == 'number') {
+              return resolver<PlutoFilterTypeGreaterThan>() as PlutoFilterType;
+            } else if (column.field == 'date') {
+              return resolver<PlutoFilterTypeLessThan>() as PlutoFilterType;
+            } else if (column.field == 'select') {
+              return resolver<ClassYouImplemented>() as PlutoFilterType;
             }
 
             return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
@@ -109,7 +144,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  SheetRow? getRow(String rowNo) {
+  SheetRow? getRowByRowNo(String rowNo) {
     for (var i = 0; i < widget.sheetRows.length; i++) {
       if (widget.sheetRows[i]!.aRowNo == rowNo) return widget.sheetRows[i];
     }
@@ -124,7 +159,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
             style: TextStyle(fontSize: fontSize),
           )));
       items.add(const Divider(color: Colors.blue));
-      SheetRow? sheetRow = getRow(detailRowNo);
+      SheetRow? sheetRow = getRowByRowNo(detailRowNo);
       Map row = jsonDecode(sheetRow!.row);
       items.add(ListTile(
         leading: const Text('RowNo: '),
@@ -178,17 +213,70 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
+  //------------------------------------------------------------- filterRows
+  final List<PlutoRow> filterRows = [];
+  void handleSaveFilter() {
+    filterRows.clear();
+
+    final List<PlutoRow> filters = gridAStateManager.filterRows
+        .map(
+          (e) => PlutoRow(cells: {
+            FilterHelper.filterFieldColumn: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldColumn]!.value,
+            ),
+            FilterHelper.filterFieldType: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldType]!.value,
+            ),
+            FilterHelper.filterFieldValue: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldValue]!.value,
+            ),
+          }),
+        )
+        .toList();
+    if (filters.isEmpty) return;
+    // print(filters[0].cells.keys);
+    // print(filters[0].cells['column']!.value);
+    // print(filters[0].cells['type']!.value);
+    // print(filters[0].cells['value']!.value);
+
+    filterRows.addAll(filters);
+  }
+
+  void handleLoadFilter() {
+    gridAStateManager.gridFocusNode?.unfocus();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      gridAStateManager.setFilterWithFilterRows(filterRows);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: detailMode
             ? AppBar(
                 title: ListTile(
-                  leading: const Text('Detail view'),
-                  trailing: detailIcon(),
-                ),
+                    leading: const Text('Master-detail'),
+                    trailing: detailIcon()),
               )
             : null,
         body: detailMode ? detailWin() : singleGrid());
   }
+}
+
+class ClassYouImplemented implements PlutoFilterType {
+  @override
+  String get title => 'Custom contains';
+
+  @override
+  get compare => ({
+        required String? base,
+        required String? search,
+        required PlutoColumn? column,
+      }) {
+        var keys = search!.split(',').map((e) => e.toUpperCase()).toList();
+
+        return keys.contains(base!.toUpperCase());
+      };
+
+  const ClassYouImplemented();
 }
