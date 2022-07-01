@@ -90,6 +90,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
           if (event is PlutoGridChangeColumnFilterEvent) {}
         });
 
+        if (!widget.cols.contains('Mise')) return;
         PlutoRow filter = PlutoRow(cells: {
           FilterHelper.filterFieldColumn: PlutoCell(
             value: 'Mise',
