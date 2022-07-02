@@ -9,16 +9,16 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
+import 'drawer.dart';
+
 /// The home page of the application which hosts the datagrid.
 class RowsgridPage extends StatefulWidget {
   final List<PlutoColumn> plutoCols;
   final List<PlutoRow> gridrows;
   final List<SheetRow?> sheetRows;
   final List<String> cols;
-  final bool detailMode;
 
-  const RowsgridPage(
-      this.plutoCols, this.gridrows, this.sheetRows, this.cols, this.detailMode,
+  const RowsgridPage(this.plutoCols, this.gridrows, this.sheetRows, this.cols,
       {Key? key})
       : super(key: key);
 
@@ -248,7 +248,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: widget.detailMode ? detailWin() : singleGrid());
+    return Scaffold(body: detailMode ? detailWin() : singleGrid());
   }
 }
 

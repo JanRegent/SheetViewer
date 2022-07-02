@@ -9,6 +9,7 @@ List<SheetRow?> rows = [];
 List<String> colsHeader = [];
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
+bool detailMode = false;
 
 PlutogridController plutogridContr = PlutogridController();
 
@@ -53,6 +54,13 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
             setStateFunc();
           },
         ),
+        ListTile(
+          title: Text(detailMode ? 'Detail mode off' : 'Detail mode on'),
+          onTap: () {
+            detailMode = !detailMode;
+            setStateFunc();
+          },
+        )
       ],
     ),
   );

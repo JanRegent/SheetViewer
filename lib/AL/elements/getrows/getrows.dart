@@ -96,19 +96,18 @@ Row firstRows(
 ElevatedButton firstButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
   return ElevatedButton.icon(
-    label: Text('First ' + interestContr.rowsCount),
-    icon: const Icon(
-      Icons.first_page,
-      color: Colors.black,
-    ),
-
-    onPressed: () async {
-      await showGrid(context, sheetName, fileId, 'getRowsFirst', fileTitle);
-    },
-    // onLongPress: () async {
-    //   await getRowsLastDelete(fileId, sheetName);
-    // }
-  );
+      label: Text('First ' + interestContr.rowsCount),
+      icon: const Icon(
+        Icons.first_page,
+        color: Colors.black,
+      ),
+      onPressed: () async {
+        await showGrid(context, sheetName, fileId, 'getRowsFirst', fileTitle);
+      }
+      // onLongPress: () async {
+      //   await getRowsLastDelete(fileId, sheetName);
+      // }
+      );
 }
 
 ElevatedButton firstRowsCount(
@@ -144,8 +143,7 @@ ElevatedButton allRowsButton(
       ),
       onPressed: () async {
         await showGrid(context, sheetName, fileId, 'getSheet', fileTitle);
-      },
-      onLongPress: () async {});
+      });
 }
 
 Row lastRows(
