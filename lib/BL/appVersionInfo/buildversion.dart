@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-filter-2';      
+const buildVersion = 'AL-view-detail-1';      

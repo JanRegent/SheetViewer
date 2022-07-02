@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -16,8 +15,10 @@ class RowsgridPage extends StatefulWidget {
   final List<PlutoRow> gridrows;
   final List<SheetRow?> sheetRows;
   final List<String> cols;
+  final bool detailMode;
 
-  const RowsgridPage(this.plutoCols, this.gridrows, this.sheetRows, this.cols,
+  const RowsgridPage(
+      this.plutoCols, this.gridrows, this.sheetRows, this.cols, this.detailMode,
       {Key? key})
       : super(key: key);
 
@@ -26,14 +27,13 @@ class RowsgridPage extends StatefulWidget {
 }
 
 class _RowsgridPageState extends State<RowsgridPage> {
-  late ScrollController _controller;
+  final ScrollController _controller =
+      ScrollController(initialScrollOffset: 50.0);
 
   String detailColumnField = '';
-  bool detailMode = false;
 
   @override
   void initState() {
-    _controller = ScrollController();
     super.initState();
     initStateManager();
   }
@@ -55,18 +55,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
         horizontal: horizontalScroll,
       ),
     );
-  }
-
-  IconButton detailIcon() {
-    return IconButton(
-        tooltip: 'Close detail',
-        onPressed: () {
-          detailMode = false;
-          setState(() {});
-        },
-        icon: const Icon(
-          Icons.close,
-        ));
   }
 
   List<PlutoColumn> getFilteredColumns() {
@@ -104,17 +92,25 @@ class _RowsgridPageState extends State<RowsgridPage> {
         });
         filterRows.add(filter);
         handleLoadFilter();
+
+        if (_controller.hasClients) {
+          gridAStateManager.scroll!.setBodyRowsVertical(_controller);
+        }
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         detailRowNo = event.cell!.row.cells.values.first.value.toString();
         detailColumnField = event.cell!.column.field;
 
         detailContent.value = event.row!.cells[detailColumnField]!.value;
-        detailMode = true;
         gridAStateManager.notifyListeners();
         handleSaveFilter();
-        setState(() {});
-        handleLoadFilter();
+        print('----------------------------------');
+        int page = gridAStateManager.page;
+        print(page);
+        //setState(() {});
+        gridAStateManager.setPage(page);
+        gridAStateManager.notifyListeners();
+        //handleLoadFilter();
       },
       configuration: PlutoGridConfiguration(
         enableColumnBorder: true,
@@ -252,15 +248,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: detailMode
-            ? AppBar(
-                title: ListTile(
-                    leading: const Text('Master-detail'),
-                    trailing: detailIcon()),
-              )
-            : null,
-        body: detailMode ? detailWin() : singleGrid());
+    return Scaffold(body: widget.detailMode ? detailWin() : singleGrid());
   }
 }
 

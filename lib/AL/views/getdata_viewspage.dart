@@ -109,7 +109,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return RowsgridPage(gridCols, gridrows, sheetRows, cols);
+                  return RowsgridPage(
+                      gridCols, gridrows, sheetRows, cols, true);
                 }
             }
           },
