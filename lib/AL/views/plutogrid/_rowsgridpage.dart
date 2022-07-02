@@ -34,6 +34,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   @override
   void initState() {
+    getDetailList('2');
     super.initState();
     initStateManager();
   }
@@ -98,17 +99,19 @@ class _RowsgridPageState extends State<RowsgridPage> {
         }
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        detailRowNo = event.cell!.row.cells.values.first.value.toString();
+        detailRowNo.value = event.cell!.row.cells.values.first.value.toString();
+        getDetailList(detailRowNo.value);
         detailColumnField = event.cell!.column.field;
 
         detailContent.value = event.row!.cells[detailColumnField]!.value;
         gridAStateManager.notifyListeners();
         handleSaveFilter();
-        print('----------------------------------');
-        int page = gridAStateManager.page;
-        print(page);
+        // print('----------------------------------');
+        // int page = gridAStateManager.page;
+        // print(page);
         //setState(() {});
-        gridAStateManager.setPage(page);
+        //gridAStateManager.setPage(page);
+
         gridAStateManager.notifyListeners();
         //handleLoadFilter();
       },
@@ -148,6 +151,20 @@ class _RowsgridPageState extends State<RowsgridPage> {
     return widget.sheetRows[1];
   }
 
+  RxString detailContent = ''.obs;
+  RxString detailRowNo = '2'.obs;
+//  RxMap rxRow = {}.obs;
+  RxList detailList = [].obs;
+  RxList getDetailList(String rowNo) {
+    SheetRow? sheetRow = getRowByRowNo(rowNo);
+    Map row = jsonDecode(sheetRow!.row);
+    detailList.clear();
+    for (var key in row.keys) {
+      detailList.add([key, row[key]]);
+    }
+    return detailList;
+  }
+
   Widget detailBody() {
     List<Widget> colItems() {
       List<Widget> items = [];
@@ -156,19 +173,23 @@ class _RowsgridPageState extends State<RowsgridPage> {
             style: TextStyle(fontSize: fontSize),
           )));
       items.add(const Divider(color: Colors.blue));
-      SheetRow? sheetRow = getRowByRowNo(detailRowNo);
-      Map row = jsonDecode(sheetRow!.row);
       items.add(ListTile(
         leading: const Text('RowNo: '),
-        title: Text(sheetRow.aRowNo),
+        title: Obx(() => Text(detailRowNo.value)),
       ));
-      for (var key in row.keys) {
-        if (detailColumnField == key) continue; //is at first position yet
-        items.add(ListTile(
-          leading: Text(key + ': '),
-          title: Text(row[key].toString()),
-        ));
-        items.add(const Divider(color: Colors.blue));
+      int key = 0;
+      int value = 1;
+      for (var i = 0; i < detailList.length; i++) {
+        if (detailColumnField == detailList[i][key]) {
+          continue;
+        } //is at first position yet
+        try {
+          items.add(ListTile(
+            leading: Obx(() => Text(detailList[i][key] + ': ')),
+            title: Obx(() => Text(detailList[i][value].toString())),
+          ));
+          items.add(const Divider(color: Colors.blue));
+        } catch (_) {}
       }
       return items;
     }
@@ -183,8 +204,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
         ));
   }
 
-  RxString detailContent = ''.obs;
-  String detailRowNo = '2';
   double fontSize = 25;
   final minWidth = 500.0;
 
