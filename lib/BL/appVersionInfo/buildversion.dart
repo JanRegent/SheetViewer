@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-detailPanel';      
+const buildVersion = 'AL-view-resizablePanels';      

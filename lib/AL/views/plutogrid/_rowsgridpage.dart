@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:resizable_widget/resizable_widget.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -136,7 +137,23 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  final minWidth = 500.0;
+  ResizableWidget resizablePanels() {
+    return ResizableWidget(
+      children: [
+        // required
+        singleGrid(),
+        detailWin()
+      ],
+      isHorizontalSeparator: false, // optional
+      isDisabledSmartHide: false, // optional
+      separatorColor: Colors.white12, // optional
+      separatorSize: 4, // optional
+      percentages: const [0.5, 0.5], // optional
+      // onResized: (infoList) => // optional
+      //     print(
+      //         infoList.map((x) => '(${x.size}, ${x.percentage}%)').join(", "))
+    );
+  }
 
   SingleChildScrollView detailWin() {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -144,25 +161,16 @@ class _RowsgridPageState extends State<RowsgridPage> {
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: max(screenWidth, minWidth),
+          maxWidth: screenWidth / 2,
         ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: singleGrid(),
-            ),
-            const SizedBox(width: 30.0),
-            Expanded(flex: 1, child: detailPanel(_controller)),
-          ],
-        ),
+        child: detailPanel(_controller),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: detailMode ? detailWin() : singleGrid());
+    return Scaffold(body: detailMode ? resizablePanels() : singleGrid());
   }
 }
 
