@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-detailList';      
+const buildVersion = 'AL-view-detailPanel';      

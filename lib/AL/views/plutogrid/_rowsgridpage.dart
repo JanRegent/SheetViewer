@@ -1,15 +1,15 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
+import 'detailpanel.dart';
 import 'drawer.dart';
+import 'filters.dart';
 
 /// The home page of the application which hosts the datagrid.
 class RowsgridPage extends StatefulWidget {
@@ -30,11 +30,9 @@ class _RowsgridPageState extends State<RowsgridPage> {
   final ScrollController _controller =
       ScrollController(initialScrollOffset: 50.0);
 
-  String detailColumnField = '';
-
   @override
   void initState() {
-    getDetailList('2');
+    getDetailList('2', widget.sheetRows);
     super.initState();
     initStateManager();
   }
@@ -56,12 +54,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
         horizontal: horizontalScroll,
       ),
     );
-  }
-
-  List<PlutoColumn> getFilteredColumns() {
-    return gridAStateManager.refColumns.where((e) {
-      return gridAStateManager.isFilteredColumn(e);
-    }).toList();
   }
 
   PlutoGrid singleGrid() {
@@ -92,7 +84,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
           ),
         });
         filterRows.add(filter);
-        handleLoadFilter();
+        handleLoadFilter(gridAStateManager);
 
         if (_controller.hasClients) {
           gridAStateManager.scroll!.setBodyRowsVertical(_controller);
@@ -100,12 +92,12 @@ class _RowsgridPageState extends State<RowsgridPage> {
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         detailRowNo.value = event.cell!.row.cells.values.first.value.toString();
-        getDetailList(detailRowNo.value);
+        getDetailList(detailRowNo.value, widget.sheetRows);
         detailColumnField = event.cell!.column.field;
 
         detailContent.value = event.row!.cells[detailColumnField]!.value;
         gridAStateManager.notifyListeners();
-        handleSaveFilter();
+        handleSaveFilter(gridAStateManager);
         // print('----------------------------------');
         // int page = gridAStateManager.page;
         // print(page);
@@ -144,67 +136,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  SheetRow? getRowByRowNo(String rowNo) {
-    for (var i = 0; i < widget.sheetRows.length; i++) {
-      if (widget.sheetRows[i]!.aRowNo == rowNo) return widget.sheetRows[i];
-    }
-    return widget.sheetRows[1];
-  }
-
-  RxString detailContent = ''.obs;
-  RxString detailRowNo = '2'.obs;
-//  RxMap rxRow = {}.obs;
-  RxList detailList = [].obs;
-  RxList getDetailList(String rowNo) {
-    SheetRow? sheetRow = getRowByRowNo(rowNo);
-    Map row = jsonDecode(sheetRow!.row);
-    detailList.clear();
-    for (var key in row.keys) {
-      detailList.add([key, row[key]]);
-    }
-    return detailList;
-  }
-
-  Widget detailBody() {
-    List<Widget> colItems() {
-      List<Widget> items = [];
-      items.add(Obx(() => Text(
-            detailContent.value,
-            style: TextStyle(fontSize: fontSize),
-          )));
-      items.add(const Divider(color: Colors.blue));
-      items.add(ListTile(
-        leading: const Text('RowNo: '),
-        title: Obx(() => Text(detailRowNo.value)),
-      ));
-      int key = 0;
-      int value = 1;
-      for (var i = 0; i < detailList.length; i++) {
-        if (detailColumnField == detailList[i][key]) {
-          continue;
-        } //is at first position yet
-        try {
-          items.add(ListTile(
-            leading: Obx(() => Text(detailList[i][key] + ': ')),
-            title: Obx(() => Text(detailList[i][value].toString())),
-          ));
-          items.add(const Divider(color: Colors.blue));
-        } catch (_) {}
-      }
-      return items;
-    }
-
-    return Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.blueGrey[50],
-        child: ListView(
-          controller: _controller,
-          children: colItems(),
-        ));
-  }
-
-  double fontSize = 25;
   final minWidth = 500.0;
 
   SingleChildScrollView detailWin() {
@@ -222,47 +153,11 @@ class _RowsgridPageState extends State<RowsgridPage> {
               child: singleGrid(),
             ),
             const SizedBox(width: 30.0),
-            Expanded(flex: 1, child: detailBody()),
+            Expanded(flex: 1, child: detailPanel(_controller)),
           ],
         ),
       ),
     );
-  }
-
-  //------------------------------------------------------------- filterRows
-  final List<PlutoRow> filterRows = [];
-  void handleSaveFilter() {
-    filterRows.clear();
-
-    final List<PlutoRow> filters = gridAStateManager.filterRows
-        .map(
-          (e) => PlutoRow(cells: {
-            FilterHelper.filterFieldColumn: PlutoCell(
-              value: e.cells[FilterHelper.filterFieldColumn]!.value,
-            ),
-            FilterHelper.filterFieldType: PlutoCell(
-              value: e.cells[FilterHelper.filterFieldType]!.value,
-            ),
-            FilterHelper.filterFieldValue: PlutoCell(
-              value: e.cells[FilterHelper.filterFieldValue]!.value,
-            ),
-          }),
-        )
-        .toList();
-    if (filters.isEmpty) return;
-    // print(filters[0].cells.keys);
-    // print(filters[0].cells['column']!.value);
-    // print(filters[0].cells['type']!.value);
-    // print(filters[0].cells['value']!.value);
-
-    filterRows.addAll(filters);
-  }
-
-  void handleLoadFilter() {
-    gridAStateManager.gridFocusNode?.unfocus();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      gridAStateManager.setFilterWithFilterRows(filterRows);
-    });
   }
 
   @override

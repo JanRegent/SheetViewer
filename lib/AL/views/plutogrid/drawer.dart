@@ -59,6 +59,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           onTap: () {
             detailMode = !detailMode;
             setStateFunc();
+            Navigator.pop(context);
           },
         )
       ],
