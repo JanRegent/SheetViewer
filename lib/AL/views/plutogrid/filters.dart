@@ -4,6 +4,22 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 final List<PlutoRow> filterRows = [];
 
+void filtersInit(List<String> cols) {
+  if (!cols.contains('Mise')) return;
+  PlutoRow filter = PlutoRow(cells: {
+    FilterHelper.filterFieldColumn: PlutoCell(
+      value: 'Mise',
+    ),
+    FilterHelper.filterFieldType: PlutoCell(
+      value: const PlutoFilterTypeContains(),
+    ),
+    FilterHelper.filterFieldValue: PlutoCell(
+      value: 'ax',
+    ),
+  });
+  filterRows.add(filter);
+}
+
 List<PlutoColumn> getFilteredColumns(PlutoGridStateManager gridAStateManager) {
   return gridAStateManager.refColumns.where((e) {
     return gridAStateManager.isFilteredColumn(e);

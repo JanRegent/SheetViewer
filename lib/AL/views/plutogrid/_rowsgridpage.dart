@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
@@ -33,12 +31,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
 
   @override
   void initState() {
-    getDetailList('2', widget.sheetRows);
+    getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
     super.initState();
     initStateManager();
   }
-
-  late PlutoGridStateManager gridAStateManager;
 
   FocusNode gridFocusNode = FocusNode();
   LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
@@ -71,32 +67,16 @@ class _RowsgridPageState extends State<RowsgridPage> {
         gridAStateManager.eventManager!.listener((event) {
           if (event is PlutoGridChangeColumnFilterEvent) {}
         });
-
-        if (!widget.cols.contains('Mise')) return;
-        PlutoRow filter = PlutoRow(cells: {
-          FilterHelper.filterFieldColumn: PlutoCell(
-            value: 'Mise',
-          ),
-          FilterHelper.filterFieldType: PlutoCell(
-            value: const PlutoFilterTypeContains(),
-          ),
-          FilterHelper.filterFieldValue: PlutoCell(
-            value: 'ax',
-          ),
-        });
-        filterRows.add(filter);
+        filtersInit(widget.cols);
         handleLoadFilter(gridAStateManager);
+
+        gridAStateManager.addListener(onSelectHandle);
 
         if (_controller.hasClients) {
           gridAStateManager.scroll!.setBodyRowsVertical(_controller);
         }
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        detailRowNo.value = event.cell!.row.cells.values.first.value.toString();
-        getDetailList(detailRowNo.value, widget.sheetRows);
-        detailColumnField = event.cell!.column.field;
-
-        detailContent.value = event.row!.cells[detailColumnField]!.value;
         gridAStateManager.notifyListeners();
         handleSaveFilter(gridAStateManager);
         // print('----------------------------------');
@@ -105,7 +85,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
         //setState(() {});
         //gridAStateManager.setPage(page);
 
-        gridAStateManager.notifyListeners();
         //handleLoadFilter();
       },
       configuration: PlutoGridConfiguration(
@@ -135,6 +114,18 @@ class _RowsgridPageState extends State<RowsgridPage> {
         return PlutoPagination(stateManager);
       },
     );
+  }
+
+  void onSelectHandle() {
+    // print(gridAStateManager.currentCell!.value);
+    // print(gridAStateManager.currentRow!.key);
+    // print(gridAStateManager.currentColumn!.title);
+    detailRowNo.value =
+        gridAStateManager.currentCell!.row.cells.values.first.value.toString();
+    getDetailList(detailRowNo.value, widget.sheetRows);
+    detailColumnField = gridAStateManager.currentColumn!.title;
+
+    detailContent.value = gridAStateManager.currentCell!.value;
   }
 
   ResizableWidget resizablePanels() {

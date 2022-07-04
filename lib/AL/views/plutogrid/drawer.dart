@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -12,6 +13,7 @@ RxInt rowsCount = 0.obs;
 bool detailMode = false;
 
 PlutogridController plutogridContr = PlutogridController();
+late PlutoGridStateManager gridAStateManager;
 
 class PlutogridController extends GetxController {
   var multilineDetailLayuout = ''.obs;
@@ -55,13 +57,14 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           },
         ),
         ListTile(
+          leading: const Icon(Icons.list),
           title: Text(detailMode ? 'Detail mode off' : 'Detail mode on'),
           onTap: () {
             detailMode = !detailMode;
             setStateFunc();
             Navigator.pop(context);
           },
-        )
+        ),
       ],
     ),
   );

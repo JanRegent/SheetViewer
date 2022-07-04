@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-resizablePanels';      
+const buildVersion = 'AL-view-onSelectHandle';      
