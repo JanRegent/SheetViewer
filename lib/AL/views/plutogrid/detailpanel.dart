@@ -59,6 +59,7 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
             onPressed: () {})
       ],
     ));
+    items.add(const Divider(height: 4));
     items.add(Obx(() => Text(
           detailContent.value,
           style: TextStyle(fontSize: fontSize),
@@ -68,6 +69,8 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
       leading: const Text('RowNo: '),
       title: Obx(() => Text(detailRowNo.value)),
     ));
+    items.add(const Divider(height: 4));
+
     int key = 0;
     int value = 1;
     for (var i = 0; i < detailList.length; i++) {

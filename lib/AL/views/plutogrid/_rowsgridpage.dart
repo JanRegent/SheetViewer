@@ -137,7 +137,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
       children: [
         // required
         singleGrid(),
-        detailWin()
+        detailPanel_()
       ],
       isHorizontalSeparator: false, // optional
       isDisabledSmartHide: false, // optional
@@ -150,7 +150,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
     );
   }
 
-  SingleChildScrollView detailWin() {
+  SingleChildScrollView detailPanel_() {
     final screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
