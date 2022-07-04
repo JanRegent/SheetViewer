@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 double fontSize = 25;
@@ -29,9 +31,34 @@ RxList getDetailList(String rowNo, List<SheetRow?> sheetRows) {
   return detailList;
 }
 
-Widget detailPanel(ScrollController _controller) {
+Widget detailPanel(ScrollController _controller, Function setStateFunc) {
   List<Widget> colItems() {
     List<Widget> items = [];
+    items.add(Row(
+      children: [
+        IconButton(
+          tooltip: 'Close detail panel',
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            detailMode = false;
+            setStateFunc();
+          },
+        ),
+        IconButton(
+          tooltip: 'Copy current cell',
+          icon: const Icon(Icons.copy),
+          onPressed: () {
+            FlutterClipboard.copy(detailContent.value).then((value) => {
+                  //print('copied')
+                });
+          },
+        ),
+        IconButton(
+            tooltip: 'Copy current row',
+            icon: const Icon(Icons.copy_all),
+            onPressed: () {})
+      ],
+    ));
     items.add(Obx(() => Text(
           detailContent.value,
           style: TextStyle(fontSize: fontSize),

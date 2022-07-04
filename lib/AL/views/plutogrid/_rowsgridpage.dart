@@ -36,6 +36,10 @@ class _RowsgridPageState extends State<RowsgridPage> {
     initStateManager();
   }
 
+  void setStateFunc() {
+    setState(() {});
+  }
+
   FocusNode gridFocusNode = FocusNode();
   LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
 
@@ -154,7 +158,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
         constraints: BoxConstraints(
           maxWidth: screenWidth / 2,
         ),
-        child: detailPanel(_controller),
+        child: detailPanel(_controller, setStateFunc),
       ),
     );
   }

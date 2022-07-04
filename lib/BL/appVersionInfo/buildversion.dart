@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-onSelectHandle';      
+const buildVersion = 'AL-view-detailPanel-copyIcon';      
