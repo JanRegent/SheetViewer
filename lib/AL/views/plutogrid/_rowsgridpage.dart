@@ -72,7 +72,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
           if (event is PlutoGridChangeColumnFilterEvent) {}
         });
         filtersInit(widget.cols);
-        handleLoadFilter(gridAStateManager);
 
         gridAStateManager.addListener(onSelectHandle);
 
@@ -81,8 +80,8 @@ class _RowsgridPageState extends State<RowsgridPage> {
         }
       },
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
-        gridAStateManager.notifyListeners();
-        handleSaveFilter(gridAStateManager);
+        //gridAStateManager.notifyListeners();
+        //handleSaveFilter(gridAStateManager);
         // print('----------------------------------');
         // int page = gridAStateManager.page;
         // print(page);
@@ -124,12 +123,24 @@ class _RowsgridPageState extends State<RowsgridPage> {
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
     // print(gridAStateManager.currentColumn!.title);
-    detailRowNo.value =
-        gridAStateManager.currentCell!.row.cells.values.first.value.toString();
+    try {
+      detailRowNo.value = gridAStateManager
+          .currentCell!.row.cells.values.first.value
+          .toString();
+    } catch (_) {
+      detailRowNo.value =
+          gridAStateManager.firstCell!.row.cells.values.first.value.toString();
+    }
     getDetailList(detailRowNo.value, widget.sheetRows);
-    detailColumnField = gridAStateManager.currentColumn!.title;
 
-    detailContent.value = gridAStateManager.currentCell!.value;
+    try {
+      detailColumnField = gridAStateManager.currentColumn!.title;
+      detailContent.value = gridAStateManager.currentCell!.value;
+    } catch (_) {
+      //PlutoGridStateManager: Unexpected null value.
+      detailColumnField = gridAStateManager.columns.first.title;
+      detailContent.value = gridAStateManager.firstCell!.value;
+    }
   }
 
   ResizableWidget resizablePanels() {

@@ -45,20 +45,19 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<SheetRow?> sheetRows = [];
   Future<String> getData(BuildContext context) async {
     await rowsCountCheck(widget.fileId, widget.sheetName);
-
+    print(1);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
     if (colsHeader.isEmpty) colsHeader.addAll(cols);
-
+    print(cols);
     gridCols.clear();
     gridCols = await colsHeaderMap(colsHeader);
-
+    print(3);
     gridrows.clear();
     gridrows = await gridRowsMap(sheetRows, cols, context);
-
+    print(4);
     rowsCount.value = sheetRows.length;
-
     return 'OK';
   }
 

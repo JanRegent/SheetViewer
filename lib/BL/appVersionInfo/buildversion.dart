@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-onSelectHandle-2';      
+const buildVersion = 'AL-view-filters-last';      

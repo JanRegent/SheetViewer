@@ -6,6 +6,8 @@ import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
+import 'filters.dart';
+
 List<SheetRow?> rows = [];
 List<String> colsHeader = [];
 bool sheetViewFromSearch = false;
@@ -62,6 +64,14 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           onTap: () {
             detailMode = !detailMode;
             setStateFunc();
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.filter),
+          title: const Text('Filters last'),
+          onTap: () {
+            handleLoadFilter(gridAStateManager);
             Navigator.pop(context);
           },
         ),

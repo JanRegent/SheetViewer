@@ -54,6 +54,7 @@ void handleSaveFilter(PlutoGridStateManager gridAStateManager) {
 }
 
 void handleLoadFilter(PlutoGridStateManager gridAStateManager) {
+  if (filterRows.isEmpty) return;
   gridAStateManager.gridFocusNode?.unfocus();
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     gridAStateManager.setFilterWithFilterRows(filterRows);
