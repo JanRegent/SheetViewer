@@ -4,16 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
-
-import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
-import 'plutogrid/asyncgrid.dart';
+import 'plutogrid/_asyncgrid.dart';
 import 'plutogrid/drawer.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -50,13 +47,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
-    if (colsHeader.isEmpty) colsHeader.addAll(cols);
 
-    gridCols.clear();
-    gridCols = await colsHeaderMap(colsHeader);
-
-    gridrows.clear();
-    gridrows = await gridRowsMap(sheetRows, cols);
     rowsCount.value = sheetRows.length;
 
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value

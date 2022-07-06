@@ -3,8 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
+import 'package:sheetviewer/AL/views/plutogrid/paneldetail.dart';
+import 'package:sheetviewer/AL/views/plutogrid/plutogridconfiguration.dart';
 import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
+import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+
+import 'drawer.dart';
 
 class AsyncGrid extends StatefulWidget {
   final List<String> cols;
@@ -23,11 +28,11 @@ class _AsyncGridState extends State<AsyncGrid> {
 
   final List<PlutoRow> rows = [];
 
-  late PlutoGridStateManager stateManager;
-
   @override
   void initState() {
+    getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
     super.initState();
+    initStateManager(columns, rows);
 
     /// Columns must be provided at the beginning of a row synchronously.
     columns.addAll(colsMap(widget.cols));
@@ -41,7 +46,7 @@ class _AsyncGridState extends State<AsyncGrid> {
         columns,
         fetchedRows,
       ).then((value) {
-        stateManager.refRows.addAll(FilteredList(initialList: value));
+        gridAStateManager.refRows.addAll(FilteredList(initialList: value));
 
         /// In this example,
         /// the loading screen is activated in the onLoaded callback when the grid is created.
@@ -49,7 +54,7 @@ class _AsyncGridState extends State<AsyncGrid> {
         /// You must update the grid state by calling the stateManager.notifyListeners() method.
         /// Because calling setShowLoading updates the grid state
         /// No need to call stateManager.notifyListeners.
-        stateManager.setShowLoading(false);
+        gridAStateManager.setShowLoading(false);
       });
     });
   }
@@ -104,12 +109,12 @@ class _AsyncGridState extends State<AsyncGrid> {
         //rint(event);
       },
       onLoaded: (PlutoGridOnLoadedEvent event) {
-        stateManager = event.stateManager;
+        gridAStateManager = event.stateManager;
 
         /// When the grid is finished loading, enable loading.
-        stateManager.setShowLoading(true);
+        gridAStateManager.setShowLoading(true);
       },
-      configuration: const PlutoGridConfiguration(),
+      configuration: plutoGridConfiguration(),
     );
   }
 }
