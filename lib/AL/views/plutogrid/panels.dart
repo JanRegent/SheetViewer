@@ -81,7 +81,7 @@ PlutoGrid singleGrid(
         if (event is PlutoGridChangeColumnFilterEvent) {}
       });
       filtersInit(cols);
-      handleLoadFilter(gridAStateManager);
+      //handleLoadFilter(gridAStateManager);
 
       gridAStateManager.addListener(onSelectHandle);
 

@@ -54,9 +54,45 @@ void handleSaveFilter(PlutoGridStateManager gridAStateManager) {
 }
 
 void handleLoadFilter(PlutoGridStateManager gridAStateManager) {
-  if (filterRows.isEmpty) return;
+  List<PlutoRow> filterRow = [];
+
+  PlutoRow filter = PlutoRow(cells: {
+    FilterHelper.filterFieldColumn: PlutoCell(
+      value: 'row_',
+    ),
+    FilterHelper.filterFieldType: PlutoCell(
+      value: const PlutoFilterTypeContains(),
+    ),
+    FilterHelper.filterFieldValue: PlutoCell(
+      value: '2',
+    ),
+  });
+  filterRow.add(filter);
+  gridAStateManager.gridFocusNode?.unfocus();
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    gridAStateManager.setFilterWithFilterRows(filterRow);
+  });
+}
+
+void filtersSetState(
+    PlutoGridStateManager gridAStateManager, List<String> cols) {
+  List<PlutoRow> filterRowTemp = [];
+
+  PlutoRow filter = PlutoRow(cells: {
+    FilterHelper.filterFieldColumn: PlutoCell(
+      value: 'row_',
+    ),
+    FilterHelper.filterFieldType: PlutoCell(
+      value: const PlutoFilterTypeContains(),
+    ),
+    FilterHelper.filterFieldValue: PlutoCell(
+      value: '2',
+    ),
+  });
+  filterRowTemp.add(filter);
   gridAStateManager.gridFocusNode?.unfocus();
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     gridAStateManager.setFilterWithFilterRows(filterRows);
   });
+  gridAStateManager.notifyListeners();
 }

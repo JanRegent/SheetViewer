@@ -11,6 +11,7 @@ import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'drawer.dart';
+import 'filters.dart';
 
 class AsyncGrid extends StatefulWidget {
   final List<String> cols;
@@ -69,8 +70,6 @@ class _AsyncGridState extends State<AsyncGrid> {
   Future<List<PlutoRow>> fetchRows() {
     final Completer<List<PlutoRow>> completer = Completer();
 
-    List<PlutoRow> _rows = [];
-
     int count = 0;
 
     const max = 100;
@@ -86,7 +85,8 @@ class _AsyncGridState extends State<AsyncGrid> {
 
       Future(() async {
         gridrows = await gridRowsMap(widget.sheetRows, widget.cols);
-        return gridRowsMap(widget.sheetRows, widget.cols);
+
+        return gridrows;
         // DummyData.rowsByColumns(length: chunkSize, columns: columns);
       }).then((value) {
         try {
@@ -94,12 +94,11 @@ class _AsyncGridState extends State<AsyncGrid> {
             completer.complete(gridrows);
             timer.cancel();
           }
-          gridAStateManager.notifyListeners();
         } catch (_) {} //Error: Bad state: Future already completed
       });
     });
     initStateManager(plutoCols, gridrows);
-    gridAStateManager.notifyListeners();
+    filtersSetState(gridAStateManager, widget.cols);
     return completer.future;
   }
 
