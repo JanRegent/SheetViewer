@@ -17,12 +17,17 @@ Future<List<PlutoRow>> gridRowsMap(
       String value = '';
       try {
         Map row = jsonDecode(sheetRow!.row);
-        value = row[cols[colIx]];
+        if (row[cols[colIx]] == null) {
+          value = '';
+        } else {
+          value = row[cols[colIx]];
+        }
       } catch (_) {
         value = '?';
       }
-
-      plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
+      plutoRow.cells[cols[colIx]] = PlutoCell(value: value);
+      //plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
+      //plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
     }
 
     return plutoRow;

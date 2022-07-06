@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -45,19 +46,20 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<SheetRow?> sheetRows = [];
   Future<String> getData(BuildContext context) async {
     await rowsCountCheck(widget.fileId, widget.sheetName);
-    print(1);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
     if (colsHeader.isEmpty) colsHeader.addAll(cols);
-    print(cols);
     gridCols.clear();
     gridCols = await colsHeaderMap(colsHeader);
-    print(3);
     gridrows.clear();
     gridrows = await gridRowsMap(sheetRows, cols, context);
-    print(4);
     rowsCount.value = sheetRows.length;
+    if (kDebugMode) {
+      print('--------------getData pred OK ' + sheetRows.length.toString());
+    }
+    //bug _FutureBuilderState<String>#a0df7): Unexpected null value
+    //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
     return 'OK';
   }
 

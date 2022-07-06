@@ -144,15 +144,9 @@ class FileListDb {
       // ignore: unnecessary_null_comparison
       if (testRow!.id != null) return;
     } catch (_) {
-      if (sync) {
-        isar.writeTxnSync<void>((isar) {
-          isar.fileLists.putSync(sheetRow);
-        });
-      } else {
-        return isar.writeTxn((isar) async {
-          await isar.fileLists.put(sheetRow);
-        });
-      }
+      await isar.writeTxn(() async {
+        await isar.fileLists.put(sheetRow);
+      });
     }
   }
 
@@ -160,15 +154,6 @@ class FileListDb {
     if (!isar.isOpen) {
       return Future<void>(() {});
     }
-
-    if (sync) {
-      isar.writeTxnSync<void>((isar) {
-        isar.fileLists.putAllSync(sheetRows);
-      });
-    } else {
-      return isar.writeTxn((isar) async {
-        await isar.fileLists.putAll(sheetRows);
-      });
-    }
+    await isar.fileLists.putAll(sheetRows);
   }
 }

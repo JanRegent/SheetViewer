@@ -6,18 +6,19 @@ part of 'sheetrows.dart';
 // IsarCollectionGenerator
 // **************************************************************************
 
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
 
 extension GetSheetRowCollection on Isar {
   IsarCollection<SheetRow> get sheetRows => getCollection();
 }
 
 const SheetRowSchema = CollectionSchema(
-  name: 'SheetRow',
+  name: r'SheetRow',
   schema:
-      '{"name":"SheetRow","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
-  idName: 'id',
-  propertyIds: {'aRowNo': 0, 'aSheetName': 1, 'row': 2, 'zfileId': 3},
+      r'{"name":"SheetRow","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+  idName: r'id',
+  propertyIds: {r'aRowNo': 0, r'aSheetName': 1, r'row': 2, r'zfileId': 3},
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
@@ -33,7 +34,7 @@ const SheetRowSchema = CollectionSchema(
   serializeWeb: _sheetRowSerializeWeb,
   deserializeWeb: _sheetRowDeserializeWeb,
   deserializePropWeb: _sheetRowDeserializePropWeb,
-  version: 3,
+  version: 4,
 );
 
 int? _sheetRowGetId(SheetRow object) {
@@ -48,40 +49,37 @@ void _sheetRowSetId(SheetRow object, int id) {
   object.id = id;
 }
 
-List<IsarLinkBase> _sheetRowGetLinks(SheetRow object) {
+List<IsarLinkBase<dynamic>> _sheetRowGetLinks(SheetRow object) {
   return [];
 }
 
 void _sheetRowSerializeNative(
     IsarCollection<SheetRow> collection,
-    IsarRawObject rawObj,
+    IsarCObject cObj,
     SheetRow object,
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
-  var dynamicSize = 0;
-  final value0 = object.aRowNo;
-  final _aRowNo = IsarBinaryWriter.utf8Encoder.convert(value0);
-  dynamicSize += (_aRowNo.length) as int;
-  final value1 = object.aSheetName;
-  final _aSheetName = IsarBinaryWriter.utf8Encoder.convert(value1);
-  dynamicSize += (_aSheetName.length) as int;
-  final value2 = object.row;
-  final _row = IsarBinaryWriter.utf8Encoder.convert(value2);
-  dynamicSize += (_row.length) as int;
-  final value3 = object.zfileId;
-  final _zfileId = IsarBinaryWriter.utf8Encoder.convert(value3);
-  dynamicSize += (_zfileId.length) as int;
-  final size = staticSize + dynamicSize;
+  final aRowNo$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.aRowNo);
+  final aSheetName$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.aSheetName);
+  final row$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.row);
+  final zfileId$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.zfileId);
+  final size = (staticSize +
+      (aRowNo$Bytes.length) +
+      (aSheetName$Bytes.length) +
+      (row$Bytes.length) +
+      (zfileId$Bytes.length)) as int;
+  cObj.buffer = alloc(size);
+  cObj.buffer_length = size;
 
-  rawObj.buffer = alloc(size);
-  rawObj.buffer_length = size;
-  final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+  final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeBytes(offsets[0], _aRowNo);
-  writer.writeBytes(offsets[1], _aSheetName);
-  writer.writeBytes(offsets[2], _row);
-  writer.writeBytes(offsets[3], _zfileId);
+  writer.writeHeader();
+  writer.writeBytes(offsets[0], aRowNo$Bytes);
+  writer.writeBytes(offsets[1], aSheetName$Bytes);
+  writer.writeBytes(offsets[2], row$Bytes);
+  writer.writeBytes(offsets[3], zfileId$Bytes);
 }
 
 SheetRow _sheetRowDeserializeNative(IsarCollection<SheetRow> collection, int id,
@@ -109,96 +107,110 @@ P _sheetRowDeserializePropNative<P>(
     case 3:
       return (reader.readString(offset)) as P;
     default:
-      throw 'Illegal propertyIndex';
+      throw IsarError('Illegal propertyIndex');
   }
 }
 
-dynamic _sheetRowSerializeWeb(
+Object _sheetRowSerializeWeb(
     IsarCollection<SheetRow> collection, SheetRow object) {
   final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, 'aRowNo', object.aRowNo);
-  IsarNative.jsObjectSet(jsObj, 'aSheetName', object.aSheetName);
-  IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'row', object.row);
-  IsarNative.jsObjectSet(jsObj, 'zfileId', object.zfileId);
+  IsarNative.jsObjectSet(jsObj, r'aRowNo', object.aRowNo);
+  IsarNative.jsObjectSet(jsObj, r'aSheetName', object.aSheetName);
+  IsarNative.jsObjectSet(jsObj, r'id', object.id);
+  IsarNative.jsObjectSet(jsObj, r'row', object.row);
+  IsarNative.jsObjectSet(jsObj, r'zfileId', object.zfileId);
   return jsObj;
 }
 
 SheetRow _sheetRowDeserializeWeb(
-    IsarCollection<SheetRow> collection, dynamic jsObj) {
+    IsarCollection<SheetRow> collection, Object jsObj) {
   final object = SheetRow();
-  object.aRowNo = IsarNative.jsObjectGet(jsObj, 'aRowNo') ?? '';
-  object.aSheetName = IsarNative.jsObjectGet(jsObj, 'aSheetName') ?? '';
-  object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-  object.row = IsarNative.jsObjectGet(jsObj, 'row') ?? '';
-  object.zfileId = IsarNative.jsObjectGet(jsObj, 'zfileId') ?? '';
+  object.aRowNo = IsarNative.jsObjectGet(jsObj, r'aRowNo') ?? '';
+  object.aSheetName = IsarNative.jsObjectGet(jsObj, r'aSheetName') ?? '';
+  object.id =
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
+  object.row = IsarNative.jsObjectGet(jsObj, r'row') ?? '';
+  object.zfileId = IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '';
   return object;
 }
 
 P _sheetRowDeserializePropWeb<P>(Object jsObj, String propertyName) {
   switch (propertyName) {
-    case 'aRowNo':
-      return (IsarNative.jsObjectGet(jsObj, 'aRowNo') ?? '') as P;
-    case 'aSheetName':
-      return (IsarNative.jsObjectGet(jsObj, 'aSheetName') ?? '') as P;
-    case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
-          as P;
-    case 'row':
-      return (IsarNative.jsObjectGet(jsObj, 'row') ?? '') as P;
-    case 'zfileId':
-      return (IsarNative.jsObjectGet(jsObj, 'zfileId') ?? '') as P;
+    case r'aRowNo':
+      return (IsarNative.jsObjectGet(jsObj, r'aRowNo') ?? '') as P;
+    case r'aSheetName':
+      return (IsarNative.jsObjectGet(jsObj, r'aSheetName') ?? '') as P;
+    case r'id':
+      return (IsarNative.jsObjectGet(jsObj, r'id') ??
+          (double.negativeInfinity as int)) as P;
+    case r'row':
+      return (IsarNative.jsObjectGet(jsObj, r'row') ?? '') as P;
+    case r'zfileId':
+      return (IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '') as P;
     default:
-      throw 'Illegal propertyName';
+      throw IsarError('Illegal propertyName');
   }
 }
 
-void _sheetRowAttachLinks(IsarCollection col, int id, SheetRow object) {}
+void _sheetRowAttachLinks(
+    IsarCollection<dynamic> col, int id, SheetRow object) {}
 
 extension SheetRowQueryWhereSort on QueryBuilder<SheetRow, SheetRow, QWhere> {
   QueryBuilder<SheetRow, SheetRow, QAfterWhere> anyId() {
-    return addWhereClauseInternal(const IdWhereClause.any());
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
   }
 }
 
 extension SheetRowQueryWhere on QueryBuilder<SheetRow, SheetRow, QWhereClause> {
   QueryBuilder<SheetRow, SheetRow, QAfterWhereClause> idEqualTo(int id) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: id,
-      includeLower: true,
-      upper: id,
-      includeUpper: true,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterWhereClause> idNotEqualTo(int id) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      );
-    } else {
-      return addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      );
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterWhereClause> idGreaterThan(int id,
       {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.greaterThan(lower: id, includeLower: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterWhereClause> idLessThan(int id,
       {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.lessThan(upper: id, includeUpper: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterWhereClause> idBetween(
@@ -207,12 +219,14 @@ extension SheetRowQueryWhere on QueryBuilder<SheetRow, SheetRow, QWhereClause> {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: lowerId,
-      includeLower: includeLower,
-      upper: upperId,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -222,12 +236,13 @@ extension SheetRowQueryFilter
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoGreaterThan(
@@ -235,13 +250,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoLessThan(
@@ -249,13 +265,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoBetween(
@@ -265,72 +282,79 @@ extension SheetRowQueryFilter
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'aRowNo',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'aRowNo',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoContains(
       String value,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'aRowNo',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'aRowNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoMatches(
       String pattern,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'aRowNo',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'aRowNo',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameGreaterThan(
@@ -338,13 +362,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameLessThan(
@@ -352,13 +377,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameBetween(
@@ -368,92 +394,101 @@ extension SheetRowQueryFilter
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'aSheetName',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'aSheetName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameContains(
       String value,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'aSheetName',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'aSheetName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aSheetNameMatches(
       String pattern,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'aSheetName',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'aSheetName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> idGreaterThan(
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> idLessThan(
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> idBetween(
@@ -462,25 +497,28 @@ extension SheetRowQueryFilter
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'id',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowGreaterThan(
@@ -488,13 +526,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowLessThan(
@@ -502,13 +541,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowBetween(
@@ -518,72 +558,79 @@ extension SheetRowQueryFilter
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'row',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'row',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowContains(
       String value,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'row',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'row',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> rowMatches(
       String pattern,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'row',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'row',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdGreaterThan(
@@ -591,13 +638,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
-      include: include,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdLessThan(
@@ -605,13 +653,14 @@ extension SheetRowQueryFilter
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
-      include: include,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdBetween(
@@ -621,60 +670,66 @@ extension SheetRowQueryFilter
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'zfileId',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'zfileId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdContains(
       String value,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
-      property: 'zfileId',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'zfileId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> zfileIdMatches(
       String pattern,
       {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
-      property: 'zfileId',
-      value: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'zfileId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 }
 
@@ -684,86 +739,114 @@ extension SheetRowQueryLinks
 extension SheetRowQueryWhereSortBy
     on QueryBuilder<SheetRow, SheetRow, QSortBy> {
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByARowNo() {
-    return addSortByInternal('aRowNo', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aRowNo', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByARowNoDesc() {
-    return addSortByInternal('aRowNo', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aRowNo', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByASheetName() {
-    return addSortByInternal('aSheetName', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aSheetName', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByASheetNameDesc() {
-    return addSortByInternal('aSheetName', Sort.desc);
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortById() {
-    return addSortByInternal('id', Sort.asc);
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aSheetName', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByRow() {
-    return addSortByInternal('row', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'row', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByRowDesc() {
-    return addSortByInternal('row', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'row', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByZfileId() {
-    return addSortByInternal('zfileId', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileId', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> sortByZfileIdDesc() {
-    return addSortByInternal('zfileId', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileId', Sort.desc);
+    });
   }
 }
 
 extension SheetRowQueryWhereSortThenBy
     on QueryBuilder<SheetRow, SheetRow, QSortThenBy> {
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByARowNo() {
-    return addSortByInternal('aRowNo', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aRowNo', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByARowNoDesc() {
-    return addSortByInternal('aRowNo', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aRowNo', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByASheetName() {
-    return addSortByInternal('aSheetName', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aSheetName', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByASheetNameDesc() {
-    return addSortByInternal('aSheetName', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aSheetName', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenById() {
-    return addSortByInternal('id', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByRow() {
-    return addSortByInternal('row', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'row', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByRowDesc() {
-    return addSortByInternal('row', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'row', Sort.desc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByZfileId() {
-    return addSortByInternal('zfileId', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileId', Sort.asc);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterSortBy> thenByZfileIdDesc() {
-    return addSortByInternal('zfileId', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileId', Sort.desc);
+    });
   }
 }
 
@@ -771,48 +854,62 @@ extension SheetRowQueryWhereDistinct
     on QueryBuilder<SheetRow, SheetRow, QDistinct> {
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByARowNo(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('aRowNo', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'aRowNo', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByASheetName(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('aSheetName', caseSensitive: caseSensitive);
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QDistinct> distinctById() {
-    return addDistinctByInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'aSheetName', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByRow(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('row', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'row', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByZfileId(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('zfileId', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'zfileId', caseSensitive: caseSensitive);
+    });
   }
 }
 
 extension SheetRowQueryProperty
     on QueryBuilder<SheetRow, SheetRow, QQueryProperty> {
   QueryBuilder<SheetRow, String, QQueryOperations> aRowNoProperty() {
-    return addPropertyNameInternal('aRowNo');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'aRowNo');
+    });
   }
 
   QueryBuilder<SheetRow, String, QQueryOperations> aSheetNameProperty() {
-    return addPropertyNameInternal('aSheetName');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'aSheetName');
+    });
   }
 
   QueryBuilder<SheetRow, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
   }
 
   QueryBuilder<SheetRow, String, QQueryOperations> rowProperty() {
-    return addPropertyNameInternal('row');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'row');
+    });
   }
 
   QueryBuilder<SheetRow, String, QQueryOperations> zfileIdProperty() {
-    return addPropertyNameInternal('zfileId');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'zfileId');
+    });
   }
 }

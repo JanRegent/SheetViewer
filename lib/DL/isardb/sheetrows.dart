@@ -61,8 +61,6 @@ class SheetrowsDb {
   final Isar isar;
   SheetrowsDb(this.isar);
 
-  bool sync = false;
-
   Future<List<String>> readCols(String fileId, String sheetName) async {
     SheetRow? testRow = await isar.sheetRows
         .filter()
@@ -144,15 +142,9 @@ class SheetrowsDb {
       // ignore: unnecessary_null_comparison
       if (testRow!.id != null) return;
     } catch (_) {
-      if (sync) {
-        isar.writeTxnSync<void>((isar) {
-          isar.sheetRows.putSync(sheetRow);
-        });
-      } else {
-        return isar.writeTxn((isar) async {
-          await isar.sheetRows.put(sheetRow);
-        });
-      }
+      await isar.writeTxn(() async {
+        await isar.sheetRows.put(sheetRow);
+      });
     }
   }
 
@@ -161,14 +153,6 @@ class SheetrowsDb {
       return Future<void>(() {});
     }
 
-    if (sync) {
-      isar.writeTxnSync<void>((isar) {
-        isar.sheetRows.putAllSync(sheetRows);
-      });
-    } else {
-      return isar.writeTxn((isar) async {
-        await isar.sheetRows.putAll(sheetRows);
-      });
-    }
+    await isar.sheetRows.putAll(sheetRows);
   }
 }

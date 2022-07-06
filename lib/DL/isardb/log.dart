@@ -19,7 +19,7 @@ class LogDb {
 
   Future update(Log log) async {
     try {
-      await isar.writeTxn((isar) async {
+      await isar.writeTxn(() async {
         log.id = await isar.logs.put(log); // insert
       });
       return 'OK';
@@ -33,7 +33,7 @@ class LogDb {
   }
 
   Future clear() async {
-    await isar.writeTxn((isar) async {
+    await isar.writeTxn(() async {
       await isar.logs.clear();
     });
   }
