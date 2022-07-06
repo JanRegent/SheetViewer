@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
   
   #================================================================================================AL    
-  pluto_grid: ^3.0.0-1.pre      #https://pub.dev/packages/pluto_grid/versions/3.0.0-1.pre/changelog
+  pluto_grid: ^4.0.1           #https://pub.dev/packages/pluto_grid
   linked_scroll_controller: ^0.2.0 #https://pub.dev/packages/linked_scroll_controller
   
   collection: ^1.15.0

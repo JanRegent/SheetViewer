@@ -6,7 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 Future<List<PlutoRow>> gridRowsMap(
-    List<SheetRow?> sheetRows, List<String> cols, BuildContext context) async {
+    List<SheetRow?> sheetRows, List<String> cols) async {
   PlutoRow gridRow(SheetRow? sheetRow, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
     plutoRow.cells

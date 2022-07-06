@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
-import 'package:sheetviewer/AL/views/plutogrid/_rowsgridpage.dart';
+
 import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
@@ -13,6 +13,7 @@ import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
+import 'plutogrid/asyncgrid.dart';
 import 'plutogrid/drawer.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -55,7 +56,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     gridCols = await colsHeaderMap(colsHeader);
 
     gridrows.clear();
-    gridrows = await gridRowsMap(sheetRows, cols, context);
+    gridrows = await gridRowsMap(sheetRows, cols);
     rowsCount.value = sheetRows.length;
 
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
@@ -115,7 +116,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return RowsgridPage(gridCols, gridrows, sheetRows, cols);
+                  return AsyncGrid(cols, sheetRows);
+                  //RowsgridPage(gridCols, gridrows, sheetRows, cols);
                 }
             }
           },
