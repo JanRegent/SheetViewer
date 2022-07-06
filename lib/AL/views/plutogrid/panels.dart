@@ -81,14 +81,13 @@ PlutoGrid singleGrid(
         if (event is PlutoGridChangeColumnFilterEvent) {}
       });
       filtersInit(cols);
-      handleLoadFilter(gridAStateManager);
+      //handleLoadFilter(gridAStateManager);
 
       gridAStateManager.addListener(onSelectHandle);
 
       if (_controller.hasClients) {
         gridAStateManager.scroll!.setBodyRowsVertical(_controller);
       }
-      filtersSetState(gridAStateManager);
     },
     onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
       //gridAStateManager.notifyListeners();
