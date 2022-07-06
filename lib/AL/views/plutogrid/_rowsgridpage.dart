@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/panels.dart';
@@ -40,11 +39,6 @@ class _RowsgridPageState extends State<RowsgridPage> {
   void setStateFunc() {
     setState(() {});
   }
-
-  FocusNode gridFocusNode = FocusNode();
-  LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
-
-  LinkedScrollControllerGroup horizontalScroll = LinkedScrollControllerGroup();
 
   @override
   Widget build(BuildContext context) {

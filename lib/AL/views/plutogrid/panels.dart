@@ -56,12 +56,15 @@ PlutoGrid singleGrid(
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
     // print(gridAStateManager.currentColumn!.title);
-    detailRowNo.value =
-        gridAStateManager.currentCell!.row.cells.values.first.value.toString();
-    getDetailList(detailRowNo.value, sheetRows);
-    detailColumnField = gridAStateManager.currentColumn!.title;
+    try {
+      detailRowNo.value = gridAStateManager
+          .currentCell!.row.cells.values.first.value
+          .toString();
+      getDetailList(detailRowNo.value, sheetRows);
+      detailColumnField = gridAStateManager.currentColumn!.title;
 
-    detailContent.value = gridAStateManager.currentCell!.value;
+      detailContent.value = gridAStateManager.currentCell!.value;
+    } catch (_) {} //not init yet -- Unexpected null value.
   }
 
   return PlutoGrid(

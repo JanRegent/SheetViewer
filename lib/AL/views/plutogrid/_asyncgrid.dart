@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
 import 'package:sheetviewer/AL/views/plutogrid/paneldetail.dart';
-import 'package:sheetviewer/AL/views/plutogrid/plutogridconfiguration.dart';
+import 'package:sheetviewer/AL/views/plutogrid/panels.dart';
+
 import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
@@ -24,18 +25,19 @@ class AsyncGrid extends StatefulWidget {
 }
 
 class _AsyncGridState extends State<AsyncGrid> {
-  final List<PlutoColumn> columns = [];
+  final List<PlutoColumn> plutoCols = [];
 
-  final List<PlutoRow> rows = [];
+  List<PlutoRow> gridrows = [];
+  final ScrollController _controller =
+      ScrollController(initialScrollOffset: 50.0);
 
   @override
   void initState() {
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
     super.initState();
-    initStateManager(columns, rows);
 
     /// Columns must be provided at the beginning of a row synchronously.
-    columns.addAll(colsMap(widget.cols));
+    plutoCols.addAll(colsMap(widget.cols));
 
     fetchRows().then((fetchedRows) {
       /// When there are many rows and the UI freezes when the grid is loaded
@@ -43,7 +45,7 @@ class _AsyncGridState extends State<AsyncGrid> {
       /// Add rows to stateManager.refRows.
       /// And disable the loading screen.
       PlutoGridStateManager.initializeRowsAsync(
-        columns,
+        plutoCols,
         fetchedRows,
       ).then((value) {
         gridAStateManager.refRows.addAll(FilteredList(initialList: value));
@@ -83,38 +85,51 @@ class _AsyncGridState extends State<AsyncGrid> {
       ++count;
 
       Future(() async {
-        _rows = await gridRowsMap(widget.sheetRows, widget.cols);
+        gridrows = await gridRowsMap(widget.sheetRows, widget.cols);
         return gridRowsMap(widget.sheetRows, widget.cols);
         // DummyData.rowsByColumns(length: chunkSize, columns: columns);
       }).then((value) {
-        _rows.addAll(value);
         try {
-          if (_rows.length > totalRows) {
-            completer.complete(_rows);
+          if (gridrows.length > totalRows) {
+            completer.complete(gridrows);
             timer.cancel();
           }
+          gridAStateManager.notifyListeners();
         } catch (_) {} //Error: Bad state: Future already completed
       });
     });
-
+    initStateManager(plutoCols, gridrows);
+    gridAStateManager.notifyListeners();
     return completer.future;
+  }
+
+  void setStateFunc() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return PlutoGrid(
-      columns: columns,
-      rows: rows,
-      onChanged: (PlutoGridOnChangedEvent event) {
-        //rint(event);
-      },
-      onLoaded: (PlutoGridOnLoadedEvent event) {
-        gridAStateManager = event.stateManager;
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+        body: detailMode
+            ? resizablePanels(plutoCols, gridrows, widget.cols, _controller,
+                screenWidth, setStateFunc, widget.sheetRows)
+            : singleGrid(plutoCols, gridrows, widget.cols, _controller,
+                widget.sheetRows));
 
-        /// When the grid is finished loading, enable loading.
-        gridAStateManager.setShowLoading(true);
-      },
-      configuration: plutoGridConfiguration(),
-    );
+    // PlutoGrid(
+    //   columns: columns,
+    //   rows: rows,
+    //   onChanged: (PlutoGridOnChangedEvent event) {
+    //     //rint(event);
+    //   },
+    //   onLoaded: (PlutoGridOnLoadedEvent event) {
+    //     gridAStateManager = event.stateManager;
+
+    //     /// When the grid is finished loading, enable loading.
+    //     gridAStateManager.setShowLoading(true);
+    //   },
+    //   configuration: plutoGridConfiguration(),
+    // );
   }
 }
