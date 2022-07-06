@@ -5,7 +5,7 @@ List<PlutoColumn> colsMap(List<String> colsHeader) {
   gridCols.add(PlutoColumn(
     title: 'RowNo',
     field: 'row_',
-    width: 60,
+    width: 100,
     type: PlutoColumnType.text(),
   ));
 

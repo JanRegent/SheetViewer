@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-AsyncGrid-refreshRows-2';      
+const buildVersion = 'AL-view-AsyncGrid-refreshRows-3-ok1';      

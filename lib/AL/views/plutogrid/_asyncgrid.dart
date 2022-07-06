@@ -11,7 +11,6 @@ import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'drawer.dart';
-import 'filters.dart';
 
 class AsyncGrid extends StatefulWidget {
   final List<String> cols;
@@ -62,6 +61,14 @@ class _AsyncGridState extends State<AsyncGrid> {
     });
   }
 
+  Future<String> getGridRows() async {
+    gridAStateManager.setShowLoading(true);
+    gridrows = await gridRowsMap(widget.sheetRows, widget.cols);
+    gridAStateManager.setShowLoading(false);
+    print('fx-' + gridAStateManager.rows.length.toString());
+    return 'OK';
+  }
+
   /// This method creates rows asynchronously for the sake of example.
   /// In actual use, you are requesting server-side data with Http and
   /// You will need to create and return PlutoRow and PlutoCell.
@@ -82,23 +89,26 @@ class _AsyncGridState extends State<AsyncGrid> {
       }
 
       ++count;
-
+      print('f$count-' + gridAStateManager.rows.length.toString());
       Future(() async {
         gridrows = await gridRowsMap(widget.sheetRows, widget.cols);
-
+        print('f1-' + gridAStateManager.rows.length.toString());
         return gridrows;
         // DummyData.rowsByColumns(length: chunkSize, columns: columns);
       }).then((value) {
         try {
           if (gridrows.length > totalRows) {
+            print('f2-' + gridAStateManager.rows.length.toString());
             completer.complete(gridrows);
+            gridAStateManager.setShowLoading(true);
             timer.cancel();
           }
-        } catch (_) {} //Error: Bad state: Future already completed
+        } catch (_) {}
+        //Error: Bad state: Future already completed
+        gridAStateManager.setShowLoading(true);
       });
     });
     initStateManager(plutoCols, gridrows);
-    filtersSetState(gridAStateManager, widget.cols);
     return completer.future;
   }
 
@@ -109,12 +119,36 @@ class _AsyncGridState extends State<AsyncGrid> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    gridAStateManager.setShowLoading(false);
+    print('0-' + gridAStateManager.rows.length.toString());
     return Scaffold(
-        body: detailMode
-            ? resizablePanels(plutoCols, gridrows, widget.cols, _controller,
-                screenWidth, setStateFunc, widget.sheetRows)
-            : singleGrid(plutoCols, gridrows, widget.cols, _controller,
-                widget.sheetRows));
+        body: FutureBuilder(
+      future: getGridRows(), // async work
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Column(
+              children: const [
+                Text('Loading \n interest '),
+                Text(' '),
+                CircularProgressIndicator()
+              ],
+            );
+
+          default:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return detailMode
+                  ? resizablePanels(plutoCols, gridrows, widget.cols,
+                      _controller, screenWidth, setStateFunc, widget.sheetRows)
+                  : singleGrid(plutoCols, gridrows, widget.cols, _controller,
+                      widget.sheetRows);
+              //RowsgridPage(gridCols, gridrows, sheetRows, cols);
+            }
+        }
+      },
+    ));
 
     // PlutoGrid(
     //   columns: columns,

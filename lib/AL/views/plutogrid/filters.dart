@@ -74,8 +74,7 @@ void handleLoadFilter(PlutoGridStateManager gridAStateManager) {
   });
 }
 
-void filtersSetState(
-    PlutoGridStateManager gridAStateManager, List<String> cols) {
+void filtersSetState(PlutoGridStateManager gridAStateManager) {
   List<PlutoRow> filterRowTemp = [];
 
   PlutoRow filter = PlutoRow(cells: {
@@ -86,13 +85,13 @@ void filtersSetState(
       value: const PlutoFilterTypeContains(),
     ),
     FilterHelper.filterFieldValue: PlutoCell(
-      value: '2',
+      value: '',
     ),
   });
   filterRowTemp.add(filter);
   gridAStateManager.gridFocusNode?.unfocus();
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    gridAStateManager.setFilterWithFilterRows(filterRows);
+    gridAStateManager.setFilterWithFilterRows(filterRowTemp);
   });
   gridAStateManager.notifyListeners();
 }
