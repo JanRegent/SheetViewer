@@ -49,7 +49,7 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
           icon: const Icon(Icons.copy),
           onPressed: () {
             FlutterClipboard.copy(detailContent.value).then((value) => {
-                  //print('copied')
+                  //rint('copied')
                 });
           },
         ),

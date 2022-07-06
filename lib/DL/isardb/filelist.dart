@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 import '../../BL/bl.dart';
 
@@ -50,9 +50,7 @@ class FileList {
         await filelistDb.update(filelistRow);
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      logi('filelist.sheetRowsFromJson', jsonData.toString(), '', e.toString());
     }
   }
 }

@@ -18,6 +18,6 @@
 //   var response = await dio.post('', data: formData);
 
 //   if (kDebugMode) {
-//     print(response.data);
+//     rint(response.data);
 //   }
 // }

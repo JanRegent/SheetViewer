@@ -45,10 +45,10 @@ void handleSaveFilter(PlutoGridStateManager gridAStateManager) {
       )
       .toList();
   if (filters.isEmpty) return;
-  // print(filters[0].cells.keys);
-  // print(filters[0].cells['column']!.value);
-  // print(filters[0].cells['type']!.value);
-  // print(filters[0].cells['value']!.value);
+  // rint(filters[0].cells.keys);
+  // rint(filters[0].cells['column']!.value);
+  // rint(filters[0].cells['type']!.value);
+  // rint(filters[0].cells['value']!.value);
 
   filterRows.addAll(filters);
 }

@@ -24,7 +24,6 @@ class LogDb {
       });
       return 'OK';
     } catch (e) {
-      // if (kDebugMode) print(e);
       // logi('--- LocalStore: ', '-----------------isar');
       // logi('updateSheetView(String ', sheetView.aQuerystringKey);
       // logi('updateSheetView(String ', e.toString());

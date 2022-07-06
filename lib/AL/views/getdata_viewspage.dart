@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -10,6 +9,7 @@ import 'package:sheetviewer/AL/views/plutogrid/_rowsgridpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -44,20 +44,20 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<String> cols = [];
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
-  Future<String> getData(BuildContext context) async {
+  Future<String> getData4view(BuildContext context) async {
     await rowsCountCheck(widget.fileId, widget.sheetName);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     cols = await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
     if (colsHeader.isEmpty) colsHeader.addAll(cols);
+
     gridCols.clear();
     gridCols = await colsHeaderMap(colsHeader);
+
     gridrows.clear();
     gridrows = await gridRowsMap(sheetRows, cols, context);
     rowsCount.value = sheetRows.length;
-    if (kDebugMode) {
-      print('--------------getData pred OK ' + sheetRows.length.toString());
-    }
+
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
     //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
     return 'OK';
@@ -65,12 +65,17 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   Future<String> rowsCountCheck(String fileId, String sheetName) async {
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+    logi('getData4view', 'rowsCount', sheetName, rowsCount.toString());
     if (rowsCount > 1) return 'ok';
 
     try {
+      logi('getData4view', 'getSheetAllRows', sheetName, '--------');
+
       await dlGlobals.getSheetsService
           .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
-    } catch (_) {}
+    } catch (e) {
+      logi('getData4view', 'getSheetAllRows', sheetName, e.toString());
+    }
     return 'ok';
   }
 
@@ -89,7 +94,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
             plutoDrawer(context, setStateFunc, widget.fileId, widget.sheetName),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
-          future: getData(context), // async work
+          future: getData4view(context), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 import '../../BL/bl.dart';
 
@@ -50,9 +50,7 @@ class SheetRow {
         await sheetRowsDb.update(sheetRow);
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      logi('SheetRow.sheetRowsFromJson', jsonData.toString(), '', e.toString());
     }
   }
 }
@@ -126,10 +124,6 @@ class SheetrowsDb {
   }
 
   Future update(SheetRow sheetRow) async {
-    if (!isar.isOpen) {
-      return Future<void>(() {});
-    }
-
     SheetRow? testRow = await isar.sheetRows
         .filter()
         .zfileIdEqualTo(sheetRow.zfileId)
@@ -152,7 +146,8 @@ class SheetrowsDb {
     if (!isar.isOpen) {
       return Future<void>(() {});
     }
-
-    await isar.sheetRows.putAll(sheetRows);
+    await isar.writeTxn(() async {
+      await isar.sheetRows.putAll(sheetRows);
+    });
   }
 }

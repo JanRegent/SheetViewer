@@ -71,6 +71,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
         gridAStateManager.eventManager!.listener((event) {
           if (event is PlutoGridChangeColumnFilterEvent) {}
         });
+
         filtersInit(widget.cols);
 
         gridAStateManager.addListener(onSelectHandle);
@@ -82,9 +83,9 @@ class _RowsgridPageState extends State<RowsgridPage> {
       onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
         //gridAStateManager.notifyListeners();
         //handleSaveFilter(gridAStateManager);
-        // print('----------------------------------');
+        // rint('----------------------------------');
         // int page = gridAStateManager.page;
-        // print(page);
+        // rint(page);
         //setState(() {});
         //gridAStateManager.setPage(page);
 
@@ -120,9 +121,9 @@ class _RowsgridPageState extends State<RowsgridPage> {
   }
 
   void onSelectHandle() {
-    // print(gridAStateManager.currentCell!.value);
-    // print(gridAStateManager.currentRow!.key);
-    // print(gridAStateManager.currentColumn!.title);
+    // rint(gridAStateManager.currentCell!.value);
+    // rint(gridAStateManager.currentRow!.key);
+    // rint(gridAStateManager.currentColumn!.title);
     try {
       detailRowNo.value = gridAStateManager
           .currentCell!.row.cells.values.first.value
@@ -156,7 +157,7 @@ class _RowsgridPageState extends State<RowsgridPage> {
       separatorSize: 4, // optional
       percentages: const [0.5, 0.5], // optional
       // onResized: (infoList) => // optional
-      //     print(
+      //     rint(
       //         infoList.map((x) => '(${x.size}, ${x.percentage}%)').join(", "))
     );
   }
