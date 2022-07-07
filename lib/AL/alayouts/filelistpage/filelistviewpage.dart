@@ -47,8 +47,7 @@ class FilelistviewPage extends StatelessWidget {
           backgroundColor: Colors.lightBlue,
         ),
         body: FutureBuilder<String>(
-          future: interestContr
-              .getFilelist(interestContr.interestRowCurrent), // async work
+          future: interestContr.getFilelist(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

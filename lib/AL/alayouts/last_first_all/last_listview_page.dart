@@ -4,14 +4,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 import 'package:sheetviewer/AL/alayouts/_getdata_layout/home_help.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_firstlast_all.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 // ignore: must_be_immutable
 class LastListviewPage extends StatelessWidget {
-  final Map interestRowCurrent;
   final List<dynamic> fileListSheet;
 
-  LastListviewPage(this.interestRowCurrent, this.fileListSheet, {Key? key})
-      : super(key: key);
+  LastListviewPage(this.fileListSheet, {Key? key}) : super(key: key);
 
   late String interestName = 'interest';
 
@@ -36,7 +35,10 @@ class LastListviewPage extends StatelessWidget {
         appBar: AppBar(
           title: ListTile(
             leading: loadingPageShow(
-                fileListSheet, context, interestRowCurrent['interestName']),
+                fileListSheet,
+                context,
+                interestContr
+                    .interestsFilelistMap['interestsFilelistSheetName']),
             title: Text(interestName),
           ),
           backgroundColor: Colors.lightBlue,

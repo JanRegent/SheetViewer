@@ -21,86 +21,64 @@ class InterestContr extends GetxController {
   }
 
   //-----------------------------------------------------------------init/load
-  List<dynamic> interestsList = [];
+  Map interestsFilelistMap = {};
   Future interestsLoad() async {
     logParagraphStart('interestsLoad');
 
-    if (interestsList.isEmpty) {
-      interestsList = await getSheetInterests();
-      await appHome.updateListDynamic('interestList', interestsList);
-    }
-    interestSet(0);
+    interestsFilelistMap = await getSheetInterests();
 
-    interestTitlesGet();
+    interestSet();
   }
 
-  late Map interestRowCurrent;
-  Future interestSet(int interestIndex) async {
+  Future interestSet() async {
     plutogridContr.multilineDetailLayuout.value = '';
 
-    interestRowCurrent = interestsList[interestIndex];
-
     logParagraphStart('interestSet');
-    logi(
-        'interestSet(', '', 'interestName', interestRowCurrent['interestName']);
+    logi('interestSet(', '', 'interestName',
+        interestsFilelistMap['interestsFilelistSheetName']);
 
-    await interestContr.interestNameSet(interestRowCurrent['interestName']);
+    await interestContr
+        .interestNameSet(interestsFilelistMap['interestsFilelistSheetName']);
 
-    appHome.updateMap('interestRowCurrent', interestRowCurrent);
+    appHome.updateMap('interestsFilelistMap', interestsFilelistMap);
   }
 
-  Future getSheetInterests() async {
-    String interestsSheetUrl = '';
-    String interestsSheetName = '';
+  Future<Map> getSheetInterests() async {
+    String interestsFilelistUrl = '';
+    String interestsFilelistSheetName = '';
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
-      interestsSheetUrl = await loadAssetString('interestsSheetUrl');
-      interestsSheetName = await loadAssetString('interestsSheetName');
+      interestsFilelistUrl = await loadAssetString('interestsFilelistUrl');
+      interestsFilelistSheetName =
+          await loadAssetString('interestsFilelistSheetName');
     } else {
-      interestsSheetUrl = remoteConfig.getString('interestsSheetUrl');
-      interestsSheetName = remoteConfig.getString('interestsSheetName');
-    }
-    await appHome.updateString('interestsSheetUrl', interestsSheetUrl);
-    await appHome.updateString('interestsSheetName', interestsSheetName);
-
-    String interestFileId = bl.blUti.url2fileid(interestsSheetUrl);
-    await dlGlobals.getSheetsService.getSheetAllRows(
-        interestFileId, interestsSheetName, false, 'filelistDb');
-
-    List<FileList?> interestRows =
-        await filelistDb.readRowsSheet(interestFileId, interestsSheetName);
-
-    interestsList = [];
-    for (var i = 1; i < interestRows.length; i++) {
-      interestsList.add(jsonDecode(interestRows[i]!.row));
+      interestsFilelistUrl = remoteConfig.getString('interestsFilelistUrl');
+      interestsFilelistSheetName =
+          remoteConfig.getString('interestsFilelistSheetName');
     }
 
-    if (interestsList.isNotEmpty) {
-      return interestsList;
-    }
-    logi('getSheetInterests', '2e update interests', 'error', '');
-    return [];
-  }
+    await appHome.updateString('interestsFilelistUrl', interestsFilelistUrl);
+    await appHome.updateString(
+        'interestsFilelistSheetName', interestsFilelistSheetName);
 
-  //----------------------------------------------------------------titles
-  List<String> titles = [];
-  void interestTitlesGet() {
-    titles.clear();
-    for (var i = 0; i < interestsList.length; i++) {
-      String interestName = interestsList[i]['interestName'];
-      if (titles.contains(interestName)) continue;
-      titles.add(interestName);
-    }
+    String interestsFilelistFileId = bl.blUti.url2fileid(interestsFilelistUrl);
+
+    Map interestsFilelistMap = {};
+    interestsFilelistMap['interestsFilelistFileId'] = interestsFilelistFileId;
+    interestsFilelistMap['interestsFilelistSheetName'] =
+        interestsFilelistSheetName;
+    return interestsFilelistMap;
   }
 
   //----------------------------------------------------------intertest FileList
 
   late List<dynamic> fileListSheet = [];
 
-  Future<String> getFilelist(Map interestRowCurrent) async {
+  Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
 
-    String fileId = bl.blUti.url2fileid(interestRowCurrent['fileUrl']);
-    String sheetName = interestRowCurrent['sheetName'];
+    String fileId =
+        bl.blUti.url2fileid(interestsFilelistMap['interestsFilelistUrl']);
+    String sheetName = interestsFilelistMap['interestsFilelistSheetName'];
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
       await dlGlobals.getSheetsService
           .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
