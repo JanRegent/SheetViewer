@@ -46,10 +46,13 @@ class BL {
 
 Future isarDbInit() async {
   //final isar = await Isar.open([LogSchema, SheetRowSchema, FileListSchema]);
-  final isar = await Isar.open([LogSchema, SheetRowSchema, FileListSchema]);
+  final isar = await Isar.open([LogSchema, SheetRowSchema, FileListSchema],
+      name: 'SheetViewerDemo', relaxedDurability: true);
+  //,inspector: kDebugMode
   //directory: dir.path,
   //inspector: false, // if you want to enable the inspector for debug builds
   //true => Unsupported operation: dart:isolate is not supported on dart4web
+  //print(isar.name);
 
   logDb = LogDb(isar);
   logDb.clear();

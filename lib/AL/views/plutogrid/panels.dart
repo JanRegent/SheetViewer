@@ -61,9 +61,8 @@ PlutoGrid singleGrid(
     currentPage = plutoPagination.stateManager.page;
     //rint(currentPage);
     try {
-      detailRowNo.value = gridAStateManager
-          .currentCell!.row.cells.values.first.value
-          .toString();
+      detailRowNo.value =
+          gridAStateManager.currentCell!.row.cells.values.first.value;
       getDetailList(detailRowNo.value, sheetRows);
       detailColumnField = gridAStateManager.currentColumn!.title;
 

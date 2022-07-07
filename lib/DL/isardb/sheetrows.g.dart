@@ -16,7 +16,7 @@ extension GetSheetRowCollection on Isar {
 const SheetRowSchema = CollectionSchema(
   name: r'SheetRow',
   schema:
-      r'{"name":"SheetRow","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+      r'{"name":"SheetRow","idName":"id","properties":[{"name":"aRowNo","type":"Long"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
   idName: r'id',
   propertyIds: {r'aRowNo': 0, r'aSheetName': 1, r'row': 2, r'zfileId': 3},
   listProperties: {},
@@ -60,13 +60,11 @@ void _sheetRowSerializeNative(
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
-  final aRowNo$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.aRowNo);
   final aSheetName$Bytes =
       IsarBinaryWriter.utf8Encoder.convert(object.aSheetName);
   final row$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.row);
   final zfileId$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.zfileId);
   final size = (staticSize +
-      (aRowNo$Bytes.length) +
       (aSheetName$Bytes.length) +
       (row$Bytes.length) +
       (zfileId$Bytes.length)) as int;
@@ -76,7 +74,7 @@ void _sheetRowSerializeNative(
   final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
   writer.writeHeader();
-  writer.writeBytes(offsets[0], aRowNo$Bytes);
+  writer.writeLong(offsets[0], object.aRowNo);
   writer.writeBytes(offsets[1], aSheetName$Bytes);
   writer.writeBytes(offsets[2], row$Bytes);
   writer.writeBytes(offsets[3], zfileId$Bytes);
@@ -85,7 +83,7 @@ void _sheetRowSerializeNative(
 SheetRow _sheetRowDeserializeNative(IsarCollection<SheetRow> collection, int id,
     IsarBinaryReader reader, List<int> offsets) {
   final object = SheetRow();
-  object.aRowNo = reader.readString(offsets[0]);
+  object.aRowNo = reader.readLong(offsets[0]);
   object.aSheetName = reader.readString(offsets[1]);
   object.id = id;
   object.row = reader.readString(offsets[2]);
@@ -99,7 +97,7 @@ P _sheetRowDeserializePropNative<P>(
     case -1:
       return id as P;
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -125,7 +123,8 @@ Object _sheetRowSerializeWeb(
 SheetRow _sheetRowDeserializeWeb(
     IsarCollection<SheetRow> collection, Object jsObj) {
   final object = SheetRow();
-  object.aRowNo = IsarNative.jsObjectGet(jsObj, r'aRowNo') ?? '';
+  object.aRowNo = IsarNative.jsObjectGet(jsObj, r'aRowNo') ??
+      (double.negativeInfinity as int);
   object.aSheetName = IsarNative.jsObjectGet(jsObj, r'aSheetName') ?? '';
   object.id =
       IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
@@ -137,7 +136,8 @@ SheetRow _sheetRowDeserializeWeb(
 P _sheetRowDeserializePropWeb<P>(Object jsObj, String propertyName) {
   switch (propertyName) {
     case r'aRowNo':
-      return (IsarNative.jsObjectGet(jsObj, r'aRowNo') ?? '') as P;
+      return (IsarNative.jsObjectGet(jsObj, r'aRowNo') ??
+          (double.negativeInfinity as int)) as P;
     case r'aSheetName':
       return (IsarNative.jsObjectGet(jsObj, r'aSheetName') ?? '') as P;
     case r'id':
@@ -233,21 +233,17 @@ extension SheetRowQueryWhere on QueryBuilder<SheetRow, SheetRow, QWhereClause> {
 extension SheetRowQueryFilter
     on QueryBuilder<SheetRow, SheetRow, QFilterCondition> {
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'aRowNo',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoGreaterThan(
-    String value, {
-    bool caseSensitive = true,
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -255,14 +251,12 @@ extension SheetRowQueryFilter
         include: include,
         property: r'aRowNo',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoLessThan(
-    String value, {
-    bool caseSensitive = true,
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -270,15 +264,13 @@ extension SheetRowQueryFilter
         include: include,
         property: r'aRowNo',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoBetween(
-    String lower,
-    String upper, {
-    bool caseSensitive = true,
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -289,57 +281,6 @@ extension SheetRowQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'aRowNo',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'aRowNo',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'aRowNo',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SheetRow, SheetRow, QAfterFilterCondition> aRowNoMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'aRowNo',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -852,10 +793,9 @@ extension SheetRowQueryWhereSortThenBy
 
 extension SheetRowQueryWhereDistinct
     on QueryBuilder<SheetRow, SheetRow, QDistinct> {
-  QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByARowNo(
-      {bool caseSensitive = true}) {
+  QueryBuilder<SheetRow, SheetRow, QDistinct> distinctByARowNo() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'aRowNo', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'aRowNo');
     });
   }
 
@@ -883,7 +823,7 @@ extension SheetRowQueryWhereDistinct
 
 extension SheetRowQueryProperty
     on QueryBuilder<SheetRow, SheetRow, QQueryProperty> {
-  QueryBuilder<SheetRow, String, QQueryOperations> aRowNoProperty() {
+  QueryBuilder<SheetRow, int, QQueryOperations> aRowNoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'aRowNo');
     });

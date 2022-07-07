@@ -14,7 +14,7 @@ class SheetRow {
   @Id()
   int id = Isar.autoIncrement;
   String aSheetName = '';
-  String aRowNo = '';
+  int aRowNo = 2;
   String row = '';
   String zfileId = '';
 
@@ -44,7 +44,7 @@ class SheetRow {
         SheetRow sheetRow = SheetRow()
           ..aSheetName = sheetName
           ..zfileId = fileId
-          ..aRowNo = rows[i]['row_'].toString()
+          ..aRowNo = int.tryParse(rows[i]['row_'])!
           ..row = jsonEncode(rows[i]); //map to String workarround of Isar
 
         await sheetRowsDb.update(sheetRow);
@@ -99,7 +99,7 @@ class SheetrowsDb {
     return testRows;
   }
 
-  Future<SheetRow?> readRowNo(String aRowNo) async {
+  Future<SheetRow?> readRowNo(int aRowNo) async {
     SheetRow? row =
         await isar.sheetRows.filter().aRowNoEqualTo(aRowNo).findFirst();
     return row;

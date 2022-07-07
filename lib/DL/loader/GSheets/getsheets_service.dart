@@ -53,7 +53,7 @@ class GetSheetsService {
         SheetRow sheetRow = SheetRow()
           ..aSheetName = sheetName
           ..zfileId = fileId
-          ..aRowNo = (1).toString() //excel start at 1
+          ..aRowNo = 2 //excel start at 1
           ..row = jsonEncode({"warning": "warning"});
         await sheetRowsDb.update(sheetRow);
       } else {
@@ -122,7 +122,7 @@ class GetSheetsService {
       SheetRow sheetRow = SheetRow()
         ..aSheetName = sheetName
         ..zfileId = fileId
-        ..aRowNo = (rowIx + 1).toString() //excel start at 1
+        ..aRowNo = (rowIx + 1) //excel start at 1
         ..row = jsonEncode(row);
       String key = row.keys.first.toString();
       if (row[key].toString().trim().isNotEmpty) {
