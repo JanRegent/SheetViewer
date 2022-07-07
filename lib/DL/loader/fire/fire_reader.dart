@@ -26,12 +26,6 @@ Future<DocumentSnapshot<Object?>> getContentServiceCollection(
   return await users.doc(documentId).get();
 }
 
-Future<String> getBaseUrlAtFire() async {
-  DocumentSnapshot coll =
-      await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');
-  return coll['baseUrl'];
-}
-
 Future getKredencAtFire() async {
   DocumentSnapshot coll =
       await getContentServiceCollection('nRFaHloMgDGNf8u50qrd');

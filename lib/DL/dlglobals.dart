@@ -5,8 +5,6 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'package:sheetviewer/BL/bl.dart';
-
 import 'package:sheetviewer/DL/loader/fire/fire_reader.dart';
 import 'package:sheetviewer/DL/loader/GSheets/getsheets_service.dart';
 
@@ -14,8 +12,6 @@ DlGlobals dlGlobals = DlGlobals();
 final remoteConfig = FirebaseRemoteConfig.instance;
 
 class DlGlobals {
-  String baseUrl = '';
-
   String kredenc = '';
   GetSheetsService getSheetsService = GetSheetsService();
   String domain = '';
@@ -23,8 +19,6 @@ class DlGlobals {
 
   Future init() async {
     await fireInit();
-    baseUrl = await loadAssetString('baseUrl');
-    await appHome.updateString('DL-contentServiceUrl', baseUrl);
 
     var url = window.location.href;
     domain = url
@@ -34,8 +28,6 @@ class DlGlobals {
         .split('#')[0];
 
     if (domain.toString().contains('vercel.app')) {
-      baseUrl = remoteConfig.getString('baseUrl');
-      await appHome.updateString('DL-contentServiceUrl', baseUrl);
       kredenc = remoteConfig.getString('service_account');
     } else {
       kredenc = await loadAssetJson('service_account.json');
