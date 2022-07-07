@@ -24,7 +24,7 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
 
   Widget fileListBuilder(String layout) {
     return FutureBuilder<String>(
-      future: interestContr.getFilelist(), // async work
+      future: interestContr.getInterestFilelist(), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -42,10 +42,10 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
               return Text('Error: ${snapshot.error}');
             } else {
               if (widget.layout == 'lastGrid') {
-                return LastListviewPage(interestContr.fileListSheet);
+                return LastListviewPage(interestContr.interestFilelist);
               } else {
                 return ByvaluePage(
-                    interestContr.interestMap, interestContr.fileListSheet);
+                    interestContr.interestMap, interestContr.interestFilelist);
               }
             }
         }

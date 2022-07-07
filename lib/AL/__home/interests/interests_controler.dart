@@ -22,7 +22,7 @@ class InterestContr extends GetxController {
 
     interestMap = await getInterestMap();
 
-    await interestContr.getFilelist();
+    await interestContr.getInterestFilelist();
     interestSet();
   }
 
@@ -62,22 +62,24 @@ class InterestContr extends GetxController {
 
   //----------------------------------------------------------intertest FileList
 
-  late List<dynamic> fileListSheet = [];
+  late List<dynamic> interestFilelist = [];
 
-  Future<String> getFilelist() async {
+  Future<String> getInterestFilelist() async {
     logParagraphStart('getFilelist');
     String fileId = interestMap['interestFilelistFileId'];
+    //fileId = 'localCSV';
     String sheetName = interestMap['interestFilelistSheetName'];
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
       await dlGlobals.getSheetsService
           .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+      //await dlGlobals.getSheetsService.getSheetAllRowsCsv(sheetName);
     }
 
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(fileId, sheetName);
-    fileListSheet.clear();
+    interestFilelist.clear();
     for (var i = 1; i < filelistRows.length; i++) {
-      fileListSheet.add(jsonDecode(filelistRows[i]!.row));
+      interestFilelist.add(jsonDecode(filelistRows[i]!.row));
     }
     return 'ok';
   }

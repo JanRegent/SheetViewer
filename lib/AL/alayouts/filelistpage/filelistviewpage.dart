@@ -24,14 +24,14 @@ class FilelistviewPage extends StatelessWidget {
                   color: Colors.red,
                   height: 4.0,
                 ),
-            itemCount: interestContr.fileListSheet.length,
+            itemCount: interestContr.interestFilelist.length,
             itemBuilder: (context, index) => Center(
                 child: cardType == 'byRows'
                     ? filelistCard(cardType, context,
-                        interestContr.fileListSheet[index], index)
+                        interestContr.interestFilelist[index], index)
                     : cardType == 'By words'
                         ? searchByWordsCard(cardType, context,
-                            interestContr.fileListSheet[index], index, 'ego')
+                            interestContr.interestFilelist[index], index, 'ego')
                         : const Text('not implemented'))));
   }
 
@@ -47,7 +47,7 @@ class FilelistviewPage extends StatelessWidget {
           backgroundColor: Colors.lightBlue,
         ),
         body: FutureBuilder<String>(
-          future: interestContr.getFilelist(), // async work
+          future: interestContr.getInterestFilelist(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

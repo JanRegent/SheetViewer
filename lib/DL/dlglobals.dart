@@ -53,3 +53,11 @@ Future<String> loadAssetJson(String varname) async {
     return e.toString();
   }
 }
+
+Future<String> loadAssetCsv(String varname) async {
+  try {
+    return await rootBundle.loadString('localCSV/$varname.tsv');
+  } catch (e) {
+    return e.toString();
+  }
+}
