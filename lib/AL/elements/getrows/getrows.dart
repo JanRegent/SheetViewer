@@ -43,9 +43,6 @@ Future getRowsSet(BuildContext context, String sheetName, String fileId,
   if (rowsCount == null) {
     return '10';
   }
-
-  await interestStore2.updateStringSheet(
-      sheetName, fileId, 'lastRowsCount', rowsCount);
 }
 
 Future showGrid(BuildContext context, String sheetName, String fileId,

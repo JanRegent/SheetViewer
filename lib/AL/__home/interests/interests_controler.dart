@@ -8,16 +8,11 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
 
-import 'package:sheetviewer/DL/localstore/localstore.dart';
-
 class InterestContr extends GetxController {
   var interestName = ''.obs;
 
   Future interestNameSet(String value) async {
     interestName.value = value;
-
-    interestStore2 = LocalStore('interest: ' + interestName.value);
-    await interestStore2.init();
   }
 
   //-----------------------------------------------------------------init/load
@@ -25,7 +20,7 @@ class InterestContr extends GetxController {
   Future interestLoad() async {
     logParagraphStart('interestLoad');
 
-    interestMap = await getSheetinterest();
+    interestMap = await getInterestMap();
 
     await interestContr.getFilelist();
     interestSet();
@@ -44,7 +39,7 @@ class InterestContr extends GetxController {
     appHome.updateMap('interestMap', interestMap);
   }
 
-  Future<Map> getSheetinterest() async {
+  Future<Map> getInterestMap() async {
     String interestFilelistUrl = '';
     String interestFilelistSheetName = '';
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
@@ -57,10 +52,9 @@ class InterestContr extends GetxController {
           remoteConfig.getString('interestFilelistSheetName');
     }
 
-    String interestFilelistFileId = bl.blUti.url2fileid(interestFilelistUrl);
-
     Map interestMap = {};
-    interestMap['interestFilelistFileId'] = interestFilelistFileId;
+    interestMap['interestFilelistFileId'] =
+        bl.blUti.url2fileid(interestFilelistUrl);
     interestMap['interestFilelistSheetName'] = interestFilelistSheetName;
 
     return interestMap;
@@ -91,19 +85,4 @@ class InterestContr extends GetxController {
   String cardType = '';
   RxString fetshingRows = ''.obs;
   final String rowsCount = '10';
-}
-
-//---------------------------------------------------------------------filelist
-Future getSheetsOfFilelist(List<dynamic> fileListSheet) async {
-  for (var i = 0; i < fileListSheet.length; i++) {
-    String fileId = bl.blUti.url2fileid(fileListSheet[i]['fileUrl']);
-    String sheetName = fileListSheet[i]['sheetName'];
-
-    int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-    if (rowsCount > 1) continue;
-    try {
-      await dlGlobals.getSheetsService
-          .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
-    } catch (_) {}
-  }
 }

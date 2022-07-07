@@ -1,1 +1,1 @@
-const buildVersion = 'AL-interestMap';      
+const buildVersion = 'AL-interestMap-2';      

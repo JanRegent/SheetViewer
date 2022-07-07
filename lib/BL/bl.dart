@@ -7,7 +7,7 @@ import 'package:sheetviewer/DL/isardb/filelist.dart';
 import 'package:sheetviewer/DL/isardb/log.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
-import 'package:sheetviewer/DL/localstore/localstore.dart';
+import 'package:sheetviewer/DL/localstore/localstorage.dart';
 
 import 'appVersionInfo/appmode.dart';
 import 'appVersionInfo/appversion.dart';
@@ -20,8 +20,7 @@ late LogDb logDb;
 late FileListDb filelistDb;
 late SheetrowsDb sheetRowsDb;
 
-late LocalStore interestStore2; //init in interestController.interestNameSet
-late LocalStore appHome = LocalStore('appHome: ');
+late LocalStorage appHome = LocalStorage('appHome: ');
 InterestContr interestContr = InterestContr();
 
 class BL {

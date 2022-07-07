@@ -5,9 +5,9 @@ import 'dart:async';
 import 'package:localstore/localstore.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-class LocalStore {
+class LocalStorage {
   final dbName;
-  LocalStore(this.dbName);
+  LocalStorage(this.dbName);
 
   late final db;
 
