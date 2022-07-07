@@ -46,6 +46,8 @@ SingleChildScrollView detailPanel_(
   );
 }
 
+PlutoPagination plutoPagination = PlutoPagination(gridAStateManager);
+int currentPage = 1;
 PlutoGrid singleGrid(
     List<PlutoColumn> plutoCols,
     final List<PlutoRow> gridrows,
@@ -56,6 +58,8 @@ PlutoGrid singleGrid(
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
     // print(gridAStateManager.currentColumn!.title);
+    currentPage = plutoPagination.stateManager.page;
+    //rint(currentPage);
     try {
       detailRowNo.value = gridAStateManager
           .currentCell!.row.cells.values.first.value
@@ -84,10 +88,13 @@ PlutoGrid singleGrid(
       //handleLoadFilter(gridAStateManager);
 
       gridAStateManager.addListener(onSelectHandle);
-
+      plutoPagination.stateManager.setPage(2);
       if (_controller.hasClients) {
         gridAStateManager.scroll!.setBodyRowsVertical(_controller);
       }
+    },
+    onChanged: (PlutoGridOnChangedEvent event) {
+      //rint(event);
     },
     onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
       //gridAStateManager.notifyListeners();

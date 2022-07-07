@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-AsyncGrid-final-v1';      
+const buildVersion = 'AL-view-plutoPagination';      
