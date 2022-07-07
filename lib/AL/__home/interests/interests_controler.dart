@@ -21,12 +21,13 @@ class InterestContr extends GetxController {
   }
 
   //-----------------------------------------------------------------init/load
-  Map interestsFilelistMap = {};
-  Future interestsLoad() async {
-    logParagraphStart('interestsLoad');
+  Map interestMap = {};
+  Future interestLoad() async {
+    logParagraphStart('interestLoad');
 
-    interestsFilelistMap = await getSheetInterests();
+    interestMap = await getSheetinterest();
 
+    await interestContr.getFilelist();
     interestSet();
   }
 
@@ -35,38 +36,34 @@ class InterestContr extends GetxController {
 
     logParagraphStart('interestSet');
     logi('interestSet(', '', 'interestName',
-        interestsFilelistMap['interestsFilelistSheetName']);
+        interestMap['interestFilelistSheetName']);
 
     await interestContr
-        .interestNameSet(interestsFilelistMap['interestsFilelistSheetName']);
+        .interestNameSet(interestMap['interestFilelistSheetName']);
 
-    appHome.updateMap('interestsFilelistMap', interestsFilelistMap);
+    appHome.updateMap('interestMap', interestMap);
   }
 
-  Future<Map> getSheetInterests() async {
-    String interestsFilelistUrl = '';
-    String interestsFilelistSheetName = '';
+  Future<Map> getSheetinterest() async {
+    String interestFilelistUrl = '';
+    String interestFilelistSheetName = '';
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
-      interestsFilelistUrl = await loadAssetString('interestsFilelistUrl');
-      interestsFilelistSheetName =
-          await loadAssetString('interestsFilelistSheetName');
+      interestFilelistUrl = await loadAssetString('interestFilelistUrl');
+      interestFilelistSheetName =
+          await loadAssetString('interestFilelistSheetName');
     } else {
-      interestsFilelistUrl = remoteConfig.getString('interestsFilelistUrl');
-      interestsFilelistSheetName =
-          remoteConfig.getString('interestsFilelistSheetName');
+      interestFilelistUrl = remoteConfig.getString('interestFilelistUrl');
+      interestFilelistSheetName =
+          remoteConfig.getString('interestFilelistSheetName');
     }
 
-    await appHome.updateString('interestsFilelistUrl', interestsFilelistUrl);
-    await appHome.updateString(
-        'interestsFilelistSheetName', interestsFilelistSheetName);
+    String interestFilelistFileId = bl.blUti.url2fileid(interestFilelistUrl);
 
-    String interestsFilelistFileId = bl.blUti.url2fileid(interestsFilelistUrl);
+    Map interestMap = {};
+    interestMap['interestFilelistFileId'] = interestFilelistFileId;
+    interestMap['interestFilelistSheetName'] = interestFilelistSheetName;
 
-    Map interestsFilelistMap = {};
-    interestsFilelistMap['interestsFilelistFileId'] = interestsFilelistFileId;
-    interestsFilelistMap['interestsFilelistSheetName'] =
-        interestsFilelistSheetName;
-    return interestsFilelistMap;
+    return interestMap;
   }
 
   //----------------------------------------------------------intertest FileList
@@ -75,22 +72,19 @@ class InterestContr extends GetxController {
 
   Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
-
-    String fileId =
-        bl.blUti.url2fileid(interestsFilelistMap['interestsFilelistUrl']);
-    String sheetName = interestsFilelistMap['interestsFilelistSheetName'];
+    String fileId = interestMap['interestFilelistFileId'];
+    String sheetName = interestMap['interestFilelistSheetName'];
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
       await dlGlobals.getSheetsService
           .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
     }
+
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(fileId, sheetName);
-
     fileListSheet.clear();
     for (var i = 1; i < filelistRows.length; i++) {
       fileListSheet.add(jsonDecode(filelistRows[i]!.row));
     }
-
     return 'ok';
   }
 

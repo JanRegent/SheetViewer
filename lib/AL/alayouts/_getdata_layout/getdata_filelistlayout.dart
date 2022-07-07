@@ -44,8 +44,8 @@ class _GetdataFileListLayoutState extends State<GetdataFileListLayout> {
               if (widget.layout == 'lastGrid') {
                 return LastListviewPage(interestContr.fileListSheet);
               } else {
-                return ByvaluePage(interestContr.interestsFilelistMap,
-                    interestContr.fileListSheet);
+                return ByvaluePage(
+                    interestContr.interestMap, interestContr.fileListSheet);
               }
             }
         }

@@ -9,7 +9,7 @@ void main() async {
 
   await bl.init();
 
-  await interestContr.interestsLoad();
+  await interestContr.interestLoad();
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
