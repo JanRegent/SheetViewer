@@ -1,1 +1,1 @@
-const buildVersion = 'AL-interestFilelistMap';      
+const buildVersion = 'AL-interestMap';      
