@@ -59,7 +59,11 @@ Future<String> loadAssetJson(String varname) async {
 
 Future<String> loadAssetCsv(String varname) async {
   try {
-    return await rootBundle.loadString('csv.local/$varname.csv');
+    if (varname.endsWith('.csv')) {
+      return await rootBundle.loadString('csv.local/$varname');
+    } else {
+      return await rootBundle.loadString('csv.local/$varname.csv');
+    }
   } catch (e) {
     return e.toString();
   }

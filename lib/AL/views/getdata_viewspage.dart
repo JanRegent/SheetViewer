@@ -56,17 +56,26 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   }
 
   Future<String> rowsCountCheck(String fileId, String sheetName) async {
+    logParagraphStart('getData4view');
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-    logi('getData4view', 'rowsCount', sheetName, rowsCount.toString());
+    logi('getData4view', 'rowsCountCheck0', sheetName + 'from: $fileId',
+        'rowsCount: ' + rowsCount.toString());
     if (rowsCount > 1) return 'ok';
 
     try {
-      logi('getData4view', 'getSheetAllRows', sheetName, '--------');
+      logi('getData4view', 'rowsCountCheck', sheetName, '--------');
 
-      await dlGlobals.gSheetsAdapter
-          .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
+      if (fileId.endsWith('.csv')) {
+        rowsCount =
+            await dlGlobals.csvAdapter.getSheetAllrows(fileId, sheetName);
+      } else {
+        rowsCount = await dlGlobals.gSheetsAdapter
+            .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
+      }
+      logi('getData4view', 'rowsCountCheck1', sheetName + 'from: $fileId',
+          'final');
     } catch (e) {
-      logi('getData4view', 'getSheetAllRows', sheetName, e.toString());
+      logi('getData4view', 'getSheetAllRows-err', sheetName, e.toString());
     }
     return 'ok';
   }
@@ -92,10 +101,10 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
               case ConnectionState.waiting:
                 return Column(
                   children: [
-                    Text('Loading \n interest ' +
-                        interestContr.interestName.value.toString() +
-                        ' \n' +
-                        interestContr.cardType +
+                    Text('Loading \n ' +
+                        widget.sheetName +
+                        ' \n from: ' +
+                        widget.fileId +
                         '\n\n'),
                     Obx(() => Text(interestContr.fetshingRows.value)),
                     const Text(' '),

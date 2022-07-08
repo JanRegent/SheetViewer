@@ -39,15 +39,15 @@ class GSheetsAdapter {
     return cols;
   }
 
-  Future getSheetAllRows(
+  Future<int> getSheetAllRows(
       String fileId, String sheetName, bool putAll, String db) async {
     late Worksheet? sheet;
     try {
       Spreadsheet? ss = await getSpreadSheet(fileId);
       // ignore: unnecessary_null_comparison
-      if (ss == null) return [];
+      if (ss == null) return 0;
       sheet = ss.worksheetByTitle(sheetName);
-      if (sheet == null) return [];
+      if (sheet == null) return 0;
     } catch (e) {
       if (db == 'sheetRowsDb') {
         SheetRow sheetRow = SheetRow()
@@ -64,15 +64,17 @@ class GSheetsAdapter {
           ..row = jsonEncode({'warning': e.toString()});
         await filelistDb.update(fileListRow);
       }
-      return [];
+      return 0;
     }
     List<List<String>> rawRows = await sheet.values.allRows();
 
     cols = await columnsTitles(sheet);
     if (db == 'sheetRowsDb') {
-      await sheetRowsSave(rawRows, fileId, sheetName, putAll);
+      await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, putAll, cols);
     }
     if (db == 'filelistDb') await filelistSave(rawRows, fileId, sheetName);
+
+    return rawRows.length;
   }
 
   Future filelistSave(
@@ -103,37 +105,5 @@ class GSheetsAdapter {
         }
       }
     }
-  }
-
-  Future sheetRowsSave(List<List<String>> rawRows, String fileId,
-      String sheetName, bool putAll) async {
-    List<SheetRow> sheetRows = [];
-    for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
-      interestContr.fetshingRows.value =
-          sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
-      Map row = {}; //excel 1 cols, 2.. data
-      for (var colIx = 0; colIx < cols.length; colIx++) {
-        try {
-          row[cols[colIx]] = rawRows[rowIx][colIx];
-        } catch (_) {
-          row[cols[colIx]] = '';
-        }
-      }
-      SheetRow sheetRow = SheetRow()
-        ..aSheetName = sheetName
-        ..zfileId = fileId
-        ..aRowNo = (rowIx + 1) //excel start at 1
-        ..row = jsonEncode(row);
-      String key = row.keys.first.toString();
-      if (row[key].toString().trim().isNotEmpty) {
-        if (putAll) {
-          //>1000 rows
-          sheetRows.add(sheetRow); //empty rows //workarround
-        } else {
-          await sheetRowsDb.update(sheetRow);
-        }
-      }
-    }
-    if (putAll) await sheetRowsDb.updateAll(sheetRows);
   }
 }

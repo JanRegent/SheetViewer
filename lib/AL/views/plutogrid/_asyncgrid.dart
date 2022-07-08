@@ -34,14 +34,16 @@ class _AsyncGridState extends State<AsyncGrid> {
     /// Columns must be provided at the beginning of a row synchronously.
     plutoCols.addAll(colsMap(widget.cols));
     initStateManager(plutoCols, gridRows);
-    gridAStateManager.setShowLoading(true);
-
     super.initState();
+    gridAStateManager.setShowLoading(true);
   }
 
   Future<String> getGridRows() async {
+    gridAStateManager.setShowLoading(true);
     gridRows = await gridRowsMap(widget.sheetRows, widget.cols);
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
+    gridAStateManager.setShowLoading(false);
+    gridAStateManager.setShowLoading(true);
     gridAStateManager.setShowLoading(false);
     return 'OK';
   }
@@ -53,7 +55,7 @@ class _AsyncGridState extends State<AsyncGrid> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    gridAStateManager.setShowLoading(false);
+    gridAStateManager.setShowLoading(true);
 
     return Scaffold(
         body: FutureBuilder(
@@ -73,6 +75,8 @@ class _AsyncGridState extends State<AsyncGrid> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
+              gridAStateManager.setShowLoading(true);
+              gridAStateManager.setShowLoading(false);
               return detailMode
                   ? resizablePanels(plutoCols, gridRows, widget.cols,
                       _controller, screenWidth, setStateFunc, widget.sheetRows)

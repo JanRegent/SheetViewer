@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
 
@@ -45,5 +46,18 @@ class CsvAdapter {
         filelistDb.update(fileListRow);
       }
     }
+  }
+
+  Future getSheetAllrows(String fileId, String sheetName) async {
+    List<List<dynamic>> rawRows =
+        await dlGlobals.csvAdapter.getSheetCsv(fileId);
+    logi('csv_adapter', 'getSheetAllrows', sheetName + 'from: $fileId',
+        'rawRows.length: ' + rawRows.length.toString());
+    List<String> cols = bl.blUti.toListString(rawRows[0]);
+
+    await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, true, cols);
+    logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
+        'rawRows.length: ' + rawRows.length.toString());
+    return rawRows.length;
   }
 }

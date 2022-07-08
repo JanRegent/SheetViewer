@@ -150,4 +150,38 @@ class SheetrowsDb {
       await isar.sheetRows.putAll(sheetRows);
     });
   }
+
+  //----------------------------------------------------------------batch
+
+  Future sheetRowsSave(List<List<dynamic>> rawRows, String fileId,
+      String sheetName, bool putAll, List<String> cols) async {
+    List<SheetRow> sheetRows = [];
+    for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
+      interestContr.fetshingRows.value =
+          sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
+      Map row = {}; //excel 1 cols, 2.. data
+      for (var colIx = 0; colIx < cols.length; colIx++) {
+        try {
+          row[cols[colIx]] = rawRows[rowIx][colIx];
+        } catch (_) {
+          row[cols[colIx]] = '';
+        }
+      }
+      SheetRow sheetRow = SheetRow()
+        ..aSheetName = sheetName
+        ..zfileId = fileId
+        ..aRowNo = (rowIx + 1) //excel start at 1
+        ..row = jsonEncode(row);
+      String key = row.keys.first.toString();
+      if (row[key].toString().trim().isNotEmpty) {
+        if (putAll) {
+          //>1000 rows
+          sheetRows.add(sheetRow); //empty rows //workarround
+        } else {
+          await sheetRowsDb.update(sheetRow);
+        }
+      }
+    }
+    if (putAll) await sheetRowsDb.updateAll(sheetRows);
+  }
 }
