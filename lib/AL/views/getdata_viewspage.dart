@@ -63,7 +63,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     try {
       logi('getData4view', 'getSheetAllRows', sheetName, '--------');
 
-      await dlGlobals.getSheetsService
+      await dlGlobals.gSheetsAdapter
           .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
     } catch (e) {
       logi('getData4view', 'getSheetAllRows', sheetName, e.toString());

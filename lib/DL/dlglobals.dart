@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:sheetviewer/DL/loader/fire/fire_reader.dart';
-import 'package:sheetviewer/DL/loader/GSheets/getsheets_service.dart';
+import 'package:sheetviewer/DL/loader/adapters/gsheets_adapter.dart';
 
 DlGlobals dlGlobals = DlGlobals();
 final remoteConfig = FirebaseRemoteConfig.instance;
 
 class DlGlobals {
   String kredenc = '';
-  GetSheetsService getSheetsService = GetSheetsService();
+  GSheetsAdapter gSheetsAdapter = GSheetsAdapter();
   String domain = '';
   var loadingMess = ''.obs;
 
@@ -33,7 +33,7 @@ class DlGlobals {
       kredenc = await loadAssetJson('service_account.json');
     }
 
-    await getSheetsService.init();
+    await gSheetsAdapter.init();
   }
 }
 

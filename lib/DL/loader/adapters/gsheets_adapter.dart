@@ -7,7 +7,7 @@ import 'package:sheetviewer/DL/isardb/filelist.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 import 'package:sheetviewer/DL/loader/csv/csvloader.dart';
 
-class GetSheetsService {
+class GSheetsAdapter {
   late GSheets gsheets;
 
   Future init() async {

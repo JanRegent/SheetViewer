@@ -70,7 +70,7 @@ class InterestContr extends GetxController {
     //fileId = 'localCSV';
     String sheetName = interestMap['interestFilelistSheetName'];
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
-      await dlGlobals.getSheetsService
+      await dlGlobals.gSheetsAdapter
           .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
       //await dlGlobals.getSheetsService.getSheetAllRowsCsv(sheetName);
     }

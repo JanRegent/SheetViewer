@@ -1,1 +1,1 @@
-const buildVersion = 'DL-getSheetAllRowsCsv';      
+const buildVersion = 'DL-adapters-gsheets';      
