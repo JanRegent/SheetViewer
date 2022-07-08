@@ -54,14 +54,14 @@ class GSheetsAdapter {
           ..aSheetName = sheetName
           ..zfileId = fileId
           ..aRowNo = 2 //excel start at 1
-          ..row = jsonEncode({"warning": "warning"});
+          ..row = jsonEncode({'warning': e.toString()});
         await sheetRowsDb.update(sheetRow);
       } else {
         FileList fileListRow = FileList()
           ..aSheetName = sheetName
           ..zfileId = fileId
           ..aRowNo = (1).toString() //excel start at 1
-          ..row = jsonEncode({"warning": "warning"});
+          ..row = jsonEncode({'warning': e.toString()});
         await filelistDb.update(fileListRow);
       }
       return [];

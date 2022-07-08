@@ -53,6 +53,7 @@ class InterestContr extends GetxController {
       interestFilelistUrl = remoteConfig.getString('interestFilelistUrl');
       interestFilelistSheetName =
           remoteConfig.getString('interestFilelistSheetName');
+      loadAdapter = '';
     }
 
     Map interestMap = {};
@@ -60,7 +61,8 @@ class InterestContr extends GetxController {
         bl.blUti.url2fileid(interestFilelistUrl);
     interestMap['interestFilelistSheetName'] = interestFilelistSheetName;
     interestMap['loadAdapter'] = loadAdapter;
-
+    logi('InterestContr', 'getInterestMap(', 'interestMap',
+        interestMap.toString());
     return interestMap;
   }
 
@@ -73,20 +75,22 @@ class InterestContr extends GetxController {
     String fileId = interestMap['interestFilelistFileId'];
     String sheetName = interestMap['interestFilelistSheetName'];
 
-    if (!dlGlobals.domain.toString().contains('vercel.app')) {
-      if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
-        fileId = 'csv.local/interestFilelist';
-        sheetName = 'interestFilelist';
-      }
+    if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+      fileId = 'csv.local/interestFilelist';
+      sheetName = 'interestFilelist';
     }
 
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
-      if (!dlGlobals.domain.toString().contains('vercel.app') &&
-          interestMap['loadAdapter'].toString().startsWith('csv.')) {
-        await dlGlobals.csvAdapter.getInterestFilelist(fileId, sheetName);
-      } else {
+      if (dlGlobals.domain.toString().contains('vercel.app')) {
         await dlGlobals.gSheetsAdapter
             .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+      } else {
+        if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+          await dlGlobals.csvAdapter.getInterestFilelist(fileId, sheetName);
+        } else {
+          await dlGlobals.gSheetsAdapter
+              .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+        }
       }
     }
 
