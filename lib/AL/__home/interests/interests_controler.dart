@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
@@ -78,7 +79,7 @@ class InterestContr extends GetxController {
 
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
       if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
-        await dlGlobals.csvAdapter.getFilelist(fileId, 'interestFilelist');
+        await dlGlobals.csvAdapter.getInterestFilelist(fileId, sheetName);
       } else {
         await dlGlobals.gSheetsAdapter
             .getSheetAllRows(fileId, sheetName, false, 'filelistDb');

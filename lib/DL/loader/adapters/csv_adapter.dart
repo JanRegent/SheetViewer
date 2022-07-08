@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
+
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
@@ -20,7 +21,7 @@ class CsvAdapter {
     return rowsAsListOfValues;
   }
 
-  Future getFilelist(String fileId, String sheetName) async {
+  Future getInterestFilelist(String fileId, String sheetName) async {
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv('interestFilelist');
     List<String> cols = bl.blUti.toListString(rawRows[0]);
