@@ -72,13 +72,17 @@ class InterestContr extends GetxController {
     logParagraphStart('getFilelist');
     String fileId = interestMap['interestFilelistFileId'];
     String sheetName = interestMap['interestFilelistSheetName'];
-    if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
-      fileId = 'csv.local/interestFilelist';
-      sheetName = 'interestFilelist';
+
+    if (!dlGlobals.domain.toString().contains('vercel.app')) {
+      if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+        fileId = 'csv.local/interestFilelist';
+        sheetName = 'interestFilelist';
+      }
     }
 
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
-      if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+      if (!dlGlobals.domain.toString().contains('vercel.app') &&
+          interestMap['loadAdapter'].toString().startsWith('csv.')) {
         await dlGlobals.csvAdapter.getInterestFilelist(fileId, sheetName);
       } else {
         await dlGlobals.gSheetsAdapter

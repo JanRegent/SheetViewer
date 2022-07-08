@@ -1,0 +1,128 @@
+Company,SFR,Payload (kg),Launch Cost ($M),Price ($/kg),Funding ($M),Launch Class,Orbit Altitude,Tech Type,Country,HQ Location,Description
+Airstar Aerospace,9,"2,700",0,0,-,"Small, Medium",Suborbital,Balloon,France,Le Champ-près-Froges,Balloons that lift anything from a few kilograms to several tons and are able to operate at an altitude as low as a few hundred metres or as high as 40 km
+Avio/Arianespace,9,"20,000",170,"8,500",Public,"Medium, Heavy",LEO,Rocket,Italy,"Colleferro, RM",Vega & Ariane launch vehicles
+Blue Origin,9,"45,000",0,0,-,"Small, Heavy",LEO,Rocket,USA,"Kent, WA",Lowering the cost of access to space with reusable launch vehicles
+Mitsubishi Heavy Industries,9,"19,000",112.5,"5,921",Public,Medium,LEO,Rocket,Japan,"Tokyo, Tokyo",Launch vehicle manufacturer and launch services provider
+Northrop Grumman,9,"8,000",80,"10,000",Public,"Small, Medium",LEO,Rocket,USA,"Falls Church, VA","Designs, manufactures, and operates launch vehicles, propulsion systems, and satellites and related components"
+Rocket Lab,9,225,4.9,"21,778",257.31,Small,LEO,Rocket,USA,"Huntington Beach, CA",The first rocket company and launch site for cubesat payloads in New Zealand
+SpaceX,9,"63,800",90,"1,411",3570,"Heavy, Super Heavy",LEO,Rocket,USA,"Hawthorne, CA","SpaceX designs, manufactures, and launches advanced rockets and spacecraft"
+Swedish Space Corp,9,"2,000",0,0,-,Small,Suborbital,"Balloon, Rocket",Sweden,Solna,"SSC designs sounding rocket vehicles, stratospheric balloon systems, and payloads"
+United Launch Alliance,9,"17,800",99,"5,562",Joint Venture,"Medium, Heavy",LEO,Rocket,USA,"Centennial, CO","A joint venture between Lockheed Martin and Boeing, ULA produces the Vulcan, Atlas and Delta Launch Vehicle Families"
+UP Aerospace,9,36,0,0,0.72,Small,Suborbital,Rocket,USA,"Highlands Ranch, CO",UP Aerospace is a suborbital space launch and flight test service provider
+World View,9,"4,500",0,0,48.68,"Small, Medium",Suborbital,Balloon,USA,"Tucson, AZ","The Stratollite is a remotely operated, navigable vehicle that can remain aloft for days, weeks, and months on end"
+Sierra Nevada,8,"5,000",0,0,-,Medium,LEO,Spaceplane,USA,"Sparks, NV",Dream Chaser space plane for space station resupply missions
+The Spaceship Company/Virgin Galactic,8,372,1.5,"4,032",Joint Venture,Small,Suborbital,Spaceplane,USA,"Mojave, CA",Building a fleet of WhiteKnightTwo carrier aircraft and SpaceShipTwo reusable spaceships
+Virgin Orbit/VOX Space,8,500,12,"24,000",-,Small,LEO,"Plane, Rocket",USA,"Long Beach, CA",The small payload orbital launch sister company to Virgin Galactic
+Firefly Aerospace,7,"1,000",15,"15,000",23.16,Small,LEO,Rocket,USA,"Cedar Park, TX",Developing the Firefly Alpha launch vehicle; highest payload performance with the lowest cost per kg to orbit in its vehicle class
+iSpace,7,"1,900",0,0,92.92,Small,LEO,Rocket,China,Beijing,iSpace is a Chinese private space launch company developing the Hyperbola rocket
+Phantom Express (by Boeing/DARPA),7,"1,361",5,"3,674",Joint Venture,Small,LEO,Spaceplane,USA,"Seal Beach, CA","Autonomous, spaceplane for rapid, reusable space launch for small satellites"
+Relativity Space,7,"1,250",10,"8,000",184.54,Small,LEO,Rocket,USA,"Los Angeles, CA",Designing an orbital-class launch vehicle that's autonomously constructed
+Zero 2 Infinity,7,100,4,"40,000",13.83,Small,LEO,"Balloon, Rocket",Spain,"Barcelona, Catalonia",Balloon-launched rockets for low-cost LEO payloads
+Exos Aerospace,6,100,0,0,9.09,Small,Suborbital,Rocket,USA,"Caddo Mills, TX","Selling reusable launch vehicles for small, sub-orbital scientific/experimental payloads"
+One Space,6,200,3.2,"16,000",116,Small,LEO,Rocket,China,Beijing,Building a private 3-stage nanosatellite launch vehicle in China
+PLD Space,6,300,0,0,18.94,Small,LEO,Rocket,Spain,"Elche, Alicante","A Euro startup developing tech for suborbital & orbital launch services, dedicated to small payloads and nanosatellites"
+Sea Launch/S7,6,"6,160",0,0,-,Medium,GTO,Rocket,Russia,-,Integrated launch services for the Zenit Launch Vehicle via a mobile sea platform
+Stratolaunch,6,"1,000",0,0,-,Small,LEO,"Plane, Rocket",USA,"Seattle, WA",Using a unique air-launch approach to deliver payloads to multiple orbits and inclinations in a single flight
+ABL Space Systems,5,"1,200",12,"10,000",-,Small,LEO,Rocket,USA,"El Segundo, CA",Building rockets to launch small satellites
+Astra Space,5,100,0,0,-,Small,LEO,Rocket,USA,"Fremont, CA","Providing routine launch access to earth orbit for the entrepreneurs and enterprises. Currently launching out of Kodiak Island, Alaska"
+Generation Orbit,5,0,0,0,-,Small,Suborbital,"Plane, Rocket",USA,"Atlanta, GA","An affordable air-launched, single-stage solution for suborbital and hypersonic research"
+Interstellar Technologies,5,100,0.44,"4,400",0.35,Small,Suborbital,Rocket,Japan,Hokkaido,Privately developing rocket engines and suborbital launch vehicles in Japan
+Landspace,5,"4,000",0,0,115.3,"Small, Medium",LEO,Rocket,China,Beijing,Commercial launch vehicle manufacturer and space launch provider in China
+LinkSpace,5,200,4.5,"22,500",-,Small,LEO,Rocket,China,Beijing,Developing reusable launch vehicle technology for orbital payloads in China
+Maritime Launch Services,5,"5,000",45,"9,000",-,Medium,LEO,Rocket,Canada,"Halifax, Nova Scotia","Building up Canada's NewSpace industry as the first private launch provider in Canso, Nova Scotia."
+OHB/COSMOS International,5,500,0,0,Joint Venture,Small,LEO,Rocket,Germany,Bremen,Developing a small launcher for low cost delivery to LEO
+Orbex,5,220,0,0,39.53,Small,LEO,Rocket,United Kingdom,"London, England","Launch services for small, micro and nano satellites"
+PD Aerospace,5,"6,000",0,0,6.75,Medium,Suborbital,Spaceplane,Japan,"Nagoya, Aichi",Developing a fully-reusable suborbital spacecraft
+Reaction Engines,5,"17,000",0,860,95.37,Medium,LEO,Spaceplane,United Kingdom,"Abingdon, England",Developing the re-usable Skylon spaceplane powered by SABRE propulsion
+Starchaser,5,186,0,0,-,Small,Suborbital,Rocket,United Kingdom,"Hyde, England",Building a reusable three-person rocket ship for space tourism
+Copenhagen Suborbitals,4,62,0,0,-,Small,Suborbital,Rocket,Denmark,Copenhagen,"A non-profit, open project, amateur based space endeavor building suborbital space vehicles"
+CosmoCourse,4,434,1.5,0,-,Small,Suborbital,Rocket,Russia,Moscow,Creating a reusable suborbital space complex for tourist flights into space
+Dawn Aerospace,4,0,0,0,4.54,-,LEO,Spaceplane,Netherlands,Delft,"New class of vehicles will provide responsive, low cost hypersonic, suborbital and orbital access"
+Gilmour Space Technologies,4,400,0,"25,000",17.62,Small,LEO,Rocket,Australia,"Pimpama, Queensland",Developing the ERIS launch vehicles to provide reliable and cost-effective access to space
+Green Launch,4,5,0,0,0.5,Small,LEO,Other,USA,"Edmond, OK",Green Launch is a technology created to revolutionize and expand our access to space
+Leaf Space,4,0,2.27,0,1.59,Small,LEO,Rocket,Italy,"Lomazzo, Como","Leaf Space wants to simplify access to Space for Nano, Micro and Small satellites operator"
+Pipeline2Space (by HyperSciences),4,10,1,"100,000",-,Small,LEO,Other,USA,"Spokane, WA",Using RAM-accelerators to change the economics of space launch
+Rocket Crafters,4,500,9,"18,000",2,Small,LEO,Rocket,USA,"Cocoa, FL","Developing the STAR3D (Safe, Throttleable, Affordable, Reliable, 3D-Printed) Hybrid Rocket Engines and the Intrepid-1 smallsat launcher"
+Skyroot Aerospace,4,720,0,0,-,Small,LEO,Rocket,India,"Hyderabad, Telangana","Building technologies for responsive, reliable and economic access to space"
+Skyrora,4,500,12.6,"25,200",4.85,Small,LEO,Rocket,United Kingdom,"Edinburgh, Scotland",Cost effective small satellite launch services from the United Kingdom
+Space Darts,4,100,0.1,"1,000",15,Small,LEO,Rocket,Russia,Moscow,Mass production of on-demand launchers for small sats
+Space Engine Systems,4,"5,500",0,0,22,Medium,Lunar,Spaceplane,Canada,"Edmonton, Alberta","Designing a reusable, single-stage-to-orbit cruise vehicle"
+Stofiel Aerospace,4,250,5,"20,000",-,Small,LEO,"Balloon, Rocket",USA,"St. Louis, MO",Balloon-based small satellite launcher
+Thor Launch Systems (by 8 Rivers),4,0,0,0,-,-,LEO,Other,USA,"Durham, NC",Enabling the mass commercialization of space by moving beyond chemical rockets
+VSAT Aerospace,4,100,3,"30,000",-,Small,LEO,Rocket,Brazil,"Santo André, São Paulo",Delivering payloads to low Earth orbit
+WAGNER Industries,4,"1,500",3,"2,000",-,Small,LEO,Spaceplane,USA,"St Petersburg, FL","WAGNER is a simple, reliable, low-cost launch systems company"
+Acrux Aerospace Technologies,3,25,1,"40,000",0.05,Small,LEO,Rocket,Brazil,"Iguassu Falls, Paraná",Designing the Montenegro nanolauncher for launches at a very competitive price
+Advanced Rockets Corp,3,"25,000",4.1,164,0.07,Heavy,LEO,Rocket,USA,"Los Angeles, CA",The Dynamics Enhanced Launch Vehicle is designed for a life of over 400 reuses with very minimal maintenance and rapid turnarounds
+Aevum,3,0,0,0,-,Small,LEO,"Plane, Rocket",USA,"Huntsville, AL",Provides earth-to-space space delivery services for small payloads
+ALTAIR (Onera),3,40,0,0,-,Small,LEO,"Plane, Rocket",France,-,Air launch space transportation using an automated aircraft and an innovative rocket
+ARCA,3,100,1,"10,000",-,Small,LEO,Rocket,USA,"Las Cruces, NM",Single Stage to Orbit (SSTO) rocket leveraging aerospike engine technology launching to low earth orbit
+Bagaveev,3,10,0.25,"25,000",0.96,Small,LEO,Rocket,USA,"Half Moon Bay, CA",Dedicated nanosatellite launch provider
+Beyond Earth,3,30,0.9,"30,000",-,Small,LEO,Rocket,USA,"Menlo Park, CA",Providing rapid response small satellite launch vehiclesfor government and commercial customers
+bluShift Aerospace,3,50,0,0,-,Small,LEO,Rocket,USA,"Brunswick, ME","Cleaner, cheaper, hybrid launch vehicles for cubesats."
+bSpace,3,181,0,0,-,Small,LEO,Other,USA,"Seattle, WA",Smaller rocket. Solid fuel. More frequent flights. Volant brings large rocket reliability to smallsats and cubesats.
+Deep Blue Aerospace,3,"4,500",0,0,3,"Small, Medium",LEO,Rocket,China,Beijing,Committed to reducing the cost of entering space via reusable launch products
+EarthToSky,3,"1,200",14,"11,667",-,Small,LEO,Rocket,USA,"Huntsville, AL",Poised to enter the commercial launch vehicle industry with a low cost service to LEO
+Exodus Space Corp,3,227,0,0,0.3,Small,LEO,Spaceplane,USA,"Denver, CO",Developing the Horizontal Takeoff Horizontal Landing (HTHL) AstroClipper for the future of commercial space transportation
+Galactic Energy/Xinghe Power,3,"4,000",0,"14,400",17.81,"Small, Medium",LEO,Rocket,China,-,Developing the Ceres-1 and Pallas-1 launch vehicles
+Interorbital Systems,3,40,0.5,"12,500",-,Small,LEO,Rocket,USA,"Mojave, CA","A rocket, satellite, and spacecraft manufacturing company."
+Isar Aerospace Technologies,3,"1,000",0,0,0.06,Small,LEO,Rocket,Germany,Munich,Accelerating the New Space Age through cutting-edge propulsion systems
+JP Aerospace,3,0,0,0,-,-,Suborbital,Balloon,USA,"Rancho Cordova, CA",JP Aerospace is a volunteer-based DIY Space Program. Home of PongSat and Airship to Orbit . We invented the better sandbag
+Launcher,3,300,10,"33,333",-,Small,LEO,Rocket,USA,"New York, NY",A team on a 10-year journey to deliver small satellites to orbit.
+Pythom,3,100,1.2,"12,000",0.25,Small,LEO,Rocket,USA,"Bishop, CA","Pythom is creating a custom-built, two-person craft to explore Mars"
+Reaction Dynamics,3,150,0,"30,000",1.15,Small,LEO,Rocket,Canada,"St. Laurent, Quebec",Making it affordable for companies and universities to launch small satellites into orbit
+Ripple Aerospace,3,"2,600",0,0,-,Medium,LEO,Rocket,Norway,Kristiansand,"Bringing back the ""sea-launch"" concept with full-force!"
+RocketStar,3,300,6,"20,000",-,Small,LEO,Rocket,USA,"New York, NY","We offer rideshare and dedicated launch opportunities at severe discounts to other launch providers, and can go from first conversation to launch in 18 months or less"
+Space One (by Canon),3,240,0,0,Joint Venture,Small,LEO,Rocket,Japan,"Tokyo, Tokyo","Joint venture between Canon Electronics, IHI Aerospace, Shimizu, and Development Bank of Japan"
+SpaceRyde,3,0,0,0,0.15,Small,LEO,"Balloon, Rocket",Canada,"Toronto, Ontario","SpaceRyde offers affordable, on-schedule, dedicated launch for small sats"
+SpinLaunch,3,0,0.5,0,42.94,Small,LEO,Other,USA,"Sunnyvale, CA",Small satellite space launch via catapult system
+Sugarhouse Aerospace,3,0,0.1,0,-,Small,Suborbital,Rocket,USA,"Springville, UT",Sugarhouse Aerospace is built on a simple idea - space shouldn't be reserved for governments and billionaires
+VALT Enterprises,3,25,1.7,"68,000",-,Small,LEO,Rocket,USA,"Sanford, ME",Hypersonic Delivery Systems: Suborbital & Orbital Missions
+Vector,3,290,4.5,0,43,Small,LEO,Rocket,USA,"Tucson, AZ",Combining a low-cost micro satellite launch vehicle with custom satellites to increase access and speed to orbit
+X-Bow Launch Systems,3,0,0,0,-,-,-,Rocket,USA,"Huntsville, AL",Dedicated to providing affordable access to orbit for commercial and government payloads
+Agnikul Cosmos,2,100,1.2,"12,000",-,Small,LEO,Rocket,India,"Chennai, Tamil Nadu","Designing, manufacturing, and launching orbital-class launch vehicles"
+B2Space,2,150,0,0,-,Small,LEO,"Balloon, Rocket",United Kingdom,"Bristol, England",Developing a balloon-launched vehicle for smallsat payloads
+Bellatrix Aerospace,2,150,2,"13,333",-,Small,LEO,Rocket,India,"Bangalore, Karnataka",Orbital launch vehicles (rockets) and electric propulsion systems
+Black Arrow Space Technologies,2,500,10,"20,000",0.1,Small,LEO,Rocket,United Kingdom,"Swindon, England",Developing a unique seaborne launch system
+Celestia Aerospace,2,16,0.2,"12,500",-,Small,LEO,"Plane, Rocket",Spain,"Barcelona, Catalonia",Personalized engineering support and dedicated airborne orbital launch platform
+CloudIX,2,22,0,0,-,Small,LEO,"Balloon, Rocket",USA,"Hayward, CA",Ultra low-cost rockets and satellite deployment
+CubeCab,2,5,0.25,"50,000",-,Small,LEO,Rocket,USA,"Mountain View, CA",LEO launch provider for 3U cubesats
+Eutropia,2,25,0.125,"5,000",-,Small,Suborbital,Rocket,Australia,"Melbourne, Victoria",Reusable hybrid rocketry
+Firehawk Aerospace,2,0,0,0,-,Small,-,Rocket,USA,"Indialantic, FL","Developing Firehawk-1, a two-stage small satellite launcher"
+Fore Dynamics,2,200,0,0,-,Small,LEO,Rocket,USA,"Placentia, CA","Affordable and reliable small satellite launch system for LEO, SSO, and GEO missions"
+HyImpulse,2,500,0,0,-,Small,LEO,Rocket,Germany,"Kocher, Baden-Württemberg",We are developing a mini launcher using disruptive technologies to provide low-cost small-sat launch opportunities for Europe and the whole world
+Independence-X Aerospace,2,200,4.5,"22,500",-,Small,LEO,Rocket,Malaysia,Kuala Lumpur,Aiming to innovate space exploration technologies to deliver efficient and cost effective solutions for humanity.
+IO Aircraft,2,"63,500",28,441,-,"Medium, Heavy",LEO,Spaceplane,USA,"Ankeny, IA","Developing single stage to orbit, fixed wing, hypersonic aircraft"
+LEO Aerospace,2,25,0,0,0.22,Small,LEO,"Balloon, Rocket",USA,"Marina del Ray, CA",Dedicated launch for microsatellites
+LIA Aerospace,2,150,0,"25,000",-,Small,LEO,Rocket,Argentina,-,Creating the small-sat launch vehicle of the future
+Lin Industrial,2,180,0,"60,000",0.15,Small,LEO,Rocket,Russia,Moscow,"A Russian startup, developing small satellite launch vehicles"
+New Rocket Technologies,2,500,9,"18,000",-,Small,LEO,Rocket,Russia,Moscow,"Building light, two-stage rockets for small satellite launch"
+Odyne Space,2,150,0,0,-,Small,LEO,Rocket,USA,"Portland, OR",Cheaper access to space for nanosatellite payloads
+Orbital Access,2,500,0,0,-,Small,LEO,Spaceplane,United Kingdom,"Prestwick, Scotland",Global air-launch services for small payloads
+Pangea Aerospace,2,150,4.54,"30,267",-,Small,LEO,Rocket,Spain,"Barcelona, Catalonia","Enabling Low cost access to space with the Aerospike engined reusable Small satellite launch vehicle ""MESO"""
+Phoenix Launch Systems,2,12,0.75,0,-,Small,LEO,Rocket,USA,"Las Vegas, NV",On a mission to redefine the future of small launch
+S-Motor,2,160,0,0,-,Small,LEO,Rocket,China,Beijing,Developing a three-stage solid-propellant launch vehicle
+Space Ops,2,10,0,0,-,Small,LEO,Rocket,Australia,"Redfern, New South Wales",Developing a reusable two-stage orbital-class launch vehicle
+Space Transportation,2,"1,000",0,0,-,Small,-,Rocket,China,Beijing,Launcher manufacturer aimed at developing reusable rockets for small payloads
+SpaceHorizon,2,"1,200",0,0,-,Small,LEO,Rocket,Canada,"Ottawa, Ontario","Striving to design, build, and launch rockets, in and from Canada"
+T-Minus,2,1,0,0,-,Small,Suborbital,Rocket,Netherlands,Delft,Developing rocket-related products for the European Space Industry
+Vogue Aerospace,2,500,2,"4,000",0.1,Small,LEO,Rocket,USA,"Naples, FL",Developing a unique launch vehicle and propulsion system
+Forever Space,1,0,0.05,0,-,Small,Lunar,Other,USA,"San Francisco, CA",Developing the Otis electric vehicle for civil space transportation
+Eclipse Orbital,1,0,0,"1,200",-,Small,LEO,Rocket,USA,"Reno, NV",Making space affordable and available to everyone
+iRocket,1,150,0,0,-,Small,LEO,Rocket,USA,"New Hyde Park, NY",Developing orbital & suborbital launch vehicles
+JiuZhou YunJian,1,0,0,0,0.43,-,-,Rocket,China,Beijing,"Manufacturing of launch vehicles, rocket engines, spacecraft, and ancillary equipment"
+New Ascent,1,0,0,0,0.11,-,-,-,USA,"Annapolis, MD",Redefining launch from the ground up
+ProximitE,1,0,0,0,-,Small,LEO,"Balloon, Rocket",USA,"New York, NY",High altitude rocket startup for small satellites
+Rocketplane Global,1,"3,000",0,0,-,Medium,LEO,Spaceplane,USA,"Green Bay, WI",Spaceplane based satellite launch
+Rocketsan,1,100,0,0,-,Small,LEO,Rocket,Turkey,Ankara,Rocketsan is developing a micro-satellite launch system for the Turkish government
+Seres Space Exploration Technology,1,"20,000",0,0,-,Heavy,LEO,Rocket,China,Beijing,Developing a reusable launch vehicle named ‘Tianmeng’
+ShipInSpace,1,"20,000",0,"2,000",-,Heavy,LEO,Rocket,United Kingdom,"Witney, England",Working on a very low-cost Launcher to LEO
+Smallspark Space Systems,1,100,0,"12,692",-,Small,LEO,Rocket,United Kingdom,"Cardiff, Wales","Developing vertical launch systems to provide the ability for the United Kingdom to effectively, reliably and affordably deliver satellites into orbit from the planned major UK vertical launch spaceports"
+SpaceTrek,1,240,0,0,-,Small,LEO,Rocket,China,Beijing,Customized launch services for sub-orbital and orbital payloads
+Trans Space Travels,1,0,0,0,-,-,Suborbital,Spaceplane,Germany,Bayreuth,"Developing SOL ASPIRET, a suborbital spaceplane"
+American Revolutionary Space Systems,0,0,0,0,-,-,GEO,Rocket,USA,"Yorba Linda, CA","Advancing America’s space systems to the next level of performance capability, reliability and innovation"
+Deywoss One,0,200,0,0,-,Small,LEO,Spaceplane,USA,"Merepoint, ME","Developing PROTEUS, an innovative hybrid and autonomous launcher for small sats"
+Equatorial Space Industries,0,70,1,"14,286",-,Small,LEO,Rocket,Singapore,Singapore,Developing a launch vehicle tailor-made for CubeSat operators
+Halo Aerospace,0,0,0,0,-,-,Suborbital,"Balloon, Rocket",USA,"West Palm Beach, FL",Providing launch services via HABs and sounding rockets
+LEO Launcher,0,680,0,0,-,Small,LEO,"Plane, Rocket",USA,"Houston, TX",Long range heavy lift aircraft horizontal launches
+One Aerospace,0,"2,000",5,"2,500",-,Medium,LEO,-,Ghana,-,"Africa's first space exploration company, developing superior technologies for exploring air and space"
+United Frontiers,0,500,0,"2,000",-,Small,LEO,Rocket,USA,"Port Canaveral, FL","SpaceBox is a suborbital launch and recovery platform designed to enable affordable access to space for educational, professional, consumer and hobbyist payloads"

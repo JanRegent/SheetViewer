@@ -1,0 +1,43 @@
+Bulk parameters,Neptune,Earth,"Ratio
+(Neptune/Earth)"
+,,,
+Mass (1024 kg),102.413,5.9724,17.15
+Volume (1010 km3),"6, 254",108.321,57.74
+Equatorial radius (1 bar level) (km),"24,764","6,378.10",3.883
+Polar radius (1 bar level) (km),"24,341","6,356.80",3.829
+Volumetric mean radius (km),"24,622","6,371.00",3.865
+Ellipticity (Flattening),0.01708,0.00335,5.1
+Mean density (kg/m3),"1,638","5,514",0.297
+"Gravity (eq., 1 bar) (m/s2)",11.15,9.8,1.14
+"Acceleration (eq., 1 bar) (m/s2)",11,9.78,1.12
+Escape velocity (km/s),23.5,11.19,2.1
+GM (x 106 km3/s2),6.8351,0.3986,17.15
+Bond albedo,0.29,0.306,0.95
+Geometric albedo,0.442,0.434,1.02
+"V-band magnitude V(1,0)",-6.94,-3.99,-
+Solar irradiance (W/m2),1.508,"1,361.00",0.0011
+Black-body temperature (K),46.6,254.3,0.183
+J2 (x 10-6),3411,1082.63,3.151
+Number of natural satellites,14,1,
+Planetary ring system,Yes,No,
+Orbital parameters,,,
+,,,
+Neptune,,,
+Earth,Ratio,,
+(Neptune/Earth),,,
+Semimajor axis (106 km),"4,495.06",149.6,30.047
+Sidereal orbit period (days),"60,189.00",365.256,164.79
+Tropical orbit period (days),"59,799.90",365.242,163.73
+Perihelion (106 km),"4,444.45",147.09,30.216
+Aphelion (106 km),"4,545.67",152.1,29.886
+Synodic period (days),367.49,-,-
+Mean orbital velocity (km/s),5.43,29.78,0.182
+Max. orbital velocity (km/s),5.5,30.29,0.182
+Min. orbital velocity (km/s),5.37,29.29,0.183
+Orbit inclination (deg),1.769,0,-
+Orbit eccentricity,0.0113,0.0167,0.677
+Sidereal rotation period (hrs),16.11*,23.9345,0.673
+Length of day (hrs),16.11,24,0.671
+Obliquity to orbit (deg),28.32,23.44,1.208
+Inclination of equator (deg),28.32,23.44,1.208
+* Magnetic coordinates (as determined by the Voyager 2 Radio Science experiment),,,
