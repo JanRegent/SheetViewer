@@ -7,7 +7,7 @@ import 'package:sheetviewer/DL/isardb/filelist.dart';
 import 'package:sheetviewer/DL/isardb/log.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
-import 'package:sheetviewer/DL/localstore/localstorage.dart';
+import 'package:sheetviewer/DL/localstorage/localstorage.dart';
 
 import 'appVersionInfo/appmode.dart';
 import 'appVersionInfo/appversion.dart';

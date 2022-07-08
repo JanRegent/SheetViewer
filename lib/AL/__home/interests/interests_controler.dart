@@ -42,10 +42,12 @@ class InterestContr extends GetxController {
   Future<Map> getInterestMap() async {
     String interestFilelistUrl = '';
     String interestFilelistSheetName = '';
+    String loadAdapter = '';
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
       interestFilelistUrl = await loadAssetString('interestFilelistUrl');
       interestFilelistSheetName =
           await loadAssetString('interestFilelistSheetName');
+      loadAdapter = await loadAssetString('loadAdapter');
     } else {
       interestFilelistUrl = remoteConfig.getString('interestFilelistUrl');
       interestFilelistSheetName =
@@ -56,6 +58,7 @@ class InterestContr extends GetxController {
     interestMap['interestFilelistFileId'] =
         bl.blUti.url2fileid(interestFilelistUrl);
     interestMap['interestFilelistSheetName'] = interestFilelistSheetName;
+    interestMap['loadAdapter'] = loadAdapter;
 
     return interestMap;
   }
@@ -67,12 +70,19 @@ class InterestContr extends GetxController {
   Future<String> getInterestFilelist() async {
     logParagraphStart('getFilelist');
     String fileId = interestMap['interestFilelistFileId'];
-    //fileId = 'localCSV';
     String sheetName = interestMap['interestFilelistSheetName'];
+    if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+      fileId = 'csv.local/interestFilelist';
+      sheetName = 'interestFilelist';
+    }
+
     if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
-      await dlGlobals.gSheetsAdapter
-          .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
-      //await dlGlobals.getSheetsService.getSheetAllRowsCsv(sheetName);
+      if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+        await dlGlobals.csvAdapter.getFilelist(fileId, 'interestFilelist');
+      } else {
+        await dlGlobals.gSheetsAdapter
+            .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+      }
     }
 
     List<FileList?> filelistRows =
@@ -81,6 +91,7 @@ class InterestContr extends GetxController {
     for (var i = 1; i < filelistRows.length; i++) {
       interestFilelist.add(jsonDecode(filelistRows[i]!.row));
     }
+
     return 'ok';
   }
 

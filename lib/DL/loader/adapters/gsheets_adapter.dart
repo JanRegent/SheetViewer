@@ -5,7 +5,6 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-import 'package:sheetviewer/DL/loader/csv/csvloader.dart';
 
 class GSheetsAdapter {
   late GSheets gsheets;
@@ -102,34 +101,6 @@ class GSheetsAdapter {
         if (row[key].toString().trim().isNotEmpty) {
           filelistDb.update(fileListRow);
         }
-      }
-    }
-  }
-
-  Future getSheetAllRowsCsv(String sheetName) async {
-    String fileId = 'localCSV';
-    List<List<dynamic>> rawRows = await getSheetCsv('interestFilelist');
-    List<String> cols = bl.blUti.toListString(rawRows[0]);
-
-    for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
-      interestContr.fetshingRows.value =
-          sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
-      Map row = {}; //excel 1 cols, 2.. data
-      for (var colIx = 0; colIx < cols.length; colIx++) {
-        try {
-          row[cols[colIx]] = rawRows[rowIx][colIx];
-        } catch (_) {
-          row[cols[colIx]] = '';
-        }
-      }
-      FileList fileListRow = FileList()
-        ..aSheetName = sheetName
-        ..zfileId = fileId
-        ..aRowNo = (rowIx + 1).toString() //excel start at 1
-        ..row = jsonEncode(row);
-      String key = row.keys.first.toString();
-      if (row[key].toString().trim().isNotEmpty) {
-        filelistDb.update(fileListRow);
       }
     }
   }

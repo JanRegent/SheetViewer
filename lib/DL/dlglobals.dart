@@ -4,6 +4,7 @@ import 'dart:html';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/DL/loader/adapters/csv_adapter.dart';
 
 import 'package:sheetviewer/DL/loader/fire/fire_reader.dart';
 import 'package:sheetviewer/DL/loader/adapters/gsheets_adapter.dart';
@@ -14,6 +15,8 @@ final remoteConfig = FirebaseRemoteConfig.instance;
 class DlGlobals {
   String kredenc = '';
   GSheetsAdapter gSheetsAdapter = GSheetsAdapter();
+  CsvAdapter csvAdapter = CsvAdapter();
+
   String domain = '';
   var loadingMess = ''.obs;
 
@@ -56,7 +59,7 @@ Future<String> loadAssetJson(String varname) async {
 
 Future<String> loadAssetCsv(String varname) async {
   try {
-    return await rootBundle.loadString('localCSV/$varname.tsv');
+    return await rootBundle.loadString('csv.local/$varname.csv');
   } catch (e) {
     return e.toString();
   }
