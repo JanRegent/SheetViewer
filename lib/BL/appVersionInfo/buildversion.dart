@@ -1,1 +1,1 @@
-const buildVersion = 'AL-menu';      
+const buildVersion = 'AL-menu-setPageTitle';      

@@ -72,7 +72,7 @@ List<PlutoMenuItem> getMenus(BuildContext context) {
           initialRadioValue: _RadioItems.one,
           radioItems: _RadioItems.values,
           onTap: () => message(context, 'Menu 1-3 tap'),
-          onChanged: (item) => print(item),
+          onChanged: (item) => message(context, item.toString()),
           getTitle: (item) {
             switch (item as _RadioItems) {
               case _RadioItems.one:
