@@ -9,7 +9,7 @@ void main() async {
   await bl.init();
 
   await interestContr.interestLoad();
-  await pick();
+  await csvRefresh();
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: FilelistviewHomePage('byRows'),

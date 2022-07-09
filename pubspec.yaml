@@ -116,8 +116,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/fonts/
-    - assets/csv.local/interestFilelist.csv
-    - assets/csv.refresh/FlutterTest.txt
+    - assets/csv.local/
+    - assets/csv.refresh/
     #- assets/config/
 
     
