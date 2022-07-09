@@ -1,18 +1,20 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sheetviewer/AL/__home/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import '../../elements/getrows/cards/_filelistcard.dart';
-import '../../elements/getrows/cards/searchbywords.dart';
+import '../elements/getrows/cards/_filelistcard.dart';
+import '../elements/getrows/cards/searchbywords.dart';
 
 // ignore: must_be_immutable
-class FilelistviewPage extends StatelessWidget {
+class FilelistviewHomePage extends StatelessWidget {
   final String cardType;
 
-  const FilelistviewPage(this.cardType, {Key? key}) : super(key: key);
+  const FilelistviewHomePage(this.cardType, {Key? key}) : super(key: key);
 
   Widget detailBody() {
     return Container(
@@ -35,11 +37,21 @@ class FilelistviewPage extends StatelessWidget {
                         : const Text('not implemented'))));
   }
 
+  void setPageTitle(String title, BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+        ApplicationSwitcherDescription(
+      label: title + ' (SheetsViewer)',
+      primaryColor:
+          Theme.of(context).primaryColor.value, // This line is required
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    setPageTitle(interestContr.interestName.value, context);
     return Scaffold(
+        drawer: homeDrawer(context),
         appBar: AppBar(
-          leading: al.iconBack(context),
           title: ListTile(
             leading: al.helpIcon(context),
             title: Text(interestContr.interestName.value),

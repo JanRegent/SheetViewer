@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_grid_button/flutter_grid_button.dart';
 import 'package:get/get.dart';
 
-import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
+import 'package:sheetviewer/AL/__home/_filelistviewhome.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 
 import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
@@ -98,7 +98,7 @@ class HomeApp extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (ctx) =>
-                            FilelistviewPage(interestContr.cardType),
+                            FilelistviewHomePage(interestContr.cardType),
                       ));
                   break;
                 case 'By words':
@@ -107,7 +107,7 @@ class HomeApp extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (ctx) =>
-                            FilelistviewPage(interestContr.cardType),
+                            FilelistviewHomePage(interestContr.cardType),
                       ));
                   break;
                 case "By tags":
@@ -116,7 +116,7 @@ class HomeApp extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (ctx) =>
-                            FilelistviewPage(interestContr.cardType),
+                            FilelistviewHomePage(interestContr.cardType),
                       ));
                   break;
                 case "filter":
@@ -125,7 +125,7 @@ class HomeApp extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (ctx) =>
-                            FilelistviewPage(interestContr.cardType),
+                            FilelistviewHomePage(interestContr.cardType),
                       ));
                   break;
                 default:
@@ -144,18 +144,8 @@ class HomeApp extends StatelessWidget {
     );
   }
 
-  void setPageTitle(String title, BuildContext context) {
-    SystemChrome.setApplicationSwitcherDescription(
-        ApplicationSwitcherDescription(
-      label: title + ' (SheetsViewer)',
-      primaryColor:
-          Theme.of(context).primaryColor.value, // This line is required
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
-    setPageTitle(interestContr.interestName.value, context);
     initMenu();
     return Scaffold(
         appBar: AppBar(
@@ -170,7 +160,6 @@ class HomeApp extends StatelessWidget {
             )
           ],
         ),
-        drawer: homeDrawer(context),
         body: gridMenu());
   }
 }
