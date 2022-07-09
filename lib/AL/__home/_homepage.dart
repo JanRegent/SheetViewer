@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_grid_button/flutter_grid_button.dart';
+import 'package:get/get.dart';
 
-import 'package:sheetviewer/AL/__home/menu.dart';
 import 'package:sheetviewer/AL/alayouts/filelistpage/filelistviewpage.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 
@@ -159,8 +159,7 @@ class HomeApp extends StatelessWidget {
     initMenu();
     return Scaffold(
         appBar: AppBar(
-          title: menu(context),
-          //Obx(() => Text(interestContr.interestName.value)),
+          title: Obx(() => Text(interestContr.interestName.value)),
           actions: [
             //await gs();
             IconButton(

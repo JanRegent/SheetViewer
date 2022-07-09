@@ -4,6 +4,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
 import 'settings.dart';
 import 'about.dart';
+import 'menu.dart';
 
 Drawer homeDrawer(BuildContext context) {
   return Drawer(
@@ -17,6 +18,16 @@ Drawer homeDrawer(BuildContext context) {
               color: Color.fromARGB(255, 169, 213, 234),
             ),
             child: Text('?')),
+        ListTile(
+          title: menu(context),
+          onTap: () async {
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const Settings(),
+                ));
+          },
+        ),
         ListTile(
           title: const Text('Settings'),
           onTap: () async {
