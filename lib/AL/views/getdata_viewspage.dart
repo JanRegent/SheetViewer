@@ -56,14 +56,14 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   }
 
   Future<String> rowsCountCheck(String fileId, String sheetName) async {
-    logParagraphStart('getData4view');
+    logParagraphStart('getData4view.rowsCountCheck($fileId, $sheetName');
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
     logi('getData4view', 'rowsCountCheck0', sheetName + 'from: $fileId',
         'rowsCount: ' + rowsCount.toString());
     if (rowsCount > 1) return 'ok';
 
     try {
-      logi('getData4view', 'rowsCountCheck', sheetName, '--------');
+      logi('rowsCountCheck', '', sheetName, '--------');
 
       if (fileId.endsWith('.csv')) {
         rowsCount =
@@ -72,10 +72,9 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
         rowsCount = await dlGlobals.gSheetsAdapter
             .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
       }
-      logi('getData4view', 'rowsCountCheck1', sheetName + 'from: $fileId',
-          'final');
+      logi('rowsCountCheck', 'final', sheetName + 'from: $fileId', '');
     } catch (e) {
-      logi('getData4view', 'getSheetAllRows-err', sheetName, e.toString());
+      logi('rowsCountCheck', 'error', sheetName, e.toString());
     }
     return 'ok';
   }
