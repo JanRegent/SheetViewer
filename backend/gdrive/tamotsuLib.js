@@ -1,20 +1,23 @@
 
 
-function getRowsLastTam(fileId, sheetName, rowsCount) {
-  var Agent = getAgent(fileId, sheetName );
-  colsLastUsed = Agent.columns();
-  var toNo = Agent.last()['#'] ;
-  var fromNo =  Math.max( toNo - rowsCount + 1, 1) ;
-  return getRowsFromTo(fromNo, toNo, Agent);
-  // ?action=getRowsLast&fileId=1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw&sheetName=dailyNotes&rowsCount=3
+var colsLastUsed;
+
+paramsErr = '';
+
+var config = { 
+  sheetName: '',
+  fileId: '',
+  err: ''
 }
 
-function getRowsFirstTam(fileId, sheetName, rowsCount) {
+
+
+function getSheetTam(fileId, sheetName) {
   var Agent = getAgent(fileId, sheetName );
   colsLastUsed = Agent.columns();
   
-  var fromNo = Agent.first()['#'] ;
-  var toNo =   Math.min(Agent.last()['#'], rowsCount) + 1; 
+  var fromNo = row1;
+  var toNo =   rowMax; 
 
   logi('fromNo ' + fromNo );
   logi('toNo ' + toNo );
@@ -22,16 +25,6 @@ function getRowsFirstTam(fileId, sheetName, rowsCount) {
   // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 }
 
-function getRows_test() {
-  config.fileId = '1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw';
-  config.sheetName = 'dailyNotes';
-  config.rowsCount = 3;
-  //var values = getRowsLastTam(config.fileId, config.sheetName, config.rowsCount);
-  var values = getRowsFirstTam(config.fileId, config.sheetName, config.rowsCount);
-  Logger.log(values);
-  Logger.log( respond(responseDataTamotsu(values )));
-  
-}
 
 function getRowsFromTo(fromNo, toNo, Agent){
   
@@ -40,10 +33,17 @@ function getRowsFromTo(fromNo, toNo, Agent){
   var arr = [];
   for (var i = fromNo; i <= toNo; i++) {
     try{
-      var row = Agent.find(i);
-      if (colsLastUsed.indexOf('dateinsert')) {
-        var yyyyMMdd = row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate();
-        row['dateinsert'] = yyyyMMdd;
+      //var row = Agent.find(i);
+      var row = Agent.all()[i];
+      if (row == undefined) {continue;} 
+
+      if (colsLastUsed.indexOf('dateinsert') > - 1) {
+        try {
+          var yyyyMMdd = row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate();
+          row['dateinsert'] = yyyyMMdd;
+        }catch{
+          row['dateinsert'] = '1900-01-01';
+        }
       }
       arr.push(row);
     }catch(e){
@@ -52,25 +52,74 @@ function getRowsFromTo(fromNo, toNo, Agent){
   }
   return arr;
 }
+var row1 = 0; 
+var rowMax;
+
 
 function getAgent(fileId, sheetName) {
-  Tamotsu.initialize(SpreadsheetApp.openById(fileId));
-  return Tamotsu.Table.define({ sheetName: sheetName  });
+  try {
+    if (fileId == null) {
+      config.err = 'fileId is wrong;';
+      return undefined;
+    }
+    if (sheetName == null) {
+      config.err = 'sheetName is wrong;';
+      return undefined;
+    }
+
+    var ss; 
+    if (fileId.substring(0,4) === 'http' )  
+      ss = SpreadsheetApp.openByUrl(fileId);
+    else
+      ss = SpreadsheetApp.openById(fileId);
+
+    Tamotsu.initialize(ss);
+    var Agent = Tamotsu.Table.define({ sheetName: sheetName  });
+    rowMax = Agent.all().length;
+    return Agent;
+
+  }catch(e){
+
+    config.err = 'Open Agent/sheet: ' + e.toString();
+    return undefined;
+  }
+
 }
 
-function myFunction() {
-  var ss = SpreadsheetApp.openById('1bVD2gBzQDAP_7lteXqr2Vpv7Em0qQkpoOhK1UlLtvOw');
-  Logger.log(ss.getName());
-  Tamotsu.initialize(ss);
-  var Agent = Tamotsu.Table.define({ sheetName: 'dailyNotes'  });
+//-----------------------------------------------------------------output
+function responseDataTamotsu(values){
+  logi('len: ' + values.length);
+  var output = JSON.stringify({
+    sheetSows: values,
+  });
 
-  var row = Agent.find(3);
+  return ContentService
+    .createTextOutput(output)
+    .setMimeType(ContentService.MimeType.JSON)
   
-  var yyyyMMdd = row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate();
-  row['dateinsert'] = yyyyMMdd;
-  Logger.log(row['dateinsert']); //=>  {#=1.0, First Name=Charles, Last Name=Bartowski, Gender=Male, Salary=100.0, ...}
-  
-  Logger.log(yyyyMMdd);
 }
 
+
+function respond(response) {  
+  //Logger.log(response);
+  //listObj(config.getRows, 'resp');
+  return ContentService
+  .createTextOutput(response)
+  .setMimeType(ContentService.MimeType.JSON)
+}
+
+//------------------------------------------------------------------log
+function logClear(){
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('log').clear();
+}
+
+function logi(mess){
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('log')
+        .appendRow([new Date(), mess]);
+}
+
+function logE(err, voidName){
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('log')
+        .appendRow([new Date(), voidName, err.stack, err.message]);
+}
 
