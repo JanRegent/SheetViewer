@@ -69,7 +69,9 @@ dependencies:
 
   #==============================================================================================DL  
 
-  url_launcher: ^6.0.12 #https://pub.dev/packages/url_launcher
+  url_launcher: ^6.0.12     #https://pub.dev/packages/url_launcher
+  dio: ^4.0.6               #https://pub.dev/packages/dio
+  pretty_dio_logger: ^1.1.1 #https://pub.dev/packages/pretty_dio_logger
   http: ^0.13.4         #https://pub.dev/packages/http
   gsheets: ^0.4.2       #https://pub.dev/packages/gsheets 
 

@@ -1,30 +1,45 @@
 
 
-//?sheetName=hledaniList&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo
-
+// ?action=getRowsLast&sheetName=hledaniList&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo
+// ?action=getRowsAll&sheetName=hledaniList&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo
 function doGet(e) {
   logClear();
   config.queryString = e.queryString;
 
   logi(e.queryString);
 
+  if(getPar(e, 'action') != '')    return paramsErr; 
   if(getPar(e, 'fileId') != '')    return paramsErr; 
   if(getPar(e, 'sheetName') != '') return paramsErr; 
 
-  try{
-    var values = getRowsLast1(config.fileId, config.sheetName, config.rowsCount);
-    return responseDataTamotsu(values);
-  }catch(err){
-    logi(err);
-    respond('{error: \n " + '+err+' }');
-  }
+  if (e.parameter.action == 'getRowsLast')
+    try{
+      var values = getRowsLast1(config.fileId, config.sheetName, config.rowsCount);
+      return responseDataTamotsu(values);
+    }catch(err){
+      logi(err);
+      respond('{error: \n " + '+err+' }');
+    }
   
+    if (e.parameter.action == 'getRowsAll')
+    try{
+      var values = getRowsAll(config.fileId, config.sheetName);
+      return responseDataTamotsu(values);
+    }catch(err){
+      logi(err);
+      respond('{error: \n " + '+err+' }');
+    }
 }
 
 
 function getPar(e, parName) {
   var err = '';
   switch(parName) {
+    case "action": ``
+      if(typeof e.parameter.action === "undefined") { 
+        err = ('{error: "Parameter \'action\' is not defined"}');  logi(err);  
+        return respond(err);
+      }
     case "fileId": ``
       if(typeof e.parameter.fileId === "undefined") { 
         err = ('{error: "Parameter fileId is not defined"}');  logi(err);  
@@ -48,7 +63,7 @@ function getPar(e, parName) {
 
 }
 
-//----------------------------------------------------------------------------------------getRowsLast1quote
+//----------------------------------------------------------------------------------------getRowsLast1
 function getRowsLast1(fileId, sheetName) {
   var listRows = getSheetTam(fileId, sheetName);
  
@@ -60,35 +75,39 @@ function getRowsLast1(fileId, sheetName) {
    
     sheetRow = {};
     sheetRow['aSheetName'] = listRow['sheetName'] ;
-    sheetRow['row']  = getRow(Agent);
-    sheetRow['aRowNo'] = sheetRow['row']['aRowNo'];
+    sheetRow['row']  = getRowLast(Agent);
+    sheetRow['aRowNo'] = sheetRow['row']['row_'];
     sheetRow['zfileId']  = SpreadsheetApp.openByUrl(listRow['fileUrl']).getId();
 
     sheetRows.push(sheetRow);
   }
 
-  function getRow(Agent) {
+  function getRowLast(Agent) {
     if (Agent == undefined) return {};
-    var cols = Agent.columns();
-    logi(cols);
-    var lastRow = Agent.last()
-    var row = {};
-    for (var colIx = 0; colIx < cols.length; colIx++) {
-      row[cols[colIx]] = lastRow[cols[colIx]];
-      row['aRowNo'] = lastRow['row_'];
-    }
-    logi(row);
-    return row;
+    return Agent.last();
   }
 
-
-  colsLastUsed.push('quote');
-  return sheetRows;
-  // ?sheetName=hledaniList&fileId=1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo
+   return sheetRows;
 }
 
-//----------------------------------------------------------------------------------------test
+
 function getRowsLast1byList_test() {
   Logger.log(getRowsLast1('1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo', 'hledaniList'));
 }
 
+//----------------------------------------------------------------------------------------getRowsAll
+function getRowsAll(fileId, sheetName) {
+  var Agent = getAgent(fileId,sheetName );
+  if (Agent == undefined) return {};
+  
+  all = {};
+  all['cols'] = Agent.columns();
+  all['rows'] = Agent.all();
+  
+  return all;
+}
+
+
+function getRowsAll_test() {
+  Logger.log(getRowsAll('1hvRQ69fal9ySZIXoKW4ElJwEJQO1p5eNpM82txhw6Uo', 'hledaniList'));
+}
