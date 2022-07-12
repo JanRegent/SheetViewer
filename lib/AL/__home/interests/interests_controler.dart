@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
@@ -8,6 +9,8 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
+
+import 'package:sheetviewer/DL/loader/adapters/gdrive_sheetsviewbackkend.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;
@@ -18,6 +21,7 @@ class InterestContr extends GetxController {
 
   //-----------------------------------------------------------------init/load
   Map interestMap = {};
+
   Future interestLoad() async {
     logParagraphStart('interestLoad');
 
@@ -25,6 +29,11 @@ class InterestContr extends GetxController {
 
     await interestContr.getInterestFilelist();
     interestSet();
+
+    rowsCountListGDrive = await rowcountListPost(rowsCountListClient);
+    if (kDebugMode) {
+      print(rowsCountListGDrive);
+    }
   }
 
   Future interestSet() async {
@@ -68,7 +77,9 @@ class InterestContr extends GetxController {
 
   //----------------------------------------------------------intertest FileList
 
-  late List<dynamic> interestFilelist = [];
+  List<dynamic> interestFilelist = [];
+  Map rowsCountListClient = {};
+  Map rowsCountListGDrive = {};
 
   Future<String> getInterestFilelist() async {
     logParagraphStart('getFilelist');
@@ -97,8 +108,18 @@ class InterestContr extends GetxController {
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(fileId, sheetName);
     interestFilelist.clear();
+
     for (var i = 1; i < filelistRows.length; i++) {
-      interestFilelist.add(jsonDecode(filelistRows[i]!.row));
+      Map fileRow = jsonDecode(filelistRows[i]!.row);
+      String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
+      String sheetName = fileRow['sheetName'];
+      int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+      Map updateRow = {};
+      updateRow['fileId'] = fileId;
+      updateRow['sheetName'] = sheetName;
+      updateRow['rowsCountClient'] = rowsCount;
+      rowsCountListClient[i.toString()] = updateRow;
+      interestFilelist.add(fileRow);
     }
 
     return 'ok';

@@ -1,14 +1,6 @@
 {
   "timeZone": "Europe/Prague",
-  "dependencies": {
-    "libraries": [
-      {
-        "userSymbol": "Tamotsu",
-        "version": "32",
-        "libraryId": "1OiJIgWlrg_DFHFYX_SoaEzhFJPCmwbbfEHEqYEfLEEhKRloTNVJ-3U4s"
-      }
-    ]
-  },
+  "dependencies": {},
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8",
   "webapp": {
