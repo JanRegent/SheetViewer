@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-Future rowcountListPost(Map interestUpdatelist) async {
+Future rowcountListPost(Map interestUpdatelist, Map interestMap) async {
   Dio dio = Dio();
   dio.interceptors.add(PrettyDioLogger(
     requestHeader: true,
@@ -22,7 +22,11 @@ Future rowcountListPost(Map interestUpdatelist) async {
       'Access-Control-Allow-Origin': '*',
       "Access-Control-Allow-Methods": "POST, OPTIONS, GET"
     });
-    var formData = {'updateList': interestUpdatelist};
+    var formData = {
+      'updateList': interestUpdatelist,
+      'interestFilelistFileId': interestMap['interestFilelistFileId'],
+      'interestFilelistSheetName': interestMap['interestFilelistSheetName']
+    };
     var response = await dio.post('', data: formData);
     return response.data;
   } catch (e) {

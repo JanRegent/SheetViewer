@@ -39,7 +39,7 @@ class GSheetsAdapter {
     return cols;
   }
 
-  Future<int> getSheetAllRows(
+  Future<int> getSheetAllRowsOld(
       String fileId, String sheetName, bool putAll, String db) async {
     late Worksheet? sheet;
     try {
@@ -73,6 +73,32 @@ class GSheetsAdapter {
       await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, putAll, cols);
     }
     if (db == 'filelistDb') await filelistSave(rawRows, fileId, sheetName);
+
+    return rawRows.length;
+  }
+
+  Future<int> getSheetAllRows(String fileId, String sheetName) async {
+    late Worksheet? sheet;
+    try {
+      Spreadsheet? ss = await getSpreadSheet(fileId);
+      // ignore: unnecessary_null_comparison
+      if (ss == null) return 0;
+      sheet = ss.worksheetByTitle(sheetName);
+      if (sheet == null) return 0;
+    } catch (e) {
+      SheetRow sheetRow = SheetRow()
+        ..aSheetName = sheetName
+        ..zfileId = fileId
+        ..aRowNo = 2 //excel start at 1
+        ..row = jsonEncode({'warning': e.toString()});
+      await sheetRowsDb.update(sheetRow);
+
+      return 0;
+    }
+    List<List<String>> rawRows = await sheet.values.allRows();
+
+    cols = await columnsTitles(sheet);
+    await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, true, cols);
 
     return rawRows.length;
   }

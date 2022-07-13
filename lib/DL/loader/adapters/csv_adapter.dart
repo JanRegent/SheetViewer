@@ -48,10 +48,11 @@ class CsvAdapter {
     }
   }
 
-  Future getSheetAllrows(String fileId, String sheetName) async {
+  Future getSheetAllrows(
+      String fileId, String sheetName, String fileLocal) async {
     List<List<dynamic>> rawRows =
-        await dlGlobals.csvAdapter.getSheetCsv(fileId);
-    logi('csv_adapter', 'getSheetAllrows', sheetName + 'from: $fileId',
+        await dlGlobals.csvAdapter.getSheetCsv(fileLocal);
+    logi('csv_adapter', 'getSheetAllrows', sheetName + 'from: $fileLocal',
         'rawRows.length: ' + rawRows.length.toString());
     List<String> cols = bl.blUti.toListString(rawRows[0]);
 

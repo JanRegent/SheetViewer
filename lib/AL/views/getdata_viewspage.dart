@@ -63,15 +63,9 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     if (rowsCount > 1) return 'ok';
 
     try {
-      logi('rowsCountCheck', '', sheetName, '--------');
+      rowsCount = await dlGlobals.gSheetsAdapter
+          .getSheetAllRowsOld(fileId, sheetName, true, 'sheetRowsDb');
 
-      if (fileId.endsWith('.csv')) {
-        rowsCount =
-            await dlGlobals.csvAdapter.getSheetAllrows(fileId, sheetName);
-      } else {
-        rowsCount = await dlGlobals.gSheetsAdapter
-            .getSheetAllRows(fileId, sheetName, true, 'sheetRowsDb');
-      }
       logi('rowsCountCheck', 'final', sheetName + 'from: $fileId', '');
     } catch (e) {
       logi('rowsCountCheck', 'error', sheetName, e.toString());

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
@@ -9,8 +8,6 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/isardb/filelist.dart';
-
-import 'package:sheetviewer/DL/loader/adapters/gdrive_sheetsviewbackkend.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;
@@ -30,10 +27,13 @@ class InterestContr extends GetxController {
     await interestContr.getInterestFilelist();
     interestSet();
 
-    rowsCountListGDrive = await rowcountListPost(rowsCountListClient);
-    if (kDebugMode) {
-      print(rowsCountListGDrive);
-    }
+    // rowsCountListGDrive =
+    //     await rowcountListPost(rowsCountListClient, interestMap);
+    // logi('interestLoad', 'rowcountListPost', 'response.data',
+    //     rowsCountListGDrive.toString());
+    // if (kDebugMode) {
+    //   print(rowsCountListGDrive);
+    // }
   }
 
   Future interestSet() async {
@@ -83,30 +83,38 @@ class InterestContr extends GetxController {
 
   Future<String> getInterestFilelist() async {
     logParagraphStart('getFilelist');
-    String fileId = interestMap['interestFilelistFileId'];
-    String sheetName = interestMap['interestFilelistSheetName'];
+    String fileListFileId = interestMap['interestFilelistFileId'];
+    String fileListSheetName = interestMap['interestFilelistSheetName'];
 
-    if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
-      fileId = 'csv.local/interestFilelist';
-      sheetName = 'interestFilelist';
-    }
-
-    if (await filelistDb.rowsCount(fileId, sheetName) == 0) {
+    Future fileListFill() async {
       if (dlGlobals.domain.toString().contains('vercel.app')) {
-        await dlGlobals.gSheetsAdapter
-            .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+        await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
+            fileListFileId, fileListSheetName, false, 'filelistDb');
       } else {
         if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
-          await dlGlobals.csvAdapter.getInterestFilelist(fileId, sheetName);
+          await dlGlobals.csvAdapter
+              .getInterestFilelist(fileListFileId, fileListSheetName);
         } else {
-          await dlGlobals.gSheetsAdapter
-              .getSheetAllRows(fileId, sheetName, false, 'filelistDb');
+          await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
+              fileListFileId, fileListSheetName, false, 'filelistDb');
         }
       }
     }
 
+    if (await filelistDb.rowsCount(fileListFileId, fileListSheetName) == 0) {
+      await fileListFill();
+    }
+    await sheetRowsFill(fileListFileId, fileListSheetName);
+    return 'ok';
+  }
+
+  String cardType = '';
+  RxString fetshingRows = ''.obs;
+  final String rowsCount = '10';
+
+  Future sheetRowsFill(String filelistFileId, String filelistSheetname) async {
     List<FileList?> filelistRows =
-        await filelistDb.readRowsSheet(fileId, sheetName);
+        await filelistDb.readRowsSheet(filelistFileId, filelistSheetname);
     interestFilelist.clear();
 
     for (var i = 1; i < filelistRows.length; i++) {
@@ -114,18 +122,21 @@ class InterestContr extends GetxController {
       String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
       String sheetName = fileRow['sheetName'];
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-      Map updateRow = {};
-      updateRow['fileId'] = fileId;
-      updateRow['sheetName'] = sheetName;
-      updateRow['rowsCountClient'] = rowsCount;
-      rowsCountListClient[i.toString()] = updateRow;
+      if (rowsCount == 0) {
+        if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+          String fileLocal = bl.blUti.url2fileid(fileRow['fileLocal']);
+          await dlGlobals.csvAdapter
+              .getSheetAllrows(fileId, sheetName, fileLocal);
+        } else {
+          await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
+        }
+      }
+      // Map updateRow = {};
+      // updateRow['fileId'] = fileId;
+      // updateRow['sheetName'] = sheetName;
+      // updateRow['rowsCountClient'] = rowsCount;
+      // rowsCountListClient[i.toString()] = updateRow;
       interestFilelist.add(fileRow);
     }
-
-    return 'ok';
   }
-
-  String cardType = '';
-  RxString fetshingRows = ''.obs;
-  final String rowsCount = '10';
 }
