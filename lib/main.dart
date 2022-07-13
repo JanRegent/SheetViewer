@@ -8,9 +8,6 @@ void main() async {
 
   await bl.init();
 
-  await interestContr.interestLoad();
-  //await csvRefresh();
-
   runApp(const MaterialApp(
       debugShowCheckedModeBanner: false, home: LoadingInterestPage()));
 }

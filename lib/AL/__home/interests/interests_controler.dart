@@ -22,10 +22,8 @@ class InterestContr extends GetxController {
     logParagraphStart('interestLoad');
 
     interestMap = await getInterestMap();
-    interestContr.interestName.value = interestMap['interestFilelistSheetName'];
 
     await interestContr.getInterestFilelist();
-    interestSet();
 
     // rowsCountListGDrive =
     //     await rowcountListPost(rowsCountListClient, interestMap);
@@ -36,17 +34,6 @@ class InterestContr extends GetxController {
     // }
 
     return 'OK';
-  }
-
-  Future interestSet() async {
-    logParagraphStart('interestSet');
-    logi('interestSet(', '', 'interestName',
-        interestMap['interestFilelistSheetName']);
-
-    await interestContr
-        .interestNameSet(interestMap['interestFilelistSheetName']);
-
-    appHome.updateMap('interestMap', interestMap);
   }
 
   Future<Map> getInterestMap() async {
@@ -72,6 +59,11 @@ class InterestContr extends GetxController {
     interestMap['loadAdapter'] = loadAdapter;
     logi('InterestContr', 'getInterestMap(', 'interestMap',
         interestMap.toString());
+
+    appHome.updateMap('interestMap', interestMap);
+    await interestContr
+        .interestNameSet(interestMap['interestFilelistSheetName']);
+    interestContr.interestName.value = interestMap['interestFilelistSheetName'];
     return interestMap;
   }
 
@@ -116,7 +108,7 @@ class InterestContr extends GetxController {
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(filelistFileId, filelistSheetname);
     interestFilelist.clear();
-
+    logParagraphStart('sheetRowsFill');
     for (var i = 1; i < filelistRows.length; i++) {
       Map fileRow = jsonDecode(filelistRows[i]!.row);
       String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);

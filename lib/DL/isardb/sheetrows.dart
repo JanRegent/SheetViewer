@@ -75,13 +75,14 @@ class SheetrowsDb {
   }
 
   Future<int> rowsCount(String fileId, String sheetName) async {
-    List<SheetRow?> testRows = await isar.sheetRows
+    List<SheetRow?> rows = await isar.sheetRows
         .filter()
         .zfileIdEqualTo(fileId)
         .and()
         .aSheetNameEqualTo(sheetName)
         .findAll();
-    return testRows.length;
+    logi('rowsCount', sheetName, rows.length.toString(), '');
+    return rows.length;
   }
 
   Future<List<SheetRow?>> readRowsAllSheets() async {
