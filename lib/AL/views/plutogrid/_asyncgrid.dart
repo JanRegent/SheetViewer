@@ -35,16 +35,12 @@ class _AsyncGridState extends State<AsyncGrid> {
     plutoCols.addAll(colsMap(widget.cols));
     initStateManager(plutoCols, gridRows);
     super.initState();
-    gridAStateManager.setShowLoading(true);
   }
 
   Future<String> getGridRows() async {
-    gridAStateManager.setShowLoading(true);
     gridRows = await gridRowsMap(widget.sheetRows, widget.cols);
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
-    gridAStateManager.setShowLoading(false);
-    gridAStateManager.setShowLoading(true);
-    gridAStateManager.setShowLoading(false);
+
     return 'OK';
   }
 
@@ -63,6 +59,7 @@ class _AsyncGridState extends State<AsyncGrid> {
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
+            gridAStateManager.setShowLoading(true);
             return Column(
               children: const [
                 Text('Loading \n interest '),
@@ -75,7 +72,6 @@ class _AsyncGridState extends State<AsyncGrid> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              gridAStateManager.setShowLoading(true);
               gridAStateManager.setShowLoading(false);
               return detailMode
                   ? resizablePanels(plutoCols, gridRows, widget.cols,

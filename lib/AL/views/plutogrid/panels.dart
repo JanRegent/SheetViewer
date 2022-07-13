@@ -78,7 +78,7 @@ PlutoGrid singleGrid(
     // columnGroups: columnGroups,
     onLoaded: (PlutoGridOnLoadedEvent event) {
       gridAStateManager = event.stateManager;
-      event.stateManager.setShowColumnFilter(true);
+      gridAStateManager.setShowColumnFilter(true);
 
       gridAStateManager.eventManager!.listener((event) {
         if (event is PlutoGridChangeColumnFilterEvent) {}
