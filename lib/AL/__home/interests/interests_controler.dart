@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 
-import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
@@ -11,7 +10,7 @@ import 'package:sheetviewer/DL/isardb/filelist.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;
-
+  var loadedSheetName = ''.obs;
   Future interestNameSet(String value) async {
     interestName.value = value;
   }
@@ -19,10 +18,11 @@ class InterestContr extends GetxController {
   //-----------------------------------------------------------------init/load
   Map interestMap = {};
 
-  Future interestLoad() async {
+  Future<String> interestLoad() async {
     logParagraphStart('interestLoad');
 
     interestMap = await getInterestMap();
+    interestContr.interestName.value = interestMap['interestFilelistSheetName'];
 
     await interestContr.getInterestFilelist();
     interestSet();
@@ -34,11 +34,11 @@ class InterestContr extends GetxController {
     // if (kDebugMode) {
     //   print(rowsCountListGDrive);
     // }
+
+    return 'OK';
   }
 
   Future interestSet() async {
-    plutogridContr.multilineDetailLayuout.value = '';
-
     logParagraphStart('interestSet');
     logi('interestSet(', '', 'interestName',
         interestMap['interestFilelistSheetName']);
@@ -123,6 +123,7 @@ class InterestContr extends GetxController {
       String sheetName = fileRow['sheetName'];
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
       if (rowsCount == 0) {
+        interestContr.loadedSheetName.value += '\n' + sheetName;
         if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
           String fileLocal = bl.blUti.url2fileid(fileRow['fileLocal']);
           await dlGlobals.csvAdapter

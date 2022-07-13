@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
-
 import 'package:sheetviewer/AL/alayouts/byvalue/drawer_byvalue.dart';
 import 'package:sheetviewer/AL/elements/getrows/cards/filelistcard_all.dart';
 
@@ -79,8 +77,8 @@ class _ByvaluePageState extends State<ByvaluePage> {
     return Scaffold(
         drawer: byValueDrawer(context, setStateFunc),
         appBar: AppBar(
-          leading: loadingPageShow(widget.fileListSheet, context,
-              widget.interestRowCurrent['interestName']),
+          // leading: loadingPageShow(widget.fileListSheet, context,
+          //     widget.interestRowCurrent['interestName']),
           title: Text(interestName),
           backgroundColor: Colors.lightBlue,
         ),

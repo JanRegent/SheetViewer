@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 
 class LastNew1Page extends StatefulWidget {
   const LastNew1Page({Key? key}) : super(key: key);
@@ -109,7 +108,7 @@ class _LastNew1PageState extends State<LastNew1Page> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  loadListFileListSheet = fileListLastQuote;
+                  //loadListFileListSheet = fileListLastQuote;
                   return listViewBody();
                 }
             }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/__home/_filelistviewhome.dart';
+import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 
 import 'BL/bl.dart';
 
@@ -12,7 +12,5 @@ void main() async {
   //await csvRefresh();
 
   runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: FilelistviewHomePage('byRows'),
-  ));
+      debugShowCheckedModeBanner: false, home: LoadingInterestPage()));
 }
