@@ -52,7 +52,6 @@ class _AsyncGridState extends State<AsyncGrid> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     gridAStateManager.setShowLoading(true);
-
     return Scaffold(
         body: FutureBuilder(
       future: getGridRows(), // async work
@@ -78,7 +77,6 @@ class _AsyncGridState extends State<AsyncGrid> {
                       _controller, screenWidth, setStateFunc, widget.sheetRows)
                   : singleGrid(plutoCols, gridRows, widget.cols, _controller,
                       widget.sheetRows);
-              //RowsgridPage(gridCols, gridrows, sheetRows, cols);
             }
         }
       },

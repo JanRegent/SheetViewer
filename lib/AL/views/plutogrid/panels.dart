@@ -87,7 +87,7 @@ PlutoGrid singleGrid(
       //handleLoadFilter(gridAStateManager);
 
       gridAStateManager.addListener(onSelectHandle);
-      plutoPagination.stateManager.setPage(2);
+      //plutoPagination.stateManager.setPage(2); //if pages > 1
       if (_controller.hasClients) {
         gridAStateManager.scroll!.setBodyRowsVertical(_controller);
       }

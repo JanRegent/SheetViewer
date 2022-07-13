@@ -90,7 +90,7 @@ function getAgent(fileId, sheetName) {
 function responseDataTamotsu(values){
   logi('responseDataTamotsu: len.output: ' + values.length);
   var output = JSON.stringify({
-    sheetRows: values,
+    sheetRows: 'values Oki1',
   });
 
   return ContentService

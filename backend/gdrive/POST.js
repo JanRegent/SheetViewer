@@ -13,8 +13,9 @@ function doPost(e) {
 
 }
 
-function updateList(e) {
- //var updateList = postData['updateList'];
+function updateList(updateList) {
+
+  
   
  
 }
