@@ -18,9 +18,10 @@ function postUpdatedList(updateList) {
   var sheetRows = [];
   for (var i = 0; i < updateList.length; i++) {
     var rows = getRestRows(updateList[i]);
-      for (var j = 0; j < rows.length; j++) {
-        sheetRows.push(rows[j]);
-      }
+    if (rows.length == 0) continue;
+    for (var j = 0; j < rows.length; j++) {
+      sheetRows.push(rows[j]);
+    }
   }
   return sheetRows;
  
@@ -37,9 +38,12 @@ function getRestRows(updateListRow) {
   var dataRows = getSheetRestRows(fileId, sheetName, rowsCount);
 
   if (dataRows == undefined)  return [];
+  if (dataRows.length == 0) return [];
 
   var restRowsMap = [];
   for (var i = 0; i <= dataRows.length; i++) {
+    if (dataRows[i] == undefined) continue;
+    if (dataRows[i] == null) continue;
     var sheetRow = {};
     sheetRow['fileId'] = fileId;
     sheetRow['sheetName'] = sheetName;

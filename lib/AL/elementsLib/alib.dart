@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/elementsLib/infodialogs/snack.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 //import 'package:sheetviewer/uti/viewers/json_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -112,5 +113,24 @@ class AL {
           return;
       }
     });
+  }
+
+  void infoSnack(BuildContext context, String mess) {
+    showTopSnackBar(
+      context,
+      CustomSnackBar.success(
+        message: mess,
+      ),
+    );
+  }
+
+  void message(context, String text) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    final snackBar = SnackBar(
+      content: Text(text),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -47,12 +47,12 @@ class FilelistviewHomePage extends StatelessWidget {
     ));
   }
 
-  IconButton sheetRowsUpdate() {
+  IconButton sheetRowsUpdate(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.update),
       tooltip: 'Update new rows in sheets of this file list',
       onPressed: () async {
-        await getSheetRowsUpdates(interestContr.interestFilelist);
+        await getSheetRowsUpdates(interestContr.interestFilelist, context);
       },
     );
   }
@@ -68,7 +68,7 @@ class FilelistviewHomePage extends StatelessWidget {
             title: Text(interestContr.interestName.value),
           ),
           backgroundColor: Colors.lightBlue,
-          actions: [sheetRowsUpdate()],
+          actions: [sheetRowsUpdate(context)],
         ),
         body: detailBody());
   }

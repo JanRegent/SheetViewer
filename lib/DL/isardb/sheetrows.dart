@@ -136,6 +136,9 @@ class SheetrowsDb {
     try {
       // ignore: unnecessary_null_comparison
       if (testRow!.id != null) return;
+      await isar.writeTxn(() async {
+        await isar.sheetRows.put(sheetRow);
+      });
     } catch (_) {
       await isar.writeTxn(() async {
         await isar.sheetRows.put(sheetRow);
@@ -144,9 +147,6 @@ class SheetrowsDb {
   }
 
   Future updateAll(List<SheetRow> sheetRows) async {
-    if (!isar.isOpen) {
-      return Future<void>(() {});
-    }
     await isar.writeTxn(() async {
       await isar.sheetRows.putAll(sheetRows);
     });

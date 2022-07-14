@@ -73,24 +73,6 @@ class LocalStorage {
     return await readListString(key, defaultValue);
   }
 
-  //---Map
-  Future readMapSheet(
-      String sheetName, String fileId, String varName, Map defaultValue) async {
-    String key = varNameKey(sheetName, fileId, varName);
-    return await readMap(key, defaultValue);
-  }
-
-  Future<Map> readMap(String key, Map defaultValue) async {
-    String docId = await getDocId4read(key);
-
-    if (docId.isEmpty) {
-      return defaultValue;
-    }
-    Map item = await db.collection(dbName).doc(docId).get();
-
-    return item['value'];
-  }
-
   //-------------------------------------------------------------------update
   //----string
   Future updateStringSheet(
