@@ -14,14 +14,20 @@ Future getSheetRowsUpdates(List<dynamic> interestFilelist) async {
     updatList.add(
         {'fileId': fileId, 'sheetName': sheetName, 'rowsCount': rowsCount});
   }
-  var sheetRowsUpdatelist = await rowcountListPost(updatList);
+  var sheetRowsUpdatelist = await postUpdatedList(updatList);
   logi('gapps_sheetsviewbackkend.dart', 'getSheetRowsUpdates', 'response.data',
       sheetRowsUpdatelist.toString());
-
+  List<dynamic> sheetRows = sheetRowsUpdatelist['sheetRows'];
+  print(sheetRows);
+  for (var i = 0; i < sheetRows.length; i++) {
+    if (sheetRows[i]['row'] == null) continue;
+    print('------------------------------');
+    print(sheetRows[i].toString());
+  }
   return 'OK';
 }
 
-Future rowcountListPost(List<Map> interestUpdatelist) async {
+Future postUpdatedList(List<Map> interestUpdatelist) async {
   Dio dio = Dio();
   dio.interceptors.add(PrettyDioLogger(
     requestHeader: true,
@@ -35,7 +41,7 @@ Future rowcountListPost(List<Map> interestUpdatelist) async {
   dio.options.connectTimeout = 3000;
   try {
     String baseUrl =
-        'https://script.google.com/macros/s/AKfycbzm1P96Dnv4SbKlqjDxQcvK-Umpwtt7qzGrW4uIPUJginLecirUM3mpoDK2akMgOhF5/exec';
+        'https://script.google.com/macros/s/AKfycbyq642E2098jCaLIFwVqF3mz6GyZeW8YLSdsQzRmf-Mcu8BUvbqA8rvDi6G7_5E5lZ6/exec';
     dio.options.baseUrl = baseUrl;
     dio.options.headers.addAll({
       'content-type': 'application/json',

@@ -26,20 +26,49 @@ function getSheetTam(fileId, sheetName) {
 }
 
 function getSheetRestRows(fileId, sheetName, fromNo) {
-  logi(fileId +'  '+ sheetName +'  '+ fromNo);
+
+  if (fromNo > 0)  fromNo = fromNo - 1;
   var Agent = getAgent(fileId, sheetName );
   colsLastUsed = Agent.columns();
   
-  var toNo =   rowMax; 
+  return getSheetRestRows_(fromNo, Agent);
+ 
+}
+
+function getSheetRestRows_(fromNo, Agent){
   
-  return getRowsFromTo(fromNo, toNo, Agent);
-  // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+  var toNo = Agent.all().length;
+
+  if (toNo < fromNo) return undefined;
+
+  var arr = [];
+  for (var i = fromNo; i < toNo; i++) {
+    try{
+      //var row = Agent.find(i);
+      var row = Agent.all()[i];
+
+      if (row == undefined) {continue;} 
+
+      if (colsLastUsed.indexOf('dateinsert') > - 1) {
+        try {
+          var yyyyMMdd = '__' + row['dateinsert'].getFullYear() + '-'+row['dateinsert'].getMonth()+ '-'+row['dateinsert'].getDate() + '__';
+          row['dateinsert'] = yyyyMMdd;
+        }catch{
+          row['dateinsert'] = '__1900-01-01__';
+        }
+      }
+      arr.push(row);
+    }catch(e){
+      logi('row i: ' + i + ' ' + e);
+    }
+  }
+  return arr;
 }
 
 function getRowsFromTo(fromNo, toNo, Agent){
   
   logi('from-to ' + fromNo + ' -- '+  toNo);
-  if (toNo > fromNo) return undefined;
+  if (toNo < fromNo) return undefined;
 
   var arr = [];
   for (var i = fromNo; i <= toNo; i++) {

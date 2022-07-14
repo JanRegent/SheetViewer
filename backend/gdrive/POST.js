@@ -5,7 +5,7 @@ function doPost(e) {
   var data = JSON.parse(json)
   var updateList = data['updateList'];
   if (updateList !=  undefined ) {
-    return responseDataTamotsu(getUpdatedList(updateList));  
+    return responseDataTamotsu(postUpdatedList(updateList));  
   }
 
 
@@ -13,12 +13,14 @@ function doPost(e) {
 
 }
 
-function getUpdatedList(updateList) {
+function postUpdatedList(updateList) {
 
   var sheetRows = [];
-  for (var i = 0; i <= updateList.length; i++) {
+  for (var i = 0; i < updateList.length; i++) {
     var rows = getRestRows(updateList[i]);
-    sheetRows.push(rows[i]);
+      for (var j = 0; j < rows.length; j++) {
+        sheetRows.push(rows[j]);
+      }
   }
   return sheetRows;
  
@@ -32,18 +34,20 @@ function getRestRows(updateListRow) {
   var sheetName = updateListRow['sheetName'];
   var rowsCount = updateListRow['rowsCount'];
   
-  var restRowsArr = getSheetRestRows(fileId, sheetName, rowsCount);
-  if (restRowsArr == undefined)  return [];
+  var dataRows = getSheetRestRows(fileId, sheetName, rowsCount);
+
+  if (dataRows == undefined)  return [];
 
   var restRowsMap = [];
-  for (var i = 0; i <= restRowsArr.length; i++) {
+  for (var i = 0; i <= dataRows.length; i++) {
     var sheetRow = {};
-     sheetRow['fileId'] = fileId;
+    sheetRow['fileId'] = fileId;
     sheetRow['sheetName'] = sheetName;
     sheetRow['rowsCountFrom'] = rowsCount;
-    sheetRow['row'] = restRowsArr[i];
+    sheetRow['row'] = dataRows[i];
 
     restRowsMap.push(sheetRow);
+
   }
   return restRowsMap;
 
@@ -57,5 +61,6 @@ rowsCount: 40}];
 
 function updateList___test() {
   logClear();
-  logi(getUpdatedList(testList))
+  //logi(getUpdatedList(testList))
+  Logger.log(postUpdatedList(testList));
 }
