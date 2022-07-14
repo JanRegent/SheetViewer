@@ -25,14 +25,6 @@ class InterestContr extends GetxController {
 
     await interestContr.getInterestFilelist();
 
-    // rowsCountListGDrive =
-    //     await rowcountListPost(rowsCountListClient, interestMap);
-    // logi('interestLoad', 'rowcountListPost', 'response.data',
-    //     rowsCountListGDrive.toString());
-    // if (kDebugMode) {
-    //   print(rowsCountListGDrive);
-    // }
-
     return 'OK';
   }
 

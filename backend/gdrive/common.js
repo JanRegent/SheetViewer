@@ -25,10 +25,21 @@ function getSheetTam(fileId, sheetName) {
   // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
 }
 
+function getSheetRestRows(fileId, sheetName, fromNo) {
+  logi(fileId +'  '+ sheetName +'  '+ fromNo);
+  var Agent = getAgent(fileId, sheetName );
+  colsLastUsed = Agent.columns();
+  
+  var toNo =   rowMax; 
+  
+  return getRowsFromTo(fromNo, toNo, Agent);
+  // ?action=getRowsFirst&fileId=1cq0G8ulZLLZgdvwZ_f6Io1a3hupneDqQnaBPSzR39lA&sheetName=ElonX&rowsCount=3
+}
 
 function getRowsFromTo(fromNo, toNo, Agent){
   
   logi('from-to ' + fromNo + ' -- '+  toNo);
+  if (toNo > fromNo) return undefined;
 
   var arr = [];
   for (var i = fromNo; i <= toNo; i++) {
@@ -59,23 +70,40 @@ var rowMax;
 function getAgent(fileId, sheetName) {
   try {
     if (fileId == null) {
-      config.err = 'fileId is wrong;';
+      config.err = 'getAgent(fileId, sheetName) -- fileId is wrong;';
+      logi( config.err);
       return undefined;
     }
     if (sheetName == null) {
-      config.err = 'sheetName is wrong;';
+      config.err = 'getAgent(fileId, sheetName) -- sheetName is wrong;';
+      logi( config.err);
       return undefined;
     }
 
     var ss; 
-    if (fileId.substring(0,4) === 'http' )  
-      ss = SpreadsheetApp.openByUrl(fileId);
-    else
-      ss = SpreadsheetApp.openById(fileId);
+    try {
+      if (fileId.substring(0,4) === 'http' )  {
+        //logi(' SpreadsheetApp.openByUrl ' + fileId.trim());
+        ss = SpreadsheetApp.openByUrl(fileId.trim());
+      
+      }
+      else {
+        //logi('SpreadsheetApp.openById ' + fileId.trim());
+        ss = SpreadsheetApp.openById(fileId.trim());
+      }
+    }catch(e) {
+      logi('SpreadsheetApp.openBy\n' + e);
+    }
 
-    Tamotsu.initialize(ss);
-    var Agent = Tamotsu.Table.define({ sheetName: sheetName  });
+    var Agent;
+    try {
+      Tamotsu.initialize(ss);
+      Agent = Tamotsu.Table.define({ sheetName: sheetName.trim()  });
+    }catch(e){
+      logi('SpreadsheetApp.openBy\n' + e);
+    }
     rowMax = Agent.all().length;
+    //logi('rowMax ' + rowMax);
     return Agent;
 
   }catch(e){
@@ -88,9 +116,9 @@ function getAgent(fileId, sheetName) {
 
 //-----------------------------------------------------------------output
 function responseDataTamotsu(values){
-  logi('responseDataTamotsu: len.output: ' + values.length);
+  //logi('responseDataTamotsu: len.output: ' + values.length);
   var output = JSON.stringify({
-    sheetRows: 'values Oki1',
+    sheetRows: values,
   });
 
   return ContentService

@@ -6,6 +6,7 @@ import 'package:sheetviewer/AL/__home/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/loader/adapters/gapps_sheetsviewbackkend.dart';
 
 import '../elements/getrows/cards/_filelistcard.dart';
 import '../elements/getrows/cards/searchbywords.dart';
@@ -46,6 +47,16 @@ class FilelistviewHomePage extends StatelessWidget {
     ));
   }
 
+  IconButton sheetRowsUpdate() {
+    return IconButton(
+      icon: const Icon(Icons.update),
+      tooltip: 'Update new rows in sheets of this file list',
+      onPressed: () async {
+        await getSheetRowsUpdates(interestContr.interestFilelist);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     setPageTitle(interestContr.interestName.value, context);
@@ -57,6 +68,7 @@ class FilelistviewHomePage extends StatelessWidget {
             title: Text(interestContr.interestName.value),
           ),
           backgroundColor: Colors.lightBlue,
+          actions: [sheetRowsUpdate()],
         ),
         body: detailBody());
   }
