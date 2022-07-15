@@ -1,1 +1,1 @@
-const buildVersion = 'DL-getSheetRowsUpdates-3-updateRestSheetRows';      
+const buildVersion = 'AL-view-ViewVonfigBuilder-1';      

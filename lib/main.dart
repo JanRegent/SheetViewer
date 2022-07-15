@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
 
@@ -8,6 +9,18 @@ void main() async {
 
   await bl.init();
 
-  runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false, home: LoadingInterestPage()));
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: const LoadingInterestPage(),
+    scrollBehavior: MyCustomScrollBehavior(),
+  ));
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewconfigbuilder.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -14,6 +15,8 @@ bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 bool detailMode = false;
 
+List<String> colsBuilder = [];
+
 PlutogridController plutogridContr = PlutogridController();
 late PlutoGridStateManager gridAStateManager;
 
@@ -22,7 +25,7 @@ class PlutogridController extends GetxController {
 }
 
 Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
-    String sheetName) {
+    String sheetName, List<String> cols) {
   return Drawer(
     child: ListView(
       // Important: Remove any padding from the ListView.
@@ -72,6 +75,18 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           title: const Text('Filters last'),
           onTap: () {
             handleLoadFilter(gridAStateManager);
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text('View builder'),
+          onTap: () async {
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const ViewVonfigBuilder(),
+                ));
             Navigator.pop(context);
           },
         ),

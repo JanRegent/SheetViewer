@@ -33,6 +33,8 @@ class _AsyncGridState extends State<AsyncGrid> {
   void initState() {
     /// Columns must be provided at the beginning of a row synchronously.
     plutoCols.addAll(colsMap(widget.cols));
+    colsBuilder.clear;
+    colsBuilder.addAll(widget.cols);
     initStateManager(plutoCols, gridRows);
     super.initState();
   }

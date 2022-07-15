@@ -84,8 +84,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer:
-            plutoDrawer(context, setStateFunc, widget.fileId, widget.sheetName),
+        drawer: plutoDrawer(
+            context, setStateFunc, widget.fileId, widget.sheetName, cols),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
           future: getData4view(context), // async work
