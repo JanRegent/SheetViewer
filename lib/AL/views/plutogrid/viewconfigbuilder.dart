@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 class ViewVonfigBuilder extends StatefulWidget {
-  const ViewVonfigBuilder({Key? key}) : super(key: key);
+  final String fileId;
+  final String sheetName;
+  const ViewVonfigBuilder(this.fileId, this.sheetName, {Key? key})
+      : super(key: key);
 
   @override
   _ViewVonfigBuilderState createState() => _ViewVonfigBuilderState();
@@ -30,16 +35,20 @@ class _ViewVonfigBuilderState extends State<ViewVonfigBuilder> {
   Container colsHeaderRow() {
     List<Widget> wrow = [colsHeader()];
     for (var index = 0; index < colsBuilder.length; index++) {
-      wrow.add(ElevatedButton(
-          onPressed: () {
-            print(colsBuilder[index]);
-          },
-          child: Text(colsBuilder[index]),
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: const BorderSide(color: Colors.red))))));
+      wrow.add(
+        ElevatedButton.icon(
+            icon: const Icon(Icons.delete),
+            label: Text(colsBuilder[index]),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Colors.red)))),
+            onPressed: () {
+              colsBuilder.removeAt(index);
+              setState(() {});
+            }),
+      );
     }
 
     return Container(
@@ -54,18 +63,37 @@ class _ViewVonfigBuilderState extends State<ViewVonfigBuilder> {
   }
 
   ElevatedButton colsHeader() {
-    return ElevatedButton(
-        onPressed: () {},
-        child: const Text(
-          'ColsHeader',
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white10),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Colors.red)))));
+    return ElevatedButton.icon(
+      icon: const Icon(Icons.select_all),
+      label: const Text(
+        'ColsHeader',
+        style: TextStyle(color: Colors.black, fontSize: 20),
+      ),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.white10),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: const BorderSide(color: Colors.red)))),
+      onPressed: () async {
+        List<String> cols =
+            await sheetRowsDb.readCols(widget.fileId, widget.sheetName);
+        if (colsBuilder == cols) {
+          return;
+        }
+
+        List<String> result =
+            await selectListByCheckoxes(context, cols, 'Columns select');
+
+        if (result.isEmpty) {
+          //reset to all cols
+          colsBuilder = cols;
+        } else {
+          colsBuilder = result;
+        }
+        setStateFunc();
+      },
+    );
   }
 
   @override

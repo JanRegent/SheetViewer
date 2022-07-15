@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/elementsLib/selectList/selectlistbycheckoxes.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewconfigbuilder.dart';
-import 'package:sheetviewer/BL/bl.dart';
+
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
 import 'filters.dart';
@@ -40,25 +39,15 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
               trailing: al.helpIcon(context),
             )),
         ListTile(
-          leading: const Icon(Icons.view_column),
-          title: const Text('Columns select'),
+          leading: const Icon(Icons.settings),
+          title: const Text('View builder'),
           onTap: () async {
-            List<String> cols = await sheetRowsDb.readCols(fileId, sheetName);
-            if (colsHeader == cols) {
-              return;
-            }
-
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => ViewVonfigBuilder(fileId, sheetName),
+                ));
             Navigator.pop(context);
-            List<String> result =
-                await selectListByCheckoxes(context, cols, 'Columns select');
-
-            if (result.isEmpty) {
-              //reset to all cols
-              colsHeader = cols;
-            } else {
-              colsHeader = result;
-            }
-            setStateFunc();
           },
         ),
         ListTile(
@@ -75,18 +64,6 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           title: const Text('Filters last'),
           onTap: () {
             handleLoadFilter(gridAStateManager);
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.settings),
-          title: const Text('View builder'),
-          onTap: () async {
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => const ViewVonfigBuilder(),
-                ));
             Navigator.pop(context);
           },
         ),

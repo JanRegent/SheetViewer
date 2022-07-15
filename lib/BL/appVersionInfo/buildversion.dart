@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-ViewVonfigBuilder-1';      
+const buildVersion = 'AL-view-ViewVonfigBuilder-2';      
