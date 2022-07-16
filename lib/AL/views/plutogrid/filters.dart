@@ -26,6 +26,17 @@ List<PlutoColumn> getFilteredColumns(PlutoGridStateManager gridAStateManager) {
   }).toList();
 }
 
+List<String> getFilteredColsTitles(PlutoGridStateManager gridAStateManager) {
+  List<PlutoColumn> filteredCols = gridAStateManager.refColumns.where((e) {
+    return gridAStateManager.isFilteredColumn(e);
+  }).toList();
+  List<String> filteredColsTitles = [];
+  for (var i = 0; i < filteredCols.length; i++) {
+    filteredColsTitles.add(filteredCols[i].title.toLowerCase());
+  }
+  return filteredColsTitles;
+}
+
 void handleSaveFilter(PlutoGridStateManager gridAStateManager) {
   filterRows.clear();
 

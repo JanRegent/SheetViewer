@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/viewconfigbuilder.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewconfigpage.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -46,7 +46,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
                 context,
                 MaterialPageRoute(
                   builder: (ctx) =>
-                      ViewVonfigBuilder(fileId, sheetName, plutoCols),
+                      ViewConfigPage(fileId, sheetName, plutoCols),
                 ));
             Navigator.pop(context);
           },

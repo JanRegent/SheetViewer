@@ -1,1 +1,1 @@
-const buildVersion = 'AL-ViewConfigBuilder-1-filteredColumnGetValue';      
+const buildVersion = 'AL-ViewConfigBuilder-1-plutogrid401';      
