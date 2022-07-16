@@ -23,8 +23,6 @@ class AsyncGrid extends StatefulWidget {
 }
 
 class _AsyncGridState extends State<AsyncGrid> {
-  final List<PlutoColumn> plutoCols = [];
-
   List<PlutoRow> gridRows = [];
   final ScrollController _controller =
       ScrollController(initialScrollOffset: 50.0);
@@ -33,8 +31,7 @@ class _AsyncGridState extends State<AsyncGrid> {
   void initState() {
     /// Columns must be provided at the beginning of a row synchronously.
     plutoCols.addAll(colsMap(widget.cols));
-    colsBuilder.clear;
-    colsBuilder.addAll(widget.cols);
+
     initStateManager(plutoCols, gridRows);
     super.initState();
   }

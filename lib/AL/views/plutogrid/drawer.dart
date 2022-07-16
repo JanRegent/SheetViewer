@@ -10,11 +10,11 @@ import 'filters.dart';
 
 List<SheetRow?> rows = [];
 List<String> colsHeader = [];
+final List<PlutoColumn> plutoCols = [];
+
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 bool detailMode = false;
-
-List<String> colsBuilder = [];
 
 PlutogridController plutogridContr = PlutogridController();
 late PlutoGridStateManager gridAStateManager;
@@ -45,7 +45,8 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (ctx) => ViewVonfigBuilder(fileId, sheetName),
+                  builder: (ctx) =>
+                      ViewVonfigBuilder(fileId, sheetName, plutoCols),
                 ));
             Navigator.pop(context);
           },
