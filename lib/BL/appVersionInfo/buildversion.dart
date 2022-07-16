@@ -1,1 +1,1 @@
-const buildVersion = 'AL-ViewConfigBuilder-1-plutogrid401';      
+const buildVersion = 'AL-ViewConfigBuilder-2-autoFit-plutogrid501';      

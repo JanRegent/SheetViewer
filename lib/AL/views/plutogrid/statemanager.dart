@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -18,9 +17,9 @@ class PlutogridController extends GetxController {
 }
 
 FocusNode gridFocusNode = FocusNode();
-LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
+// LinkedScrollControllerGroup verticalScroll = LinkedScrollControllerGroup();
 
-LinkedScrollControllerGroup horizontalScroll = LinkedScrollControllerGroup();
+// LinkedScrollControllerGroup horizontalScroll = LinkedScrollControllerGroup();
 
 void initStateManager(
     List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows) {
@@ -29,8 +28,8 @@ void initStateManager(
     rows: gridrows,
     gridFocusNode: gridFocusNode,
     scroll: PlutoGridScrollController(
-      vertical: verticalScroll,
-      horizontal: horizontalScroll,
-    ),
+        // vertical: verticalScroll,
+        // horizontal: horizontalScroll,
+        ),
   );
 }

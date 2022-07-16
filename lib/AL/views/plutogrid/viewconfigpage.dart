@@ -21,13 +21,6 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
   @override
   void initState() {
     super.initState();
-    //gridAStateManager?.columns.forEach((col) => col.formattedValueForDisplay()
-    // gridAStateManager
-    //     ?.autoFitColumn(gridAStateManager!.gridKey!.currentContext!, col));
-  }
-
-  void setStateFunc() {
-    setState(() {});
   }
 
   List<TextEditingController> colsFilterContr = [];
@@ -169,8 +162,8 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
     List<Widget> wrow = [freezeTo1()];
     for (var index = 0; index < plutoCols.length; index++) {
       if (!plutoCols[index].frozen.isFrozen) continue;
-      String freezeSide = 'left';
-      if (plutoCols[index].frozen.isRight) freezeSide = 'right';
+      String freezeSide = 'start';
+      if (plutoCols[index].frozen.isEnd) freezeSide = 'end';
 
       wrow.add(Column(
         children: [
@@ -258,7 +251,7 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
       return ElevatedButton.icon(
         icon: const Icon(Icons.select_all),
         label: const Text(
-          'Auto fit    ',
+          'Auto fit   ',
           style: TextStyle(color: Colors.black, fontSize: 20),
         ),
         style: ButtonStyle(
@@ -271,27 +264,47 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
       );
     }
 
+    // for (var col in gridAStateManager.columns) {
+    //   gridAStateManager.autoFitColumn(
+    //       gridAStateManager.gridKey!.currentContext!, col);
+    // }
     List<Widget> wrow = [autoFit1()];
-    //gridAStateManager.autoFitColumn(context, column).
+
     for (var index = 0; index < plutoCols.length; index++) {
-      if (plutoCols[index].sort.isNone) continue;
-      String sort =
-          plutoCols[index].sort.toString().replaceAll('PlutoColumnSort.', '');
-      wrow.add(Column(
-        children: [
-          ElevatedButton.icon(
-              icon: const Icon(Icons.space_bar),
-              label: Text(plutoCols[index].title),
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.red)))),
-              onPressed: () {}),
-          SizedBox(width: 120, height: 60, child: Text(sort))
-        ],
-      ));
+      if (plutoCols[index].hide) continue;
+      wrow.add(
+        ElevatedButton.icon(
+            icon: const Icon(Icons.delete),
+            label: Text(plutoCols[index].title),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Colors.red)))),
+            onPressed: () {}),
+      );
     }
+
+    //gridAStateManager.autoFitColumn(context, column).
+    // for (var index = 0; index < plutoCols.length; index++) {
+    //   if (plutoCols[index].title != 'Mise') continue;
+    //   gridAStateManager.autoFitColumn(
+    //       gridAStateManager.gridKey!.currentContext!, plutoCols[index]);
+    //   wrow.add(Column(
+    //     children: [
+    //       ElevatedButton.icon(
+    //           icon: const Icon(Icons.space_bar),
+    //           label: Text(plutoCols[index].title),
+    //           style: ButtonStyle(
+    //               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+    //                   RoundedRectangleBorder(
+    //                       borderRadius: BorderRadius.circular(18.0),
+    //                       side: const BorderSide(color: Colors.red)))),
+    //           onPressed: () {}),
+    //       SizedBox(width: 120, height: 60, child: Text(plutoCols[index].title))
+    //     ],
+    //   ));
+    // }
 
     return Container(
         margin: const EdgeInsets.all(5.0),
@@ -310,8 +323,12 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
         appBar: AppBar(
           title: const Text('View config page'),
         ),
-        body: ListView(
-            shrinkWrap: true,
-            children: [colsHeaderRow(), colsFilter(), freezeTo(), sort()]));
+        body: ListView(shrinkWrap: true, children: [
+          colsHeaderRow(),
+          colsFilter(),
+          freezeTo(),
+          sort(),
+          autoFit()
+        ]));
   }
 }
