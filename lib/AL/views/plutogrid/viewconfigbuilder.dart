@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
+import 'package:sheetviewer/AL/views/plutogrid/filters.dart';
 
 class ViewVonfigBuilder extends StatefulWidget {
   final String fileId;
@@ -79,14 +80,19 @@ class _ViewVonfigBuilderState extends State<ViewVonfigBuilder> {
 
   Container colsFilter() {
     List<Widget> wrow = [colsFilter1()];
-    for (var index = 0; index < plutoCols.length; index++) {
+    List<PlutoColumn> filteredCols = getFilteredColumns(gridAStateManager);
+
+    for (var index = 0; index < filteredCols.length; index++) {
       colsFilterContr.add(TextEditingController());
       colsFilterContr.last.text = index.toString();
+      colsFilterContr[index].text =
+          gridAStateManager.firstCell!.value.toString();
+      //gridAStateManager.filterRows.first.cells.values.first.value;
       wrow.add(Column(
         children: [
           ElevatedButton.icon(
               icon: const Icon(Icons.space_bar),
-              label: Text(plutoCols[index].title),
+              label: Text(filteredCols[index].title),
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

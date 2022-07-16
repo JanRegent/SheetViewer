@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-ViewVonfigBuilder-4-plutoCols';      
+const buildVersion = 'AL-view-ViewVonfigBuilde-5-filteredCols';      
