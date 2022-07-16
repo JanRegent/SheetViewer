@@ -86,8 +86,7 @@ class _ViewVonfigBuilderState extends State<ViewVonfigBuilder> {
       colsFilterContr.add(TextEditingController());
       colsFilterContr.last.text = index.toString();
       colsFilterContr[index].text =
-          gridAStateManager.firstCell!.value.toString();
-      //gridAStateManager.filterRows.first.cells.values.first.value;
+          filteredColumnGetValue(gridAStateManager, filteredCols[index].title);
       wrow.add(Column(
         children: [
           ElevatedButton.icon(

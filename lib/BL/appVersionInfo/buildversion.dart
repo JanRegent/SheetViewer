@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-ViewVonfigBuilde-5-filteredCols';      
+const buildVersion = 'AL-ViewConfigBuilder-1-filteredColumnGetValue';      

@@ -53,6 +53,36 @@ void handleSaveFilter(PlutoGridStateManager gridAStateManager) {
   filterRows.addAll(filters);
 }
 
+String filteredColumnGetValue(
+    PlutoGridStateManager gridAStateManager, String columnName) {
+  final List<PlutoRow> filters = gridAStateManager.filterRows
+      .map(
+        (e) => PlutoRow(cells: {
+          FilterHelper.filterFieldColumn: PlutoCell(
+            value: e.cells[FilterHelper.filterFieldColumn]!.value,
+          ),
+          FilterHelper.filterFieldType: PlutoCell(
+            value: e.cells[FilterHelper.filterFieldType]!.value,
+          ),
+          FilterHelper.filterFieldValue: PlutoCell(
+            value: e.cells[FilterHelper.filterFieldValue]!.value,
+          ),
+        }),
+      )
+      .toList();
+  if (filters.isEmpty) return '';
+  // rint(filters[0].cells.keys);
+  // rint(filters[0].cells['column']!.value);
+  // rint(filters[0].cells['type']!.value);
+  // rint(filters[0].cells['value']!.value);
+  for (var i = 0; i < filters.length; i++) {
+    if (filters[0].cells['column']!.value == columnName) {
+      return filters[0].cells['value']!.value.toString();
+    }
+  }
+  return '';
+}
+
 void handleLoadFilter(PlutoGridStateManager gridAStateManager) {
   List<PlutoRow> filterRow = [];
 
