@@ -9,8 +9,9 @@ class ViewConfig {
   @Id()
   int id = Isar.autoIncrement;
   String aSheetName = '';
+  List<String> colsHeader = [];
   List<String> colsFilter = [];
-  String freezeTo = '';
+  List<String> freezeTo = [];
   String sort = '';
   List<String> autoFit = [];
   String zfileId = '';
@@ -24,13 +25,19 @@ class ViewConfig {
   id $id
  
  
-    $aSheetName
+    sheetName $aSheetName
+
+    colsHeader\n  $colsHeader
 
     colsFilter\n  $colsFilter
+    
     freezeTo\n  $freezeTo
+    
     sort\n  $sort
+    
     autoFit\n  $autoFit
-    $zfileId
+
+    fileId $zfileId
     ''';
   }
 
@@ -128,21 +135,26 @@ class ViewConfigsDb {
   // }
 
   Future update(ViewConfig viewConfig) async {
-    ViewConfig testRow = await isar.viewConfigs
+    ViewConfig? testRow = await isar.viewConfigs
         .filter()
-        .zfileIdEqualTo(ViewConfig.zfileId)
+        .zfileIdEqualTo(viewConfig.zfileId)
         .and()
-        .aSheetNameEqualTo(ViewConfig.aSheetName)
+        .aSheetNameEqualTo(viewConfig.aSheetName)
         .findFirst();
     try {
       // ignore: unnecessary_null_comparison
-      //if (testRow!.id != null) return;
+      if (testRow!.id != null) {
+        await isar.writeTxn(() async {
+          await isar.viewConfigs.delete(testRow.id); // delete
+        });
+      }
+
       await isar.writeTxn(() async {
-        await isar.viewConfigs.put(ViewConfig);
+        await isar.viewConfigs.put(viewConfig);
       });
     } catch (_) {
       await isar.writeTxn(() async {
-        await isar.viewConfigs.put(ViewConfig);
+        await isar.viewConfigs.put(viewConfig);
       });
     }
   }

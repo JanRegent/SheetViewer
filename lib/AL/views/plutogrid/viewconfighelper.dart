@@ -3,21 +3,24 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/AL/views/plutogrid/filters.dart';
+import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/DL/isardb/viewconfig.dart';
 
-class ViewConfigPage extends StatefulWidget {
+class ViewConfigHelper extends StatefulWidget {
   final String fileId;
   final String sheetName;
 
   final List<PlutoColumn> plutoCols;
 
-  const ViewConfigPage(this.fileId, this.sheetName, this.plutoCols, {Key? key})
+  const ViewConfigHelper(this.fileId, this.sheetName, this.plutoCols,
+      {Key? key})
       : super(key: key);
 
   @override
-  _ViewConfigPageState createState() => _ViewConfigPageState();
+  _ViewConfigHelperState createState() => _ViewConfigHelperState();
 }
 
-class _ViewConfigPageState extends State<ViewConfigPage> {
+class _ViewConfigHelperState extends State<ViewConfigHelper> {
   @override
   void initState() {
     super.initState();
@@ -25,6 +28,15 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
 
   List<TextEditingController> colsFilterContr = [];
   //------------------------------------------------------------------colsHeader
+  List<String> getColsHeader() {
+    List<String> colsHeader = [];
+    for (var index = 0; index < plutoCols.length; index++) {
+      if (plutoCols[index].hide) continue;
+
+      colsHeader.add(plutoCols[index].title);
+    }
+    return colsHeader;
+  }
 
   Container colsHeaderRow() {
     List<Widget> wrow = [colsHeader()];
@@ -139,7 +151,17 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
         ));
   }
 
-//------------------------------------------------------------------freezeTo
+  List<String> getFilteredList() {
+    List<String> filtersList = [];
+    for (var index = 0; index < plutoCols.length; index++) {
+      String value =
+          filteredColumnGetValue(gridAStateManager, plutoCols[index].title);
+      if (value.isEmpty) continue;
+      filtersList.add({'${plutoCols[index].title}: $value'}.toString());
+    }
+    return filtersList;
+  }
+  //------------------------------------------------------------------freezeTo
 
   Container freezeTo() {
     ElevatedButton freezeTo1() {
@@ -192,7 +214,17 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
         ));
   }
 
-//------------------------------------------------------------------sort
+  List<String> getFreezeToList() {
+    List<String> freezeToList = [];
+    for (var index = 0; index < plutoCols.length; index++) {
+      if (!plutoCols[index].frozen.isFrozen) continue;
+      String freezeSide = 'start';
+      if (plutoCols[index].frozen.isEnd) freezeSide = 'end';
+      freezeToList.add({'${plutoCols[index].title}: $freezeSide'}.toString());
+    }
+    return freezeToList;
+  }
+  //------------------------------------------------------------------sort
 
   Container sort() {
     ElevatedButton sort1() {
@@ -244,6 +276,17 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
         ));
   }
 
+  String getSort() {
+    Map sortPar = {};
+    for (var index = 0; index < plutoCols.length; index++) {
+      if (plutoCols[index].sort.isNone) continue;
+      String sort =
+          plutoCols[index].sort.toString().replaceAll('PlutoColumnSort.', '');
+      sortPar[plutoCols[index].title] = sort;
+      break;
+    }
+    return sortPar.toString();
+  }
 //------------------------------------------------------------------autoFit
 
   Container autoFit() {
@@ -317,11 +360,40 @@ class _ViewConfigPageState extends State<ViewConfigPage> {
         ));
   }
 
+  List<String> getAutoFitList() {
+    List<String> autofitList = [];
+    for (var index = 0; index < plutoCols.length; index++) {
+      if (plutoCols[index].hide) continue;
+
+      autofitList.add(plutoCols[index].title);
+    }
+    return autofitList;
+  }
+
+  //---------------------------------------------------------------saveLoad
+  IconButton viewConfigSave() {
+    return IconButton(
+        icon: const Icon(Icons.save),
+        onPressed: () async {
+          ViewConfig viewConfig = ViewConfig()
+            ..aSheetName = widget.sheetName
+            ..zfileId = widget.fileId
+            ..colsHeader = getColsHeader()
+            ..colsFilter = getFilteredList()
+            ..freezeTo = getFreezeToList()
+            ..sort = getSort()
+            ..autoFit = getAutoFitList();
+
+          await viewConfigsDb.update(viewConfig);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('View config page'),
+          actions: [viewConfigSave()],
         ),
         body: ListView(shrinkWrap: true, children: [
           colsHeaderRow(),

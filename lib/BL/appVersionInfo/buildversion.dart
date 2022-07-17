@@ -1,1 +1,1 @@
-const buildVersion = 'AL-ViewConfigBuilder-ViewConfig-1';      
+const buildVersion = 'AL-ViewConfigHelper-1';      

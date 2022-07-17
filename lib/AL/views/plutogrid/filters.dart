@@ -86,9 +86,9 @@ String filteredColumnGetValue(
   // rint(filters[0].cells['column']!.value);
   // rint(filters[0].cells['type']!.value);
   // rint(filters[0].cells['value']!.value);
-  for (var i = 0; i < filters.length; i++) {
-    if (filters[0].cells['column']!.value == columnName) {
-      return filters[0].cells['value']!.value.toString();
+  for (var fIx = 0; fIx < filters.length; fIx++) {
+    if (filters[fIx].cells['column']!.value == columnName) {
+      return filters[fIx].cells['value']!.value.toString();
     }
   }
   return '';

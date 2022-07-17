@@ -16,17 +16,18 @@ extension GetViewConfigCollection on Isar {
 const ViewConfigSchema = CollectionSchema(
   name: r'ViewConfig',
   schema:
-      r'{"name":"ViewConfig","idName":"id","properties":[{"name":"aSheetName","type":"String"},{"name":"autoFit","type":"StringList"},{"name":"colsFilter","type":"StringList"},{"name":"freezeTo","type":"String"},{"name":"sort","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+      r'{"name":"ViewConfig","idName":"id","properties":[{"name":"aSheetName","type":"String"},{"name":"autoFit","type":"StringList"},{"name":"colsFilter","type":"StringList"},{"name":"colsHeader","type":"StringList"},{"name":"freezeTo","type":"StringList"},{"name":"sort","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
   idName: r'id',
   propertyIds: {
     r'aSheetName': 0,
     r'autoFit': 1,
     r'colsFilter': 2,
-    r'freezeTo': 3,
-    r'sort': 4,
-    r'zfileId': 5
+    r'colsHeader': 3,
+    r'freezeTo': 4,
+    r'sort': 5,
+    r'zfileId': 6
   },
-  listProperties: {r'autoFit', r'colsFilter'},
+  listProperties: {r'autoFit', r'colsFilter', r'colsHeader', r'freezeTo'},
   indexIds: {},
   indexValueTypes: {},
   linkIds: {},
@@ -83,14 +84,28 @@ void _viewConfigSerializeNative(
     colsFilter$BytesList.add(bytes);
     colsFilter$BytesCount += bytes.length as int;
   }
-  final freezeTo$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.freezeTo);
+  var colsHeader$BytesCount = (object.colsHeader.length) * 8;
+  final colsHeader$BytesList = <IsarUint8List>[];
+  for (final str in object.colsHeader) {
+    final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
+    colsHeader$BytesList.add(bytes);
+    colsHeader$BytesCount += bytes.length as int;
+  }
+  var freezeTo$BytesCount = (object.freezeTo.length) * 8;
+  final freezeTo$BytesList = <IsarUint8List>[];
+  for (final str in object.freezeTo) {
+    final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
+    freezeTo$BytesList.add(bytes);
+    freezeTo$BytesCount += bytes.length as int;
+  }
   final sort$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.sort);
   final zfileId$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.zfileId);
   final size = (staticSize +
       (aSheetName$Bytes.length) +
       autoFit$BytesCount +
       colsFilter$BytesCount +
-      (freezeTo$Bytes.length) +
+      colsHeader$BytesCount +
+      freezeTo$BytesCount +
       (sort$Bytes.length) +
       (zfileId$Bytes.length)) as int;
   cObj.buffer = alloc(size);
@@ -102,9 +117,10 @@ void _viewConfigSerializeNative(
   writer.writeBytes(offsets[0], aSheetName$Bytes);
   writer.writeStringList(offsets[1], autoFit$BytesList);
   writer.writeStringList(offsets[2], colsFilter$BytesList);
-  writer.writeBytes(offsets[3], freezeTo$Bytes);
-  writer.writeBytes(offsets[4], sort$Bytes);
-  writer.writeBytes(offsets[5], zfileId$Bytes);
+  writer.writeStringList(offsets[3], colsHeader$BytesList);
+  writer.writeStringList(offsets[4], freezeTo$BytesList);
+  writer.writeBytes(offsets[5], sort$Bytes);
+  writer.writeBytes(offsets[6], zfileId$Bytes);
 }
 
 ViewConfig _viewConfigDeserializeNative(IsarCollection<ViewConfig> collection,
@@ -113,10 +129,11 @@ ViewConfig _viewConfigDeserializeNative(IsarCollection<ViewConfig> collection,
   object.aSheetName = reader.readString(offsets[0]);
   object.autoFit = reader.readStringList(offsets[1]) ?? [];
   object.colsFilter = reader.readStringList(offsets[2]) ?? [];
-  object.freezeTo = reader.readString(offsets[3]);
+  object.colsHeader = reader.readStringList(offsets[3]) ?? [];
+  object.freezeTo = reader.readStringList(offsets[4]) ?? [];
   object.id = id;
-  object.sort = reader.readString(offsets[4]);
-  object.zfileId = reader.readString(offsets[5]);
+  object.sort = reader.readString(offsets[5]);
+  object.zfileId = reader.readString(offsets[6]);
   return object;
 }
 
@@ -132,10 +149,12 @@ P _viewConfigDeserializePropNative<P>(
     case 2:
       return (reader.readStringList(offset) ?? []) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Illegal propertyIndex');
@@ -148,6 +167,7 @@ Object _viewConfigSerializeWeb(
   IsarNative.jsObjectSet(jsObj, r'aSheetName', object.aSheetName);
   IsarNative.jsObjectSet(jsObj, r'autoFit', object.autoFit);
   IsarNative.jsObjectSet(jsObj, r'colsFilter', object.colsFilter);
+  IsarNative.jsObjectSet(jsObj, r'colsHeader', object.colsHeader);
   IsarNative.jsObjectSet(jsObj, r'freezeTo', object.freezeTo);
   IsarNative.jsObjectSet(jsObj, r'id', object.id);
   IsarNative.jsObjectSet(jsObj, r'sort', object.sort);
@@ -169,7 +189,16 @@ ViewConfig _viewConfigDeserializeWeb(
           .toList()
           .cast<String>() ??
       [];
-  object.freezeTo = IsarNative.jsObjectGet(jsObj, r'freezeTo') ?? '';
+  object.colsHeader = (IsarNative.jsObjectGet(jsObj, r'colsHeader') as List?)
+          ?.map((e) => e ?? '')
+          .toList()
+          .cast<String>() ??
+      [];
+  object.freezeTo = (IsarNative.jsObjectGet(jsObj, r'freezeTo') as List?)
+          ?.map((e) => e ?? '')
+          .toList()
+          .cast<String>() ??
+      [];
   object.id =
       IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   object.sort = IsarNative.jsObjectGet(jsObj, r'sort') ?? '';
@@ -193,8 +222,18 @@ P _viewConfigDeserializePropWeb<P>(Object jsObj, String propertyName) {
               .toList()
               .cast<String>() ??
           []) as P;
+    case r'colsHeader':
+      return ((IsarNative.jsObjectGet(jsObj, r'colsHeader') as List?)
+              ?.map((e) => e ?? '')
+              .toList()
+              .cast<String>() ??
+          []) as P;
     case r'freezeTo':
-      return (IsarNative.jsObjectGet(jsObj, r'freezeTo') ?? '') as P;
+      return ((IsarNative.jsObjectGet(jsObj, r'freezeTo') as List?)
+              ?.map((e) => e ?? '')
+              .toList()
+              .cast<String>() ??
+          []) as P;
     case r'id':
       return (IsarNative.jsObjectGet(jsObj, r'id') ??
           (double.negativeInfinity as int)) as P;
@@ -636,7 +675,124 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToEqualTo(
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'colsHeader',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'colsHeader',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      colsHeaderElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'colsHeader',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -650,7 +806,7 @@ extension ViewConfigQueryFilter
   }
 
   QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
-      freezeToGreaterThan(
+      freezeToElementGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -665,7 +821,8 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToLessThan(
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -680,7 +837,8 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToBetween(
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -700,7 +858,7 @@ extension ViewConfigQueryFilter
   }
 
   QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
-      freezeToStartsWith(
+      freezeToElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -713,7 +871,8 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToEndsWith(
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -726,9 +885,8 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'freezeTo',
@@ -738,9 +896,8 @@ extension ViewConfigQueryFilter
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> freezeToMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      freezeToElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'freezeTo',
@@ -1046,18 +1203,6 @@ extension ViewConfigQueryWhereSortBy
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByFreezeTo() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'freezeTo', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByFreezeToDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'freezeTo', Sort.desc);
-    });
-  }
-
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortBySort() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sort', Sort.asc);
@@ -1094,18 +1239,6 @@ extension ViewConfigQueryWhereSortThenBy
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByASheetNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'aSheetName', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByFreezeTo() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'freezeTo', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByFreezeToDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'freezeTo', Sort.desc);
     });
   }
 
@@ -1167,10 +1300,15 @@ extension ViewConfigQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByFreezeTo(
-      {bool caseSensitive = true}) {
+  QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByColsHeader() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'freezeTo', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'colsHeader');
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByFreezeTo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'freezeTo');
     });
   }
 
@@ -1210,7 +1348,14 @@ extension ViewConfigQueryProperty
     });
   }
 
-  QueryBuilder<ViewConfig, String, QQueryOperations> freezeToProperty() {
+  QueryBuilder<ViewConfig, List<String>, QQueryOperations>
+      colsHeaderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'colsHeader');
+    });
+  }
+
+  QueryBuilder<ViewConfig, List<String>, QQueryOperations> freezeToProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'freezeTo');
     });
