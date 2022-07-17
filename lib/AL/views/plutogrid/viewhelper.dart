@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/filters.dart';
@@ -34,13 +36,25 @@ class ViewHelper {
   }
 
   //---------------------------------------------------------------------freze
-  List<String> getFreezeToList() {
-    List<String> freezeToList = [];
+  List<String> freezeToListString() {
+    List<dynamic> freezeListDynamic = freezeToListDynamic();
+    List<String> freezeListString = [];
+    for (var element in freezeListDynamic) {
+      freezeListString.add(jsonEncode(element));
+    }
+    return freezeListString;
+  }
+
+  List<dynamic> freezeToListDynamic() {
+    List<dynamic> freezeToList = [];
     for (var index = 0; index < plutoCols.length; index++) {
       if (!plutoCols[index].frozen.isFrozen) continue;
       String freezeSide = 'start';
       if (plutoCols[index].frozen.isEnd) freezeSide = 'end';
-      freezeToList.add({'${plutoCols[index].title}: $freezeSide'}.toString());
+      Map pair = {};
+      pair['title'] = plutoCols[index].title;
+      pair['side'] = freezeSide;
+      freezeToList.add(pair);
     }
     return freezeToList;
   }
@@ -100,7 +114,7 @@ class ViewHelper {
             ..zfileId = fileId
             ..colsHeader = getColsHeader()
             ..colsFilter = getFilteredList()
-            ..freezeTo = getFreezeToList()
+            ..freezeTo = freezeToListString()
             ..sort = getSort()
             ..autoFit = getAutoFitList();
 

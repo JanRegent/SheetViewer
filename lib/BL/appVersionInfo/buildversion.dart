@@ -1,1 +1,1 @@
-const buildVersion = 'AL-ViewHelper-2';      
+const buildVersion = 'AL-ViewHelper-3-freezeToListDynamic';      

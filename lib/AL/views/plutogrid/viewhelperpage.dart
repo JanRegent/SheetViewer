@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
@@ -161,23 +163,20 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
     }
 
     List<Widget> wrow = [freezeTo1()];
-    for (var index = 0; index < viewHelper.plutoCols.length; index++) {
-      if (!viewHelper.plutoCols[index].frozen.isFrozen) continue;
-      String freezeSide = 'start';
-      if (viewHelper.plutoCols[index].frozen.isEnd) freezeSide = 'end';
 
+    for (var element in viewHelper.freezeToListDynamic()) {
       wrow.add(Column(
         children: [
           ElevatedButton.icon(
               icon: const Icon(Icons.space_bar),
-              label: Text(viewHelper.plutoCols[index].title),
+              label: Text(element['title']),
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                           side: const BorderSide(color: Colors.red)))),
               onPressed: () {}),
-          SizedBox(width: 120, height: 60, child: Text(freezeSide))
+          SizedBox(width: 120, height: 60, child: Text(element['side']))
         ],
       ));
     }
