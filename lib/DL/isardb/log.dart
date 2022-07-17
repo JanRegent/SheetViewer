@@ -4,6 +4,7 @@ part 'log.g.dart'; // flutter pub run build_runner build
 
 @Collection()
 class Log {
+  @Id()
   int id = Isar.autoIncrement;
   String aFunc = '';
   String aStep = '';

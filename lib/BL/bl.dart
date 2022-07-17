@@ -6,9 +6,11 @@ import 'package:sheetviewer/DL/isardb/filelist.dart';
 
 import 'package:sheetviewer/DL/isardb/log.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/DL/isardb/viewconfig.dart';
 
 import 'package:sheetviewer/DL/localstorage/localstorage.dart';
 
+import '../DL/isardb/viewconfig.dart';
 import 'appVersionInfo/appmode.dart';
 import 'appVersionInfo/appversion.dart';
 import 'appVersionInfo/buildversion.dart';
@@ -19,6 +21,7 @@ late LogDb logDb;
 
 late FileListDb filelistDb;
 late SheetrowsDb sheetRowsDb;
+late ViewConfigsDb viewConfigsDb;
 
 late LocalStorage appHome = LocalStorage('appHome: ');
 InterestContr interestContr = InterestContr();
@@ -45,7 +48,8 @@ class BL {
 
 Future isarDbInit() async {
   //final isar = await Isar.open([LogSchema, SheetRowSchema, FileListSchema]);
-  final isar = await Isar.open([LogSchema, SheetRowSchema, FileListSchema],
+  final isar = await Isar.open(
+      [LogSchema, SheetRowSchema, FileListSchema, ViewConfigSchema],
       name: 'SheetViewerDemo', relaxedDurability: true);
   //,inspector: kDebugMode
   //directory: dir.path,
@@ -58,4 +62,5 @@ Future isarDbInit() async {
 
   sheetRowsDb = SheetrowsDb(isar);
   filelistDb = FileListDb(isar);
+  viewConfigsDb = ViewConfigsDb(isar);
 }
