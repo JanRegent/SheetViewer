@@ -45,7 +45,7 @@ SingleChildScrollView detailPanel_(
   );
 }
 
-PlutoPagination plutoPagination = PlutoPagination(gridAStateManager);
+PlutoPagination plutoPagination = PlutoPagination(viewHelper.gridAStateManager);
 int currentPage = 1;
 PlutoGrid singleGrid(
     List<PlutoColumn> plutoCols,
@@ -60,12 +60,12 @@ PlutoGrid singleGrid(
     currentPage = plutoPagination.stateManager.page;
     //rint(currentPage);
     try {
-      detailRowNo.value =
-          gridAStateManager.currentCell!.row.cells.values.first.value;
+      detailRowNo.value = viewHelper
+          .gridAStateManager.currentCell!.row.cells.values.first.value;
       getDetailList(detailRowNo.value, sheetRows);
-      detailColumnField = gridAStateManager.currentColumn!.title;
+      detailColumnField = viewHelper.gridAStateManager.currentColumn!.title;
 
-      detailContent.value = gridAStateManager.currentCell!.value;
+      detailContent.value = viewHelper.gridAStateManager.currentCell!.value;
     } catch (_) {} //not init yet -- Unexpected null value.
   }
 
@@ -76,19 +76,19 @@ PlutoGrid singleGrid(
 
     // columnGroups: columnGroups,
     onLoaded: (PlutoGridOnLoadedEvent event) {
-      gridAStateManager = event.stateManager;
-      gridAStateManager.setShowColumnFilter(true);
+      viewHelper.gridAStateManager = event.stateManager;
+      viewHelper.gridAStateManager.setShowColumnFilter(true);
 
-      gridAStateManager.eventManager!.listener((event) {
+      viewHelper.gridAStateManager.eventManager!.listener((event) {
         if (event is PlutoGridChangeColumnFilterEvent) {}
       });
       filtersInit(cols);
       //handleLoadFilter(gridAStateManager);
 
-      gridAStateManager.addListener(onSelectHandle);
+      viewHelper.gridAStateManager.addListener(onSelectHandle);
       //plutoPagination.stateManager.setPage(2); //if pages > 1
       if (_controller.hasClients) {
-        gridAStateManager.scroll!.setBodyRowsVertical(_controller);
+        viewHelper.gridAStateManager.scroll!.setBodyRowsVertical(_controller);
       }
     },
     onChanged: (PlutoGridOnChangedEvent event) {
@@ -96,7 +96,7 @@ PlutoGrid singleGrid(
     },
     onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
       //gridAStateManager.notifyListeners();
-      handleSaveFilter(gridAStateManager);
+      handleSaveFilter(viewHelper.gridAStateManager);
       // print('----------------------------------');
       // int page = gridAStateManager.page;
       // print(page);

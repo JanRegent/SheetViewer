@@ -23,7 +23,7 @@ FocusNode gridFocusNode = FocusNode();
 
 void initStateManager(
     List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows) {
-  gridAStateManager = PlutoGridStateManager(
+  viewHelper.gridAStateManager = PlutoGridStateManager(
     columns: plutoCols,
     rows: gridrows,
     gridFocusNode: gridFocusNode,

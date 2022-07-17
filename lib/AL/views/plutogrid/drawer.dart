@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pluto_grid/pluto_grid.dart';
+
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/viewconfighelper.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelper.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelperpage.dart';
 
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 
@@ -10,14 +11,13 @@ import 'filters.dart';
 
 List<SheetRow?> rows = [];
 List<String> colsHeader = [];
-final List<PlutoColumn> plutoCols = [];
+ViewHelper viewHelper = ViewHelper();
 
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 bool detailMode = false;
 
 PlutogridController plutogridContr = PlutogridController();
-late PlutoGridStateManager gridAStateManager;
 
 class PlutogridController extends GetxController {
   var multilineDetailLayuout = ''.obs;
@@ -45,8 +45,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (ctx) =>
-                      ViewConfigHelper(fileId, sheetName, plutoCols),
+                  builder: (ctx) => ViewHelperPage(fileId, sheetName),
                 ));
             Navigator.pop(context);
           },
@@ -64,7 +63,7 @@ Drawer plutoDrawer(BuildContext context, Function setStateFunc, String fileId,
           leading: const Icon(Icons.filter),
           title: const Text('Filters last'),
           onTap: () {
-            handleLoadFilter(gridAStateManager);
+            handleLoadFilter(viewHelper.gridAStateManager);
             Navigator.pop(context);
           },
         ),
