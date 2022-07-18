@@ -1,1 +1,1 @@
-const buildVersion = 'AL-ViewHelper-4-viewHelperFromViewConfig';      
+const buildVersion = 'AL-ViewHelper-5-loadViewConfig-filters';      

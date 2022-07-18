@@ -77,8 +77,8 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
       viewHelper.gridAStateManager.eventManager!.listener((event) {
         if (event is PlutoGridChangeColumnFilterEvent) {}
       });
-      filtersInit(viewHelper.viewConfig.colsHeader);
-      //handleLoadFilter(gridAStateManager);
+      filtersInit(viewHelper.viewConfig.colsFilter);
+      handleLoadFilter(viewHelper.gridAStateManager);
 
       viewHelper.gridAStateManager.addListener(onSelectHandle);
       //plutoPagination.stateManager.setPage(2); //if pages > 1
@@ -91,7 +91,6 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
     },
     onRowDoubleTap: (PlutoGridOnRowDoubleTapEvent event) async {
       //gridAStateManager.notifyListeners();
-      handleSaveFilter(viewHelper.gridAStateManager);
       // print('----------------------------------');
       // int page = gridAStateManager.page;
       // print(page);

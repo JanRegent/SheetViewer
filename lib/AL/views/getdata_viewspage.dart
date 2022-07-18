@@ -9,7 +9,6 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-import 'package:sheetviewer/DL/isardb/viewconfig.dart';
 
 import 'plutogrid/_asyncgrid.dart';
 import 'plutogrid/drawer.dart';
@@ -44,17 +43,12 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
-    ViewConfig? viewConfig = await viewConfigsDb.readViewConfigFirst(
-        widget.fileId, widget.sheetName);
-    viewConfig?.zfileId = widget.fileId;
-    viewConfig?.aSheetName = widget.sheetName;
+    viewHelper.viewHelperFromViewConfig(widget.fileId, widget.sheetName);
     await rowsCountCheck(widget.fileId, widget.sheetName);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
-
     rowsCount.value = sheetRows.length;
 
-    viewHelper.viewHelperFromViewConfig(viewConfig!);
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
     //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
     return 'OK';
@@ -112,7 +106,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
               default:
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text('GetDataViewsPage Error: ${snapshot.error}');
                 } else {
                   return AsyncGrid(sheetRows);
                 }

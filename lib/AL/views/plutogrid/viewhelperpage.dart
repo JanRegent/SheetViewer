@@ -22,7 +22,7 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
     super.initState();
   }
 
-  List<TextEditingController> colsFilterContr = [];
+  List<String> filterValues = [];
   //------------------------------------------------------------------colsHeader
 
   Container colsHeaderRow() {
@@ -94,15 +94,14 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
     List<String> filteredCols =
         getFilteredColsTitles(viewHelper.gridAStateManager);
     for (var index = 0; index < viewHelper.plutoCols.length; index++) {
-      colsFilterContr.add(TextEditingController());
+      filterValues.add('');
 
       if (!filteredCols
           .contains(viewHelper.plutoCols[index].title.toLowerCase())) {
         continue;
       }
 
-      colsFilterContr.last.text = index.toString();
-      colsFilterContr[index].text = filteredColumnGetValue(
+      filterValues[index] = filteredColumnGetValue(
           viewHelper.gridAStateManager, viewHelper.plutoCols[index].title);
       wrow.add(Column(
         children: [
@@ -115,16 +114,7 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
                           borderRadius: BorderRadius.circular(18.0),
                           side: const BorderSide(color: Colors.red)))),
               onPressed: () {}),
-          SizedBox(
-              width: 120,
-              height: 60,
-              child: TextField(
-                controller: colsFilterContr[index],
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'contains',
-                ),
-              ))
+          SizedBox(width: 120, height: 60, child: Text(filterValues[index]))
         ],
       ));
     }

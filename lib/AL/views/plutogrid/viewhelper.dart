@@ -17,21 +17,27 @@ class ViewHelper {
   List<String> getColsHeader() {
     List<String> colsHeader = [];
     for (var index = 0; index < plutoCols.length; index++) {
+      if (colsHeader.contains(plutoCols[index].title)) continue;
       if (plutoCols[index].hide) continue;
-
       colsHeader.add(plutoCols[index].title);
     }
     return colsHeader;
   }
 
   //---------------------------------------------------------------------filters
+  final List<PlutoRow> filterRows = [];
+
   List<String> getFilteredList() {
     List<String> filtersList = [];
     for (var index = 0; index < plutoCols.length; index++) {
       String value =
           filteredColumnGetValue(gridAStateManager, plutoCols[index].title);
       if (value.isEmpty) continue;
-      filtersList.add({'${plutoCols[index].title}: $value'}.toString());
+      Map expr = {};
+      expr['columnName'] = plutoCols[index].title;
+      expr['operator'] = 'contains';
+      expr['value'] = value;
+      filtersList.add(jsonEncode(expr));
     }
     return filtersList;
   }
@@ -123,11 +129,24 @@ class ViewHelper {
         });
   }
 
-  Future viewHelperFromViewConfig(ViewConfig viewConfig_) async {
-    // ignore: unnecessary_null_comparison
-    if (viewConfig_ != null) viewConfig = viewConfig_;
+  Future viewHelperFromViewConfig(String fileId_, String sheetName_) async {
+    viewConfig = (await loadViewConfig(fileId_, sheetName_))!;
     if (viewConfig.colsHeader.isEmpty) {
-      viewConfig.colsHeader = await sheetRowsDb.readCols(fileId, sheetName);
+      viewConfig.colsHeader =
+          await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
     }
+  }
+
+  Future<ViewConfig?> loadViewConfig(String fileId_, String sheetName_) async {
+    late ViewConfig? viewConfig;
+    try {
+      viewConfig = await viewConfigsDb.readViewConfigFirst(fileId_, sheetName_);
+    } catch (_) {
+      viewConfig = ViewConfig();
+      viewConfig.zfileId = fileId_;
+      viewConfig.aSheetName = sheetName_;
+    }
+
+    return viewConfig;
   }
 }
