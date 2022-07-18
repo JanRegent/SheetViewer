@@ -297,7 +297,7 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
           colsFilter(),
           freezeTo(),
           sort(),
-          autoFit()
+          //autoFit()
         ]));
   }
 }

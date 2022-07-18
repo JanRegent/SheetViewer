@@ -43,7 +43,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
-    viewHelper.viewHelperFromViewConfig(widget.fileId, widget.sheetName);
+    viewHelper.load(widget.fileId, widget.sheetName);
     await rowsCountCheck(widget.fileId, widget.sheetName);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);

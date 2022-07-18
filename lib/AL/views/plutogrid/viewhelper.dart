@@ -73,10 +73,11 @@ class ViewHelper {
       if (plutoCols[index].sort.isNone) continue;
       String sort =
           plutoCols[index].sort.toString().replaceAll('PlutoColumnSort.', '');
-      sortPar[plutoCols[index].title] = sort;
+      sortPar['columnName'] = plutoCols[index].title;
+      sortPar['direction'] = sort;
       break;
     }
-    return sortPar.toString();
+    return jsonEncode(sortPar);
   }
 
   //-------------------------------------------------------------------autoFit
@@ -122,14 +123,14 @@ class ViewHelper {
             ..colsHeader = getColsHeader()
             ..colsFilter = getFilteredList()
             ..freezeTo = freezeToListString()
-            ..sort = getSort()
-            ..autoFit = getAutoFitList();
+            ..sort = getSort();
+          //..autoFit = getAutoFitList();
 
           await viewConfigsDb.update(viewConfig);
         });
   }
 
-  Future viewHelperFromViewConfig(String fileId_, String sheetName_) async {
+  Future load(String fileId_, String sheetName_) async {
     viewConfig = (await loadViewConfig(fileId_, sheetName_))!;
     if (viewConfig.colsHeader.isEmpty) {
       viewConfig.colsHeader =
