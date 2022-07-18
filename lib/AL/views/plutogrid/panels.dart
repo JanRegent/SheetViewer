@@ -10,7 +10,6 @@ import 'filters.dart';
 ResizableWidget resizablePanels(
     List<PlutoColumn> plutoCols,
     final List<PlutoRow> gridrows,
-    List<String> cols,
     ScrollController _controller,
     final screenWidth,
     Function setStateFunc,
@@ -18,7 +17,7 @@ ResizableWidget resizablePanels(
   return ResizableWidget(
     children: [
       // required
-      singleGrid(plutoCols, gridrows, cols, _controller, sheetRows),
+      singleGrid(plutoCols, gridrows, _controller, sheetRows),
       detailPanel_(screenWidth, _controller, setStateFunc)
     ],
     isHorizontalSeparator: false, // optional
@@ -47,12 +46,8 @@ SingleChildScrollView detailPanel_(
 
 PlutoPagination plutoPagination = PlutoPagination(viewHelper.gridAStateManager);
 int currentPage = 1;
-PlutoGrid singleGrid(
-    List<PlutoColumn> plutoCols,
-    final List<PlutoRow> gridrows,
-    List<String> cols,
-    ScrollController _controller,
-    List<SheetRow?> sheetRows) {
+PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
+    ScrollController _controller, List<SheetRow?> sheetRows) {
   void onSelectHandle() {
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
@@ -82,7 +77,7 @@ PlutoGrid singleGrid(
       viewHelper.gridAStateManager.eventManager!.listener((event) {
         if (event is PlutoGridChangeColumnFilterEvent) {}
       });
-      filtersInit(cols);
+      filtersInit(viewHelper.viewConfig.colsHeader);
       //handleLoadFilter(gridAStateManager);
 
       viewHelper.gridAStateManager.addListener(onSelectHandle);

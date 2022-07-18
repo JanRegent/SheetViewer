@@ -10,7 +10,6 @@ import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 import 'filters.dart';
 
 List<SheetRow?> rows = [];
-List<String> colsHeader = [];
 ViewHelper viewHelper = ViewHelper();
 
 bool sheetViewFromSearch = false;

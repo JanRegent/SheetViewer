@@ -101,16 +101,24 @@ class ViewConfigsDb {
   //   return rows;
   // }
 
-  // Future<List<ViewConfig?>> readRowsSheet(
-  //     String fileId, String sheetName) async {
-  //   List<ViewConfig?> testRows = await isar.ViewConfigs.filter()
-  //       .zfileIdEqualTo(fileId)
-  //       .and()
-  //       .aSheetNameEqualTo(sheetName)
-  //       .findAll();
-  //   return testRows;
-  // }
+  Future<List<ViewConfig?>> readViewConfigs(
+      String fileId, String sheetName) async {
+    List<ViewConfig?> testRows = await isar.viewConfigs
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .findAll();
+    return testRows;
+  }
 
+  Future<ViewConfig?> readViewConfigFirst(
+      String fileId, String sheetName) async {
+    List<ViewConfig?> viewConfigs = await readViewConfigs(fileId, sheetName);
+    ViewConfig? viewConfig = viewConfigs.first;
+
+    return viewConfig;
+  }
   // Future<ViewConfig?> readRowNo(int aRowNo) async {
   //   ViewConfig? row =
   //       await isar.ViewConfigs.filter().aRowNoEqualTo(aRowNo).findFirst();

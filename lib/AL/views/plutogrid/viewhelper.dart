@@ -10,6 +10,7 @@ class ViewHelper {
   ViewHelper();
   String fileId = '';
   String sheetName = '';
+  ViewConfig viewConfig = ViewConfig();
   List<PlutoColumn> plutoCols = [];
   late PlutoGridStateManager gridAStateManager;
   //---------------------------------------------------------------------header
@@ -120,5 +121,13 @@ class ViewHelper {
 
           await viewConfigsDb.update(viewConfig);
         });
+  }
+
+  Future viewHelperFromViewConfig(ViewConfig viewConfig_) async {
+    // ignore: unnecessary_null_comparison
+    if (viewConfig_ != null) viewConfig = viewConfig_;
+    if (viewConfig.colsHeader.isEmpty) {
+      viewConfig.colsHeader = await sheetRowsDb.readCols(fileId, sheetName);
+    }
   }
 }

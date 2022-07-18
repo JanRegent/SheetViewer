@@ -4,8 +4,9 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 final List<PlutoRow> filterRows = [];
 
-void filtersInit(List<String> cols) {
-  if (!cols.contains('Mise')) return;
+void filtersInit(List<String> colsHeader) {
+  if (!colsHeader.contains('Mise')) return;
+  print(colsHeader);
   PlutoRow filter = PlutoRow(cells: {
     FilterHelper.filterFieldColumn: PlutoCell(
       value: 'Mise',

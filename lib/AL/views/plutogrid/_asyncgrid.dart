@@ -13,10 +13,9 @@ import 'package:sheetviewer/DL/isardb/sheetrows.dart';
 import 'drawer.dart';
 
 class AsyncGrid extends StatefulWidget {
-  final List<String> cols;
   final List<SheetRow?> sheetRows;
 
-  const AsyncGrid(this.cols, this.sheetRows, {Key? key}) : super(key: key);
+  const AsyncGrid(this.sheetRows, {Key? key}) : super(key: key);
 
   @override
   _AsyncGridState createState() => _AsyncGridState();
@@ -30,14 +29,15 @@ class _AsyncGridState extends State<AsyncGrid> {
   @override
   void initState() {
     /// Columns must be provided at the beginning of a row synchronously.
-    viewHelper.plutoCols.addAll(colsMap(widget.cols));
+    viewHelper.plutoCols.addAll(colsMap(viewHelper.viewConfig.colsHeader));
 
     initStateManager(viewHelper.plutoCols, gridRows);
     super.initState();
   }
 
   Future<String> getGridRows() async {
-    gridRows = await gridRowsMap(widget.sheetRows, widget.cols);
+    gridRows =
+        await gridRowsMap(widget.sheetRows, viewHelper.viewConfig.colsHeader);
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
 
     return 'OK';
@@ -72,10 +72,10 @@ class _AsyncGridState extends State<AsyncGrid> {
             } else {
               viewHelper.gridAStateManager.setShowLoading(false);
               return detailMode
-                  ? resizablePanels(viewHelper.plutoCols, gridRows, widget.cols,
-                      _controller, screenWidth, setStateFunc, widget.sheetRows)
-                  : singleGrid(viewHelper.plutoCols, gridRows, widget.cols,
-                      _controller, widget.sheetRows);
+                  ? resizablePanels(viewHelper.plutoCols, gridRows, _controller,
+                      screenWidth, setStateFunc, widget.sheetRows)
+                  : singleGrid(viewHelper.plutoCols, gridRows, _controller,
+                      widget.sheetRows);
             }
         }
       },
