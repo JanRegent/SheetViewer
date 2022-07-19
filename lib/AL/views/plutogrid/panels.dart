@@ -5,7 +5,7 @@ import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
 import 'package:sheetviewer/AL/views/plutogrid/paneldetail.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
-import 'filters.dart';
+import 'viewhelper/filters.dart';
 
 ResizableWidget resizablePanels(
     List<PlutoColumn> plutoCols,

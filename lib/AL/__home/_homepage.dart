@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/_filelistviewhome.dart';
 import 'package:sheetviewer/AL/alayouts/last_first_all/lastnew1.dart';
 
-import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
+import 'package:sheetviewer/AL/views/getdata_gridpage.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 

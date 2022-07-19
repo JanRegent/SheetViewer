@@ -12,16 +12,16 @@ import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 import 'drawer.dart';
 
-class AsyncGrid extends StatefulWidget {
+class GridPage extends StatefulWidget {
   final List<SheetRow?> sheetRows;
 
-  const AsyncGrid(this.sheetRows, {Key? key}) : super(key: key);
+  const GridPage(this.sheetRows, {Key? key}) : super(key: key);
 
   @override
-  _AsyncGridState createState() => _AsyncGridState();
+  _GridPageState createState() => _GridPageState();
 }
 
-class _AsyncGridState extends State<AsyncGrid> {
+class _GridPageState extends State<GridPage> {
   List<PlutoRow> gridRows = [];
   final ScrollController _controller =
       ScrollController(initialScrollOffset: 50.0);

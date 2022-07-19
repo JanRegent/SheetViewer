@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
-import 'package:sheetviewer/AL/views/plutogrid/filters.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 
 class ViewHelperPage extends StatefulWidget {
   final String fileId;

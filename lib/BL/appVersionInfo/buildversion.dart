@@ -1,1 +1,1 @@
-const buildVersion = 'BL-isardb';      
+const buildVersion = 'AL-views-GridPage';      

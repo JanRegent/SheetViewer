@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/viewhelper.dart';
-import 'package:sheetviewer/AL/views/plutogrid/viewhelperpage.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelper.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelperpage.dart';
 
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
-import 'filters.dart';
+import 'viewhelper/filters.dart';
 
 List<SheetRow?> rows = [];
 ViewHelper viewHelper = ViewHelper();

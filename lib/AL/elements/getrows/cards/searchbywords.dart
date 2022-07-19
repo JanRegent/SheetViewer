@@ -6,7 +6,7 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sheetviewer/AL/elements/getrows/getrows.dart';
-import 'package:sheetviewer/AL/views/getdata_viewspage.dart';
+import 'package:sheetviewer/AL/views/getdata_gridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Card searchByWordsCard(String cardType, BuildContext context,

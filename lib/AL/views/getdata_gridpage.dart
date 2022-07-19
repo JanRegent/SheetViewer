@@ -10,7 +10,7 @@ import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
-import 'plutogrid/_asyncgrid.dart';
+import 'plutogrid/_gridpage.dart';
 import 'plutogrid/drawer.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -108,7 +108,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('GetDataViewsPage Error: ${snapshot.error}');
                 } else {
-                  return AsyncGrid(sheetRows);
+                  return GridPage(sheetRows);
                 }
             }
           },
