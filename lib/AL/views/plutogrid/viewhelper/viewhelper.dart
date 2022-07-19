@@ -66,6 +66,23 @@ class ViewHelper {
     return freezeToList;
   }
 
+  PlutoColumnFrozen setFreeze(String columnName) {
+    try {
+      for (var i = 0; i < viewConfig.freezeTo.length; i++) {
+        Map freezeMap = jsonDecode(viewConfig.freezeTo[i]);
+        if (freezeMap['title'] != columnName) continue;
+        if (freezeMap['side'] == 'start') {
+          return PlutoColumnFrozen.start;
+        } else {
+          return PlutoColumnFrozen.end;
+        }
+      }
+    } catch (e) {
+      return PlutoColumnFrozen.none;
+    }
+    return PlutoColumnFrozen.none;
+  }
+
   //------------------------------------------------------------------sort/order
   String getSort() {
     Map sortPar = {};
@@ -78,6 +95,20 @@ class ViewHelper {
       break;
     }
     return jsonEncode(sortPar);
+  }
+
+  PlutoColumnSort setSort(String columnName) {
+    try {
+      Map sortMap = jsonDecode(viewConfig.sort);
+      if (sortMap['columnName'] != columnName) return PlutoColumnSort.none;
+      if (sortMap['direction'] == 'ascending') {
+        return PlutoColumnSort.ascending;
+      } else {
+        return PlutoColumnSort.descending;
+      }
+    } catch (e) {
+      return PlutoColumnSort.none;
+    }
   }
 
   //-------------------------------------------------------------------autoFit

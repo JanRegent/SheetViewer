@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-GridPage';      
+const buildVersion = 'AL-views-setFreeze';      
