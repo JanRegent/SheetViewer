@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/isardb/viewconfig.dart';
+import 'package:sheetviewer/BL/isardb/viewconfig.dart';
 
 class ViewHelper {
   ViewHelper();

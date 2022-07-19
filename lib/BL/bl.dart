@@ -2,15 +2,15 @@ import 'package:isar/isar.dart';
 import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/isardb/filelist.dart';
+import 'package:sheetviewer/BL/isardb/filelist.dart';
 
-import 'package:sheetviewer/DL/isardb/log.dart';
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
-import 'package:sheetviewer/DL/isardb/viewconfig.dart';
+import 'package:sheetviewer/BL/isardb/log.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/viewconfig.dart';
 
 import 'package:sheetviewer/DL/localstorage/localstorage.dart';
 
-import '../DL/isardb/viewconfig.dart';
+import '../BL/isardb/viewconfig.dart';
 import 'appVersionInfo/appmode.dart';
 import 'appVersionInfo/appversion.dart';
 import 'appVersionInfo/buildversion.dart';

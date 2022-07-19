@@ -5,7 +5,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelperpage.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 import 'filters.dart';
 

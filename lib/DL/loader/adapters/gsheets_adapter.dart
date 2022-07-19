@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/isardb/filelist.dart';
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/filelist.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 class GSheetsAdapter {
   late GSheets gsheets;

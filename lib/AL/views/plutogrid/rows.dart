@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 Future<List<PlutoRow>> gridRowsMap(
     List<SheetRow?> sheetRows, List<String> cols) async {

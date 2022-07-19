@@ -5,7 +5,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 Future getSheetRowsUpdates(
     List<dynamic> interestFilelist, BuildContext context) async {

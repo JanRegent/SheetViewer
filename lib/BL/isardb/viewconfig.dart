@@ -15,6 +15,8 @@ class ViewConfig {
   String sort = '';
   List<String> autoFit = [];
   String zfileId = '';
+  String zfileIdConfig = '';
+  String zSheetNameConfig = '';
 
   ViewConfig();
 

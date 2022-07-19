@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import 'package:sheetviewer/DL/isardb/log.dart';
+import 'package:sheetviewer/BL/isardb/log.dart';
 
 void logi(String functionName, String step, description, String message) {
   Log log = Log()

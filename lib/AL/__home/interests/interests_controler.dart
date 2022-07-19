@@ -6,7 +6,7 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
-import 'package:sheetviewer/DL/isardb/filelist.dart';
+import 'package:sheetviewer/BL/isardb/filelist.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;

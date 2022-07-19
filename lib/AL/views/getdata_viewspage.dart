@@ -8,7 +8,7 @@ import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/DL/isardb/sheetrows.dart';
+import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 import 'plutogrid/_asyncgrid.dart';
 import 'plutogrid/drawer.dart';

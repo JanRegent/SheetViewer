@@ -16,7 +16,7 @@ extension GetViewConfigCollection on Isar {
 const ViewConfigSchema = CollectionSchema(
   name: r'ViewConfig',
   schema:
-      r'{"name":"ViewConfig","idName":"id","properties":[{"name":"aSheetName","type":"String"},{"name":"autoFit","type":"StringList"},{"name":"colsFilter","type":"StringList"},{"name":"colsHeader","type":"StringList"},{"name":"freezeTo","type":"StringList"},{"name":"sort","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+      r'{"name":"ViewConfig","idName":"id","properties":[{"name":"aSheetName","type":"String"},{"name":"autoFit","type":"StringList"},{"name":"colsFilter","type":"StringList"},{"name":"colsHeader","type":"StringList"},{"name":"freezeTo","type":"StringList"},{"name":"sort","type":"String"},{"name":"zSheetNameConfig","type":"String"},{"name":"zfileId","type":"String"},{"name":"zfileIdConfig","type":"String"}],"indexes":[],"links":[]}',
   idName: r'id',
   propertyIds: {
     r'aSheetName': 0,
@@ -25,7 +25,9 @@ const ViewConfigSchema = CollectionSchema(
     r'colsHeader': 3,
     r'freezeTo': 4,
     r'sort': 5,
-    r'zfileId': 6
+    r'zSheetNameConfig': 6,
+    r'zfileId': 7,
+    r'zfileIdConfig': 8
   },
   listProperties: {r'autoFit', r'colsFilter', r'colsHeader', r'freezeTo'},
   indexIds: {},
@@ -99,7 +101,11 @@ void _viewConfigSerializeNative(
     freezeTo$BytesCount += bytes.length as int;
   }
   final sort$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.sort);
+  final zSheetNameConfig$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.zSheetNameConfig);
   final zfileId$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.zfileId);
+  final zfileIdConfig$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.zfileIdConfig);
   final size = (staticSize +
       (aSheetName$Bytes.length) +
       autoFit$BytesCount +
@@ -107,7 +113,9 @@ void _viewConfigSerializeNative(
       colsHeader$BytesCount +
       freezeTo$BytesCount +
       (sort$Bytes.length) +
-      (zfileId$Bytes.length)) as int;
+      (zSheetNameConfig$Bytes.length) +
+      (zfileId$Bytes.length) +
+      (zfileIdConfig$Bytes.length)) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
@@ -120,7 +128,9 @@ void _viewConfigSerializeNative(
   writer.writeStringList(offsets[3], colsHeader$BytesList);
   writer.writeStringList(offsets[4], freezeTo$BytesList);
   writer.writeBytes(offsets[5], sort$Bytes);
-  writer.writeBytes(offsets[6], zfileId$Bytes);
+  writer.writeBytes(offsets[6], zSheetNameConfig$Bytes);
+  writer.writeBytes(offsets[7], zfileId$Bytes);
+  writer.writeBytes(offsets[8], zfileIdConfig$Bytes);
 }
 
 ViewConfig _viewConfigDeserializeNative(IsarCollection<ViewConfig> collection,
@@ -133,7 +143,9 @@ ViewConfig _viewConfigDeserializeNative(IsarCollection<ViewConfig> collection,
   object.freezeTo = reader.readStringList(offsets[4]) ?? [];
   object.id = id;
   object.sort = reader.readString(offsets[5]);
-  object.zfileId = reader.readString(offsets[6]);
+  object.zSheetNameConfig = reader.readString(offsets[6]);
+  object.zfileId = reader.readString(offsets[7]);
+  object.zfileIdConfig = reader.readString(offsets[8]);
   return object;
 }
 
@@ -156,6 +168,10 @@ P _viewConfigDeserializePropNative<P>(
       return (reader.readString(offset)) as P;
     case 6:
       return (reader.readString(offset)) as P;
+    case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Illegal propertyIndex');
   }
@@ -171,7 +187,9 @@ Object _viewConfigSerializeWeb(
   IsarNative.jsObjectSet(jsObj, r'freezeTo', object.freezeTo);
   IsarNative.jsObjectSet(jsObj, r'id', object.id);
   IsarNative.jsObjectSet(jsObj, r'sort', object.sort);
+  IsarNative.jsObjectSet(jsObj, r'zSheetNameConfig', object.zSheetNameConfig);
   IsarNative.jsObjectSet(jsObj, r'zfileId', object.zfileId);
+  IsarNative.jsObjectSet(jsObj, r'zfileIdConfig', object.zfileIdConfig);
   return jsObj;
 }
 
@@ -202,7 +220,10 @@ ViewConfig _viewConfigDeserializeWeb(
   object.id =
       IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   object.sort = IsarNative.jsObjectGet(jsObj, r'sort') ?? '';
+  object.zSheetNameConfig =
+      IsarNative.jsObjectGet(jsObj, r'zSheetNameConfig') ?? '';
   object.zfileId = IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '';
+  object.zfileIdConfig = IsarNative.jsObjectGet(jsObj, r'zfileIdConfig') ?? '';
   return object;
 }
 
@@ -239,8 +260,12 @@ P _viewConfigDeserializePropWeb<P>(Object jsObj, String propertyName) {
           (double.negativeInfinity as int)) as P;
     case r'sort':
       return (IsarNative.jsObjectGet(jsObj, r'sort') ?? '') as P;
+    case r'zSheetNameConfig':
+      return (IsarNative.jsObjectGet(jsObj, r'zSheetNameConfig') ?? '') as P;
     case r'zfileId':
       return (IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '') as P;
+    case r'zfileIdConfig':
+      return (IsarNative.jsObjectGet(jsObj, r'zfileIdConfig') ?? '') as P;
     default:
       throw IsarError('Illegal propertyName');
   }
@@ -1072,6 +1097,122 @@ extension ViewConfigQueryFilter
     });
   }
 
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'zSheetNameConfig',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'zSheetNameConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zSheetNameConfigMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'zSheetNameConfig',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
   QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition> zfileIdEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1184,6 +1325,122 @@ extension ViewConfigQueryFilter
       ));
     });
   }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'zfileIdConfig',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterFilterCondition>
+      zfileIdConfigMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'zfileIdConfig',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
 }
 
 extension ViewConfigQueryLinks
@@ -1215,6 +1472,19 @@ extension ViewConfigQueryWhereSortBy
     });
   }
 
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByZSheetNameConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zSheetNameConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy>
+      sortByZSheetNameConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zSheetNameConfig', Sort.desc);
+    });
+  }
+
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByZfileId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.asc);
@@ -1224,6 +1494,18 @@ extension ViewConfigQueryWhereSortBy
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByZfileIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByZfileIdConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> sortByZfileIdConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.desc);
     });
   }
 }
@@ -1266,6 +1548,19 @@ extension ViewConfigQueryWhereSortThenBy
     });
   }
 
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByZSheetNameConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zSheetNameConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy>
+      thenByZSheetNameConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zSheetNameConfig', Sort.desc);
+    });
+  }
+
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByZfileId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.asc);
@@ -1275,6 +1570,18 @@ extension ViewConfigQueryWhereSortThenBy
   QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByZfileIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByZfileIdConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QAfterSortBy> thenByZfileIdConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.desc);
     });
   }
 }
@@ -1319,10 +1626,26 @@ extension ViewConfigQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByZSheetNameConfig(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'zSheetNameConfig',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByZfileId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'zfileId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ViewConfig, ViewConfig, QDistinct> distinctByZfileIdConfig(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'zfileIdConfig',
+          caseSensitive: caseSensitive);
     });
   }
 }
@@ -1373,9 +1696,22 @@ extension ViewConfigQueryProperty
     });
   }
 
+  QueryBuilder<ViewConfig, String, QQueryOperations>
+      zSheetNameConfigProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'zSheetNameConfig');
+    });
+  }
+
   QueryBuilder<ViewConfig, String, QQueryOperations> zfileIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'zfileId');
+    });
+  }
+
+  QueryBuilder<ViewConfig, String, QQueryOperations> zfileIdConfigProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'zfileIdConfig');
     });
   }
 }
