@@ -9,13 +9,6 @@ Future<List<PlutoRow>> gridRowsMap(
     List<SheetRow?> sheetRows, List<String> cols) async {
   PlutoRow gridRow(SheetRow? sheetRow, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
-    try {
-      plutoRow.cells
-          .putIfAbsent('row_', () => PlutoCell(value: sheetRow!.aRowNo));
-    } catch (e) {
-      plutoRow.cells.putIfAbsent('row_', () => PlutoCell(value: '??'));
-    }
-
     for (var colIx = 0; colIx < cols.length; colIx++) {
       // ignore: unused_local_variable
       String value = '';

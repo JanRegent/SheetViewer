@@ -156,7 +156,7 @@ class ViewHelper {
     viewConfig
       ..aSheetName = sheetName
       ..zfileId = fileId
-      ..colsHeader = getColsHeader()
+      ..colsHeader = getColsHeader().join(',')
       ..colsFilter = getFilteredList()
       ..freezeTo = freezeToListString()
       ..sort = getSort();
@@ -205,16 +205,21 @@ class ViewHelper {
     fileId = fileId_;
     sheetName = sheetName_;
     if (viewConfig.colsHeader.isEmpty) {
-      viewConfig.colsHeader =
+      List<String> cols =
           await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
+      viewConfig.colsHeader = cols.join(',');
     }
   }
 
   Future<ViewConfig?> loadViewConfig(String fileId_, String sheetName_) async {
     ViewConfig? viewConfig = ViewConfig();
     try {
-      viewConfig = await viewConfigsDb.readViewConfigFirst(fileId_, sheetName_);
+      viewConfig =
+          (await viewConfigsDb.readViewConfigFirst(fileId_, sheetName_))!
+            ..aSheetName = sheetName_
+            ..zfileId = fileId_;
     } catch (e) {
+      print('---------------loadViewConfig');
       print(e);
       viewConfig = ViewConfig();
       viewConfig.zfileId = fileId_;

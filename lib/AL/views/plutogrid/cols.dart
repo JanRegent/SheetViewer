@@ -3,12 +3,6 @@ import 'package:sheetviewer/AL/views/plutogrid/drawergrid.dart';
 
 List<PlutoColumn> colsMap(List<String> colsHeader) {
   List<PlutoColumn> gridCols = [];
-  gridCols.add(PlutoColumn(
-    title: 'RowNo',
-    field: 'row_',
-    width: 100,
-    type: PlutoColumnType.text(),
-  ));
 
   for (var colIx = 0; colIx < colsHeader.length; colIx++) {
     String columnName = colsHeader[colIx];

@@ -29,15 +29,16 @@ class _GridPageState extends State<GridPage> {
   @override
   void initState() {
     /// Columns must be provided at the beginning of a row synchronously.
-    viewHelper.plutoCols.addAll(colsMap(viewHelper.viewConfig.colsHeader));
+    viewHelper.plutoCols
+        .addAll(colsMap(viewHelper.viewConfig.colsHeader.split(',')));
 
     initStateManager(viewHelper.plutoCols, gridRows);
     super.initState();
   }
 
   Future<String> getGridRows() async {
-    gridRows =
-        await gridRowsMap(widget.sheetRows, viewHelper.viewConfig.colsHeader);
+    gridRows = await gridRowsMap(
+        widget.sheetRows, viewHelper.viewConfig.colsHeader.split(','));
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
 
     return 'OK';
