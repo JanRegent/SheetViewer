@@ -10,7 +10,7 @@ import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
-import 'drawer.dart';
+import 'drawergrid.dart';
 
 class GridPage extends StatefulWidget {
   final List<SheetRow?> sheetRows;

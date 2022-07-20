@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
@@ -70,6 +71,30 @@ class FilelistviewHomePage extends StatelessWidget {
           backgroundColor: Colors.lightBlue,
           actions: [sheetRowsUpdate(context)],
         ),
-        body: detailBody());
+        body: FutureBuilder<String>(
+          future: interestContr.interestLoad(), // async work
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Column(
+                  children: [
+                    const Text('Loading sheets of interest:'),
+                    Obx(() => Text(interestContr.interestName.value)),
+                    const Text(' '),
+                    Obx(() => Text(interestContr.loadedSheetName.value)),
+                    const Text(' '),
+                    const CircularProgressIndicator()
+                  ],
+                );
+
+              default:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return detailBody();
+                }
+            }
+          },
+        ));
   }
 }

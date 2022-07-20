@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-setFreeze';      
+const buildVersion = 'AL-views-viewConfigSave';      

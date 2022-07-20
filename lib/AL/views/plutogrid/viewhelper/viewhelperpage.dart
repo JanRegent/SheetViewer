@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/views/plutogrid/drawer.dart';
+import 'package:sheetviewer/AL/views/plutogrid/drawergrid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 
 class ViewHelperPage extends StatefulWidget {
@@ -290,7 +290,6 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('View config page'),
-          actions: [viewHelper.viewConfigSave()],
         ),
         body: ListView(shrinkWrap: true, children: [
           colsHeaderRow(),

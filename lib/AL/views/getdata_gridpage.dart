@@ -11,7 +11,7 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 import 'plutogrid/_gridpage.dart';
-import 'plutogrid/drawer.dart';
+import 'plutogrid/drawergrid.dart';
 
 /// The home page of the application which hosts the datagrid.
 class GetDataViewsPage extends StatefulWidget {
@@ -83,7 +83,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: plutoDrawer(
+        drawer: drawerGrid(
             context, setStateFunc, widget.fileId, widget.sheetName, cols),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(

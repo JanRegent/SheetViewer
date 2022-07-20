@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -144,25 +143,22 @@ class ViewHelper {
   // }
 
   //---------------------------------------------------------------saveLoad
-  IconButton viewConfigSave() {
-    return IconButton(
-        icon: const Icon(Icons.save),
-        onPressed: () async {
-          ViewConfig viewConfig = ViewConfig()
-            ..aSheetName = sheetName
-            ..zfileId = fileId
-            ..colsHeader = getColsHeader()
-            ..colsFilter = getFilteredList()
-            ..freezeTo = freezeToListString()
-            ..sort = getSort();
-          //..autoFit = getAutoFitList();
-
-          await viewConfigsDb.update(viewConfig);
-        });
+  Future viewConfigSave() async {
+    viewConfig
+      ..aSheetName = sheetName
+      ..zfileId = fileId
+      ..colsHeader = getColsHeader()
+      ..colsFilter = getFilteredList()
+      ..freezeTo = freezeToListString()
+      ..sort = getSort();
+    //..autoFit = getAutoFitList();
+    await viewConfigsDb.update(viewConfig);
   }
 
   Future load(String fileId_, String sheetName_) async {
     viewConfig = (await loadViewConfig(fileId_, sheetName_))!;
+    fileId = fileId_;
+    sheetName = sheetName_;
     if (viewConfig.colsHeader.isEmpty) {
       viewConfig.colsHeader =
           await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
@@ -170,10 +166,10 @@ class ViewHelper {
   }
 
   Future<ViewConfig?> loadViewConfig(String fileId_, String sheetName_) async {
-    late ViewConfig? viewConfig;
+    ViewConfig? viewConfig = ViewConfig();
     try {
       viewConfig = await viewConfigsDb.readViewConfigFirst(fileId_, sheetName_);
-    } catch (_) {
+    } catch (e) {
       viewConfig = ViewConfig();
       viewConfig.zfileId = fileId_;
       viewConfig.aSheetName = sheetName_;
