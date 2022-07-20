@@ -26,7 +26,7 @@ class ViewConfig {
     return '''
   ----------------------------------------------------------------------shetView
   id $id
- 
+    
  
     sheetName $aSheetName
 
@@ -117,9 +117,14 @@ class ViewConfigsDb {
 
   Future<ViewConfig?> readViewConfigFirst(
       String fileId, String sheetName) async {
-    List<ViewConfig?> viewConfigs = await readViewConfigs(fileId, sheetName);
-    ViewConfig? viewConfig = viewConfigs.first;
-
+    final ids = await isar.viewConfigs
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .idProperty()
+        .findAll();
+    ViewConfig? viewConfig = await isar.viewConfigs.get(ids.first);
     return viewConfig;
   }
   // Future<ViewConfig?> readRowNo(int aRowNo) async {

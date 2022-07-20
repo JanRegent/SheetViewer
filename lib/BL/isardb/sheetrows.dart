@@ -25,7 +25,7 @@ class SheetRow {
     return '''
   ----------------------------------------------------------------------shetView
   id $id
-  rowNo_ $aRowNo
+  RowNo_ $aRowNo
  
     $aSheetName
     $row

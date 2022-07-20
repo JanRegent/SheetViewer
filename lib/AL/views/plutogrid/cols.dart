@@ -9,11 +9,9 @@ List<PlutoColumn> colsMap(List<String> colsHeader) {
     width: 100,
     type: PlutoColumnType.text(),
   ));
-  gridCols.first.sort = viewHelper.setSort('RowNo');
 
   for (var colIx = 0; colIx < colsHeader.length; colIx++) {
     String columnName = colsHeader[colIx];
-    if (columnName == 'RowNo') continue;
 
     PlutoColumn col = PlutoColumn(
         title: columnName,

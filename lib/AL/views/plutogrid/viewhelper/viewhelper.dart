@@ -215,6 +215,7 @@ class ViewHelper {
     try {
       viewConfig = await viewConfigsDb.readViewConfigFirst(fileId_, sheetName_);
     } catch (e) {
+      print(e);
       viewConfig = ViewConfig();
       viewConfig.zfileId = fileId_;
       viewConfig.aSheetName = sheetName_;
