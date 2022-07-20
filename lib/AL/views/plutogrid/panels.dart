@@ -56,14 +56,11 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
     // print(gridAStateManager.currentColumn!.title);
-    // try {
-    //   viewHelper.viewConfig.currentPage =
-    //       plutoPagination.stateManager.page.toString();
-    // } catch (_) {
-    //   viewHelper.viewConfig.currentPage = '1';
-    // }
-    //rint(currentPage);
-
+    try {
+      viewHelper.viewConfig.currentPage = plutoPagination.stateManager.page;
+    } catch (_) {
+      viewHelper.viewConfig.currentPage = 1;
+    }
     try {
       //currentRow is null or PlutoRow.
       currentRow = viewHelper.gridAStateManager.currentRow!;
@@ -96,20 +93,8 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
       handleLoadFilter(viewHelper.gridAStateManager);
 
       viewHelper.gridAStateManager.addListener(onSelectHandle);
-      // try {
-      //   print('--------------------------------1');
-      //   print(viewHelper.viewConfig.currentPage);
-      //   // ignore: unnecessary_null_comparison
-      //   if (viewHelper.viewConfig.currentPage != null) {
-      //     int? page = int.tryParse(viewHelper.viewConfig.currentPage);
-      //     plutoPagination.stateManager.setPage(page!); //if pages > 1
-      //   } else {
-      //     plutoPagination.stateManager.setPage(1);
-      //   }
-      // } catch (e) {
-      //   print(e);
-      //   plutoPagination.stateManager.setPage(1);
-      // }
+
+      viewHelper.setPage(plutoPagination);
 
       if (_controller.hasClients) {
         viewHelper.gridAStateManager.scroll!.setBodyRowsVertical(_controller);

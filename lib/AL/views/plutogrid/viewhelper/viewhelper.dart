@@ -211,6 +211,20 @@ class ViewHelper {
     }
   }
 
+  void setPage(PlutoPagination plutoPagination) {
+    try {
+      // ignore: unnecessary_null_comparison
+      if (viewConfig.currentPage != null) {
+        plutoPagination.stateManager
+            .setPage(viewConfig.currentPage); //if pages > 1
+      } else {
+        plutoPagination.stateManager.setPage(1);
+      }
+    } catch (e) {
+      plutoPagination.stateManager.setPage(1);
+    }
+  }
+
   Future<ViewConfig?> loadViewConfig(String fileId_, String sheetName_) async {
     ViewConfig? viewConfig = ViewConfig();
     try {
@@ -219,13 +233,10 @@ class ViewHelper {
             ..aSheetName = sheetName_
             ..zfileId = fileId_;
     } catch (e) {
-      print('---------------loadViewConfig');
-      print(e);
       viewConfig = ViewConfig();
       viewConfig.zfileId = fileId_;
       viewConfig.aSheetName = sheetName_;
     }
-
     return viewConfig;
   }
 }
