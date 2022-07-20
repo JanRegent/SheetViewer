@@ -44,16 +44,31 @@ SingleChildScrollView detailPanel_(
   );
 }
 
+dispose() {
+  //viewHelper.gridAStateManager.removeListner(handler);
+}
+
 PlutoPagination plutoPagination = PlutoPagination(viewHelper.gridAStateManager);
-int currentPage = 1;
+
 PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
     ScrollController _controller, List<SheetRow?> sheetRows) {
   void onSelectHandle() {
     // print(gridAStateManager.currentCell!.value);
     // print(gridAStateManager.currentRow!.key);
     // print(gridAStateManager.currentColumn!.title);
-    currentPage = plutoPagination.stateManager.page;
+    // try {
+    //   viewHelper.viewConfig.currentPage =
+    //       plutoPagination.stateManager.page.toString();
+    // } catch (_) {
+    //   viewHelper.viewConfig.currentPage = '1';
+    // }
     //rint(currentPage);
+
+    try {
+      //currentRow is null or PlutoRow.
+      currentRow = viewHelper.gridAStateManager.currentRow!;
+    } catch (_) {}
+
     try {
       detailRowNo.value = viewHelper
           .gridAStateManager.currentCell!.row.cells.values.first.value;
@@ -81,7 +96,21 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
       handleLoadFilter(viewHelper.gridAStateManager);
 
       viewHelper.gridAStateManager.addListener(onSelectHandle);
-      //plutoPagination.stateManager.setPage(2); //if pages > 1
+      // try {
+      //   print('--------------------------------1');
+      //   print(viewHelper.viewConfig.currentPage);
+      //   // ignore: unnecessary_null_comparison
+      //   if (viewHelper.viewConfig.currentPage != null) {
+      //     int? page = int.tryParse(viewHelper.viewConfig.currentPage);
+      //     plutoPagination.stateManager.setPage(page!); //if pages > 1
+      //   } else {
+      //     plutoPagination.stateManager.setPage(1);
+      //   }
+      // } catch (e) {
+      //   print(e);
+      //   plutoPagination.stateManager.setPage(1);
+      // }
+
       if (_controller.hasClients) {
         viewHelper.gridAStateManager.scroll!.setBodyRowsVertical(_controller);
       }

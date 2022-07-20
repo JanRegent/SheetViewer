@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-viewConfigSave';      
+const buildVersion = 'AL-views-currentPage-saving-problem-not-fixed';      

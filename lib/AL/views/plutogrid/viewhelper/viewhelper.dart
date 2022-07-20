@@ -152,6 +152,7 @@ class ViewHelper {
       ..freezeTo = freezeToListString()
       ..sort = getSort();
     //..autoFit = getAutoFitList();
+
     await viewConfigsDb.update(viewConfig);
   }
 

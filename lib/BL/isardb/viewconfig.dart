@@ -17,6 +17,7 @@ class ViewConfig {
   String zfileId = '';
   String zfileIdConfig = '';
   String zSheetNameConfig = '';
+  //String currentPage = '1'; //Expected a value of type 'List<dynamic>?', but got one of type 'LegacyJavaScriptObject'
 
   ViewConfig();
 

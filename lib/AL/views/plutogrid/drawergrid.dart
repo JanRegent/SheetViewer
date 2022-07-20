@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
@@ -12,6 +13,7 @@ import 'viewhelper/filters.dart';
 
 List<SheetRow?> rows = [];
 ViewHelper viewHelper = ViewHelper();
+late PlutoRow currentRow; //currentRow is null or PlutoRow.
 
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;

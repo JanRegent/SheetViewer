@@ -9,8 +9,12 @@ Future<List<PlutoRow>> gridRowsMap(
     List<SheetRow?> sheetRows, List<String> cols) async {
   PlutoRow gridRow(SheetRow? sheetRow, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
-    plutoRow.cells
-        .putIfAbsent('row_', () => PlutoCell(value: sheetRow!.aRowNo));
+    try {
+      plutoRow.cells
+          .putIfAbsent('row_', () => PlutoCell(value: sheetRow!.aRowNo));
+    } catch (e) {
+      plutoRow.cells.putIfAbsent('row_', () => PlutoCell(value: '??'));
+    }
 
     for (var colIx = 0; colIx < cols.length; colIx++) {
       // ignore: unused_local_variable
@@ -23,11 +27,13 @@ Future<List<PlutoRow>> gridRowsMap(
           value = row[cols[colIx]];
         }
       } catch (_) {
-        value = '?';
+        value = '';
       }
-      plutoRow.cells[cols[colIx]] = PlutoCell(value: value);
-      //plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
-      //plutoRow.cells.putIfAbsent(cols[colIx], () => PlutoCell(value: value));
+      try {
+        plutoRow.cells[cols[colIx]] = PlutoCell(value: value);
+      } catch (e) {
+        plutoRow.cells[cols[colIx]] = PlutoCell(value: '');
+      }
     }
 
     return plutoRow;
