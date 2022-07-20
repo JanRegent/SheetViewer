@@ -71,32 +71,36 @@ List<String> getFilteredColsTitles(PlutoGridStateManager gridAStateManager) {
 
 String filteredColumnGetValue(
     PlutoGridStateManager gridAStateManager, String columnName) {
-  final List<PlutoRow> filters = gridAStateManager.filterRows
-      .map(
-        (e) => PlutoRow(cells: {
-          FilterHelper.filterFieldColumn: PlutoCell(
-            value: e.cells[FilterHelper.filterFieldColumn]!.value,
-          ),
-          FilterHelper.filterFieldType: PlutoCell(
-            value: e.cells[FilterHelper.filterFieldType]!.value,
-          ),
-          FilterHelper.filterFieldValue: PlutoCell(
-            value: e.cells[FilterHelper.filterFieldValue]!.value,
-          ),
-        }),
-      )
-      .toList();
-  if (filters.isEmpty) return '';
-  // rint(filters[0].cells.keys);
-  // rint(filters[0].cells['column']!.value);
-  // rint(filters[0].cells['type']!.value);
-  // rint(filters[0].cells['value']!.value);
-  for (var fIx = 0; fIx < filters.length; fIx++) {
-    if (filters[fIx].cells['column']!.value == columnName) {
-      return filters[fIx].cells['value']!.value.toString();
+  try {
+    final List<PlutoRow> filters = gridAStateManager.filterRows
+        .map(
+          (e) => PlutoRow(cells: {
+            FilterHelper.filterFieldColumn: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldColumn]!.value,
+            ),
+            FilterHelper.filterFieldType: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldType]!.value,
+            ),
+            FilterHelper.filterFieldValue: PlutoCell(
+              value: e.cells[FilterHelper.filterFieldValue]!.value,
+            ),
+          }),
+        )
+        .toList();
+    if (filters.isEmpty) return '';
+    // rint(filters[0].cells.keys);
+    // rint(filters[0].cells['column']!.value);
+    // rint(filters[0].cells['type']!.value);
+    // rint(filters[0].cells['value']!.value);
+    for (var fIx = 0; fIx < filters.length; fIx++) {
+      if (filters[fIx].cells['column']!.value == columnName) {
+        return filters[fIx].cells['value']!.value.toString();
+      }
     }
+    return '';
+  } catch (e) {
+    return '';
   }
-  return '';
 }
 
 void handleLoadFilter(PlutoGridStateManager gridAStateManager) {

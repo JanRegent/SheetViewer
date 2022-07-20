@@ -59,7 +59,7 @@ class ViewHelper {
       String freezeSide = 'start';
       if (plutoCols[index].frozen.isEnd) freezeSide = 'end';
       Map pair = {};
-      pair['title'] = plutoCols[index].title;
+      pair['columnName'] = plutoCols[index].title;
       pair['side'] = freezeSide;
       freezeToList.add(pair);
     }
@@ -70,7 +70,7 @@ class ViewHelper {
     try {
       for (var i = 0; i < viewConfig.freezeTo.length; i++) {
         Map freezeMap = jsonDecode(viewConfig.freezeTo[i]);
-        if (freezeMap['title'] != columnName) continue;
+        if (freezeMap['columnName'] != columnName) continue;
         if (freezeMap['side'] == 'start') {
           return PlutoColumnFrozen.start;
         } else {
@@ -88,12 +88,20 @@ class ViewHelper {
     Map sortPar = {};
     for (var index = 0; index < plutoCols.length; index++) {
       if (plutoCols[index].sort.isNone) continue;
-      String sort =
-          plutoCols[index].sort.toString().replaceAll('PlutoColumnSort.', '');
+      String direct = '';
+      try {
+        direct =
+            plutoCols[index].sort.toString().replaceAll('PlutoColumnSort.', '');
+      } catch (e) {
+        direct = '';
+      }
+      if (direct.isEmpty) continue;
+
       sortPar['columnName'] = plutoCols[index].title;
-      sortPar['direction'] = sort;
+      sortPar['direction'] = direct;
       break;
     }
+    if (sortPar.isEmpty) return '';
     return jsonEncode(sortPar);
   }
 
@@ -158,14 +166,38 @@ class ViewHelper {
   }
 
   Future viewConfi2csv() async {
-    String csv = '';
+    String csv = 'configVer:22.08';
     csv += '\naSheetName,' + sheetName;
-    csv += '\nzfileId,' + fileId;
     csv += '\ncolsHeader,' + getColsHeader().join(',');
-    csv += '\ncolsFilter,' + getFilteredList().join(',');
-    csv += '\nfreezeTo,' + freezeToListString().join(',');
-    csv += '\nsort,' + getSort();
-    FlutterClipboard.copy(csv).then((value) => {print(csv)});
+    List<String> filters = getFilteredList();
+    if (filters.isNotEmpty) {
+      for (var i = 0; i < filters.length; i++) {
+        Map expr = jsonDecode(filters[i]);
+        if (i == 0) csv += '\ncolsFilter,columnName, operator, value';
+        csv += '\n..,' +
+            expr['columnName'] +
+            ',' +
+            expr['operator'] +
+            ',' +
+            expr['value'];
+      }
+    }
+
+    List<String> freezes = freezeToListString();
+    if (filters.isNotEmpty) {
+      for (var i = 0; i < freezes.length; i++) {
+        Map expr = jsonDecode(freezes[i]);
+        if (i == 0) csv += '\nfreezeTo,columnName, side';
+        csv += '\n..,' + expr['columnName'] + ',' + expr['side'];
+      }
+    }
+    String sort = getSort();
+    if (sort.isNotEmpty) {
+      Map sortMap = jsonDecode(sort);
+      csv += '\nsort,' + sortMap['columnName'] + ',' + sortMap['direction'];
+    }
+
+    FlutterClipboard.copy(csv).then((value) => {});
   }
 
   Future load(String fileId_, String sheetName_) async {

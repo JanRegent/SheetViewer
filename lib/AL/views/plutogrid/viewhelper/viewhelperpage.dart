@@ -157,7 +157,7 @@ class _ViewHelperPageState extends State<ViewHelperPage> {
         children: [
           ElevatedButton.icon(
               icon: const Icon(Icons.space_bar),
-              label: Text(element['title']),
+              label: Text(element['columnName']),
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

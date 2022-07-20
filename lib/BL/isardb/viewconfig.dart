@@ -146,29 +146,22 @@ class ViewConfigsDb {
   // }
 
   Future update(ViewConfig viewConfig) async {
-    ViewConfig? testRow = await isar.viewConfigs
-        .filter()
-        .zfileIdEqualTo(viewConfig.zfileId)
-        .and()
-        .aSheetNameEqualTo(viewConfig.aSheetName)
-        .findFirst();
-    try {
-      // ignore: unnecessary_null_comparison
-      if (testRow!.id != null) {
-        await isar.writeTxn(() async {
-          await isar.viewConfigs.delete(testRow.id); // delete
-        });
-      }
+    await isar.writeTxn(() async {
+      final oldRowsIds = await isar.viewConfigs
+          .filter()
+          .zfileIdEqualTo(viewConfig.zfileId)
+          .and()
+          .aSheetNameEqualTo(viewConfig.aSheetName)
+          .idProperty()
+          .findAll();
 
-      await isar.writeTxn(() async {
-        await isar.viewConfigs.put(viewConfig);
-      });
-    } catch (_) {
-      await isar.writeTxn(() async {
-        await isar.viewConfigs.put(viewConfig);
-      });
-    }
+      isar.viewConfigs.deleteAll(oldRowsIds);
+    });
+    await isar.writeTxn(() async {
+      await isar.viewConfigs.put(viewConfig);
+    });
   }
+}
 
   // Future updateAll(List<ViewConfig> ViewConfigs) async {
   //   await isar.writeTxn(() async {
@@ -209,4 +202,4 @@ class ViewConfigsDb {
   //   }
   //   if (putAll) await ViewConfigsDb.updateAll(ViewConfigs);
   // }
-}
+

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-csv-1';      
+const buildVersion = 'AL-views-viewConfi2csv-1';      
