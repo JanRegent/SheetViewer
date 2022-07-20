@@ -48,13 +48,14 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
     /// Columns must be provided at the beginning of a row synchronously.
     viewHelper.plutoCols
-        .addAll(await colsMap(viewHelper.viewConfig.colsHeader.split(',')));
-
+        .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
+    print(viewHelper.plutoCols.length);
     await rowsCountCheck(widget.fileId, widget.sheetName);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     rowsCount.value = sheetRows.length;
-
+    print(sheetRows.length);
+    print(viewHelper.viewConfig);
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
     //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
     return 'OK';

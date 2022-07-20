@@ -156,7 +156,7 @@ class ViewHelper {
     viewConfig
       ..aSheetName = sheetName
       ..zfileId = fileId
-      ..colsHeader = getColsHeader().join(',')
+      ..colsHeader = getColsHeader()
       ..colsFilter = getFilteredList()
       ..freezeTo = freezeToListString()
       ..sort = getSort();
@@ -207,7 +207,7 @@ class ViewHelper {
     if (viewConfig.colsHeader.isEmpty) {
       List<String> cols =
           await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
-      viewConfig.colsHeader = cols.join(',');
+      viewConfig.colsHeader = cols;
     }
   }
 

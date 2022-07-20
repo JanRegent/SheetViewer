@@ -9,7 +9,7 @@ class ViewConfig {
   @Id()
   int id = Isar.autoIncrement;
   String aSheetName = '';
-  String colsHeader = '';
+  List<String> colsHeader = [];
   List<String> colsFilter = [];
   List<String> freezeTo = [];
   String sort = '';

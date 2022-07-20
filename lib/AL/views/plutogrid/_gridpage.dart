@@ -32,8 +32,8 @@ class _GridPageState extends State<GridPage> {
   }
 
   Future<String> getGridRows() async {
-    gridRows = await gridRowsMap(
-        widget.sheetRows, viewHelper.viewConfig.colsHeader.split(','));
+    gridRows =
+        await gridRowsMap(widget.sheetRows, viewHelper.viewConfig.colsHeader);
     getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
 
     return 'OK';
