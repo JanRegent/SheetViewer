@@ -99,6 +99,13 @@ List<PlutoMenuItem> getMenus(BuildContext context) {
             await viewHelper.viewConfigSave();
           },
         ),
+        PlutoMenuItem(
+          title: 'CSV to clipboard',
+          icon: Icons.copy,
+          onTap: () async {
+            await viewHelper.viewConfi2csv();
+          },
+        ),
         PlutoMenuItem.checkbox(
           title: 'Menu 1-3',
           initialCheckValue: true,

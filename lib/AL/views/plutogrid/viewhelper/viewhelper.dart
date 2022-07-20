@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -154,6 +155,17 @@ class ViewHelper {
     //..autoFit = getAutoFitList();
 
     await viewConfigsDb.update(viewConfig);
+  }
+
+  Future viewConfi2csv() async {
+    String csv = '';
+    csv += '\naSheetName,' + sheetName;
+    csv += '\nzfileId,' + fileId;
+    csv += '\ncolsHeader,' + getColsHeader().join(',');
+    csv += '\ncolsFilter,' + getFilteredList().join(',');
+    csv += '\nfreezeTo,' + freezeToListString().join(',');
+    csv += '\nsort,' + getSort();
+    FlutterClipboard.copy(csv).then((value) => {print(csv)});
   }
 
   Future load(String fileId_, String sheetName_) async {

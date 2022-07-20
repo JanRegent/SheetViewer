@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-currentPage-saving-problem-not-fixed';      
+const buildVersion = 'AL-views-csv-1';      
