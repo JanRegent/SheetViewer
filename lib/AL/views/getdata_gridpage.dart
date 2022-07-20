@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
+import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
@@ -43,7 +44,12 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
-    viewHelper.load(widget.fileId, widget.sheetName);
+    await viewHelper.load(widget.fileId, widget.sheetName);
+
+    /// Columns must be provided at the beginning of a row synchronously.
+    viewHelper.plutoCols
+        .addAll(await colsMap(viewHelper.viewConfig.colsHeader.split(',')));
+
     await rowsCountCheck(widget.fileId, widget.sheetName);
     sheetRows =
         await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);

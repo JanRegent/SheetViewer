@@ -1,7 +1,7 @@
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawergrid.dart';
 
-List<PlutoColumn> colsMap(List<String> colsHeader) {
+Future<List<PlutoColumn>> colsMap(List<String> colsHeader) async {
   List<PlutoColumn> gridCols = [];
 
   for (var colIx = 0; colIx < colsHeader.length; colIx++) {

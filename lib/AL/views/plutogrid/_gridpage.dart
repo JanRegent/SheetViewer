@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
 import 'package:sheetviewer/AL/views/plutogrid/paneldetail.dart';
 import 'package:sheetviewer/AL/views/plutogrid/panels.dart';
 
@@ -28,10 +27,6 @@ class _GridPageState extends State<GridPage> {
 
   @override
   void initState() {
-    /// Columns must be provided at the beginning of a row synchronously.
-    viewHelper.plutoCols
-        .addAll(colsMap(viewHelper.viewConfig.colsHeader.split(',')));
-
     initStateManager(viewHelper.plutoCols, gridRows);
     super.initState();
   }

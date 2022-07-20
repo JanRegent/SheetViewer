@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-setPage';      
+const buildVersion = 'AL-views-load-as-future';      
