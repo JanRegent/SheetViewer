@@ -1,0 +1,12 @@
+,,,,
+configVer:22.08,,,,
+sheetName,elonX,,,
+colsHeader,Mise,Raketa / Dragon,Orbita / cíl,Rampa
+colsFilter,columnName,operator,value,
+..,Mise,contains,ax,
+..,Orbita / cíl,contains,leo,
+freezeTo,columnName,side,,
+..,Mise,start,,
+..,Raketa / Dragon,end,,
+..,Rampa,end,,
+sort,Rampa,ascending,,

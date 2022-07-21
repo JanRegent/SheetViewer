@@ -16,9 +16,17 @@ extension GetFileListCollection on Isar {
 const FileListSchema = CollectionSchema(
   name: r'FileList',
   schema:
-      r'{"name":"FileList","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"zfileId","type":"String"}],"indexes":[],"links":[]}',
+      r'{"name":"FileList","idName":"id","properties":[{"name":"aRowNo","type":"String"},{"name":"aSheetName","type":"String"},{"name":"row","type":"String"},{"name":"viewConfig","type":"String"},{"name":"viewConfigLocal","type":"String"},{"name":"zfileId","type":"String"},{"name":"zfileIdConfig","type":"String"}],"indexes":[],"links":[]}',
   idName: r'id',
-  propertyIds: {r'aRowNo': 0, r'aSheetName': 1, r'row': 2, r'zfileId': 3},
+  propertyIds: {
+    r'aRowNo': 0,
+    r'aSheetName': 1,
+    r'row': 2,
+    r'viewConfig': 3,
+    r'viewConfigLocal': 4,
+    r'zfileId': 5,
+    r'zfileIdConfig': 6
+  },
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
@@ -64,12 +72,21 @@ void _fileListSerializeNative(
   final aSheetName$Bytes =
       IsarBinaryWriter.utf8Encoder.convert(object.aSheetName);
   final row$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.row);
+  final viewConfig$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.viewConfig);
+  final viewConfigLocal$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.viewConfigLocal);
   final zfileId$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.zfileId);
+  final zfileIdConfig$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.zfileIdConfig);
   final size = (staticSize +
       (aRowNo$Bytes.length) +
       (aSheetName$Bytes.length) +
       (row$Bytes.length) +
-      (zfileId$Bytes.length)) as int;
+      (viewConfig$Bytes.length) +
+      (viewConfigLocal$Bytes.length) +
+      (zfileId$Bytes.length) +
+      (zfileIdConfig$Bytes.length)) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
@@ -79,7 +96,10 @@ void _fileListSerializeNative(
   writer.writeBytes(offsets[0], aRowNo$Bytes);
   writer.writeBytes(offsets[1], aSheetName$Bytes);
   writer.writeBytes(offsets[2], row$Bytes);
-  writer.writeBytes(offsets[3], zfileId$Bytes);
+  writer.writeBytes(offsets[3], viewConfig$Bytes);
+  writer.writeBytes(offsets[4], viewConfigLocal$Bytes);
+  writer.writeBytes(offsets[5], zfileId$Bytes);
+  writer.writeBytes(offsets[6], zfileIdConfig$Bytes);
 }
 
 FileList _fileListDeserializeNative(IsarCollection<FileList> collection, int id,
@@ -89,7 +109,10 @@ FileList _fileListDeserializeNative(IsarCollection<FileList> collection, int id,
   object.aSheetName = reader.readString(offsets[1]);
   object.id = id;
   object.row = reader.readString(offsets[2]);
-  object.zfileId = reader.readString(offsets[3]);
+  object.viewConfig = reader.readString(offsets[3]);
+  object.viewConfigLocal = reader.readString(offsets[4]);
+  object.zfileId = reader.readString(offsets[5]);
+  object.zfileIdConfig = reader.readString(offsets[6]);
   return object;
 }
 
@@ -106,6 +129,12 @@ P _fileListDeserializePropNative<P>(
       return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Illegal propertyIndex');
   }
@@ -118,7 +147,10 @@ Object _fileListSerializeWeb(
   IsarNative.jsObjectSet(jsObj, r'aSheetName', object.aSheetName);
   IsarNative.jsObjectSet(jsObj, r'id', object.id);
   IsarNative.jsObjectSet(jsObj, r'row', object.row);
+  IsarNative.jsObjectSet(jsObj, r'viewConfig', object.viewConfig);
+  IsarNative.jsObjectSet(jsObj, r'viewConfigLocal', object.viewConfigLocal);
   IsarNative.jsObjectSet(jsObj, r'zfileId', object.zfileId);
+  IsarNative.jsObjectSet(jsObj, r'zfileIdConfig', object.zfileIdConfig);
   return jsObj;
 }
 
@@ -130,7 +162,11 @@ FileList _fileListDeserializeWeb(
   object.id =
       IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   object.row = IsarNative.jsObjectGet(jsObj, r'row') ?? '';
+  object.viewConfig = IsarNative.jsObjectGet(jsObj, r'viewConfig') ?? '';
+  object.viewConfigLocal =
+      IsarNative.jsObjectGet(jsObj, r'viewConfigLocal') ?? '';
   object.zfileId = IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '';
+  object.zfileIdConfig = IsarNative.jsObjectGet(jsObj, r'zfileIdConfig') ?? '';
   return object;
 }
 
@@ -145,8 +181,14 @@ P _fileListDeserializePropWeb<P>(Object jsObj, String propertyName) {
           (double.negativeInfinity as int)) as P;
     case r'row':
       return (IsarNative.jsObjectGet(jsObj, r'row') ?? '') as P;
+    case r'viewConfig':
+      return (IsarNative.jsObjectGet(jsObj, r'viewConfig') ?? '') as P;
+    case r'viewConfigLocal':
+      return (IsarNative.jsObjectGet(jsObj, r'viewConfigLocal') ?? '') as P;
     case r'zfileId':
       return (IsarNative.jsObjectGet(jsObj, r'zfileId') ?? '') as P;
+    case r'zfileIdConfig':
+      return (IsarNative.jsObjectGet(jsObj, r'zfileIdConfig') ?? '') as P;
     default:
       throw IsarError('Illegal propertyName');
   }
@@ -620,6 +662,234 @@ extension FileListQueryFilter
     });
   }
 
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'viewConfig',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'viewConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> viewConfigMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'viewConfig',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'viewConfigLocal',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'viewConfigLocal',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      viewConfigLocalMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'viewConfigLocal',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
   QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -731,6 +1001,120 @@ extension FileListQueryFilter
       ));
     });
   }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      zfileIdConfigGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'zfileIdConfig',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition>
+      zfileIdConfigStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'zfileIdConfig',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterFilterCondition> zfileIdConfigMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'zfileIdConfig',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
 }
 
 extension FileListQueryLinks
@@ -774,6 +1158,30 @@ extension FileListQueryWhereSortBy
     });
   }
 
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByViewConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByViewConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfig', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByViewConfigLocal() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfigLocal', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByViewConfigLocalDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfigLocal', Sort.desc);
+    });
+  }
+
   QueryBuilder<FileList, FileList, QAfterSortBy> sortByZfileId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.asc);
@@ -783,6 +1191,18 @@ extension FileListQueryWhereSortBy
   QueryBuilder<FileList, FileList, QAfterSortBy> sortByZfileIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByZfileIdConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> sortByZfileIdConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.desc);
     });
   }
 }
@@ -837,6 +1257,30 @@ extension FileListQueryWhereSortThenBy
     });
   }
 
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByViewConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByViewConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfig', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByViewConfigLocal() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfigLocal', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByViewConfigLocalDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'viewConfigLocal', Sort.desc);
+    });
+  }
+
   QueryBuilder<FileList, FileList, QAfterSortBy> thenByZfileId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.asc);
@@ -846,6 +1290,18 @@ extension FileListQueryWhereSortThenBy
   QueryBuilder<FileList, FileList, QAfterSortBy> thenByZfileIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'zfileId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByZfileIdConfig() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QAfterSortBy> thenByZfileIdConfigDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zfileIdConfig', Sort.desc);
     });
   }
 }
@@ -873,10 +1329,33 @@ extension FileListQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FileList, FileList, QDistinct> distinctByViewConfig(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'viewConfig', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QDistinct> distinctByViewConfigLocal(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'viewConfigLocal',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<FileList, FileList, QDistinct> distinctByZfileId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'zfileId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<FileList, FileList, QDistinct> distinctByZfileIdConfig(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'zfileIdConfig',
+          caseSensitive: caseSensitive);
     });
   }
 }
@@ -907,9 +1386,27 @@ extension FileListQueryProperty
     });
   }
 
+  QueryBuilder<FileList, String, QQueryOperations> viewConfigProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'viewConfig');
+    });
+  }
+
+  QueryBuilder<FileList, String, QQueryOperations> viewConfigLocalProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'viewConfigLocal');
+    });
+  }
+
   QueryBuilder<FileList, String, QQueryOperations> zfileIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'zfileId');
+    });
+  }
+
+  QueryBuilder<FileList, String, QQueryOperations> zfileIdConfigProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'zfileIdConfig');
     });
   }
 }

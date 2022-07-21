@@ -77,7 +77,7 @@ class InterestContr extends GetxController {
       } else {
         if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
           await dlGlobals.csvAdapter
-              .getInterestFilelist(fileListFileId, fileListSheetName);
+              .getFilelist(fileListFileId, fileListSheetName);
         } else {
           await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
               fileListFileId, fileListSheetName, false, 'filelistDb');
@@ -105,13 +105,25 @@ class InterestContr extends GetxController {
       Map fileRow = jsonDecode(filelistRows[i]!.row);
       String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
       String sheetName = fileRow['sheetName'];
+
+      String viewConfigLocal = bl.blUti.url2fileid(fileRow['viewConfig.local']);
+      await dlGlobals.csvAdapter
+          .getViewConfig(fileId, sheetName, viewConfigLocal);
+
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
       if (rowsCount == 0) {
         interestContr.loadedSheetName.value += '\n' + sheetName;
         if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+          //dataSheet
           String fileLocal = bl.blUti.url2fileid(fileRow['fileLocal']);
           await dlGlobals.csvAdapter
               .getSheetAllrows(fileId, sheetName, fileLocal);
+
+          //viewConfig?
+          String viewConfigLocal =
+              bl.blUti.url2fileid(fileRow['viewConfig.local']);
+          await dlGlobals.csvAdapter
+              .getViewConfig(fileId, sheetName, viewConfigLocal);
         } else {
           await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
         }

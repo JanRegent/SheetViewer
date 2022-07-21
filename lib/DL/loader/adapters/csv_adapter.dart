@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
@@ -22,7 +23,7 @@ class CsvAdapter {
     return rowsAsListOfValues;
   }
 
-  Future getInterestFilelist(String fileId, String sheetName) async {
+  Future getFilelist(String fileId, String sheetName) async {
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv('interestFilelist');
     List<String> cols = bl.blUti.toListString(rawRows[0]);
@@ -57,6 +58,22 @@ class CsvAdapter {
     List<String> cols = bl.blUti.toListString(rawRows[0]);
 
     await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, true, cols);
+    logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
+        'rawRows.length: ' + rawRows.length.toString());
+    return rawRows.length;
+  }
+
+  Future getViewConfig(
+      String fileId, String sheetName, String fileLocal) async {
+    debugPrint(fileLocal);
+
+    if (fileLocal.isEmpty) return;
+    List<List<dynamic>> rawRows =
+        await dlGlobals.csvAdapter.getSheetCsv(fileLocal);
+    logi('csv_adapter', 'getViewConfig', sheetName + 'from: $fileLocal',
+        'rawRows.length: ' + rawRows.length.toString());
+
+    await viewConfigsDb.fromLocalCsv(rawRows, fileId, sheetName);
     logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
         'rawRows.length: ' + rawRows.length.toString());
     return rawRows.length;

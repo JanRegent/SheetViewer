@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:isar/isar.dart';
+import 'package:sheetviewer/BL/bl.dart';
 
 part 'viewconfig.g.dart'; // flutter pub run build_runner build
 
@@ -168,7 +169,51 @@ class ViewConfigsDb {
       await isar.viewConfigs.put(viewConfig);
     });
   }
+
+  Future fromLocalCsv(
+      List<List<dynamic>> rawRows, String fileId, String sheetName) async {
+    ViewConfig viewConfig = ViewConfig()
+      ..aSheetName = sheetName
+      ..zfileId = fileId;
+
+    List<String> removeFirst(List<String> list) {
+      List<String> listString = [];
+      for (int i = 1; i < list.length; i++) {
+        if (list[i].isEmpty) continue;
+        listString.add(list[i]);
+      }
+      return listString;
+    }
+
+    for (int rowIx = 0; rowIx < rawRows.length; rowIx++) {
+      List<String> row = bl.blUti.toListString(rawRows[rowIx]);
+      if (row[0].isEmpty) continue;
+      print(row[0]);
+      switch (row[0]) {
+        case 'colsHeader':
+          List<String> colsHeader = removeFirst(row);
+          viewConfig.colsHeader = colsHeader;
+          break;
+        case 'colsFilter':
+          List<String> colsFilter = removeFirst(row);
+          viewConfig.colsFilter = colsFilter;
+          break;
+        case 'freezeTo':
+          List<String> freezeTo = removeFirst(row);
+          viewConfig.freezeTo = freezeTo;
+          break;
+        case 'sort':
+          List<String> sort = removeFirst(row);
+          viewConfig.sort = sort.join(' ');
+          break;
+      }
+    }
+    //print(viewConfig);
+    await update(viewConfig);
+  }
 }
+
+ // Future updateAll(List<ViewConfig> ViewConfigs) async {
 
   // Future updateAll(List<ViewConfig> ViewConfigs) async {
   //   await isar.writeTxn(() async {

@@ -17,6 +17,9 @@ class FileList {
   String aRowNo = '';
   String row = '';
   String zfileId = '';
+  String zfileIdConfig = '';
+  String viewConfig = '';
+  String viewConfigLocal = '';
 
   FileList();
 
