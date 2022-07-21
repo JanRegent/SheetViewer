@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -185,18 +186,33 @@ class ViewConfigsDb {
       return listString;
     }
 
+    int getColsFilter(int rowIx) {
+      List<String> rowHead = removeFirst(bl.blUti.toListString(rawRows[rowIx]));
+      if (rowHead[0] != 'columnName') return rowIx;
+      if (rowHead[1] != 'operator') return rowIx;
+      if (rowHead[2] != 'value') return rowIx;
+      while (true) {
+        List<String> row = bl.blUti.toListString(rawRows[rowIx + 1]);
+        if (row[0] != '..') return rowIx;
+        Map filter = {};
+        filter['columnName'] = row[1];
+        filter['operator'] = row[2];
+        filter['value'] = row[3];
+        viewConfig.colsFilter.add(jsonEncode(filter));
+        rowIx += 1;
+      }
+    }
+
     for (int rowIx = 0; rowIx < rawRows.length; rowIx++) {
       List<String> row = bl.blUti.toListString(rawRows[rowIx]);
       if (row[0].isEmpty) continue;
       print(row[0]);
       switch (row[0]) {
         case 'colsHeader':
-          List<String> colsHeader = removeFirst(row);
-          viewConfig.colsHeader = colsHeader;
+          viewConfig.colsHeader = removeFirst(row);
           break;
         case 'colsFilter':
-          List<String> colsFilter = removeFirst(row);
-          viewConfig.colsFilter = colsFilter;
+          rowIx = getColsFilter(rowIx);
           break;
         case 'freezeTo':
           List<String> freezeTo = removeFirst(row);
