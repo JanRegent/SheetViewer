@@ -186,14 +186,14 @@ class ViewConfigsDb {
       return listString;
     }
 
-    int getColsFilter(int rowIx) {
+    void getColsFilter(int rowIx) {
       List<String> rowHead = removeFirst(bl.blUti.toListString(rawRows[rowIx]));
-      if (rowHead[0] != 'columnName') return rowIx;
-      if (rowHead[1] != 'operator') return rowIx;
-      if (rowHead[2] != 'value') return rowIx;
+      if (rowHead[0] != 'columnName') return;
+      if (rowHead[1] != 'operator') return;
+      if (rowHead[2] != 'value') return;
       while (true) {
         List<String> row = bl.blUti.toListString(rawRows[rowIx + 1]);
-        if (row[0] != '..') return rowIx;
+        if (row[0] != '..') return;
         Map filter = {};
         filter['columnName'] = row[1];
         filter['operator'] = row[2];
@@ -203,24 +203,39 @@ class ViewConfigsDb {
       }
     }
 
+    void getFreezeTo(int rowIx) {
+      List<String> rowHead = removeFirst(bl.blUti.toListString(rawRows[rowIx]));
+      if (rowHead[0] != 'columnName') return;
+      if (rowHead[1] != 'side') return;
+      while (true) {
+        List<String> row = bl.blUti.toListString(rawRows[rowIx + 1]);
+        if (row[0] != '..') return;
+        Map filter = {};
+        filter['columnName'] = row[1];
+        filter['side'] = row[2];
+        viewConfig.freezeTo.add(jsonEncode(filter));
+        rowIx += 1;
+      }
+    }
+
     for (int rowIx = 0; rowIx < rawRows.length; rowIx++) {
       List<String> row = bl.blUti.toListString(rawRows[rowIx]);
       if (row[0].isEmpty) continue;
-      print(row[0]);
       switch (row[0]) {
         case 'colsHeader':
           viewConfig.colsHeader = removeFirst(row);
           break;
         case 'colsFilter':
-          rowIx = getColsFilter(rowIx);
+          getColsFilter(rowIx);
           break;
         case 'freezeTo':
-          List<String> freezeTo = removeFirst(row);
-          viewConfig.freezeTo = freezeTo;
+          getFreezeTo(rowIx);
           break;
         case 'sort':
-          List<String> sort = removeFirst(row);
-          viewConfig.sort = sort.join(' ');
+          Map sort = {};
+          sort['columnName'] = row[1];
+          sort['direction'] = row[1];
+          viewConfig.sort = jsonEncode(sort);
           break;
       }
     }
