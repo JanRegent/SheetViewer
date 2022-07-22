@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sheetviewer/AL/__home/home_drawer_menu.dart';
+import 'package:sheetviewer/AL/__home/_home_filelist/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-import '../elements/getrows/cards/_filelistcard.dart';
-import '../elements/getrows/cards/searchbywords.dart';
-import 'search/cool_search_bar.dart';
+import 'filelistcard.dart';
+
+import '../search/cool_search_bar.dart';
 
 // ignore: must_be_immutable
 class FilelistviewHomePage extends StatelessWidget {
@@ -30,13 +30,8 @@ class FilelistviewHomePage extends StatelessWidget {
                 ),
             itemCount: interestContr.interestFilelist.length,
             itemBuilder: (context, index) => Center(
-                child: cardType == 'byRows'
-                    ? filelistCard(cardType, context,
-                        interestContr.interestFilelist[index], index)
-                    : cardType == 'By words'
-                        ? searchByWordsCard(cardType, context,
-                            interestContr.interestFilelist[index], index, 'ego')
-                        : const Text('not implemented'))));
+                child: filelistCard(
+                    context, interestContr.interestFilelist[index], index))));
   }
 
   void setPageTitle(String title, BuildContext context) {
@@ -54,13 +49,14 @@ class FilelistviewHomePage extends StatelessWidget {
       tooltip: 'Search word in all sheets',
       onPressed: () async {
         try {
-          String searchWordInAllSheets = await Navigator.push(
+          interestContr.searchWordInAllSheets.value = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (ctx) => const CoolSearchBar(),
               ));
-          print(searchWordInAllSheets);
-        } catch (_) {}
+        } catch (_) {
+          interestContr.searchWordInAllSheets.value = '';
+        }
       },
     );
   }
@@ -74,6 +70,8 @@ class FilelistviewHomePage extends StatelessWidget {
           title: ListTile(
             leading: al.helpIcon(context),
             title: Text(interestContr.interestName.value),
+            trailing:
+                Obx(() => Text(interestContr.searchWordInAllSheets.value)),
           ),
           backgroundColor: Colors.lightBlue,
           actions: [searchBar(context)],

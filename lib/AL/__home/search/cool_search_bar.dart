@@ -62,7 +62,7 @@ class _CoolSearchBarState extends State<CoolSearchBar> {
 
   IconButton searchAllSheets(String word) {
     return IconButton(
-        icon: const Icon(Icons.delete),
+        icon: const Icon(Icons.search_off),
         onPressed: () {
           Navigator.pop(context, word);
         });

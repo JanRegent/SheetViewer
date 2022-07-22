@@ -5,55 +5,20 @@ import 'dart:core';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:sheetviewer/AL/elements/getrows/getrows.dart';
+import 'package:sheetviewer/AL/elements/getrows.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
-Card filelistCard(
-    String cardType, BuildContext context, Map fileListSheetRow, int index) {
+Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
   List<Widget> getLements() {
     List<Widget> rowWigs = [];
 
-    if (cardType == 'byRows') {
-      rowWigs.add(allRowsButton(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-      rowWigs.add(const Text('  '));
-      rowWigs.add(firstButton(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-      rowWigs.add(const Text('  '));
-      rowWigs.add(lastButton(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-    }
-    if (cardType == 'lastRows') {
-      rowWigs.add(lastRow(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-    }
+    rowWigs.add(allRowsButton(
+        context,
+        fileListSheetRow['sheetName'],
+        bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
+        fileListSheetRow['fileTitle']));
+    rowWigs.add(const Text('  '));
 
-    if (cardType == 'firstRows') {
-      rowWigs.add(firstRows(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-    }
-    if (cardType == 'allRows') {
-      rowWigs.add(allRows(
-          context,
-          fileListSheetRow['sheetName'],
-          bl.blUti.url2fileid(fileListSheetRow['fileUrl']),
-          fileListSheetRow['fileTitle']));
-    }
     return rowWigs;
   }
 

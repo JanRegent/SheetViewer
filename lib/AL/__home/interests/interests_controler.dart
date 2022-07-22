@@ -10,6 +10,8 @@ import 'package:sheetviewer/BL/isardb/filelist.dart';
 
 class InterestContr extends GetxController {
   var interestName = ''.obs;
+  var searchWordInAllSheets = ''.obs;
+
   var loadedSheetName = ''.obs;
   Future interestNameSet(String value) async {
     interestName.value = value;
