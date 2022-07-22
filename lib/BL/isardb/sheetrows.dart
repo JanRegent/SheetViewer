@@ -97,6 +97,7 @@ class SheetrowsDb {
         .and()
         .aSheetNameEqualTo(sheetName)
         .findAll();
+    testRows.removeAt(0); //cols row
     return testRows;
   }
 

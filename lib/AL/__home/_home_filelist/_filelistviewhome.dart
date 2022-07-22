@@ -14,9 +14,7 @@ import '../search/cool_search_bar.dart';
 
 // ignore: must_be_immutable
 class FilelistviewHomePage extends StatelessWidget {
-  final String cardType;
-
-  const FilelistviewHomePage(this.cardType, {Key? key}) : super(key: key);
+  const FilelistviewHomePage({Key? key}) : super(key: key);
 
   Widget detailBody() {
     return Container(
@@ -54,8 +52,10 @@ class FilelistviewHomePage extends StatelessWidget {
               MaterialPageRoute(
                 builder: (ctx) => const CoolSearchBar(),
               ));
+          allRowsButtonlAllRowsLabel.value = 'all filtered';
         } catch (_) {
           interestContr.searchWordInAllSheets.value = '';
+          allRowsButtonlAllRowsLabel.value = 'all rows';
         }
       },
     );

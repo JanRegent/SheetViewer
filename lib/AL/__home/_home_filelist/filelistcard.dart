@@ -4,8 +4,9 @@ import 'dart:core';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'package:sheetviewer/AL/elements/getrows.dart';
+import 'package:sheetviewer/AL/views/getdata_gridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
@@ -66,4 +67,44 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
       children: [expansionFilelistCard()],
     ),
   );
+}
+
+Future getrowsRefresh(String fileUrl, String sheetName) async {
+  // String fileId = bl.blUti.url2fileid(fileUrl);
+  // for (var action in ['getRowsFirst', 'getRowsLast']) {
+  //   Map queryMap = await actionMapCreate(fileId, sheetName, action);
+
+  //   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
+  //   await sheetsDb.deleteSheet(queryStringKey);
+  // }
+}
+
+Future showGrid(BuildContext context, String sheetName, String fileId,
+    String action, String fileTitle) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            GetDataViewsPage(sheetName, fileId, action, fileTitle),
+      ));
+}
+
+//-------------------------------------------------------------------------all
+RxString allRowsButtonlAllRowsLabel = ''.obs;
+
+ElevatedButton allRowsButton(
+    BuildContext context, String sheetName, String fileId, String fileTitle) {
+  allRowsButtonlAllRowsLabel.value = 'all rows';
+  if (interestContr.searchWordInAllSheets.value.isNotEmpty) {
+    allRowsButtonlAllRowsLabel.value = 'all filtered';
+  }
+  return ElevatedButton.icon(
+      label: Obx(() => Text(allRowsButtonlAllRowsLabel.value)),
+      icon: const Icon(
+        Icons.table_rows_outlined,
+        color: Colors.black,
+      ),
+      onPressed: () async {
+        await showGrid(context, sheetName, fileId, 'getSheet', fileTitle);
+      });
 }

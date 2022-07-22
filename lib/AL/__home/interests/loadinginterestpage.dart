@@ -55,7 +55,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return const FilelistviewHomePage('byRows');
+                  return const FilelistviewHomePage();
                 }
             }
           },
