@@ -63,7 +63,7 @@ class CsvAdapter {
     return rawRows.length;
   }
 
-  Future getViewConfig(
+  Future getViewConfigLocalCsv(
       String fileId, String sheetName, String fileLocal) async {
     debugPrint(fileLocal);
 
@@ -73,7 +73,7 @@ class CsvAdapter {
     logi('csv_adapter', 'getViewConfig', sheetName + 'from: $fileLocal',
         'rawRows.length: ' + rawRows.length.toString());
 
-    await viewConfigsDb.fromLocalCsv(rawRows, fileId, sheetName);
+    await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
     logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
         'rawRows.length: ' + rawRows.length.toString());
     return rawRows.length;

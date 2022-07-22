@@ -106,10 +106,6 @@ class InterestContr extends GetxController {
       String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
       String sheetName = fileRow['sheetName'];
 
-      String viewConfigLocal = bl.blUti.url2fileid(fileRow['viewConfig.local']);
-      await dlGlobals.csvAdapter
-          .getViewConfig(fileId, sheetName, viewConfigLocal);
-
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
       if (rowsCount == 0) {
         interestContr.loadedSheetName.value += '\n' + sheetName;
@@ -120,19 +116,14 @@ class InterestContr extends GetxController {
               .getSheetAllrows(fileId, sheetName, fileLocal);
 
           //viewConfig?
-          String viewConfigLocal =
-              bl.blUti.url2fileid(fileRow['viewConfig.local']);
-          await dlGlobals.csvAdapter
-              .getViewConfig(fileId, sheetName, viewConfigLocal);
+          await dlGlobals.csvAdapter.getViewConfigLocalCsv(
+              fileId, sheetName, fileRow['viewConfig.local']);
         } else {
-          await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
+          await dlGlobals.gSheetsAdapter
+              .getViewConfigGapps(fileId, sheetName, fileRow['viewConfig']);
         }
       }
-      // Map updateRow = {};
-      // updateRow['fileId'] = fileId;
-      // updateRow['sheetName'] = sheetName;
-      // updateRow['rowsCountClient'] = rowsCount;
-      // rowsCountListClient[i.toString()] = updateRow;
+
       interestFilelist.add(fileRow);
     }
   }

@@ -171,7 +171,7 @@ class ViewConfigsDb {
     });
   }
 
-  Future fromLocalCsv(
+  Future fromCsv(
       List<List<dynamic>> rawRows, String fileId, String sheetName) async {
     ViewConfig viewConfig = ViewConfig()
       ..aSheetName = sheetName
@@ -219,25 +219,27 @@ class ViewConfigsDb {
     }
 
     for (int rowIx = 0; rowIx < rawRows.length; rowIx++) {
-      List<String> row = bl.blUti.toListString(rawRows[rowIx]);
-      if (row[0].isEmpty) continue;
-      switch (row[0]) {
-        case 'colsHeader':
-          viewConfig.colsHeader = removeFirst(row);
-          break;
-        case 'colsFilter':
-          getColsFilter(rowIx);
-          break;
-        case 'freezeTo':
-          getFreezeTo(rowIx);
-          break;
-        case 'sort':
-          Map sort = {};
-          sort['columnName'] = row[1];
-          sort['direction'] = row[1];
-          viewConfig.sort = jsonEncode(sort);
-          break;
-      }
+      try {
+        List<String> row = bl.blUti.toListString(rawRows[rowIx]);
+        if (row[0].isEmpty) continue;
+        switch (row[0]) {
+          case 'colsHeader':
+            viewConfig.colsHeader = removeFirst(row);
+            break;
+          case 'colsFilter':
+            getColsFilter(rowIx);
+            break;
+          case 'freezeTo':
+            getFreezeTo(rowIx);
+            break;
+          case 'sort':
+            Map sort = {};
+            sort['columnName'] = row[1];
+            sort['direction'] = row[2];
+            viewConfig.sort = jsonEncode(sort);
+            break;
+        }
+      } catch (_) {}
     }
     //print(viewConfig);
     await update(viewConfig);

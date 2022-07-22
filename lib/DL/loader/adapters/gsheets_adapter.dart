@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gsheets/gsheets.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
@@ -77,7 +78,10 @@ class GSheetsAdapter {
     return rawRows.length;
   }
 
-  Future<int> getSheetAllRows(String fileId, String sheetName) async {
+  Future<int> getSheetAllRows(
+    String fileId,
+    String sheetName,
+  ) async {
     late Worksheet? sheet;
     try {
       Spreadsheet? ss = await getSpreadSheet(fileId);
@@ -99,6 +103,28 @@ class GSheetsAdapter {
 
     cols = await columnsTitles(sheet);
     await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, true, cols);
+
+    return rawRows.length;
+  }
+
+  Future<int> getViewConfigGapps(
+      String fileId, String sheetName, String viewConfig) async {
+    if (viewConfig.isEmpty) return 0;
+    logi('getSheetViewConfig', 'viewConfig sheetName ', viewConfig, '');
+    late Worksheet? sheet;
+    try {
+      Spreadsheet? ss = await getSpreadSheet(fileId);
+      // ignore: unnecessary_null_comparison
+      if (ss == null) return 0;
+      sheet = ss.worksheetByTitle(viewConfig);
+      if (sheet == null) return 0;
+    } catch (e) {
+      logi('getSheetViewConfig', 'err\n ', e, '');
+      return 0;
+    }
+    List<List<String>> rawRows = await sheet.values.allRows();
+
+    await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
 
     return rawRows.length;
   }

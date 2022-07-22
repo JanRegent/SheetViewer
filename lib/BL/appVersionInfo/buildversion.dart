@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-fromLocalCsv-getFreezeTo';      
+const buildVersion = 'AL-views-getViewConfigGapps';      
