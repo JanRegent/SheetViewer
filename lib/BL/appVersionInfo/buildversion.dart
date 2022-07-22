@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-getViewConfigGapps';      
+const buildVersion = 'AL-views-search-1';      

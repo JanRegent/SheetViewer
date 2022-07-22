@@ -7,10 +7,10 @@ import 'package:sheetviewer/AL/__home/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/DL/loader/adapters/gapps_sheetsviewbackkend.dart';
 
 import '../elements/getrows/cards/_filelistcard.dart';
 import '../elements/getrows/cards/searchbywords.dart';
+import 'search/cool_search_bar.dart';
 
 // ignore: must_be_immutable
 class FilelistviewHomePage extends StatelessWidget {
@@ -48,12 +48,19 @@ class FilelistviewHomePage extends StatelessWidget {
     ));
   }
 
-  IconButton sheetRowsUpdate(BuildContext context) {
+  IconButton searchBar(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.update),
-      tooltip: 'Update new rows in sheets of this file list',
+      icon: const Icon(Icons.search),
+      tooltip: 'Search word in all sheets',
       onPressed: () async {
-        await getSheetRowsUpdates(interestContr.interestFilelist, context);
+        try {
+          String searchWordInAllSheets = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => const CoolSearchBar(),
+              ));
+          print(searchWordInAllSheets);
+        } catch (_) {}
       },
     );
   }
@@ -69,7 +76,7 @@ class FilelistviewHomePage extends StatelessWidget {
             title: Text(interestContr.interestName.value),
           ),
           backgroundColor: Colors.lightBlue,
-          actions: [sheetRowsUpdate(context)],
+          actions: [searchBar(context)],
         ),
         body: FutureBuilder<String>(
           future: interestContr.interestLoad(), // async work

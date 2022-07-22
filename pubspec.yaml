@@ -121,6 +121,7 @@ flutter:
     - assets/fonts/
     - assets/csv.local/
     - assets/csv.refresh/
+    - assets/images/
     #- assets/config/
 
     
