@@ -1,1 +1,1 @@
-const buildVersion = 'AL-views-search-2-reorg-simplify';      
+const buildVersion = 'AL-views-search-3';      

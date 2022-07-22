@@ -100,6 +100,19 @@ class SheetrowsDb {
     return testRows;
   }
 
+  Future<List<SheetRow?>> readRowsContains(
+      String fileId, String sheetName, String word) async {
+    List<SheetRow?> testRows = await isar.sheetRows
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .and()
+        .rowContains(word, caseSensitive: false)
+        .findAll();
+    return testRows;
+  }
+
   Future<SheetRow?> readRowNo(int aRowNo) async {
     SheetRow? row =
         await isar.sheetRows.filter().aRowNoEqualTo(aRowNo).findFirst();

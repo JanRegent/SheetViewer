@@ -53,11 +53,16 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     debugPrint('viewHelper.plutoCols.length ' +
         viewHelper.plutoCols.length.toString());
     await rowsCountCheck(widget.fileId, widget.sheetName);
-    sheetRows =
-        await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
+    if (interestContr.searchWordInAllSheets.value.isEmpty) {
+      sheetRows =
+          await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
+    } else {
+      sheetRows = await sheetRowsDb.readRowsContains(widget.fileId,
+          widget.sheetName, interestContr.searchWordInAllSheets.value);
+    }
     rowsCount.value = sheetRows.length;
     debugPrint('sheetRows.length ' + sheetRows.length.toString());
-    debugPrint(viewHelper.viewConfig.toString());
+    //debugPrint(viewHelper.viewConfig.toString());
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
     //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
     return 'OK';
@@ -117,7 +122,14 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                 if (snapshot.hasError) {
                   return Text('GetDataViewsPage Error: ${snapshot.error}');
                 } else {
-                  return GridPage(sheetRows);
+                  if (sheetRows.isNotEmpty) return GridPage(sheetRows);
+                  print(2);
+                  if (interestContr.searchWordInAllSheets.value.isEmpty) {
+                    return Text('Sheet ${widget.sheetName} is empty');
+                  }
+                  print(3);
+                  return Text(
+                      'Sheet ${widget.sheetName} filter result is empty\n filter is: \n rows contains ${interestContr.searchWordInAllSheets.value}');
                 }
             }
           },

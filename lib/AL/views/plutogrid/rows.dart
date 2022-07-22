@@ -34,7 +34,7 @@ Future<List<PlutoRow>> gridRowsMap(
 
   List<PlutoRow> gridrows = [];
 
-  for (var rowIx = 1; rowIx < sheetRows.length; rowIx++) {
+  for (var rowIx = 0; rowIx < sheetRows.length; rowIx++) {
     gridrows.add(gridRow(sheetRows[rowIx], rowIx));
   }
 
