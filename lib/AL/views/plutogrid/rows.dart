@@ -9,11 +9,12 @@ Future<List<PlutoRow>> gridRowsMap(
     List<SheetRow?> sheetRows, List<String> cols) async {
   PlutoRow gridRow(SheetRow? sheetRow, int rowIx) {
     PlutoRow plutoRow = PlutoRow(cells: {});
+    plutoRow.cells['__rowNo__'] = PlutoCell(value: sheetRow!.aRowNo);
     for (var colIx = 0; colIx < cols.length; colIx++) {
       // ignore: unused_local_variable
       String value = '';
       try {
-        Map row = jsonDecode(sheetRow!.row);
+        Map row = jsonDecode(sheetRow.row);
         if (row[cols[colIx]] == null) {
           value = '';
         } else {

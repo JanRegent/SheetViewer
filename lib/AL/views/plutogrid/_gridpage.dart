@@ -33,12 +33,9 @@ class _GridPageState extends State<GridPage> {
 
   Future<String> getGridRows() async {
     gridRows.clear();
-
     gridRows =
         await gridRowsMap(widget.sheetRows, viewHelper.viewConfig.colsHeader);
-    print('gridRows ' + gridRows.length.toString());
-    print(widget.sheetRows.first!.aRowNo);
-    getDetailList(widget.sheetRows.first!.aRowNo, widget.sheetRows);
+    getDetailList(widget.sheetRows);
 
     return 'OK';
   }

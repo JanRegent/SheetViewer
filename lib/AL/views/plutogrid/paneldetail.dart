@@ -8,22 +8,16 @@ import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 double fontSize = 25;
 
-SheetRow? getRowByRowNo(int rowNo, List<SheetRow?> sheetRows) {
-  for (var i = 0; i < sheetRows.length; i++) {
-    if (sheetRows[i]!.aRowNo == rowNo) return sheetRows[i];
-  }
-  return sheetRows[1];
-}
-
 RxString detailContent = ''.obs;
-RxInt detailRowNo = 2.obs;
 String detailColumnField = '';
 
 //  RxMap rxRow = {}.obs;
 RxList detailList = [].obs;
-RxList getDetailList(int rowNo, List<SheetRow?> sheetRows) {
-  SheetRow? sheetRow = getRowByRowNo(rowNo, sheetRows);
+RxList getDetailList(List<SheetRow?> sheetRows) {
+  if (currentRowNo > 2) currentRowNo = currentRowNo - 2; //-header,-array from 0
+  SheetRow? sheetRow = sheetRows[currentRowNo];
   Map row = jsonDecode(sheetRow!.row);
+
   detailList.clear();
   for (var key in row.keys) {
     detailList.add([key, row[key]]);
@@ -65,11 +59,6 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
           style: TextStyle(fontSize: fontSize),
         )));
     items.add(const Divider(color: Colors.blue));
-    items.add(ListTile(
-      leading: const Text('RowNo: '),
-      title: Obx(() => Text(detailRowNo.value.toString())),
-    ));
-    items.add(const Divider(height: 4));
 
     int key = 0;
     int value = 1;

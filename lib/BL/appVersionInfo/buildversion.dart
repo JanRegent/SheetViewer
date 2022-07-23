@@ -1,1 +1,1 @@
-const buildVersion = 'AL-search-allRowsButtonlAllRowsLabel';      
+const buildVersion = 'AL-view-detail-1';      

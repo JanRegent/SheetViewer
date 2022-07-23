@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelper.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelperpage.dart';
 
-import 'package:sheetviewer/BL/isardb/sheetrows.dart';
-
 import 'viewhelper/filters.dart';
 
-List<SheetRow?> rows = [];
 ViewHelper viewHelper = ViewHelper();
-late PlutoRow currentRow; //currentRow is null or PlutoRow.
-
+int currentRowNo = 0;
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 bool detailMode = false;
-
-PlutogridController plutogridContr = PlutogridController();
-
-class PlutogridController extends GetxController {
-  var multilineDetailLayuout = ''.obs;
-}
 
 Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
     String sheetName, List<String> cols) {

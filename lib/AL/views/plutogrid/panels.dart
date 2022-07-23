@@ -18,7 +18,7 @@ ResizableWidget resizablePanels(
     children: [
       // required
       singleGrid(plutoCols, gridrows, _controller, sheetRows),
-      detailPanel_(screenWidth, _controller, setStateFunc)
+      detailPanel_(screenWidth, _controller, setStateFunc, sheetRows)
     ],
     isHorizontalSeparator: false, // optional
     isDisabledSmartHide: false, // optional
@@ -32,7 +32,10 @@ ResizableWidget resizablePanels(
 }
 
 SingleChildScrollView detailPanel_(
-    final screenWidth, ScrollController _controller, Function setStateFunc) {
+    final screenWidth,
+    ScrollController _controller,
+    Function setStateFunc,
+    List<SheetRow?> sheetRows) {
   return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: ConstrainedBox(
@@ -62,14 +65,12 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
       viewHelper.viewConfig.currentPage = 1;
     }
     try {
-      //currentRow is null or PlutoRow.
-      currentRow = viewHelper.gridAStateManager.currentRow!;
+      currentRowNo = viewHelper
+          .gridAStateManager.currentRow!.cells.entries.first.value.value;
     } catch (_) {}
 
     try {
-      detailRowNo.value = viewHelper
-          .gridAStateManager.currentCell!.row.cells.values.first.value;
-      getDetailList(detailRowNo.value, sheetRows);
+      getDetailList(sheetRows);
       detailColumnField = viewHelper.gridAStateManager.currentColumn!.title;
 
       detailContent.value = viewHelper.gridAStateManager.currentCell!.value;

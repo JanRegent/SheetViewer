@@ -48,6 +48,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     await viewHelper.load(widget.fileId, widget.sheetName);
 
     /// Columns must be provided at the beginning of a row synchronously.
+    viewHelper.plutoCols.clear();
     viewHelper.plutoCols
         .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
     debugPrint('viewHelper.plutoCols.length ' +
@@ -88,10 +89,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   ListTile appBarTile(BuildContext context) {
     return ListTile(
-        leading: al.iconBack(context),
-        title: plutogridContr.multilineDetailLayuout.value.isNotEmpty
-            ? Text(widget.fileTitle + ' column wiew')
-            : Text(widget.fileTitle));
+        leading: al.iconBack(context), title: Text(widget.fileTitle));
   }
 
   @override
@@ -123,11 +121,9 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                   return Text('GetDataViewsPage Error: ${snapshot.error}');
                 } else {
                   if (sheetRows.isNotEmpty) return GridPage(sheetRows);
-                  print(2);
                   if (interestContr.searchWordInAllSheets.value.isEmpty) {
                     return Text('Sheet ${widget.sheetName} is empty');
                   }
-                  print(3);
                   return Text(
                       'Sheet ${widget.sheetName} filter result is empty\n filter is: \n rows contains ${interestContr.searchWordInAllSheets.value}');
                 }

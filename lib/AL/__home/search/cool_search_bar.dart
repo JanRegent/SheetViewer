@@ -64,8 +64,12 @@ class _CoolSearchBarState extends State<CoolSearchBar> {
     return IconButton(
         icon: const Icon(Icons.search_off),
         onPressed: () {
-          Navigator.pop(context, word);
+          returnWord(word);
         });
+  }
+
+  void returnWord(String word) {
+    Navigator.pop(context, word);
   }
 
   Widget itemList(BuildContext context) {
