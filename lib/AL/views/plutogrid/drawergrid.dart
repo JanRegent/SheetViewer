@@ -9,10 +9,10 @@ import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelperpage.dart';
 import 'viewhelper/filters.dart';
 
 ViewHelper viewHelper = ViewHelper();
-int currentRowNo = 0;
+
+RxString currentRowNoOnDetail = '2'.obs;
 bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
-bool detailMode = false;
 
 Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
     String sheetName, List<String> cols) {
@@ -55,9 +55,10 @@ Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
         ),
         ListTile(
           leading: const Icon(Icons.list),
-          title: Text(detailMode ? 'Detail mode off' : 'Detail mode on'),
+          title: Text(
+              viewHelper.detailMode ? 'Detail mode off' : 'Detail mode on'),
           onTap: () {
-            detailMode = !detailMode;
+            viewHelper.detailMode = !viewHelper.detailMode;
             setStateFunc();
             Navigator.pop(context);
           },

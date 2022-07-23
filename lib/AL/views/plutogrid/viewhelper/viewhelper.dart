@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:isar/isar.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
@@ -13,6 +14,12 @@ class ViewHelper {
   ViewConfig viewConfig = ViewConfig();
   List<PlutoColumn> plutoCols = [];
   late PlutoGridStateManager gridAStateManager;
+
+  @Ignore()
+  int currentRowNoOnSelect = 2; //first data row in sheet
+  @Ignore()
+  bool detailMode = false;
+
   //---------------------------------------------------------------------header
   List<String> getColsHeader() {
     List<String> colsHeader = [];

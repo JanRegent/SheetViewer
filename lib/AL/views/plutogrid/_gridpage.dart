@@ -35,8 +35,8 @@ class _GridPageState extends State<GridPage> {
     gridRows.clear();
     gridRows =
         await gridRowsMap(widget.sheetRows, viewHelper.viewConfig.colsHeader);
-    getDetailList(widget.sheetRows);
-
+    getDetailList(viewHelper.fileId, viewHelper.sheetName);
+    debugPrint('gridRows.length ' + gridRows.length.toString());
     return 'OK';
   }
 
@@ -68,7 +68,7 @@ class _GridPageState extends State<GridPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               viewHelper.gridAStateManager.setShowLoading(false);
-              return detailMode
+              return viewHelper.detailMode
                   ? resizablePanels(viewHelper.plutoCols, gridRows, _controller,
                       screenWidth, setStateFunc, widget.sheetRows)
                   : singleGrid(viewHelper.plutoCols, gridRows, _controller,

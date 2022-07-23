@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-detail-1';      
+const buildVersion = 'AL-view-currentRowNoOnSelect';      

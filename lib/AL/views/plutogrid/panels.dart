@@ -65,12 +65,13 @@ PlutoGrid singleGrid(List<PlutoColumn> plutoCols, final List<PlutoRow> gridrows,
       viewHelper.viewConfig.currentPage = 1;
     }
     try {
-      currentRowNo = viewHelper
+      viewHelper.currentRowNoOnSelect = viewHelper
           .gridAStateManager.currentRow!.cells.entries.first.value.value;
+      currentRowNoOnDetail.value = viewHelper.currentRowNoOnSelect.toString();
     } catch (_) {}
 
     try {
-      getDetailList(sheetRows);
+      getDetailList(viewHelper.fileId, viewHelper.sheetName);
       detailColumnField = viewHelper.gridAStateManager.currentColumn!.title;
 
       detailContent.value = viewHelper.gridAStateManager.currentCell!.value;

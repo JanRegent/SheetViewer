@@ -47,12 +47,14 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     debugPrint('---------------------------------------getData4view');
     await viewHelper.load(widget.fileId, widget.sheetName);
 
+    //---------------------------------------------------------------------cols
     /// Columns must be provided at the beginning of a row synchronously.
     viewHelper.plutoCols.clear();
     viewHelper.plutoCols
         .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
     debugPrint('viewHelper.plutoCols.length ' +
         viewHelper.plutoCols.length.toString());
+    //---------------------------------------------------------------------rows
     await rowsCountCheck(widget.fileId, widget.sheetName);
     if (interestContr.searchWordInAllSheets.value.isEmpty) {
       sheetRows =

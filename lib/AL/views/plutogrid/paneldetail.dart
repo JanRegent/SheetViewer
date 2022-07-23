@@ -4,6 +4,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawergrid.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 double fontSize = 25;
@@ -13,16 +14,15 @@ String detailColumnField = '';
 
 //  RxMap rxRow = {}.obs;
 RxList detailList = [].obs;
-RxList getDetailList(List<SheetRow?> sheetRows) {
-  if (currentRowNo > 2) currentRowNo = currentRowNo - 2; //-header,-array from 0
-  SheetRow? sheetRow = sheetRows[currentRowNo];
+void getDetailList(String fileId, String sheetName) async {
+  SheetRow? sheetRow = await sheetRowsDb.readRowNo(
+      fileId, sheetName, viewHelper.currentRowNoOnSelect);
   Map row = jsonDecode(sheetRow!.row);
 
   detailList.clear();
   for (var key in row.keys) {
     detailList.add([key, row[key]]);
   }
-  return detailList;
 }
 
 Widget detailPanel(ScrollController _controller, Function setStateFunc) {
@@ -34,7 +34,7 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
           tooltip: 'Close detail panel',
           icon: const Icon(Icons.close),
           onPressed: () {
-            detailMode = false;
+            viewHelper.detailMode = false;
             setStateFunc();
           },
         ),
@@ -74,6 +74,11 @@ Widget detailPanel(ScrollController _controller, Function setStateFunc) {
         items.add(const Divider(color: Colors.blue));
       } catch (_) {}
     }
+
+    items.add(ListTile(
+      leading: const Text('RowNo: '),
+      title: Obx(() => Text(currentRowNoOnDetail.value)),
+    ));
     return items;
   }
 

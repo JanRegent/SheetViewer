@@ -114,9 +114,16 @@ class SheetrowsDb {
     return testRows;
   }
 
-  Future<SheetRow?> readRowNo(int aRowNo) async {
-    SheetRow? row =
-        await isar.sheetRows.filter().aRowNoEqualTo(aRowNo).findFirst();
+  Future<SheetRow?> readRowNo(
+      String fileId, String sheetName, int aRowNo) async {
+    SheetRow? row = await isar.sheetRows
+        .filter()
+        .zfileIdEqualTo(fileId)
+        .and()
+        .aSheetNameEqualTo(sheetName)
+        .and()
+        .aRowNoEqualTo(aRowNo)
+        .findFirst();
     return row;
   }
 
