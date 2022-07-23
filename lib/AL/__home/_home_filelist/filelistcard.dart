@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import 'package:sheetviewer/AL/views/getdata_gridpage.dart';
 import 'package:sheetviewer/AL/views/plutogrid/drawergrid.dart';
+import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelper.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
@@ -82,7 +83,7 @@ Future getrowsRefresh(String fileUrl, String sheetName) async {
 
 Future showGrid(BuildContext context, String sheetName, String fileId,
     String action, String fileTitle) async {
-  viewHelper.detailMode = false;
+  viewHelper = ViewHelper();
   await Navigator.push(
       context,
       MaterialPageRoute(

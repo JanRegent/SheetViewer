@@ -11,7 +11,6 @@ import 'viewhelper/filters.dart';
 ViewHelper viewHelper = ViewHelper();
 
 RxString currentRowNoOnDetail = '2'.obs;
-bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 
 Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,

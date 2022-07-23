@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
 import 'drawergrid.dart';
 
-List<SheetRow?> rows = [];
-List<String> colsHeader = [];
-bool sheetViewFromSearch = false;
 RxInt rowsCount = 0.obs;
 
 PlutogridController plutogridContr = PlutogridController();

@@ -1,1 +1,1 @@
-const buildVersion = 'AL-view-currentRowNoOnSelect';      
+const buildVersion = 'AL-filelistPage-viewHelper';      
