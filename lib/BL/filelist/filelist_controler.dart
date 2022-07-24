@@ -24,7 +24,7 @@ class FilelistContr extends GetxController {
     logParagraphStart('filelistLoad');
 
     filelistMap = await getFilelistMap();
-
+    logi('filelistMap', filelistMap.toString(), '', '');
     await filelistContr.getFilelist();
 
     return 'OK';
@@ -80,21 +80,18 @@ class FilelistContr extends GetxController {
     String fileListSheetName = filelistMap['filelistSheetName'];
 
     Future fileListFill() async {
-      if (dlGlobals.domain.toString().contains('vercel.app')) {
-        await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
-            fileListFileId, fileListSheetName, false, 'filelistDb');
+      if ((filelistMap['loadAdapter'].toString().startsWith('csv.')) &&
+          (!dlGlobals.domain.toString().contains('vercel.app'))) {
+        await dlGlobals.csvAdapter
+            .getFilelist(fileListFileId, fileListSheetName);
       } else {
-        if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
-          await dlGlobals.csvAdapter
-              .getFilelist(fileListFileId, fileListSheetName);
-        } else {
-          await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
-              fileListFileId, fileListSheetName, false, 'filelistDb');
-        }
+        await dlGlobals.gSheetsAdapter
+            .getFileListUpdate(fileListFileId, fileListSheetName);
       }
     }
 
     await fileListFill();
+
     await sheetRowsFill(fileListFileId, fileListSheetName);
     return 'ok';
   }
@@ -103,9 +100,9 @@ class FilelistContr extends GetxController {
   final String rowsCount = '10';
 
   Future sheetRowsFill(String filelistFileId, String filelistSheetname) async {
-    List<FileList?> filelistRows =
-        await filelistDb.readRowsSheet(filelistFileId, filelistSheetname);
     filelist.clear();
+    List<FileList?> filelistRows =
+        await filelistDb.readRowsSheet(filelistSheetname);
     logParagraphStart('sheetRowsFill');
 
     Future viaCsv(Map fileRow, String fileId, String sheetName) async {

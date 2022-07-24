@@ -94,12 +94,10 @@ class FileListDb {
     return rows;
   }
 
-  Future<List<FileList?>> readRowsSheet(String fileId, String sheetName) async {
+  Future<List<FileList?>> readRowsSheet(String filelistSheetName) async {
     List<FileList?> testRows = await isar.fileLists
         .filter()
-        .zfileIdEqualTo(fileId)
-        .and()
-        .aSheetNameEqualTo(sheetName)
+        .aSheetNameEqualTo(filelistSheetName)
         .findAll();
     return testRows;
   }
@@ -156,5 +154,37 @@ class FileListDb {
       return Future<void>(() {});
     }
     await isar.fileLists.putAll(sheetRows);
+  }
+
+  Future updateAllRaw(List<List<String>> sheetRows, String filelistFileId,
+      String filelistSheetname) async {
+    if (!isar.isOpen) {
+      return Future<void>(() {});
+    }
+
+    await isar.writeTxn(() async {
+      await isar.fileLists.clear();
+    });
+
+    List<String> cols = sheetRows[0];
+    for (var rowIx = 0; rowIx < sheetRows.length; rowIx++) {
+      if (sheetRows[rowIx].isEmpty) continue;
+      if (sheetRows[rowIx][0].isEmpty) continue;
+      Map row = {};
+      try {
+        for (var colIx = 0; colIx < cols.length; colIx++) {
+          row[cols[colIx]] = sheetRows[rowIx][colIx];
+        }
+      } catch (_) {}
+      FileList fileListRow = FileList()
+        ..aSheetName = filelistSheetname
+        ..zfileId = filelistFileId
+        ..aRowNo = (rowIx + 1).toString() //excel start at 1
+        ..row = jsonEncode(row);
+
+      await isar.writeTxn(() async {
+        await isar.fileLists.put(fileListRow);
+      });
+    }
   }
 }

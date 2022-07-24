@@ -78,6 +78,30 @@ class GSheetsAdapter {
     return rawRows.length;
   }
 
+  Future<int> getFileListUpdate(
+      String filelistFileId, String filelistSheetName) async {
+    late Worksheet? sheet;
+    try {
+      Spreadsheet? ss = await getSpreadSheet(filelistFileId);
+      // ignore: unnecessary_null_comparison
+      if (ss == null) return 0;
+      sheet = ss.worksheetByTitle(filelistSheetName);
+      if (sheet == null) return 0;
+    } catch (e) {
+      FileList fileListRow = FileList()
+        ..aSheetName = filelistSheetName
+        ..zfileId = filelistFileId
+        ..aRowNo = (1).toString() //excel start at 1
+        ..row = jsonEncode({'warning': e.toString()});
+      await filelistDb.update(fileListRow);
+      return 0;
+    }
+    List<List<String>> rawRows = await sheet.values.allRows();
+
+    await filelistDb.updateAllRaw(rawRows, filelistFileId, filelistSheetName);
+    return 0;
+  }
+
   Future<int> getSheetAllRows(
     String fileId,
     String sheetName,
