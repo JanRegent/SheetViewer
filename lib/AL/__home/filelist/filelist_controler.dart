@@ -35,12 +35,15 @@ class FilelistContr extends GetxController {
     String filelistSheetName = '';
     String loadAdapter = '';
 
-    String filelistDirs_ = await loadAssetString('filelists/filelists2show');
-    List<String> filelistDirs = filelistDirs_.split('\n');
-    dlGlobals.filelistDir = 'filelists/${filelistDirs[0].trim()}/';
-    String configDir = dlGlobals.filelistDir + 'app_settings.json';
-    appHome.updateMap('configDir', {'configDir': configDir});
-    Map dlSettings = await jsonDecode(await loadAssetJson(configDir));
+    String showList = await loadAssetString('filelists/showList');
+    showList = showList.trim();
+    dlGlobals.filelistDir = 'filelists/$showList/';
+    appHome.updateMap('showList', {
+      'filelistDir': dlGlobals.filelistDir,
+      'app_settings': dlGlobals.filelistDir + 'app_settings.json'
+    });
+    Map dlSettings = await jsonDecode(
+        await loadAssetJson(dlGlobals.filelistDir + 'app_settings.json'));
 
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
       filelistUrl = dlSettings["filelistUrl"];
@@ -91,14 +94,12 @@ class FilelistContr extends GetxController {
       }
     }
 
-    if (await filelistDb.rowsCount(fileListFileId, fileListSheetName) == 0) {
-      await fileListFill();
-    }
+    await fileListFill();
+
     await sheetRowsFill(fileListFileId, fileListSheetName);
     return 'ok';
   }
 
-  String cardType = '';
   RxString fetshingRows = ''.obs;
   final String rowsCount = '10';
 
@@ -117,9 +118,12 @@ class FilelistContr extends GetxController {
         filelistContr.loadedSheetName.value += '\n' + sheetName;
         if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
           //dataSheet
-          String fileLocal = bl.blUti.url2fileid(fileRow['fileLocal']);
+          String filePath = 'config/' +
+              dlGlobals.filelistDir +
+              'csv.local/' +
+              fileRow['fileLocal'];
           await dlGlobals.csvAdapter
-              .getSheetAllrows(fileId, sheetName, fileLocal);
+              .getSheetAllrows(fileId, sheetName, filePath);
 
           //viewConfig?
           await dlGlobals.csvAdapter.getViewConfigLocalCsv(

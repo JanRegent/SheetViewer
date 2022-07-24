@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
@@ -24,10 +23,9 @@ class CsvAdapter {
   }
 
   Future getFilelist(String fileId, String sheetName) async {
-    List<List<dynamic>> rawRows = await dlGlobals.csvAdapter
-        .getSheetCsv(dlGlobals.filelistDir + '___filelist___');
+    List<List<dynamic>> rawRows = await dlGlobals.csvAdapter.getSheetCsv(
+        'config/' + dlGlobals.filelistDir + 'csv.local/__filelist__.csv');
     List<String> cols = bl.blUti.toListString(rawRows[0]);
-
     for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
       Map row = {}; //excel 1 cols, 2.. data
       for (var colIx = 0; colIx < cols.length; colIx++) {
@@ -64,13 +62,14 @@ class CsvAdapter {
   }
 
   Future getViewConfigLocalCsv(
-      String fileId, String sheetName, String fileLocal) async {
-    debugPrint(fileLocal);
+      String fileId, String sheetName, String fileLocalNoPath) async {
+    if (fileLocalNoPath.isEmpty) return;
 
-    if (fileLocal.isEmpty) return;
+    String filePath =
+        'config/' + dlGlobals.filelistDir + 'csv.local/' + fileLocalNoPath;
     List<List<dynamic>> rawRows =
-        await dlGlobals.csvAdapter.getSheetCsv(fileLocal);
-    logi('csv_adapter', 'getViewConfig', sheetName + 'from: $fileLocal',
+        await dlGlobals.csvAdapter.getSheetCsv(filePath);
+    logi('csv_adapter', 'getViewConfig', sheetName + 'from: $filePath',
         'rawRows.length: ' + rawRows.length.toString());
 
     await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
