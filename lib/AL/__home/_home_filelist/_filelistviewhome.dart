@@ -16,6 +16,10 @@ import '../search/cool_search_bar.dart';
 class FilelistviewHomePage extends StatelessWidget {
   const FilelistviewHomePage({Key? key}) : super(key: key);
 
+  Future<String> getData() async {
+    return 'OK';
+  }
+
   Widget detailBody() {
     return Container(
         height: double.infinity,
@@ -78,7 +82,7 @@ class FilelistviewHomePage extends StatelessWidget {
           actions: [searchBar(context)],
         ),
         body: FutureBuilder<String>(
-          future: filelistContr.filelistLoad(), // async work
+          future: getData(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
