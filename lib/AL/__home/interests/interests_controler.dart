@@ -8,7 +8,7 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
 
-class InterestContr extends GetxController {
+class FilelistContr extends GetxController {
   var interestName = ''.obs;
   var searchWordInAllSheets = ''.obs;
 
@@ -20,44 +20,43 @@ class InterestContr extends GetxController {
   //-----------------------------------------------------------------init/load
   Map interestMap = {};
 
-  Future<String> interestLoad() async {
-    logParagraphStart('interestLoad');
+  Future<String> filelistLoad() async {
+    logParagraphStart('filelistLoad');
 
-    interestMap = await getInterestMap();
+    interestMap = await getFilelistMap();
 
-    await interestContr.getInterestFilelist();
+    await interestContr.getFilelist();
 
     return 'OK';
   }
 
-  Future<Map> getInterestMap() async {
-    String interestFilelistUrl = '';
-    String interestFilelistSheetName = '';
+  Future<Map> getFilelistMap() async {
+    String filelistUrl = '';
+    String filelistSheetName = '';
     String loadAdapter = '';
+    Map dlSettings =
+        await jsonDecode(await loadAssetJson('space/app_settings.json'));
+
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
-      interestFilelistUrl = await loadAssetString('interestFilelistUrl');
-      interestFilelistSheetName =
-          await loadAssetString('interestFilelistSheetName');
-      loadAdapter = await loadAssetString('loadAdapter');
+      filelistUrl = dlSettings["filelistUrl"];
+      filelistSheetName = dlSettings['filelistSheetName'];
+      loadAdapter = dlSettings['loadAdapter'];
     } else {
-      interestFilelistUrl = remoteConfig.getString('interestFilelistUrl');
-      interestFilelistSheetName =
-          remoteConfig.getString('interestFilelistSheetName');
+      filelistUrl = remoteConfig.getString('interestFilelistUrl');
+      filelistSheetName = remoteConfig.getString('filelistSheetName');
       loadAdapter = '';
     }
 
     Map interestMap = {};
-    interestMap['interestFilelistFileId'] =
-        bl.blUti.url2fileid(interestFilelistUrl);
-    interestMap['interestFilelistSheetName'] = interestFilelistSheetName;
+    interestMap['filelistFileId'] = bl.blUti.url2fileid(filelistUrl);
+    interestMap['filelistSheetName'] = filelistSheetName;
     interestMap['loadAdapter'] = loadAdapter;
     logi('InterestContr', 'getInterestMap(', 'interestMap',
         interestMap.toString());
 
     appHome.updateMap('interestMap', interestMap);
-    await interestContr
-        .interestNameSet(interestMap['interestFilelistSheetName']);
-    interestContr.interestName.value = interestMap['interestFilelistSheetName'];
+    await interestContr.interestNameSet(interestMap['filelistSheetName']);
+    interestContr.interestName.value = interestMap['filelistSheetName'];
     return interestMap;
   }
 
@@ -67,10 +66,10 @@ class InterestContr extends GetxController {
   Map rowsCountListClient = {};
   Map rowsCountListGDrive = {};
 
-  Future<String> getInterestFilelist() async {
+  Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
-    String fileListFileId = interestMap['interestFilelistFileId'];
-    String fileListSheetName = interestMap['interestFilelistSheetName'];
+    String fileListFileId = interestMap['filelistFileId'];
+    String fileListSheetName = interestMap['filelistSheetName'];
 
     Future fileListFill() async {
       if (dlGlobals.domain.toString().contains('vercel.app')) {

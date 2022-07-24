@@ -65,7 +65,8 @@ class FilelistviewHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     setPageTitle(interestContr.interestName.value, context);
     return Scaffold(
-        drawer: homeDrawer(context),
+        drawer:
+            homeDrawer(context, interestContr.interestMap['filelistFileId']),
         appBar: AppBar(
           title: ListTile(
             leading: al.helpIcon(context),
@@ -77,7 +78,7 @@ class FilelistviewHomePage extends StatelessWidget {
           actions: [searchBar(context)],
         ),
         body: FutureBuilder<String>(
-          future: interestContr.interestLoad(), // async work
+          future: interestContr.filelistLoad(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

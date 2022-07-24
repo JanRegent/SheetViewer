@@ -1,1 +1,1 @@
-const buildVersion = 'AL-filelistPage-viewHelper';      
+const buildVersion = 'AL-FilelistContr';      

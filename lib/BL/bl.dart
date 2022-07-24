@@ -24,7 +24,7 @@ late SheetrowsDb sheetRowsDb;
 late ViewConfigsDb viewConfigsDb;
 
 late LocalStorage appHome = LocalStorage('appHome: ');
-InterestContr interestContr = InterestContr();
+FilelistContr interestContr = FilelistContr();
 
 class BL {
   BLuti blUti = BLuti();

@@ -69,14 +69,15 @@ dependencies:
 
   #==============================================================================================DL  
 
+  #-----------------http
   url_launcher: ^6.0.12     #https://pub.dev/packages/url_launcher
   dio: ^4.0.6               #https://pub.dev/packages/dio
   pretty_dio_logger: ^1.1.1 #https://pub.dev/packages/pretty_dio_logger
   http: ^0.13.4         #https://pub.dev/packages/http
   gsheets: ^0.4.2       #https://pub.dev/packages/gsheets 
 
+  #-----------------config
   firebase_remote_config: ^2.0.9  #https://pub.dev/packages/firebase_remote_config
-
   #---------------------------------------------------------------------csv
   csv: ^5.0.1                   #https://pub.dev/packages/csv
   
@@ -122,7 +123,7 @@ flutter:
     - assets/csv.local/
     - assets/csv.refresh/
     - assets/images/
-    #- assets/config/
+    - assets/config/
 
     
   # The following line ensures that the Material Icons font is

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
-import 'package:sheetviewer/AL/views/plutogrid/viewhelper/viewhelper.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';

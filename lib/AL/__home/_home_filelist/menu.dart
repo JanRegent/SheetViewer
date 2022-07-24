@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
-PlutoMenuBar menu(BuildContext context) {
+PlutoMenuBar menu(BuildContext context, String fileUrl) {
   return PlutoMenuBar(
     backgroundColor: Colors.blueAccent,
     activatedColor: Colors.white,
@@ -13,20 +13,20 @@ PlutoMenuBar menu(BuildContext context) {
     menuIconColor: Colors.white,
     menuIconSize: 26,
     moreIconColor: Colors.white,
-    menus: getMenus(context),
+    menus: getMenus(context, fileUrl),
   );
 }
 
-List<PlutoMenuItem> getMenus(BuildContext context) {
+List<PlutoMenuItem> getMenus(BuildContext context, String fileUrl) {
   return [
     PlutoMenuItem(
-      title: 'Menu 1',
+      title: 'FileList menu',
       icon: Icons.home,
       children: [
         PlutoMenuItem(
-          title: 'Menu 1-1',
+          title: 'Open list in browser',
           icon: Icons.group,
-          onTap: () => al.message(context, 'Menu 1-1 tap'),
+          onTap: () => al.linkIconOpenUrl(fileUrl, context),
           children: [
             PlutoMenuItem(
               title: 'Menu 1-1-1',

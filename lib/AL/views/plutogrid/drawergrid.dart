@@ -13,7 +13,7 @@ ViewHelper viewHelper = ViewHelper();
 RxString currentRowNoOnDetail = '2'.obs;
 RxInt rowsCount = 0.obs;
 
-Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
+Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileUrl,
     String sheetName, List<String> cols) {
   return Drawer(
     child: ListView(
@@ -47,7 +47,7 @@ Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (ctx) => ViewHelperPage(fileId, sheetName),
+                  builder: (ctx) => ViewHelperPage(fileUrl, sheetName),
                 ));
             Navigator.pop(context);
           },
@@ -70,6 +70,7 @@ Drawer drawerGrid(BuildContext context, Function setStateFunc, String fileId,
             Navigator.pop(context);
           },
         ),
+        al.linkIconOpenUrl(fileUrl, context),
       ],
     ),
   );

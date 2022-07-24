@@ -14,7 +14,7 @@ class AL {
         : infoSnack(context, 'could_not_launch_this_url\n $url');
   }
 
-  Widget linkIconSheetOnGCloud(String fileid, BuildContext context) {
+  Widget linkIconOpenUrl(String fileid, BuildContext context) {
     if (fileid.startsWith('http')) fileid = bl.blUti.url2fileid(fileid);
     // ignore: unnecessary_null_comparison
     if (fileid.trim() == null) return const Text(' ');

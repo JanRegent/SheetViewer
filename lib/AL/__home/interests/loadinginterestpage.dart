@@ -36,7 +36,7 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
     return Scaffold(
         drawer: interestsDrawer(context, setStateFunc),
         body: FutureBuilder<String>(
-          future: interestContr.interestLoad(), // async work
+          future: interestContr.filelistLoad(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
