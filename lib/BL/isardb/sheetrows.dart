@@ -179,7 +179,7 @@ class SheetrowsDb {
       String sheetName, bool putAll, List<String> cols) async {
     List<SheetRow> sheetRows = [];
     for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
-      interestContr.fetshingRows.value =
+      filelistContr.fetshingRows.value =
           sheetName + ': ' + rowIx.toString() + '/' + rawRows.length.toString();
       Map row = {}; //excel 1 cols, 2.. data
       for (var colIx = 0; colIx < cols.length; colIx++) {

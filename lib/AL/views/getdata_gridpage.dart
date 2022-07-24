@@ -56,12 +56,12 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
         viewHelper.plutoCols.length.toString());
     //---------------------------------------------------------------------rows
     await rowsCountCheck(widget.fileId, widget.sheetName);
-    if (interestContr.searchWordInAllSheets.value.isEmpty) {
+    if (filelistContr.searchWordInAllSheets.value.isEmpty) {
       sheetRows =
           await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
     } else {
       sheetRows = await sheetRowsDb.readRowsContains(widget.fileId,
-          widget.sheetName, interestContr.searchWordInAllSheets.value);
+          widget.sheetName, filelistContr.searchWordInAllSheets.value);
     }
     rowsCount.value = sheetRows.length;
     debugPrint('sheetRows.length ' + sheetRows.length.toString());
@@ -112,7 +112,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                         ' \n from: ' +
                         widget.fileId +
                         '\n\n'),
-                    Obx(() => Text(interestContr.fetshingRows.value)),
+                    Obx(() => Text(filelistContr.fetshingRows.value)),
                     const Text(' '),
                     const CircularProgressIndicator()
                   ],
@@ -123,11 +123,11 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
                   return Text('GetDataViewsPage Error: ${snapshot.error}');
                 } else {
                   if (sheetRows.isNotEmpty) return GridPage(sheetRows);
-                  if (interestContr.searchWordInAllSheets.value.isEmpty) {
+                  if (filelistContr.searchWordInAllSheets.value.isEmpty) {
                     return Text('Sheet ${widget.sheetName} is empty');
                   }
                   return Text(
-                      'Sheet ${widget.sheetName} filter result is empty\n filter is: \n rows contains ${interestContr.searchWordInAllSheets.value}');
+                      'Sheet ${widget.sheetName} filter result is empty\n filter is: \n rows contains ${filelistContr.searchWordInAllSheets.value}');
                 }
             }
           },

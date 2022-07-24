@@ -133,7 +133,7 @@ class GSheetsAdapter {
       List<List<dynamic>> rawRows, String fileId, String sheetName) async {
     {
       for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
-        interestContr.fetshingRows.value = sheetName +
+        filelistContr.fetshingRows.value = sheetName +
             ': ' +
             rowIx.toString() +
             '/' +

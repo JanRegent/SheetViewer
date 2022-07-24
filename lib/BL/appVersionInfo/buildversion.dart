@@ -1,1 +1,1 @@
-const buildVersion = 'AL-FilelistContr';      
+const buildVersion = 'BL-filelistDirs';      

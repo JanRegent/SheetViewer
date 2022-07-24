@@ -9,23 +9,23 @@ import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
 
 class FilelistContr extends GetxController {
-  var interestName = ''.obs;
+  var filelistName = ''.obs;
   var searchWordInAllSheets = ''.obs;
 
   var loadedSheetName = ''.obs;
-  Future interestNameSet(String value) async {
-    interestName.value = value;
+  Future filelistNameSet(String value) async {
+    filelistName.value = value;
   }
 
   //-----------------------------------------------------------------init/load
-  Map interestMap = {};
+  Map filelistMap = {};
 
   Future<String> filelistLoad() async {
     logParagraphStart('filelistLoad');
 
-    interestMap = await getFilelistMap();
+    filelistMap = await getFilelistMap();
 
-    await interestContr.getFilelist();
+    await filelistContr.getFilelist();
 
     return 'OK';
   }
@@ -34,8 +34,12 @@ class FilelistContr extends GetxController {
     String filelistUrl = '';
     String filelistSheetName = '';
     String loadAdapter = '';
-    Map dlSettings =
-        await jsonDecode(await loadAssetJson('space/app_settings.json'));
+
+    String filelistDirs_ = await loadAssetString('filelists/filelists2show');
+    List<String> filelistDirs = filelistDirs_.split('\n');
+    String configDir = 'filelists/${filelistDirs[0].trim()}/app_settings.json';
+    appHome.updateMap('configDir', {'configDir': configDir});
+    Map dlSettings = await jsonDecode(await loadAssetJson(configDir));
 
     if (!dlGlobals.domain.toString().contains('vercel.app')) {
       filelistUrl = dlSettings["filelistUrl"];
@@ -47,36 +51,36 @@ class FilelistContr extends GetxController {
       loadAdapter = '';
     }
 
-    Map interestMap = {};
-    interestMap['filelistFileId'] = bl.blUti.url2fileid(filelistUrl);
-    interestMap['filelistSheetName'] = filelistSheetName;
-    interestMap['loadAdapter'] = loadAdapter;
-    logi('InterestContr', 'getInterestMap(', 'interestMap',
-        interestMap.toString());
+    Map filelistMap = {};
+    filelistMap['filelistFileId'] = bl.blUti.url2fileid(filelistUrl);
+    filelistMap['filelistSheetName'] = filelistSheetName;
+    filelistMap['loadAdapter'] = loadAdapter;
+    logi('filelistContr', 'getInterestMap(', 'filelistMap',
+        filelistMap.toString());
 
-    appHome.updateMap('interestMap', interestMap);
-    await interestContr.interestNameSet(interestMap['filelistSheetName']);
-    interestContr.interestName.value = interestMap['filelistSheetName'];
-    return interestMap;
+    appHome.updateMap('filelistMap', filelistMap);
+    await filelistContr.filelistNameSet(filelistMap['filelistSheetName']);
+    filelistContr.filelistName.value = filelistMap['filelistSheetName'];
+    return filelistMap;
   }
 
   //----------------------------------------------------------intertest FileList
 
-  List<dynamic> interestFilelist = [];
+  List<dynamic> filelist = [];
   Map rowsCountListClient = {};
   Map rowsCountListGDrive = {};
 
   Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
-    String fileListFileId = interestMap['filelistFileId'];
-    String fileListSheetName = interestMap['filelistSheetName'];
+    String fileListFileId = filelistMap['filelistFileId'];
+    String fileListSheetName = filelistMap['filelistSheetName'];
 
     Future fileListFill() async {
       if (dlGlobals.domain.toString().contains('vercel.app')) {
         await dlGlobals.gSheetsAdapter.getSheetAllRowsOld(
             fileListFileId, fileListSheetName, false, 'filelistDb');
       } else {
-        if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+        if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
           await dlGlobals.csvAdapter
               .getFilelist(fileListFileId, fileListSheetName);
         } else {
@@ -100,7 +104,7 @@ class FilelistContr extends GetxController {
   Future sheetRowsFill(String filelistFileId, String filelistSheetname) async {
     List<FileList?> filelistRows =
         await filelistDb.readRowsSheet(filelistFileId, filelistSheetname);
-    interestFilelist.clear();
+    filelist.clear();
     logParagraphStart('sheetRowsFill');
     for (var i = 1; i < filelistRows.length; i++) {
       Map fileRow = jsonDecode(filelistRows[i]!.row);
@@ -109,8 +113,8 @@ class FilelistContr extends GetxController {
 
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
       if (rowsCount == 0) {
-        interestContr.loadedSheetName.value += '\n' + sheetName;
-        if (interestMap['loadAdapter'].toString().startsWith('csv.')) {
+        filelistContr.loadedSheetName.value += '\n' + sheetName;
+        if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
           //dataSheet
           String fileLocal = bl.blUti.url2fileid(fileRow['fileLocal']);
           await dlGlobals.csvAdapter
@@ -125,7 +129,7 @@ class FilelistContr extends GetxController {
         }
       }
 
-      interestFilelist.add(fileRow);
+      filelist.add(fileRow);
     }
   }
 }

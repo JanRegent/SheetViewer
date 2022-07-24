@@ -26,10 +26,10 @@ class FilelistviewHomePage extends StatelessWidget {
                   color: Colors.red,
                   height: 4.0,
                 ),
-            itemCount: interestContr.interestFilelist.length,
+            itemCount: filelistContr.filelist.length,
             itemBuilder: (context, index) => Center(
                 child: filelistCard(
-                    context, interestContr.interestFilelist[index], index))));
+                    context, filelistContr.filelist[index], index))));
   }
 
   void setPageTitle(String title, BuildContext context) {
@@ -47,14 +47,14 @@ class FilelistviewHomePage extends StatelessWidget {
       tooltip: 'Search word in all sheets',
       onPressed: () async {
         try {
-          interestContr.searchWordInAllSheets.value = await Navigator.push(
+          filelistContr.searchWordInAllSheets.value = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (ctx) => const CoolSearchBar(),
               ));
           allRowsButtonlAllRowsLabel.value = 'all filtered';
         } catch (_) {
-          interestContr.searchWordInAllSheets.value = '';
+          filelistContr.searchWordInAllSheets.value = '';
           allRowsButtonlAllRowsLabel.value = 'all rows';
         }
       },
@@ -63,31 +63,31 @@ class FilelistviewHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    setPageTitle(interestContr.interestName.value, context);
+    setPageTitle(filelistContr.filelistName.value, context);
     return Scaffold(
         drawer:
-            homeDrawer(context, interestContr.interestMap['filelistFileId']),
+            homeDrawer(context, filelistContr.filelistMap['filelistFileId']),
         appBar: AppBar(
           title: ListTile(
             leading: al.helpIcon(context),
-            title: Text(interestContr.interestName.value),
+            title: Text(filelistContr.filelistName.value),
             trailing:
-                Obx(() => Text(interestContr.searchWordInAllSheets.value)),
+                Obx(() => Text(filelistContr.searchWordInAllSheets.value)),
           ),
           backgroundColor: Colors.lightBlue,
           actions: [searchBar(context)],
         ),
         body: FutureBuilder<String>(
-          future: interestContr.filelistLoad(), // async work
+          future: filelistContr.filelistLoad(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Column(
                   children: [
-                    const Text('Loading sheets of interest:'),
-                    Obx(() => Text(interestContr.interestName.value)),
+                    const Text('Loading sheets of filelist:'),
+                    Obx(() => Text(filelistContr.filelistName.value)),
                     const Text(' '),
-                    Obx(() => Text(interestContr.loadedSheetName.value)),
+                    Obx(() => Text(filelistContr.loadedSheetName.value)),
                     const Text(' '),
                     const CircularProgressIndicator()
                   ],

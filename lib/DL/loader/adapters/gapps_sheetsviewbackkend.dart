@@ -7,15 +7,14 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
-Future getSheetRowsUpdates(
-    List<dynamic> interestFilelist, BuildContext context) async {
+Future getSheetRowsUpdates(List<dynamic> filelist, BuildContext context) async {
   al.infoSnack(context, 'Updating new rest rows - start');
   List<Map> updateList = [];
 
-  for (var i = 0; i < interestFilelist.length; i++) {
+  for (var i = 0; i < filelist.length; i++) {
     try {
-      String fileId = bl.blUti.url2fileid(interestFilelist[i]['fileUrl']);
-      String sheetName = interestFilelist[i]['sheetName'];
+      String fileId = bl.blUti.url2fileid(filelist[i]['fileUrl']);
+      String sheetName = filelist[i]['sheetName'];
       int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
       updateList.add(
           {'fileId': fileId, 'sheetName': sheetName, 'rowsCount': rowsCount});
@@ -52,7 +51,7 @@ Future updateRestSheetRows(List<dynamic> restSheetRows) async {
   }
 }
 
-Future postUpdatedList(List<Map> interestUpdatelist) async {
+Future postUpdatedList(List<Map> filelistUpdatelist) async {
   Dio dio = Dio();
   dio.interceptors.add(PrettyDioLogger(
     requestHeader: true,
@@ -75,7 +74,7 @@ Future postUpdatedList(List<Map> interestUpdatelist) async {
     });
     var formData = {
       'action': 'updateList',
-      'updateList': interestUpdatelist,
+      'updateList': filelistUpdatelist,
     };
     var response = await dio.post('', data: formData);
     return response.data;

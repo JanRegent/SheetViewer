@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/AL/__home/interests/loadinginterestpage.dart';
+import 'package:sheetviewer/AL/__home/filelist/filelistloadingpage.dart';
 
 import 'BL/bl.dart';
 
@@ -11,7 +11,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: const LoadingInterestPage(),
+    home: const FilelistLoadingPage(),
     scrollBehavior: MyCustomScrollBehavior(),
   ));
 }

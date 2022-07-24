@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/_home_filelist/_filelistviewhome.dart';
-import 'package:sheetviewer/AL/__home/interests/drawer_home.dart';
+import 'package:sheetviewer/AL/__home/filelist/drawer_home.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
 
-class LoadingInterestPage extends StatefulWidget {
-  const LoadingInterestPage({Key? key}) : super(key: key);
+class FilelistLoadingPage extends StatefulWidget {
+  const FilelistLoadingPage({Key? key}) : super(key: key);
 
   @override
-  _LoadingInterestPageState createState() => _LoadingInterestPageState();
+  _FilelistLoadingPageState createState() => _FilelistLoadingPageState();
 }
 
-class _LoadingInterestPageState extends State<LoadingInterestPage> {
+class _FilelistLoadingPageState extends State<FilelistLoadingPage> {
   @override
   void initState() {
     super.initState();
@@ -34,18 +34,18 @@ class _LoadingInterestPageState extends State<LoadingInterestPage> {
   Widget build(BuildContext context) {
     statusCont = Get.put(Controller());
     return Scaffold(
-        drawer: interestsDrawer(context, setStateFunc),
+        drawer: filelistDrawer(context, setStateFunc),
         body: FutureBuilder<String>(
-          future: interestContr.filelistLoad(), // async work
+          future: filelistContr.filelistLoad(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Column(
                   children: [
-                    const Text('Loading sheets of interest:'),
-                    Obx(() => Text(interestContr.interestName.value)),
+                    const Text('Loading sheets of filelist:'),
+                    Obx(() => Text(filelistContr.filelistName.value)),
                     const Text(' '),
-                    Obx(() => Text(interestContr.loadedSheetName.value)),
+                    Obx(() => Text(filelistContr.loadedSheetName.value)),
                     const Text(' '),
                     const CircularProgressIndicator()
                   ],

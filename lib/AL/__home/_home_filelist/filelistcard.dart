@@ -98,7 +98,7 @@ RxString allRowsButtonlAllRowsLabel = ''.obs;
 ElevatedButton allRowsButton(
     BuildContext context, String sheetName, String fileId, String fileTitle) {
   allRowsButtonlAllRowsLabel.value = 'all rows';
-  if (interestContr.searchWordInAllSheets.value.isNotEmpty) {
+  if (filelistContr.searchWordInAllSheets.value.isNotEmpty) {
     allRowsButtonlAllRowsLabel.value = 'all filtered';
   }
   return ElevatedButton.icon(

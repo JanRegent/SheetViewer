@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:sheetviewer/AL/__home/interests/interests_controler.dart';
+import 'package:sheetviewer/AL/__home/filelist/filelist_controler.dart';
 import 'package:sheetviewer/BL/lib/uti.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
@@ -24,7 +24,7 @@ late SheetrowsDb sheetRowsDb;
 late ViewConfigsDb viewConfigsDb;
 
 late LocalStorage appHome = LocalStorage('appHome: ');
-FilelistContr interestContr = FilelistContr();
+FilelistContr filelistContr = FilelistContr();
 
 class BL {
   BLuti blUti = BLuti();

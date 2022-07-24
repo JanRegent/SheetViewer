@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
 
-Drawer interestsDrawer(BuildContext context, Function setStateFunc) {
+Drawer filelistDrawer(BuildContext context, Function setStateFunc) {
   return Drawer(
     child: ListView(
       // Important: Remove any padding from the ListView.

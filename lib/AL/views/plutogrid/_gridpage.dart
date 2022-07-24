@@ -57,7 +57,7 @@ class _GridPageState extends State<GridPage> {
             viewHelper.gridAStateManager.setShowLoading(true);
             return Column(
               children: const [
-                Text('Loading \n interest '),
+                Text('Loading \n filelist '),
                 Text(' '),
                 CircularProgressIndicator()
               ],
