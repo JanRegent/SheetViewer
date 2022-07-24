@@ -95,7 +95,6 @@ class FilelistContr extends GetxController {
     }
 
     await fileListFill();
-
     await sheetRowsFill(fileListFileId, fileListSheetName);
     return 'ok';
   }
@@ -108,33 +107,42 @@ class FilelistContr extends GetxController {
         await filelistDb.readRowsSheet(filelistFileId, filelistSheetname);
     filelist.clear();
     logParagraphStart('sheetRowsFill');
+
+    Future viaCsv(Map fileRow, String fileId, String sheetName) async {
+      //dataSheet
+      String filePath = 'config/' +
+          dlGlobals.filelistDir +
+          'csv.local/' +
+          fileRow['fileLocal'];
+      await dlGlobals.csvAdapter.getSheetAllrows(fileId, sheetName, filePath);
+
+      //viewConfig?
+      await dlGlobals.csvAdapter.getViewConfigLocalCsv(
+          fileId, sheetName, fileRow['viewConfig.local']);
+    }
+
     for (var i = 1; i < filelistRows.length; i++) {
-      Map fileRow = jsonDecode(filelistRows[i]!.row);
-      String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
-      String sheetName = fileRow['sheetName'];
-
-      int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-      if (rowsCount == 0) {
+      try {
+        Map fileRow = jsonDecode(filelistRows[i]!.row);
+        String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
+        String sheetName = fileRow['sheetName'];
         filelistContr.loadedSheetName.value += '\n' + sheetName;
-        if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
-          //dataSheet
-          String filePath = 'config/' +
-              dlGlobals.filelistDir +
-              'csv.local/' +
-              fileRow['fileLocal'];
-          await dlGlobals.csvAdapter
-              .getSheetAllrows(fileId, sheetName, filePath);
 
-          //viewConfig?
-          await dlGlobals.csvAdapter.getViewConfigLocalCsv(
-              fileId, sheetName, fileRow['viewConfig.local']);
-        } else {
-          await dlGlobals.gSheetsAdapter
-              .getViewConfigGapps(fileId, sheetName, fileRow['viewConfig']);
+        int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+        if (rowsCount == 0) {
+          if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
+            await viaCsv(fileRow, fileId, sheetName);
+          } else {
+            await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
+            try {
+              await dlGlobals.gSheetsAdapter
+                  .getViewConfigGapps(fileId, sheetName, fileRow['viewConfig']);
+            } catch (_) {}
+          }
         }
-      }
 
-      filelist.add(fileRow);
+        filelist.add(fileRow);
+      } catch (_) {}
     }
   }
 }

@@ -53,7 +53,7 @@ class _FilelistLoadingPageState extends State<FilelistLoadingPage> {
 
               default:
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text('FilelistLoadingPage\n Error: ${snapshot.error}');
                 } else {
                   return const FilelistviewHomePage();
                 }

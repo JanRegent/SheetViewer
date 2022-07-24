@@ -124,7 +124,9 @@ class GSheetsAdapter {
     }
     List<List<String>> rawRows = await sheet.values.allRows();
 
-    await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
+    try {
+      await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
+    } catch (_) {}
 
     return rawRows.length;
   }
