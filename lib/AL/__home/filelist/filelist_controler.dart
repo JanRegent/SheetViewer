@@ -37,7 +37,8 @@ class FilelistContr extends GetxController {
 
     String filelistDirs_ = await loadAssetString('filelists/filelists2show');
     List<String> filelistDirs = filelistDirs_.split('\n');
-    String configDir = 'filelists/${filelistDirs[0].trim()}/app_settings.json';
+    dlGlobals.filelistDir = 'filelists/${filelistDirs[0].trim()}/';
+    String configDir = dlGlobals.filelistDir + 'app_settings.json';
     appHome.updateMap('configDir', {'configDir': configDir});
     Map dlSettings = await jsonDecode(await loadAssetJson(configDir));
 

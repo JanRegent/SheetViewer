@@ -1,1 +1,1 @@
-const buildVersion = 'BL-filelistDirs';      
+const buildVersion = 'BL-config-filelistDir';      

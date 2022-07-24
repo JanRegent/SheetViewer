@@ -15,6 +15,7 @@ final remoteConfig = FirebaseRemoteConfig.instance;
 class DlGlobals {
   String kredenc = '';
   GSheetsAdapter gSheetsAdapter = GSheetsAdapter();
+  String filelistDir = '';
   CsvAdapter csvAdapter = CsvAdapter();
 
   String domain = '';

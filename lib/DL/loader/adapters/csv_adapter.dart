@@ -24,8 +24,8 @@ class CsvAdapter {
   }
 
   Future getFilelist(String fileId, String sheetName) async {
-    List<List<dynamic>> rawRows =
-        await dlGlobals.csvAdapter.getSheetCsv('interestFilelist');
+    List<List<dynamic>> rawRows = await dlGlobals.csvAdapter
+        .getSheetCsv(dlGlobals.filelistDir + '___filelist___');
     List<String> cols = bl.blUti.toListString(rawRows[0]);
 
     for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
