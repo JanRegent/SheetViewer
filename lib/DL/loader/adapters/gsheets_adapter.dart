@@ -13,6 +13,7 @@ class GSheetsAdapter {
   Future init() async {
     // init GSheets
     gsheets = GSheets(dlGlobals.kredenc);
+    logi('GSheetsAdapter', 'init', 'done', '');
   }
 
   List<String> cols = [];

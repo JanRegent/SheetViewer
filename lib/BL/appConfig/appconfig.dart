@@ -5,7 +5,7 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 
 Future appConfigLoad() async {
   if (dlGlobals.domain.toString().contains('vercel.app')) {
-    String appConfigUrl = remoteConfig.getString('service_account');
+    String appConfigUrl = remoteConfig.getString('appConfigUrl');
     bl.appConfig['appConfigUrl'] = appConfigUrl;
   } else {
     Map map = jsonDecode(await loadAssetJson('appConfig.json'));

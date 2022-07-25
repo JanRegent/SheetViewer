@@ -4,6 +4,7 @@ import 'dart:html';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/loader/adapters/csv_adapter.dart';
 
 import 'package:sheetviewer/DL/loader/fire/fire_reader.dart';
@@ -33,6 +34,7 @@ class DlGlobals {
 
     if (domain.toString().contains('vercel.app')) {
       kredenc = remoteConfig.getString('service_account');
+      logi('kredenc', kredenc.toString(), '', '');
     } else {
       kredenc = await loadAssetJson('service_account.json');
     }
