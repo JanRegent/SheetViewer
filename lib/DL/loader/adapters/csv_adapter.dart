@@ -24,7 +24,9 @@ class CsvAdapter {
 
   Future getFilelist(String fileId, String sheetName) async {
     List<List<dynamic>> rawRows = await dlGlobals.csvAdapter.getSheetCsv(
-        'config/' + dlGlobals.filelistDir + 'csv.local/__filelist__.csv');
+        'config/filelists/' +
+            dlGlobals.filelistDir +
+            '/local.csv/__filelist__.csv');
     List<String> cols = bl.blUti.toListString(rawRows[0]);
     for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
       Map row = {}; //excel 1 cols, 2.. data
@@ -65,8 +67,10 @@ class CsvAdapter {
       String fileId, String sheetName, String fileLocalNoPath) async {
     if (fileLocalNoPath.isEmpty) return;
 
-    String filePath =
-        'config/' + dlGlobals.filelistDir + 'csv.local/' + fileLocalNoPath;
+    String filePath = 'config/filelists/' +
+        dlGlobals.filelistDir +
+        '/local.csv/' +
+        fileLocalNoPath;
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv(filePath);
     logi('csv_adapter', 'getViewConfig', sheetName + 'from: $filePath',

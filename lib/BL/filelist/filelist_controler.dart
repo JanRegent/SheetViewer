@@ -38,7 +38,7 @@ class FilelistContr extends GetxController {
 
     Future fileListFill() async {
       String loadAdapter = await appConfigDb.readByKey('loadAdapter');
-      if ((loadAdapter.startsWith('csv.')) &&
+      if ((loadAdapter.startsWith('local.csv')) &&
           (!dlGlobals.domain.toString().contains('vercel.app'))) {
         await dlGlobals.csvAdapter.getFilelist(
             appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
@@ -66,9 +66,9 @@ class FilelistContr extends GetxController {
 
     Future viaCsv(Map fileRow, String fileId, String sheetName) async {
       //dataSheet
-      String filePath = 'config/' +
+      String filePath = 'config/filelists/' +
           dlGlobals.filelistDir +
-          'csv.local/' +
+          '/local.csv/' +
           fileRow['fileLocal'];
       await dlGlobals.csvAdapter.getSheetAllrows(fileId, sheetName, filePath);
 
@@ -82,12 +82,13 @@ class FilelistContr extends GetxController {
         Map fileRow = jsonDecode(filelistRows[i]!.row);
         String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
         String sheetName = fileRow['sheetName'];
+        print(fileId + ' ' + sheetName);
         filelistContr.loadedSheetName.value += '\n' + sheetName;
 
         int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
         String loadAdapter = await appConfigDb.readByKey('loadAdapter');
         if (rowsCount == 0) {
-          if (loadAdapter.startsWith('csv.')) {
+          if (loadAdapter.startsWith('local.csv')) {
             await viaCsv(fileRow, fileId, sheetName);
           } else {
             await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
