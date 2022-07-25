@@ -18,54 +18,13 @@ class FilelistContr extends GetxController {
   }
 
   //-----------------------------------------------------------------init/load
-  Map filelistMap = {};
 
   Future<String> filelistLoad() async {
     logParagraphStart('filelistLoad');
 
-    filelistMap = await getFilelistMap();
-    logi('filelistMap', filelistMap.toString(), '', '');
     await filelistContr.getFilelist();
 
     return 'OK';
-  }
-
-  Future<Map> getFilelistMap() async {
-    String filelistUrl = '';
-    String filelistSheetName = '';
-    String loadAdapter = '';
-
-    String showList = await loadAssetString('filelists/showList');
-    showList = showList.trim();
-    dlGlobals.filelistDir = 'filelists/$showList/';
-    appHome.updateMap('showList', {
-      'filelistDir': dlGlobals.filelistDir,
-      'app_settings': dlGlobals.filelistDir + 'app_settings.json'
-    });
-    Map dlSettings = await jsonDecode(
-        await loadAssetJson(dlGlobals.filelistDir + 'app_settings.json'));
-
-    if (!dlGlobals.domain.toString().contains('vercel.app')) {
-      filelistUrl = dlSettings["filelistUrl"];
-      filelistSheetName = dlSettings['filelistSheetName'];
-      loadAdapter = dlSettings['loadAdapter'];
-    } else {
-      filelistUrl = remoteConfig.getString('interestFilelistUrl');
-      filelistSheetName = remoteConfig.getString('filelistSheetName');
-      loadAdapter = '';
-    }
-
-    Map filelistMap = {};
-    filelistMap['filelistFileId'] = bl.blUti.url2fileid(filelistUrl);
-    filelistMap['filelistSheetName'] = filelistSheetName;
-    filelistMap['loadAdapter'] = loadAdapter;
-    logi('filelistContr', 'getInterestMap(', 'filelistMap',
-        filelistMap.toString());
-
-    appHome.updateMap('filelistMap', filelistMap);
-    await filelistContr.filelistNameSet(filelistMap['filelistSheetName']);
-    filelistContr.filelistName.value = filelistMap['filelistSheetName'];
-    return filelistMap;
   }
 
   //----------------------------------------------------------intertest FileList
@@ -76,11 +35,11 @@ class FilelistContr extends GetxController {
 
   Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
-    String fileListFileId = filelistMap['filelistFileId'];
-    String fileListSheetName = filelistMap['filelistSheetName'];
+    String fileListFileId = bl.appConfig['filelistFileId'];
+    String fileListSheetName = bl.appConfig['filelistSheetName'];
 
     Future fileListFill() async {
-      if ((filelistMap['loadAdapter'].toString().startsWith('csv.')) &&
+      if ((bl.appConfig['loadAdapter'].toString().startsWith('csv.')) &&
           (!dlGlobals.domain.toString().contains('vercel.app'))) {
         await dlGlobals.csvAdapter
             .getFilelist(fileListFileId, fileListSheetName);
@@ -127,7 +86,7 @@ class FilelistContr extends GetxController {
 
         int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
         if (rowsCount == 0) {
-          if (filelistMap['loadAdapter'].toString().startsWith('csv.')) {
+          if (bl.appConfig['loadAdapter'].toString().startsWith('csv.')) {
             await viaCsv(fileRow, fileId, sheetName);
           } else {
             await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);

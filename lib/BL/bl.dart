@@ -11,9 +11,10 @@ import 'package:sheetviewer/BL/isardb/viewconfig.dart';
 import 'package:sheetviewer/DL/localstorage/localstorage.dart';
 
 import '../BL/isardb/viewconfig.dart';
-import 'appVersionInfo/appmode.dart';
-import 'appVersionInfo/appversion.dart';
-import 'appVersionInfo/buildversion.dart';
+import 'appConfig/appconfig.dart';
+import 'appConfig/appmode.dart';
+import 'appConfig/appversion.dart';
+import 'appConfig/buildversion.dart';
 import 'lib/log.dart';
 
 BL bl = BL();
@@ -27,6 +28,7 @@ late LocalStorage appHome = LocalStorage('appHome: ');
 FilelistContr filelistContr = FilelistContr();
 
 class BL {
+  Map appConfig = {};
   BLuti blUti = BLuti();
   BlGlobal blGlobal = BlGlobal();
 
@@ -43,6 +45,8 @@ class BL {
 
     await blGlobal.init();
     await dlGlobals.init();
+
+    await appConfigLoad();
   }
 }
 

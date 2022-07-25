@@ -102,6 +102,26 @@ class GSheetsAdapter {
     return 0;
   }
 
+  Future<List<List<String>>> getSheetRawRows(
+    String fileId,
+    String sheetName,
+  ) async {
+    late Worksheet? sheet;
+    try {
+      Spreadsheet? ss = await getSpreadSheet(fileId);
+      // ignore: unnecessary_null_comparison
+      if (ss == null) return [];
+      sheet = ss.worksheetByTitle(sheetName);
+      if (sheet == null) return [];
+    } catch (e) {
+      logi('getSheetRawRows', 'err', e.toString(), '');
+      return [];
+    }
+    List<List<String>> rawRows = await sheet.values.allRows();
+
+    return rawRows;
+  }
+
   Future<int> getSheetAllRows(
     String fileId,
     String sheetName,

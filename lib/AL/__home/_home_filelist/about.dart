@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sheetviewer/BL/appVersionInfo/appmode.dart';
-import 'package:sheetviewer/BL/appVersionInfo/appversion.dart';
-import 'package:sheetviewer/BL/appVersionInfo/buildversion.dart';
+import 'package:sheetviewer/BL/appConfig/appmode.dart';
+import 'package:sheetviewer/BL/appConfig/appversion.dart';
+import 'package:sheetviewer/BL/appConfig/buildversion.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 class About extends StatelessWidget {
