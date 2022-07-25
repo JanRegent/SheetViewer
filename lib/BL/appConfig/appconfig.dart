@@ -6,26 +6,26 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 Future appConfigLoad() async {
   if (dlGlobals.domain.toString().contains('vercel.app')) {
     String appConfigUrl = remoteConfig.getString('appConfigUrl');
-    bl.appConfig['appConfigUrl'] = appConfigUrl;
+    await appConfigDb.update('appConfigUrl', appConfigUrl);
   } else {
     Map map = jsonDecode(await loadAssetJson('appConfig.json'));
-    bl.appConfig['appConfigUrl'] = map['appConfigUrl'];
+    await appConfigDb.update('appConfigUrl', map['appConfigUrl']);
   }
-  bl.appConfig['appConfiFileId'] =
-      bl.blUti.url2fileid(bl.appConfig['appConfigUrl']);
+  await appConfigDb.update('appConfigFileId',
+      bl.blUti.url2fileid(await appConfigDb.readByKey('appConfigUrl')));
+  appConfigDb.filelistFileId = await appConfigDb.readByKey('appConfigFileId');
 
-  appConfigSheet = await dlGlobals.gSheetsAdapter
-      .getSheetRawRows(bl.appConfig['appConfiFileId'], 'appConfig');
+  List<List<String>> appConfigSheet = await dlGlobals.gSheetsAdapter
+      .getSheetRawRows(appConfigDb.filelistFileId, 'appConfig');
   for (var i = 0; i < appConfigSheet.length; i++) {
     try {
       if (appConfigSheet[i][0].isEmpty) continue;
       if (appConfigSheet[i][0].startsWith('//')) continue;
-      bl.appConfig[appConfigSheet[i][0]] = appConfigSheet[i][1];
+      await appConfigDb.update(appConfigSheet[i][0], appConfigSheet[i][1]);
     } catch (_) {
       continue;
     }
   }
-  bl.appConfig['filelistFileId'] = bl.appConfig['appConfiFileId'];
+  appConfigDb.filelistSheetName =
+      await appConfigDb.readByKey('filelistSheetName');
 }
-
-List<List<String>> appConfigSheet = [];

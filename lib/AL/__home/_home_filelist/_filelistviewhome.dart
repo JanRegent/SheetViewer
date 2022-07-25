@@ -65,7 +65,7 @@ class FilelistviewHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     setPageTitle(filelistContr.filelistName.value, context);
     return Scaffold(
-        drawer: homeDrawer(context, bl.appConfig['filelistFileId']),
+        drawer: homeDrawer(context, appConfigDb.filelistFileId),
         appBar: AppBar(
           title: ListTile(
             leading: al.helpIcon(context),
@@ -94,7 +94,8 @@ class FilelistviewHomePage extends StatelessWidget {
 
               default:
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text(
+                      'FilelistviewHomePage\n\n Error: ${snapshot.error}');
                 } else {
                   return detailBody();
                 }

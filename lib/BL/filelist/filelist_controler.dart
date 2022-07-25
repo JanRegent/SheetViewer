@@ -35,23 +35,23 @@ class FilelistContr extends GetxController {
 
   Future<String> getFilelist() async {
     logParagraphStart('getFilelist');
-    String fileListFileId = bl.appConfig['filelistFileId'];
-    String fileListSheetName = bl.appConfig['filelistSheetName'];
 
     Future fileListFill() async {
-      if ((bl.appConfig['loadAdapter'].toString().startsWith('csv.')) &&
+      String loadAdapter = await appConfigDb.readByKey('loadAdapter');
+      if ((loadAdapter.startsWith('csv.')) &&
           (!dlGlobals.domain.toString().contains('vercel.app'))) {
-        await dlGlobals.csvAdapter
-            .getFilelist(fileListFileId, fileListSheetName);
+        await dlGlobals.csvAdapter.getFilelist(
+            appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
       } else {
-        await dlGlobals.gSheetsAdapter
-            .getFileListUpdate(fileListFileId, fileListSheetName);
+        await dlGlobals.gSheetsAdapter.getFileListUpdate(
+            appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
       }
     }
 
     await fileListFill();
 
-    await sheetRowsFill(fileListFileId, fileListSheetName);
+    await sheetRowsFill(
+        appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
     return 'ok';
   }
 
@@ -85,8 +85,9 @@ class FilelistContr extends GetxController {
         filelistContr.loadedSheetName.value += '\n' + sheetName;
 
         int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+        String loadAdapter = await appConfigDb.readByKey('loadAdapter');
         if (rowsCount == 0) {
-          if (bl.appConfig['loadAdapter'].toString().startsWith('csv.')) {
+          if (loadAdapter.startsWith('csv.')) {
             await viaCsv(fileRow, fileId, sheetName);
           } else {
             await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
