@@ -4,8 +4,13 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 Future appConfigLoad() async {
-  Map map = jsonDecode(await loadAssetJson('appConfig.json'));
-  bl.appConfig['appConfigUrl'] = map['appConfigUrl'];
+  if (dlGlobals.domain.toString().contains('vercel.app')) {
+    String appConfigUrl = remoteConfig.getString('service_account');
+    bl.appConfig['appConfigUrl'] = appConfigUrl;
+  } else {
+    Map map = jsonDecode(await loadAssetJson('appConfig.json'));
+    bl.appConfig['appConfigUrl'] = map['appConfigUrl'];
+  }
   bl.appConfig['appConfiFileId'] =
       bl.blUti.url2fileid(bl.appConfig['appConfigUrl']);
 
