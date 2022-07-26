@@ -210,14 +210,12 @@ class ViewHelper {
 
   Future load(String fileId_, String sheetName_) async {
     viewConfig = (await loadViewConfig(fileId_, sheetName_))!;
-    logi('viewConfig', '', viewConfig.toString(), '');
-    fileId = fileId_;
-    sheetName = sheetName_;
     if (viewConfig.colsHeader.isEmpty) {
       List<String> cols =
           await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
       viewConfig.colsHeader = cols;
     }
+    logi('viewConfig', '', viewConfig.toString(), '');
   }
 
   void setPage(PlutoPagination plutoPagination) {

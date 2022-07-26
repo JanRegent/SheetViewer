@@ -47,7 +47,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     logParagraphStart('getData4view');
     logi('fileId sheetName ', widget.fileId, widget.sheetName, '');
     await viewHelper.load(widget.fileId, widget.sheetName);
-
+    logi('colsHeader ', viewHelper.viewConfig.colsHeader.join(','), '', '');
     //---------------------------------------------------------------------cols
     /// Columns must be provided at the beginning of a row synchronously.
     viewHelper.plutoCols.clear();
