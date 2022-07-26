@@ -10,6 +10,31 @@ Future appConfigLoad() async {
 
   Map appConfigJson = {};
 
+  Future loadAdapterLoad() async {
+    String localConfig = '';
+    try {
+      try {
+        localConfig = await loadAssetJson('appConfig.json');
+      } catch (_) {
+        localConfig = '';
+      }
+      if (localConfig.isEmpty) {
+        return;
+      }
+    } catch (_) {}
+    try {
+      appConfigJson = jsonDecode(localConfig);
+      loadAdapter = appConfigJson['loadAdapter'];
+    } catch (_) {
+      loadAdapter = '';
+    }
+    if (dlGlobals.domain.toString().contains('vercel.app')) {
+      await appConfigDb.update('loadAdapter', 'remote.gsheet-vercel');
+    } else {
+      await appConfigDb.update('loadAdapter', loadAdapter);
+    }
+  }
+
   Future localLoad() async {
     String localConfig = '';
     try {
@@ -24,7 +49,6 @@ Future appConfigLoad() async {
     } catch (_) {}
     try {
       appConfigJson = jsonDecode(localConfig);
-      loadAdapter = appConfigJson['loadAdapter'];
     } catch (_) {
       loadAdapter = '';
     }
@@ -42,7 +66,6 @@ Future appConfigLoad() async {
     String localConfig = await loadAssetJson('appConfig-remote.json');
     appConfigJson = jsonDecode(localConfig);
     await appConfigDb.update('appConfigUrl', appConfigJson['appConfigUrl']);
-    await appConfigDb.update('loadAdapter', appConfigJson['loadAdapter']);
 
     if (dlGlobals.domain.toString().contains('vercel.app')) {
       String appConfigUrl = remoteConfig.getString('appConfigUrl');
@@ -67,14 +90,13 @@ Future appConfigLoad() async {
         await appConfigDb.readByKey('filelistSheetName');
   }
 
-  try {
-    await localLoad();
-  } catch (_) {}
-  logi('local loadAdapter?', loadAdapter, '', '');
+  await appConfigDb.clear();
+  await loadAdapterLoad();
 
-  if (loadAdapter.isEmpty) {
-    await remoteLoad();
+  if (loadAdapter.startsWith('local')) {
+    await localLoad();
+    return;
   }
-  logi('remote loadAdapter?', loadAdapter, '', '');
-  appConfigDb.update('loadAdapter', loadAdapter);
+
+  await remoteLoad();
 }

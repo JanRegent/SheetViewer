@@ -1,5 +1,4 @@
 {
-    "loadAdapter": "local.csv",
     "filelistDir": "space",
     "filelistSheetName": "spaceList1"
 }

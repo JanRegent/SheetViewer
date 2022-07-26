@@ -35,8 +35,7 @@ class FilelistContr extends GetxController {
 
   Future filelistRawLoad() async {
     String loadAdapter = await appConfigDb.readByKey('loadAdapter');
-    if ((loadAdapter.startsWith('local.csv')) &&
-        (!dlGlobals.domain.toString().contains('vercel.app'))) {
+    if ((loadAdapter.startsWith('local.csv'))) {
       await dlGlobals.csvAdapter.getFilelistDynamic();
     } else {
       await dlGlobals.gSheetsAdapter.getFileListUpdate(

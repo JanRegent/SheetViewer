@@ -19,6 +19,12 @@ class AppConfigDb {
   String filelistFileId = '';
   String filelistSheetName = '';
 
+  Future clear() async {
+    await isar.writeTxn(() async {
+      await isar.appConfigs.clear();
+    });
+  }
+
   Future<String> readByKey(String key) async {
     try {
       AppConfig? row =
@@ -43,11 +49,5 @@ class AppConfigDb {
       // logi('updateSheetView(String ', e.toString());
       return '';
     }
-  }
-
-  Future clear() async {
-    await isar.writeTxn(() async {
-      await isar.appConfigs.clear();
-    });
   }
 }
