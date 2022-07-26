@@ -40,6 +40,12 @@ class FileListDb {
 
   bool sync = false;
 
+  Future clear() async {
+    await isar.writeTxn(() async {
+      await isar.fileLists.clear();
+    });
+  }
+
   Future<List<String>> readCols(String fileId, String sheetName) async {
     FileList? testRow = await isar.fileLists
         .filter()

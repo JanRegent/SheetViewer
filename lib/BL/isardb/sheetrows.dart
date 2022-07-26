@@ -59,6 +59,12 @@ class SheetrowsDb {
   final Isar isar;
   SheetrowsDb(this.isar);
 
+  Future clear() async {
+    await isar.writeTxn(() async {
+      await isar.sheetRows.clear();
+    });
+  }
+
   Future<List<String>> readCols(String fileId, String sheetName) async {
     SheetRow? testRow = await isar.sheetRows
         .filter()
