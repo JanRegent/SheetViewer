@@ -22,7 +22,7 @@ class CsvAdapter {
     return rowsAsListOfValues;
   }
 
-  Future getFilelist(String fileId, String sheetName) async {
+  Future getFilelistDynamic() async {
     List<List<dynamic>> rawRows = await dlGlobals.csvAdapter.getSheetCsv(
         'config/filelists/' +
             dlGlobals.filelistDir +
@@ -37,8 +37,9 @@ class CsvAdapter {
           row[cols[colIx]] = '';
         }
       }
+      String fileId = bl.blUti.url2fileid(row['fileUrl']);
       FileList fileListRow = FileList()
-        ..aSheetName = sheetName
+        ..aSheetName = row['sheetName']
         ..zfileId = fileId
         ..aRowNo = (rowIx + 1).toString() //excel start at 1
         ..row = jsonEncode(row);

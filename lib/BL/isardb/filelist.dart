@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:sheetviewer/BL/lib/log.dart';
-
-import '../../BL/bl.dart';
-
 import 'package:isar/isar.dart';
 
 part 'filelist.g.dart'; // flutter pub run build_runner build
@@ -35,26 +31,6 @@ class FileList {
 
     $zfileId
     ''';
-  }
-
-  Future sheetRowsFromJson(Map jsonData) async {
-    try {
-      List<dynamic> rows = jsonData["rows"];
-      String sheetName = jsonData["config"]["sheetName"] ?? '';
-      String fileId = jsonData["config"]["fileId"] ?? '';
-
-      for (var i = 0; i < rows.length; i++) {
-        FileList filelistRow = FileList()
-          ..aSheetName = sheetName
-          ..zfileId = fileId
-          ..aRowNo = rows[i]['row_'].toString()
-          ..row = jsonEncode(rows[i]); //map to String workarround of Isar
-
-        await filelistDb.update(filelistRow);
-      }
-    } catch (e) {
-      logi('filelist.sheetRowsFromJson', jsonData.toString(), '', e.toString());
-    }
   }
 }
 

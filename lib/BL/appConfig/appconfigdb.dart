@@ -20,8 +20,13 @@ class AppConfigDb {
   String filelistSheetName = '';
 
   Future<String> readByKey(String key) async {
-    AppConfig? row = await isar.appConfigs.filter().keyEqualTo(key).findFirst();
-    return row!.value;
+    try {
+      AppConfig? row =
+          await isar.appConfigs.filter().keyEqualTo(key).findFirst();
+      return row!.value;
+    } catch (_) {
+      return '';
+    }
   }
 
   Future update(String key, String value) async {

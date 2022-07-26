@@ -22,38 +22,36 @@ class FilelistContr extends GetxController {
   Future<String> filelistLoad() async {
     logParagraphStart('filelistLoad');
 
-    await filelistContr.getFilelist();
+    await filelistRawLoad();
+    await sheetRowsFill(
+        appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
 
+    filelist = await getFileList();
     return 'OK';
   }
 
   //----------------------------------------------------------intertest FileList
 
+  Future filelistRawLoad() async {
+    String loadAdapter = await appConfigDb.readByKey('loadAdapter');
+    if ((loadAdapter.startsWith('local.csv')) &&
+        (!dlGlobals.domain.toString().contains('vercel.app'))) {
+      await dlGlobals.csvAdapter.getFilelistDynamic();
+    }
+  }
+
+  Future<List<dynamic>> getFileList() async {
+    List<dynamic> fileList = [];
+    List<FileList?> list = await filelistDb.readRowsAllSheets();
+    for (var element in list) {
+      fileList.add(jsonDecode(element!.row));
+    }
+    return fileList;
+  }
+
   List<dynamic> filelist = [];
   Map rowsCountListClient = {};
   Map rowsCountListGDrive = {};
-
-  Future<String> getFilelist() async {
-    logParagraphStart('getFilelist');
-
-    Future fileListFill() async {
-      String loadAdapter = await appConfigDb.readByKey('loadAdapter');
-      if ((loadAdapter.startsWith('local.csv')) &&
-          (!dlGlobals.domain.toString().contains('vercel.app'))) {
-        await dlGlobals.csvAdapter.getFilelist(
-            appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
-      } else {
-        await dlGlobals.gSheetsAdapter.getFileListUpdate(
-            appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
-      }
-    }
-
-    await fileListFill();
-
-    await sheetRowsFill(
-        appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
-    return 'ok';
-  }
 
   RxString fetshingRows = ''.obs;
   final String rowsCount = '10';
@@ -82,7 +80,7 @@ class FilelistContr extends GetxController {
         Map fileRow = jsonDecode(filelistRows[i]!.row);
         String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
         String sheetName = fileRow['sheetName'];
-        print(fileId + ' ' + sheetName);
+
         filelistContr.loadedSheetName.value += '\n' + sheetName;
 
         int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);

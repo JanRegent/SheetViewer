@@ -56,7 +56,7 @@ Future<String> loadAssetJson(String varname) async {
   try {
     return await rootBundle.loadString('config/$varname');
   } catch (e) {
-    return e.toString();
+    return '';
   }
 }
 
