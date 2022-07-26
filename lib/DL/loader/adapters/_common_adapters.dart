@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
-Future rawrows2db_filelist(
+Future rawrows2dbFilelist(
     List<List<dynamic>> rawRows, String loadAdapter) async {
   List<String> cols = bl.blUti.toListString(rawRows[0]);
   for (var rowIx = 0; rowIx < rawRows.length; rowIx++) {
@@ -29,11 +30,9 @@ Future rawrows2db_filelist(
       if (loadAdapter.startsWith('local')) {
         await sheetrowsFillViaCsv(row);
       }
-      // try {
-      //   if (rowIx > 0) {
-      //     await viaCsv(row);
-      //   }
-      // } catch (_) {}
+      if (loadAdapter.startsWith('remote')) {
+        await sheetRowsFillViaGsheets(row);
+      }
     }
   }
 }
@@ -51,4 +50,22 @@ Future sheetrowsFillViaCsv(Map fileRow) async {
   //viewConfig?
   await dlGlobals.csvAdapter.getViewConfigLocalCsv(
       fileId, fileRow['sheetName'], fileRow['viewConfig.local']);
+}
+
+Future sheetRowsFillViaGsheets(Map fileRow) async {
+  logParagraphStart('sheetRowsFill');
+
+  String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
+  String sheetName = fileRow['sheetName'];
+
+  filelistContr.loadedSheetName.value += '\n' + sheetName;
+
+  int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
+  if (rowsCount > 1) return;
+
+  await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
+  try {
+    await dlGlobals.gSheetsAdapter
+        .getViewConfigGapps(fileId, sheetName, fileRow['viewConfig']);
+  } catch (_) {}
 }

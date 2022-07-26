@@ -14,6 +14,11 @@ class FilelistContr extends GetxController {
   var searchWordInAllSheets = ''.obs;
 
   var loadedSheetName = ''.obs;
+
+  List<dynamic> filelist = [];
+
+  RxString fetshingRows = ''.obs;
+
   Future filelistNameSet(String value) async {
     filelistName.value = value;
   }
@@ -39,12 +44,12 @@ class FilelistContr extends GetxController {
     if ((loadAdapter.startsWith('local.csv'))) {
       List<List<dynamic>> rawRows =
           await dlGlobals.csvAdapter.getFilelistDynamic();
-      await rawrows2db_filelist(rawRows, 'local.csv');
+      await rawrows2dbFilelist(rawRows, 'local.csv');
     } else {
       List<List<dynamic>> rawRows = await dlGlobals.gSheetsAdapter
           .getFilelistDynamic(
               appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
-      await rawrows2db_filelist(rawRows, 'remote.gsheet');
+      await rawrows2dbFilelist(rawRows, 'remote.gsheet');
     }
   }
 
@@ -55,41 +60,5 @@ class FilelistContr extends GetxController {
       fileList.add(jsonDecode(list[i]!.row));
     }
     return fileList;
-  }
-
-  List<dynamic> filelist = [];
-  Map rowsCountListClient = {};
-  Map rowsCountListGDrive = {};
-
-  RxString fetshingRows = ''.obs;
-  final String rowsCount = '10';
-
-  Future sheetRowsFill(String filelistFileId, String filelistSheetname) async {
-    filelist.clear();
-    List<FileList?> filelistRows =
-        await filelistDb.readRowsSheet(filelistSheetname);
-    logParagraphStart('sheetRowsFill');
-
-    for (var i = 1; i < filelistRows.length; i++) {
-      try {
-        Map fileRow = jsonDecode(filelistRows[i]!.row);
-        String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
-        String sheetName = fileRow['sheetName'];
-
-        filelistContr.loadedSheetName.value += '\n' + sheetName;
-
-        int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-        //String loadAdapter = await appConfigDb.readByKey('loadAdapter');
-        if (rowsCount == 0) {
-          await dlGlobals.gSheetsAdapter.getSheetAllRows(fileId, sheetName);
-          try {
-            await dlGlobals.gSheetsAdapter
-                .getViewConfigGapps(fileId, sheetName, fileRow['viewConfig']);
-          } catch (_) {}
-        }
-
-        filelist.add(fileRow);
-      } catch (_) {}
-    }
   }
 }
