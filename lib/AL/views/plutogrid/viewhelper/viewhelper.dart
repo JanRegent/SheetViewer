@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/isardb/viewconfig.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 class ViewHelper {
   ViewHelper();
@@ -209,6 +210,7 @@ class ViewHelper {
 
   Future load(String fileId_, String sheetName_) async {
     viewConfig = (await loadViewConfig(fileId_, sheetName_))!;
+    logi('viewConfig', '', viewConfig.toString(), '');
     fileId = fileId_;
     sheetName = sheetName_;
     if (viewConfig.colsHeader.isEmpty) {

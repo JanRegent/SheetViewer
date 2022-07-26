@@ -1,1 +1,1 @@
-const buildVersion = 'vercel-debug-getData4view---26-07-2022 16:06:53,06';      
+const buildVersion = 'debug-getData4view-2---26-07-2022 16:14:25,43';      

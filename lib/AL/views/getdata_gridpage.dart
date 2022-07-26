@@ -45,6 +45,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
     logParagraphStart('getData4view');
+    logi('fileId sheetName ', widget.fileId, widget.sheetName, '');
     await viewHelper.load(widget.fileId, widget.sheetName);
 
     //---------------------------------------------------------------------cols
@@ -55,8 +56,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     logi('viewHelper.plutoCols.length ', viewHelper.plutoCols.length.toString(),
         '', '');
     //---------------------------------------------------------------------rows
-    logi('fileId sheetName ', widget.fileId, widget.sheetName,
-        '=sheetRows.length');
+
     await rowsCountCheck(widget.fileId, widget.sheetName);
 
     if (filelistContr.searchWordInAllSheets.value.isEmpty) {
