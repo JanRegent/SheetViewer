@@ -27,7 +27,7 @@ class FilelistContr extends GetxController {
 
     await filelistRawLoad();
 
-    filelist = await getFileList();
+    filelist = await getFileListDynamic();
     return 'OK';
   }
 
@@ -38,10 +38,13 @@ class FilelistContr extends GetxController {
     if ((loadAdapter.startsWith('local.csv')) &&
         (!dlGlobals.domain.toString().contains('vercel.app'))) {
       await dlGlobals.csvAdapter.getFilelistDynamic();
+    } else {
+      await dlGlobals.gSheetsAdapter.getFileListUpdate(
+          appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
     }
   }
 
-  Future<List<dynamic>> getFileList() async {
+  Future<List<dynamic>> getFileListDynamic() async {
     List<dynamic> fileList = [];
     List<FileList?> list = await filelistDb.readRowsAllSheets();
     for (var i = 1; i < list.length; i++) {

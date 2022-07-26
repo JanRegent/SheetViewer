@@ -7,29 +7,6 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 Future appConfigLoad() async {
   String loadAdapter = '';
   logParagraphStart('appConfigLoad');
-  Future remoteLoad() async {
-    if (dlGlobals.domain.toString().contains('vercel.app')) {
-      String appConfigUrl = remoteConfig.getString('appConfigUrl');
-      await appConfigDb.update('appConfigUrl', appConfigUrl);
-    }
-    await appConfigDb.update('appConfigFileId',
-        bl.blUti.url2fileid(await appConfigDb.readByKey('appConfigUrl')));
-    appConfigDb.filelistFileId = await appConfigDb.readByKey('appConfigFileId');
-
-    List<List<String>> appConfigSheet = await dlGlobals.gSheetsAdapter
-        .getSheetRawRows(appConfigDb.filelistFileId, 'appConfig');
-    for (var i = 0; i < appConfigSheet.length; i++) {
-      try {
-        if (appConfigSheet[i][0].isEmpty) continue;
-        if (appConfigSheet[i][0].startsWith('//')) continue;
-        await appConfigDb.update(appConfigSheet[i][0], appConfigSheet[i][1]);
-      } catch (_) {
-        continue;
-      }
-    }
-    appConfigDb.filelistSheetName =
-        await appConfigDb.readByKey('filelistSheetName');
-  }
 
   Map appConfigJson = {};
 
@@ -61,7 +38,38 @@ Future appConfigLoad() async {
         await appConfigDb.readByKey('filelistSheetName');
   }
 
-  await localLoad();
+  Future remoteLoad() async {
+    String localConfig = await loadAssetJson('appConfig-remote.json');
+    appConfigJson = jsonDecode(localConfig);
+    await appConfigDb.update('appConfigUrl', appConfigJson['appConfigUrl']);
+    await appConfigDb.update('loadAdapter', appConfigJson['loadAdapter']);
+
+    if (dlGlobals.domain.toString().contains('vercel.app')) {
+      String appConfigUrl = remoteConfig.getString('appConfigUrl');
+      await appConfigDb.update('appConfigUrl', appConfigUrl);
+    }
+    await appConfigDb.update('appConfigFileId',
+        bl.blUti.url2fileid(await appConfigDb.readByKey('appConfigUrl')));
+    appConfigDb.filelistFileId = await appConfigDb.readByKey('appConfigFileId');
+
+    List<List<String>> appConfigSheet = await dlGlobals.gSheetsAdapter
+        .getSheetRawRows(appConfigDb.filelistFileId, 'appConfig');
+    for (var i = 0; i < appConfigSheet.length; i++) {
+      try {
+        if (appConfigSheet[i][0].isEmpty) continue;
+        if (appConfigSheet[i][0].startsWith('//')) continue;
+        await appConfigDb.update(appConfigSheet[i][0], appConfigSheet[i][1]);
+      } catch (_) {
+        continue;
+      }
+    }
+    appConfigDb.filelistSheetName =
+        await appConfigDb.readByKey('filelistSheetName');
+  }
+
+  try {
+    await localLoad();
+  } catch (_) {}
   logi('local loadAdapter?', loadAdapter, '', '');
 
   if (loadAdapter.isEmpty) {
