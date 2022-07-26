@@ -1,1 +1,1 @@
-const buildVersion = 'vercel-3';      
+const buildVersion = SUBFILENAME;      
