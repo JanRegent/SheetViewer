@@ -11,6 +11,10 @@ Future appConfigLoad() async {
   Map appConfigJson = {};
 
   Future loadAdapterLoad() async {
+    if (dlGlobals.domain.toString().contains('vercel.app')) {
+      await appConfigDb.update('loadAdapter', 'remote.gsheet-vercel');
+      return;
+    }
     String localConfig = '';
     try {
       try {
@@ -28,14 +32,11 @@ Future appConfigLoad() async {
     } catch (_) {
       loadAdapter = '';
     }
-    if (dlGlobals.domain.toString().contains('vercel.app')) {
-      await appConfigDb.update('loadAdapter', 'remote.gsheet-vercel');
-    } else {
-      await appConfigDb.update('loadAdapter', loadAdapter);
-    }
+    await appConfigDb.update('loadAdapter', loadAdapter);
   }
 
   Future localLoad() async {
+    if (dlGlobals.domain.toString().contains('vercel.app')) return;
     String localConfig = '';
     try {
       try {
@@ -63,14 +64,16 @@ Future appConfigLoad() async {
   }
 
   Future remoteLoad() async {
-    String localConfig = await loadAssetJson('appConfig-remote.json');
-    appConfigJson = jsonDecode(localConfig);
-    await appConfigDb.update('appConfigUrl', appConfigJson['appConfigUrl']);
+    String remotelConfig = '';
 
     if (dlGlobals.domain.toString().contains('vercel.app')) {
-      String appConfigUrl = remoteConfig.getString('appConfigUrl');
-      await appConfigDb.update('appConfigUrl', appConfigUrl);
+      remotelConfig = remoteConfig.getString('appConfig_remote');
+    } else {
+      remotelConfig = await loadAssetJson('appConfig-remote.json');
     }
+    String appConfigUrl = jsonDecode(remotelConfig)['appConfigUrl'];
+    await appConfigDb.update('appConfigUrl', appConfigUrl);
+
     await appConfigDb.update('appConfigFileId',
         bl.blUti.url2fileid(await appConfigDb.readByKey('appConfigUrl')));
     appConfigDb.filelistFileId = await appConfigDb.readByKey('appConfigFileId');
