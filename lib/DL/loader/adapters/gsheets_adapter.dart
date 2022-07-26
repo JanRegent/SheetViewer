@@ -79,15 +79,15 @@ class GSheetsAdapter {
     return rawRows.length;
   }
 
-  Future<int> getFileListUpdate(
+  Future<List<List<dynamic>>> getFilelistDynamic(
       String filelistFileId, String filelistSheetName) async {
     late Worksheet? sheet;
     try {
       Spreadsheet? ss = await getSpreadSheet(filelistFileId);
       // ignore: unnecessary_null_comparison
-      if (ss == null) return 0;
+      if (ss == null) return [];
       sheet = ss.worksheetByTitle(filelistSheetName);
-      if (sheet == null) return 0;
+      if (sheet == null) return [];
     } catch (e) {
       FileList fileListRow = FileList()
         ..aSheetName = filelistSheetName
@@ -95,12 +95,11 @@ class GSheetsAdapter {
         ..aRowNo = (1).toString() //excel start at 1
         ..row = jsonEncode({'warning': e.toString()});
       await filelistDb.update(fileListRow);
-      return 0;
+      return [];
     }
     List<List<String>> rawRows = await sheet.values.allRows();
 
-    await filelistDb.updateAllRaw(rawRows, filelistFileId, filelistSheetName);
-    return 0;
+    return rawRows;
   }
 
   Future<List<List<String>>> getSheetRawRows(

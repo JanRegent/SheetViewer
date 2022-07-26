@@ -108,27 +108,10 @@ class FileListDb {
     }
   }
 
-  Future update(FileList sheetRow) async {
-    if (!isar.isOpen) {
-      return Future<void>(() {});
-    }
-
-    FileList? testRow = await isar.fileLists
-        .filter()
-        .zfileIdEqualTo(sheetRow.zfileId)
-        .and()
-        .aSheetNameEqualTo(sheetRow.aSheetName)
-        .and()
-        .aRowNoEqualTo(sheetRow.aRowNo)
-        .findFirst();
-    try {
-      // ignore: unnecessary_null_comparison
-      if (testRow!.id != null) return;
-    } catch (_) {
-      await isar.writeTxn(() async {
-        await isar.fileLists.put(sheetRow);
-      });
-    }
+  Future update(FileList filelistRow) async {
+    await isar.writeTxn(() async {
+      await isar.fileLists.put(filelistRow);
+    });
   }
 
   Future updateAll(List<FileList> sheetRows) async {
@@ -138,35 +121,35 @@ class FileListDb {
     await isar.fileLists.putAll(sheetRows);
   }
 
-  Future updateAllRaw(List<List<String>> sheetRows, String filelistFileId,
-      String filelistSheetname) async {
-    if (!isar.isOpen) {
-      return Future<void>(() {});
-    }
+  // Future updateAllRaw(List<List<String>> sheetRows, String filelistFileId,
+  //     String filelistSheetname) async {
+  //   if (!isar.isOpen) {
+  //     return Future<void>(() {});
+  //   }
 
-    await isar.writeTxn(() async {
-      await isar.fileLists.clear();
-    });
+  //   await isar.writeTxn(() async {
+  //     await isar.fileLists.clear();
+  //   });
 
-    List<String> cols = sheetRows[0];
-    for (var rowIx = 0; rowIx < sheetRows.length; rowIx++) {
-      if (sheetRows[rowIx].isEmpty) continue;
-      if (sheetRows[rowIx][0].isEmpty) continue;
-      Map row = {};
-      try {
-        for (var colIx = 0; colIx < cols.length; colIx++) {
-          row[cols[colIx]] = sheetRows[rowIx][colIx];
-        }
-      } catch (_) {}
-      FileList fileListRow = FileList()
-        ..aSheetName = filelistSheetname
-        ..zfileId = filelistFileId
-        ..aRowNo = (rowIx + 1).toString() //excel start at 1
-        ..row = jsonEncode(row);
+  //   List<String> cols = sheetRows[0];
+  //   for (var rowIx = 0; rowIx < sheetRows.length; rowIx++) {
+  //     if (sheetRows[rowIx].isEmpty) continue;
+  //     if (sheetRows[rowIx][0].isEmpty) continue;
+  //     Map row = {};
+  //     try {
+  //       for (var colIx = 0; colIx < cols.length; colIx++) {
+  //         row[cols[colIx]] = sheetRows[rowIx][colIx];
+  //       }
+  //     } catch (_) {}
+  //     FileList fileListRow = FileList()
+  //       ..aSheetName = filelistSheetname
+  //       ..zfileId = filelistFileId
+  //       ..aRowNo = (rowIx + 1).toString() //excel start at 1
+  //       ..row = jsonEncode(row);
 
-      await isar.writeTxn(() async {
-        await isar.fileLists.put(fileListRow);
-      });
-    }
-  }
+  //     await isar.writeTxn(() async {
+  //       await isar.fileLists.put(fileListRow);
+  //     });
+  //   }
+  // }
 }

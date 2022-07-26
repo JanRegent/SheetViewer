@@ -1,1 +1,1 @@
-const buildVersion = 'debug-getData4view-3---26-07-2022 16:25:17,75';      
+const buildVersion = 'BL-rawrows2db_filelist-1-csv---26-07-2022 19:47:51,91';      

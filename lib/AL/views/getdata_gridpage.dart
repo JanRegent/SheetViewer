@@ -45,16 +45,12 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
     logParagraphStart('getData4view');
-    logi('fileId sheetName ', widget.fileId, widget.sheetName, '');
     await viewHelper.load(widget.fileId, widget.sheetName);
-    logi('colsHeader ', viewHelper.viewConfig.colsHeader.join(','), '', '');
     //---------------------------------------------------------------------cols
     /// Columns must be provided at the beginning of a row synchronously.
     viewHelper.plutoCols.clear();
     viewHelper.plutoCols
         .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
-    logi('viewHelper.plutoCols.length ', viewHelper.plutoCols.length.toString(),
-        '', '');
     //---------------------------------------------------------------------rows
 
     await rowsCountCheck(widget.fileId, widget.sheetName);
@@ -67,9 +63,6 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
           widget.sheetName, filelistContr.searchWordInAllSheets.value);
     }
     rowsCount.value = sheetRows.length;
-    logi('rowsCount.value ', rowsCount.value.toString(), '',
-        '=sheetRows.length');
-    debugPrint('sheetRows.length ' + sheetRows.length.toString());
     //debugPrint(viewHelper.viewConfig.toString());
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
     //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
@@ -79,15 +72,14 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   Future<String> rowsCountCheck(String fileId, String sheetName) async {
     logParagraphStart('getData4view.rowsCountCheck($fileId, $sheetName');
     int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-    logi('getData4view', 'rowsCountCheck0', sheetName + 'from: $fileId',
-        'rowsCount: ' + rowsCount.toString());
     if (rowsCount > 1) return 'ok';
 
     try {
       rowsCount = await dlGlobals.gSheetsAdapter
           .getSheetAllRowsOld(fileId, sheetName, true, 'sheetRowsDb');
 
-      logi('rowsCountCheck', 'final', sheetName + 'from: $fileId', '');
+      logi('rowsCountCheck', 'final', sheetName + 'from: $fileId',
+          rowsCount.toString());
     } catch (e) {
       logi('rowsCountCheck', 'error', sheetName, e.toString());
     }

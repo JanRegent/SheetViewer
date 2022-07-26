@@ -17,8 +17,8 @@ RxList detailList = [].obs;
 void getDetailList(String fileId, String sheetName) async {
   SheetRow? sheetRow = await sheetRowsDb.readRowNo(
       fileId, sheetName, viewHelper.currentRowNoOnSelect);
-  Map row = jsonDecode(sheetRow!.row);
-
+  if (sheetRow == null) return;
+  Map row = jsonDecode(sheetRow.row);
   detailList.clear();
   for (var key in row.keys) {
     detailList.add([key, row[key]]);

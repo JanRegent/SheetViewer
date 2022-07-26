@@ -7,6 +7,7 @@ import 'package:sheetviewer/DL/dlglobals.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/BL/isardb/filelist.dart';
+import 'package:sheetviewer/DL/loader/adapters/_common_adapters.dart';
 
 class FilelistContr extends GetxController {
   var filelistName = ''.obs;
@@ -36,10 +37,14 @@ class FilelistContr extends GetxController {
   Future filelistRawLoad() async {
     String loadAdapter = await appConfigDb.readByKey('loadAdapter');
     if ((loadAdapter.startsWith('local.csv'))) {
-      await dlGlobals.csvAdapter.getFilelistDynamic();
+      List<List<dynamic>> rawRows =
+          await dlGlobals.csvAdapter.getFilelistDynamic();
+      await rawrows2db_filelist(rawRows, 'local.csv');
     } else {
-      await dlGlobals.gSheetsAdapter.getFileListUpdate(
-          appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
+      List<List<dynamic>> rawRows = await dlGlobals.gSheetsAdapter
+          .getFilelistDynamic(
+              appConfigDb.filelistFileId, appConfigDb.filelistSheetName);
+      await rawrows2db_filelist(rawRows, 'remote.gsheet');
     }
   }
 
