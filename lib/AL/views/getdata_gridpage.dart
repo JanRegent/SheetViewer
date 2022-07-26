@@ -44,7 +44,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
   List<PlutoRow> gridrows = [];
   List<SheetRow?> sheetRows = [];
   Future<String> getData4view(BuildContext context) async {
-    debugPrint('---------------------------------------getData4view');
+    logParagraphStart('getData4view');
     await viewHelper.load(widget.fileId, widget.sheetName);
 
     //---------------------------------------------------------------------cols
@@ -52,10 +52,13 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     viewHelper.plutoCols.clear();
     viewHelper.plutoCols
         .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
-    debugPrint('viewHelper.plutoCols.length ' +
-        viewHelper.plutoCols.length.toString());
+    logi('viewHelper.plutoCols.length ', viewHelper.plutoCols.length.toString(),
+        '', '');
     //---------------------------------------------------------------------rows
+    logi('fileId sheetName ', widget.fileId, widget.sheetName,
+        '=sheetRows.length');
     await rowsCountCheck(widget.fileId, widget.sheetName);
+
     if (filelistContr.searchWordInAllSheets.value.isEmpty) {
       sheetRows =
           await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
@@ -64,6 +67,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
           widget.sheetName, filelistContr.searchWordInAllSheets.value);
     }
     rowsCount.value = sheetRows.length;
+    logi('rowsCount.value ', rowsCount.value.toString(), '',
+        '=sheetRows.length');
     debugPrint('sheetRows.length ' + sheetRows.length.toString());
     //debugPrint(viewHelper.viewConfig.toString());
     //bug _FutureBuilderState<String>#a0df7): Unexpected null value
