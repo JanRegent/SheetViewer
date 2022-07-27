@@ -1,1 +1,1 @@
-const buildVersion = 'BL-appConfig-autoview1---27-07-2022 17:52:48,93';      
+const buildVersion = 'BL-autoview1filelistRow---27-07-2022 19:57:22,12';      

@@ -19,9 +19,8 @@ class AppConfigDb {
   String filelistFileId = '';
   String filelistSheetName = '';
 
-  String autoview1FileId = '';
   String autoview1SheetName = '';
-  String autoview1FileTitle = '';
+  Map autoview1filelistRow = {};
 
   Future clear() async {
     await isar.writeTxn(() async {

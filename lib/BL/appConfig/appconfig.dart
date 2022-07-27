@@ -117,5 +117,6 @@ Future queryParsGet() async {
   String? sheetNameQueryPar = params['sheetName'];
 
   sheetNameQueryPar ??= const String.fromEnvironment("sheetName");
+  appConfigDb.autoview1SheetName = sheetNameQueryPar;
   await appConfigDb.update('autoview1SheetName', sheetNameQueryPar);
 }

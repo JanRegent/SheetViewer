@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:sheetviewer/AL/__home/_home_filelist/home_drawer_menu.dart';
 
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/getdata_gridpage.dart';
 import 'package:sheetviewer/BL/bl.dart';
 
 import 'filelistcard.dart';
@@ -67,18 +66,16 @@ class FilelistviewHomePage extends StatelessWidget {
     setPageTitle(filelistContr.filelistName.value, context);
     return Scaffold(
         drawer: homeDrawer(context, appConfigDb.filelistFileId),
-        appBar: appConfigDb.autoview1SheetName.isNotEmpty
-            ? AppBar(
-                title: ListTile(
-                  leading: al.helpIcon(context),
-                  title: Text(filelistContr.filelistName.value),
-                  trailing: Obx(
-                      () => Text(filelistContr.searchWordInAllSheets.value)),
-                ),
-                backgroundColor: Colors.lightBlue,
-                actions: [searchBar(context)],
-              )
-            : null,
+        appBar: AppBar(
+          title: ListTile(
+            leading: al.helpIcon(context),
+            title: Text(filelistContr.filelistName.value),
+            trailing:
+                Obx(() => Text(filelistContr.searchWordInAllSheets.value)),
+          ),
+          backgroundColor: Colors.lightBlue,
+          actions: [searchBar(context)],
+        ),
         body: FutureBuilder<String>(
           future: filelistContr.filelistLoad(), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -100,17 +97,7 @@ class FilelistviewHomePage extends StatelessWidget {
                   return Text(
                       'FilelistviewHomePage\n\n Error: ${snapshot.error}');
                 } else {
-                  if (appConfigDb.autoview1SheetName.isNotEmpty) {
-                    bool autorun =
-                        appConfigDb.autoview1SheetName.isEmpty ? false : true;
-                    return GetDataViewsPage(
-                        appConfigDb.autoview1SheetName,
-                        appConfigDb.autoview1FileId,
-                        appConfigDb.autoview1FileTitle,
-                        autorun);
-                  } else {
-                    return filelistBody();
-                  }
+                  return filelistBody();
                 }
             }
           },

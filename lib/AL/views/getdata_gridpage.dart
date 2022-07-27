@@ -2,15 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/elementsLib/alib.dart';
-import 'package:sheetviewer/AL/views/plutogrid/cols.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/log.dart';
-import 'package:sheetviewer/DL/dlglobals.dart';
-import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
+import 'autoview1_gridview.dart';
 import 'plutogrid/_gridpage.dart';
 import 'plutogrid/drawergrid.dart';
 
@@ -39,53 +35,6 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
     setState(() {});
   }
 
-  List<PlutoColumn> gridCols = [];
-  List<String> cols = [];
-  List<PlutoRow> gridrows = [];
-  List<SheetRow?> sheetRows = [];
-  Future<String> getData4view(BuildContext context) async {
-    logParagraphStart('getData4view');
-    await viewHelper.load(widget.fileId, widget.sheetName);
-    //---------------------------------------------------------------------cols
-    /// Columns must be provided at the beginning of a row synchronously.
-    viewHelper.plutoCols.clear();
-    viewHelper.plutoCols
-        .addAll(await colsMap(viewHelper.viewConfig.colsHeader));
-    //---------------------------------------------------------------------rows
-
-    await rowsCountCheck(widget.fileId, widget.sheetName);
-
-    if (filelistContr.searchWordInAllSheets.value.isEmpty) {
-      sheetRows =
-          await sheetRowsDb.readRowsSheet(widget.fileId, widget.sheetName);
-    } else {
-      sheetRows = await sheetRowsDb.readRowsContains(widget.fileId,
-          widget.sheetName, filelistContr.searchWordInAllSheets.value);
-    }
-    rowsCount.value = sheetRows.length;
-    //debugPrint(viewHelper.viewConfig.toString());
-    //bug _FutureBuilderState<String>#a0df7): Unexpected null value
-    //packages/pluto_grid/src/manager/pluto_grid_state_manager.dart 292:44
-    return 'OK';
-  }
-
-  Future<String> rowsCountCheck(String fileId, String sheetName) async {
-    logParagraphStart('getData4view.rowsCountCheck($fileId, $sheetName');
-    int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
-    if (rowsCount > 1) return 'ok';
-
-    try {
-      rowsCount = await dlGlobals.gSheetsAdapter
-          .getSheetAllRowsOld(fileId, sheetName, true, 'sheetRowsDb');
-
-      logi('rowsCountCheck', 'final', sheetName + 'from: $fileId',
-          rowsCount.toString());
-    } catch (e) {
-      logi('rowsCountCheck', 'error', sheetName, e.toString());
-    }
-    return 'ok';
-  }
-
   ListTile appBarTile(BuildContext context) {
     return ListTile(
         leading: widget.autorun ? null : al.iconBack(context),
@@ -99,7 +48,7 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
             context, setStateFunc, widget.fileId, widget.sheetName, cols),
         appBar: AppBar(title: appBarTile(context)),
         body: FutureBuilder(
-          future: getData4view(context), // async work
+          future: getData4view(widget.fileId, widget.sheetName), // async work
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

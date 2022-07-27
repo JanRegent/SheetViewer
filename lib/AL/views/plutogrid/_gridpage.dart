@@ -7,8 +7,10 @@ import 'package:sheetviewer/AL/views/plutogrid/panels.dart';
 
 import 'package:sheetviewer/AL/views/plutogrid/rows.dart';
 import 'package:sheetviewer/AL/views/plutogrid/statemanager.dart';
+import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/isardb/sheetrows.dart';
 
+import '../autoview1_gridview.dart';
 import 'drawergrid.dart';
 
 class GridPage extends StatefulWidget {
@@ -49,33 +51,45 @@ class _GridPageState extends State<GridPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     viewHelper.gridAStateManager.setShowLoading(true);
     return Scaffold(
+        drawer: appConfigDb.autoview1SheetName.isNotEmpty
+            ? drawerGrid(context, setStateFunc, viewHelper.fileId,
+                viewHelper.sheetName, cols)
+            : null,
+        appBar: appConfigDb.autoview1SheetName.isNotEmpty
+            ? AppBar(title: Text(appConfigDb.autoview1filelistRow['fileTitle']))
+            : null,
         body: FutureBuilder(
-      future: getGridRows(), // async work
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            viewHelper.gridAStateManager.setShowLoading(true);
-            return Column(
-              children: const [
-                Text('Loading \n filelist '),
-                Text(' '),
-                CircularProgressIndicator()
-              ],
-            );
+          future: getGridRows(), // async work
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                viewHelper.gridAStateManager.setShowLoading(true);
+                return Column(
+                  children: const [
+                    Text('Loading \n filelist '),
+                    Text(' '),
+                    CircularProgressIndicator()
+                  ],
+                );
 
-          default:
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              viewHelper.gridAStateManager.setShowLoading(false);
-              return viewHelper.detailMode
-                  ? resizablePanels(viewHelper.plutoCols, gridRows, _controller,
-                      screenWidth, setStateFunc, widget.sheetRows)
-                  : singleGrid(viewHelper.plutoCols, gridRows, _controller,
-                      widget.sheetRows);
+              default:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  viewHelper.gridAStateManager.setShowLoading(false);
+                  return viewHelper.detailMode
+                      ? resizablePanels(
+                          viewHelper.plutoCols,
+                          gridRows,
+                          _controller,
+                          screenWidth,
+                          setStateFunc,
+                          widget.sheetRows)
+                      : singleGrid(viewHelper.plutoCols, gridRows, _controller,
+                          widget.sheetRows);
+                }
             }
-        }
-      },
-    ));
+          },
+        ));
   }
 }
