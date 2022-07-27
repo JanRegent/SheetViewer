@@ -54,9 +54,21 @@ class FilelistContr extends GetxController {
   }
 
   Future<List<dynamic>> getFileListDynamic() async {
+    String aurorunSheetName = await appConfigDb.readByKey('autoview1SheetName');
+    appConfigDb.autoview1FileId = '';
+    appConfigDb.autoview1SheetName = '';
     List<dynamic> fileList = [];
     List<FileList?> list = await filelistDb.readRowsAllSheets();
+
     for (var i = 1; i < list.length; i++) {
+      Map row = jsonDecode(list[i]!.row);
+      if (aurorunSheetName == row['sheetName']) {
+        appConfigDb.autoview1FileId = bl.blUti.url2fileid(row['fileUrl']);
+        appConfigDb.autoview1SheetName = row['sheetName'];
+        appConfigDb.autoview1FileTitle = row['fileTitle'];
+        await appConfigDb.update(
+            'autoview1FileId', appConfigDb.autoview1FileId);
+      }
       fileList.add(jsonDecode(list[i]!.row));
     }
     return fileList;

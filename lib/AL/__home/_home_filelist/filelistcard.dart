@@ -82,13 +82,13 @@ Future getrowsRefresh(String fileUrl, String sheetName) async {
 }
 
 Future showGrid(BuildContext context, String sheetName, String fileId,
-    String action, String fileTitle) async {
+    String fileTitle) async {
   viewHelper = ViewHelper();
   await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            GetDataViewsPage(sheetName, fileId, action, fileTitle),
+            GetDataViewsPage(sheetName, fileId, fileTitle, false),
       ));
 }
 
@@ -108,6 +108,6 @@ ElevatedButton allRowsButton(
         color: Colors.black,
       ),
       onPressed: () async {
-        await showGrid(context, sheetName, fileId, 'getSheet', fileTitle);
+        await showGrid(context, sheetName, fileId, fileTitle);
       });
 }

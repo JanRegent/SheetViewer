@@ -1,3 +1,4 @@
 {
-    "loadAdapter": "remote.gsheet"
+    "loadAdapter": "local.csv",
+    "loadAdapter1": "remote.gsheet"
 }

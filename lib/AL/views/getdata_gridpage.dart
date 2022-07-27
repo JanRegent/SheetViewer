@@ -18,12 +18,12 @@ import 'plutogrid/drawergrid.dart';
 class GetDataViewsPage extends StatefulWidget {
   final String sheetName;
   final String fileId;
-  final String action;
   final String fileTitle;
+  final bool autorun;
 
   // ignore: use_key_in_widget_constructors
   const GetDataViewsPage(
-      this.sheetName, this.fileId, this.action, this.fileTitle);
+      this.sheetName, this.fileId, this.fileTitle, this.autorun);
 
   @override
   _GetDataViewsPageState createState() => _GetDataViewsPageState();
@@ -88,7 +88,8 @@ class _GetDataViewsPageState extends State<GetDataViewsPage> {
 
   ListTile appBarTile(BuildContext context) {
     return ListTile(
-        leading: al.iconBack(context), title: Text(widget.fileTitle));
+        leading: widget.autorun ? null : al.iconBack(context),
+        title: Text(widget.fileTitle));
   }
 
   @override
