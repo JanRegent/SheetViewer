@@ -39,17 +39,19 @@ Future rawrows2dbFilelist(
 
 Future sheetrowsFillViaCsv(Map fileRow) async {
   String fileId = bl.blUti.url2fileid(fileRow['fileUrl']);
+
   //dataSheet
-  String filePath = 'config/filelists/' +
-      dlGlobals.filelistDir +
-      '/local.csv/' +
-      fileRow['fileLocal'];
+  String filePath = 'config/local.csv/' +
+      appConfigDb.filelistSheetName +
+      '/' +
+      fileRow['sheetName'] +
+      '.csv';
   await dlGlobals.csvAdapter
       .getSheetAllrows(fileId, fileRow['sheetName'], filePath);
 
   //viewConfig?
   await dlGlobals.csvAdapter.getViewConfigLocalCsv(
-      fileId, fileRow['sheetName'], fileRow['viewConfig.local']);
+      fileId, fileRow['sheetName'], fileRow['viewConfig']);
 }
 
 Future sheetRowsFillViaGsheets(Map fileRow) async {

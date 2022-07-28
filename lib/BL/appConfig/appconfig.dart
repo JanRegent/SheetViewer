@@ -7,6 +7,8 @@ import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
+import 'localcsvload.dart';
+
 Future appConfigLoad() async {
   String loadAdapter = '';
   logParagraphStart('appConfigLoad');
@@ -38,34 +40,6 @@ Future appConfigLoad() async {
       loadAdapter = '';
     }
     await appConfigDb.update('loadAdapter', loadAdapter);
-  }
-
-  Future localLoad() async {
-    if (dlGlobals.domain.toString().contains('vercel.app')) return;
-    String localConfig = '';
-    try {
-      try {
-        localConfig = await loadAssetJson('appConfig-local.json');
-      } catch (_) {
-        localConfig = '';
-      }
-      if (localConfig.isEmpty) {
-        return;
-      }
-    } catch (_) {}
-    try {
-      appConfigJson = jsonDecode(localConfig);
-    } catch (_) {
-      loadAdapter = '';
-    }
-    appConfigJson = jsonDecode(localConfig);
-    if (!loadAdapter.startsWith('local')) return;
-
-    dlGlobals.filelistDir = appConfigJson['filelistDir'];
-    await appConfigDb.update('filelistDir', dlGlobals.filelistDir);
-    await appConfigDb.update('filelistSheetName', dlGlobals.filelistDir);
-    appConfigDb.filelistSheetName =
-        await appConfigDb.readByKey('filelistSheetName');
   }
 
   Future remoteLoad() async {
@@ -101,8 +75,8 @@ Future appConfigLoad() async {
   await appConfigDb.clear();
   await loadAdapterLoad();
 
-  if (loadAdapter.startsWith('local')) {
-    await localLoad();
+  if (loadAdapter.startsWith('local.csv')) {
+    await localCsvLoad();
     return;
   }
 

@@ -22,9 +22,9 @@ class CsvAdapter {
 
   Future<List<List<dynamic>>> getFilelistDynamic() async {
     List<List<dynamic>> rawRows = await dlGlobals.csvAdapter.getSheetCsv(
-        'config/filelists/' +
-            dlGlobals.filelistDir +
-            '/local.csv/__filelist__.csv');
+        'config/local.csv/' +
+            appConfigDb.filelistSheetName +
+            '/__filelist__.csv');
     return rawRows;
   }
 
@@ -43,13 +43,14 @@ class CsvAdapter {
   }
 
   Future getViewConfigLocalCsv(
-      String fileId, String sheetName, String fileLocalNoPath) async {
-    if (fileLocalNoPath.isEmpty) return;
+      String fileId, String sheetName, String vievConfigSheetName) async {
+    if (vievConfigSheetName.isEmpty) return;
 
-    String filePath = 'config/filelists/' +
-        dlGlobals.filelistDir +
-        '/local.csv/' +
-        fileLocalNoPath;
+    String filePath = 'config/local.csv/' +
+        appConfigDb.filelistSheetName +
+        '/' +
+        vievConfigSheetName +
+        '.csv';
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv(filePath);
     logi('csv_adapter', 'getViewConfig', sheetName + 'from: $filePath',
