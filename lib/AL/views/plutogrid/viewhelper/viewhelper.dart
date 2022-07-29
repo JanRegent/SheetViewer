@@ -6,7 +6,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:sheetviewer/AL/views/plutogrid/viewhelper/filters.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/isardb/viewconfig.dart';
-import 'package:sheetviewer/BL/lib/log.dart';
 
 class ViewHelper {
   ViewHelper();
@@ -215,7 +214,6 @@ class ViewHelper {
           await sheetRowsDb.readCols(viewConfig.zfileId, viewConfig.aSheetName);
       viewConfig.colsHeader = cols;
     }
-    logi('viewConfig', '', viewConfig.toString(), '');
   }
 
   void setPage(PlutoPagination plutoPagination) {

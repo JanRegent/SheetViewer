@@ -36,8 +36,8 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
         icon: const Icon(Icons.refresh),
         tooltip: 'Clear for refresh',
         onPressed: () async {
-          await getrowsRefresh(
-              fileListSheetRow['fileUrl'], fileListSheetRow['sheetName']);
+          String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
+          sheetRowsDb.delete(fileId, fileListSheetRow['sheetName']);
         },
       ),
       title: Text(fileListSheetRow['fileTitle'],
@@ -69,16 +69,6 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
       children: [expansionFilelistCard()],
     ),
   );
-}
-
-Future getrowsRefresh(String fileUrl, String sheetName) async {
-  // String fileId = bl.blUti.url2fileid(fileUrl);
-  // for (var action in ['getRowsFirst', 'getRowsLast']) {
-  //   Map queryMap = await actionMapCreate(fileId, sheetName, action);
-
-  //   String queryStringKey = queryStringKeyBuild(fileId, sheetName, queryMap);
-  //   await sheetsDb.deleteSheet(queryStringKey);
-  // }
 }
 
 Future showGrid(BuildContext context, String sheetName, String fileId,

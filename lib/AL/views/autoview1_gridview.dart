@@ -54,7 +54,6 @@ Future<String> getData4view(String fileId, String sheetName) async {
 }
 
 Future<String> rowsCountCheck(String fileId, String sheetName) async {
-  logParagraphStart('getData4view.rowsCountCheck($fileId, $sheetName');
   int rowsCount = await sheetRowsDb.rowsCount(fileId, sheetName);
   if (rowsCount > 1) return 'ok';
 

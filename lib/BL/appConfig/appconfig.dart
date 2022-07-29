@@ -3,11 +3,10 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
+import 'package:sheetviewer/BL/appConfig/local.csv.dart';
 import 'package:sheetviewer/BL/bl.dart';
 import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
-
-import 'localcsvload.dart';
 
 Future appConfigLoad() async {
   String loadAdapter = '';
@@ -88,9 +87,13 @@ Future queryParsGet() async {
   Map<String, String> params =
       uri.queryParameters; // query parameters automatically populated
 
-  String? sheetNameQueryPar = params['sheetName'];
+  String? autoview1sheetName = params['autoview1sheetName'];
+  if (autoview1sheetName == null) {
+    autoview1sheetName ??= const String.fromEnvironment("autoview1sheetName");
+    appConfigDb.autoview1SheetName = autoview1sheetName;
+  } else {
+    appConfigDb.autoview1SheetName = autoview1sheetName;
+  }
 
-  sheetNameQueryPar ??= const String.fromEnvironment("sheetName");
-  appConfigDb.autoview1SheetName = sheetNameQueryPar;
-  await appConfigDb.update('autoview1SheetName', sheetNameQueryPar);
+  await appConfigDb.update('autoview1SheetName', autoview1sheetName);
 }

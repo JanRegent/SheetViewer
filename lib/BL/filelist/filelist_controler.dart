@@ -29,7 +29,6 @@ class FilelistContr extends GetxController {
     logParagraphStart('filelistLoad');
 
     await filelistDb.clear();
-    await sheetRowsDb.clear();
 
     await filelistRawLoad();
     filelist = await getFileListDynamic();

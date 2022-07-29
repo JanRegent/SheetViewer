@@ -6,7 +6,6 @@
 import 'package:csv/csv.dart';
 
 import 'package:sheetviewer/BL/bl.dart';
-import 'package:sheetviewer/BL/lib/log.dart';
 import 'package:sheetviewer/DL/dlglobals.dart';
 
 class CsvAdapter {
@@ -32,13 +31,9 @@ class CsvAdapter {
       String fileId, String sheetName, String fileLocal) async {
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv(fileLocal);
-    logi('csv_adapter', 'getSheetAllrows', sheetName + 'from: $fileLocal',
-        'rawRows.length: ' + rawRows.length.toString());
     List<String> cols = bl.blUti.toListString(rawRows[0]);
 
     await sheetRowsDb.sheetRowsSave(rawRows, fileId, sheetName, true, cols);
-    logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
-        'rawRows.length: ' + rawRows.length.toString());
     return rawRows.length;
   }
 
@@ -53,12 +48,9 @@ class CsvAdapter {
         '.csv';
     List<List<dynamic>> rawRows =
         await dlGlobals.csvAdapter.getSheetCsv(filePath);
-    logi('csv_adapter', 'getViewConfig', sheetName + 'from: $filePath',
-        'rawRows.length: ' + rawRows.length.toString());
 
     await viewConfigsDb.fromCsv(rawRows, fileId, sheetName);
-    logi('csv_adapter', 'getSheetAllrows', 'sheetRowsSave',
-        'rawRows.length: ' + rawRows.length.toString());
+
     return rawRows.length;
   }
 }

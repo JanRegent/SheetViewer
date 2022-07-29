@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:isar/isar.dart';
 import 'package:sheetviewer/BL/bl.dart';
+import 'package:sheetviewer/BL/lib/log.dart';
 
 part 'viewconfig.g.dart'; // flutter pub run build_runner build
 
@@ -121,15 +122,22 @@ class ViewConfigsDb {
 
   Future<ViewConfig?> readViewConfigFirst(
       String fileId, String sheetName) async {
-    final ids = await isar.viewConfigs
-        .filter()
-        .zfileIdEqualTo(fileId)
-        .and()
-        .aSheetNameEqualTo(sheetName)
-        .idProperty()
-        .findAll();
-    ViewConfig? viewConfig = await isar.viewConfigs.get(ids.first);
-    return viewConfig;
+    try {
+      final ids = await isar.viewConfigs
+          .filter()
+          .zfileIdEqualTo(fileId)
+          .and()
+          .aSheetNameEqualTo(sheetName)
+          .idProperty()
+          .findAll();
+      ViewConfig? viewConfig = await isar.viewConfigs.get(ids.first);
+      return viewConfig;
+    } catch (e) {
+      logi('viewConfigs.readViewConfigFirst', fileId, sheetName, e.toString());
+      return ViewConfig()
+        ..aSheetName = sheetName
+        ..zfileId = fileId;
+    }
   }
   // Future<ViewConfig?> readRowNo(int aRowNo) async {
   //   ViewConfig? row =
@@ -155,17 +163,7 @@ class ViewConfigsDb {
   // }
 
   Future update(ViewConfig viewConfig) async {
-    await isar.writeTxn(() async {
-      final oldRowsIds = await isar.viewConfigs
-          .filter()
-          .zfileIdEqualTo(viewConfig.zfileId)
-          .and()
-          .aSheetNameEqualTo(viewConfig.aSheetName)
-          .idProperty()
-          .findAll();
-
-      isar.viewConfigs.deleteAll(oldRowsIds);
-    });
+    await delete(viewConfig.zfileId, viewConfig.aSheetName);
     await isar.writeTxn(() async {
       await isar.viewConfigs.put(viewConfig);
     });
@@ -244,7 +242,26 @@ class ViewConfigsDb {
     //print(viewConfig);
     await update(viewConfig);
   }
+
+  Future delete(String zFileId, String aSheetName) async {
+    try {
+      await isar.writeTxn(() async {
+        final oldRowsIds = await isar.viewConfigs
+            .filter()
+            .zfileIdEqualTo(zFileId)
+            .and()
+            .aSheetNameEqualTo(aSheetName)
+            .idProperty()
+            .findAll();
+
+        isar.viewConfigs.deleteAll(oldRowsIds);
+      });
+    } catch (e) {
+      logi('viewConfigs.delete', zFileId, aSheetName, e.toString());
+    }
+  }
 }
+
 
  // Future updateAll(List<ViewConfig> ViewConfigs) async {
 
@@ -253,6 +270,8 @@ class ViewConfigsDb {
   //     await isar.ViewConfigs.putAll(ViewConfigs);
   //   });
   // }
+
+  
 
   // //----------------------------------------------------------------batch
 

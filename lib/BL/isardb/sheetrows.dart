@@ -173,12 +173,32 @@ class SheetrowsDb {
     }
   }
 
-  Future updateAll(List<SheetRow> sheetRows) async {
+  Future updateAll(
+      List<SheetRow> sheetRows, String fileId, String sheetName) async {
+    await delete(fileId, sheetName);
     await isar.writeTxn(() async {
       await isar.sheetRows.putAll(sheetRows);
     });
   }
+  //----------------------------------------------------------------delete
 
+  Future delete(String zFileId, String aSheetName) async {
+    try {
+      await isar.writeTxn(() async {
+        final oldRowsIds = await isar.sheetRows
+            .filter()
+            .zfileIdEqualTo(zFileId)
+            .and()
+            .aSheetNameEqualTo(aSheetName)
+            .idProperty()
+            .findAll();
+
+        isar.sheetRows.deleteAll(oldRowsIds);
+      });
+    } catch (e) {
+      logi('sheetRowsDb.delete err', zFileId, aSheetName, e.toString());
+    }
+  }
   //----------------------------------------------------------------batch
 
   Future sheetRowsSave(List<List<dynamic>> rawRows, String fileId,
@@ -210,6 +230,6 @@ class SheetrowsDb {
         }
       }
     }
-    if (putAll) await sheetRowsDb.updateAll(sheetRows);
+    if (putAll) await sheetRowsDb.updateAll(sheetRows, fileId, sheetName);
   }
 }

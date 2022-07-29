@@ -120,7 +120,6 @@ dev_dependencies:
 flutter:
   assets:
     - assets/fonts/
-    - assets/csv.refresh/
     - assets/images/
     - assets/config/
 
