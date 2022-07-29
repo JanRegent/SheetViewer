@@ -37,7 +37,9 @@ Card filelistCard(BuildContext context, Map fileListSheetRow, int index) {
         tooltip: 'Clear for refresh',
         onPressed: () async {
           String fileId = bl.blUti.url2fileid(fileListSheetRow['fileUrl']);
-          sheetRowsDb.delete(fileId, fileListSheetRow['sheetName']);
+          String sheetName = fileListSheetRow['sheetName'];
+          await sheetRowsDb.delete(fileId, sheetName);
+          showGrid(context, sheetName, fileId, fileListSheetRow['fileTitle']);
         },
       ),
       title: Text(fileListSheetRow['fileTitle'],
